@@ -19,6 +19,7 @@ class Templating
      */
     public function __construct(EngineInterface $engine, $config)
     {
+        exit('todo');
         $this->engine = $engine;
         $this->config = $config;
     }
@@ -32,6 +33,7 @@ class Templating
      */
     public function render(TimelineEntry $entry, array $parameters = array())
     {
+        exit('todo');
         $parameters['entry'] = $entry;
 
         try {
@@ -50,6 +52,7 @@ class Templating
      */
     public function getTemplate(TimelineEntry $entry)
     {
+        exit('todo');
         return vsprintf('%s:%s.html.%s', array(
             $this->config['path'],
             \strtolower($entry->get(TimelineEntry::FIELD_VERB)),

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="highco.timeline.filter.dupplicate_key.class">Highco\TimelineBundle\Timeline\Filter\DupplicateKey</parameter>
+        <parameter key="highco.timeline.filter.data_hydrator.class">Highco\TimelineBundle\Timeline\Filter\DataHydrator</parameter>
+    </parameters>
+
+    <services>
+		<service id="highco.timeline.filter.dupplicate_key" class="%highco.timeline.filter.dupplicate_key.class%">
+			<tag name="highco.timeline.filter" priority="155" />
+        </service>
+
+		<service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
+			<tag name="highco.timeline.filter" priority="255" />
+        </service>
+
+    </services>
+
+</container>

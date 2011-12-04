@@ -4,7 +4,7 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
 use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
 
-class LocalPuller implements InterfacePuller
+class LocalPuller extends AbstractPuller implements InterfacePuller
 {
 	private $provider;
 
@@ -43,7 +43,6 @@ class LocalPuller implements InterfacePuller
 			break;
 		}
 
-		//@todo there, we can apply filters ...
-		return $results;
+		return $this->filter($results);
 	}
 }

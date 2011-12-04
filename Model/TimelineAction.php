@@ -83,6 +83,11 @@ class TimelineAction
     protected $dupplicate_priority;
 
     /**
+     * @var boolean $dupplicated
+     */
+    protected $dupplicated = false;
+
+    /**
      * @var datetime $created_at
      */
     protected $created_at;
@@ -109,6 +114,36 @@ class TimelineAction
     public function isPublished()
     {
         return $this->status_current = self::STATUS_PUBLISHED;
+    }
+
+    /**
+     * hasDupplicateKey
+     *
+     * @return boolean
+     */
+    public function hasDupplicateKey()
+    {
+        return false === is_null($this->dupplicate_key);
+    }
+
+    /**
+     * setIsDupplicated
+     *
+     * @param boolean $v
+     */
+    public function setIsDupplicated($v)
+    {
+        $this->dupplicated = (bool) $v;
+    }
+
+    /**
+     * isDupplicated
+     *
+     * @return boolean
+     */
+    public function isDupplicated()
+    {
+        return (bool) $this->dupplicated;
     }
 
     /**
@@ -438,7 +473,7 @@ class TimelineAction
      */
     public function getDupplicatePriority()
     {
-        return $this->dupplicate_priority;
+        return (int) $this->dupplicate_priority;
     }
 
     /**
