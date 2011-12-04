@@ -21,8 +21,7 @@
         </service>
 
         <service id="highco.timeline.local.pusher" class="%highco.timeline.local.pusher.class%">
-			<!-- @todo can use an other one -->
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="highco.timeline.entity_manager" />
             <argument type="service" id="highco.timeline.spread.deployer" />
         </service>
 

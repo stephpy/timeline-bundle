@@ -14,31 +14,10 @@ abstract class AbstractPuller
 	 * addFilter
 	 *
 	 * @param InterfaceFilter $filter
-	 * @param integer $priority
 	 */
-	public function addFilter(InterfaceFilter $filter, $priority = 255)
+	public function addFilter(InterfaceFilter $filter)
 	{
-		if(false === isset($this->filters[$priority]))
-			$this->filters[$priority] = array();
-
-		$this->filters[$priority][] = $filter;
-	}
-
-	/**
-	 * allFilters
-	 *
-	 * @return array
-	 */
-	public function allFilters()
-	{
-		ksort($this->filters);
-		$filters = array();
-
-		foreach ($this->filters as $all)
-		{
-			$filters = array_merge($filters, $all);
-		}
-		return $filters;
+		$this->filters[] = $filter;
 	}
 
 	/**
@@ -50,7 +29,7 @@ abstract class AbstractPuller
 	 */
 	public function filter($results)
 	{
-		$filters = $this->allFilters();
+		$filters = $this->filters;
 
 		foreach($filters as $filter)
 		{

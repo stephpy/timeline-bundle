@@ -12,8 +12,7 @@
         <service id="highco.timeline.provider.redis" class="%highco.timeline.provider.redis.class%">
 			<!-- @todo Let the user choose the client -->
 			<argument type="service" id="snc_redis.default_client" />
-			<!-- @todo Let the user choose the client -->
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="highco.timeline.entity_manager" />
         </service>
     </services>
 

@@ -12,8 +12,7 @@
     <services>
 		<service id="highco.timeline.spread.deployer" class="%highco.timeline.spread.deployer.class%">
             <argument type="service" id="highco.timeline.spread.manager" />
-			<!-- @todo can use an other one -->
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="highco.timeline.entity_manager" />
             <argument type="service" id="highco.timeline.provider.redis" />
             <call method="setDelivery">
                 <argument>%highco.timeline.spread.deployer.delivery%</argument>

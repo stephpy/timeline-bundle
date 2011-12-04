@@ -10,13 +10,9 @@
     </parameters>
 
     <services>
-		<service id="highco.timeline.filter.dupplicate_key" class="%highco.timeline.filter.dupplicate_key.class%">
-			<tag name="highco.timeline.filter" priority="155" />
-        </service>
+		<service id="highco.timeline.filter.dupplicate_key" class="%highco.timeline.filter.dupplicate_key.class%" />
 
-		<service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
-			<tag name="highco.timeline.filter" priority="255" />
-        </service>
+		<service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%" />
 
     </services>
 

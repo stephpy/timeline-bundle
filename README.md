@@ -1,8 +1,6 @@
 HighcoTimelineBundle
 ====================
 
-**/!\ WARNING /!\ This version is not yet finished, wait to use it**
-
 Build timeline easily.
 
 # How it works ?
@@ -14,14 +12,13 @@ To have a timeline you have:
 * DirectComplement (direct_complement_model, direct_complement_id)
 * IndirectComplement (indirect_complement_model, indirect_complement_id)
 
+
     Chuck Norris Own the World with Vic Mc Key
 
 * Chuck Norris is **SUBJECT**
 * Own is the **VERB**
 * the World is the **DIRECT COMPLEMENT**
 * Vic Mc Key is the **INDIRECT COMPLEMENT**
-
-Some definitions:
 
 ## Timelines
 
@@ -127,20 +124,19 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 **@todo**
 
-
-
 Todo
 ----
 
-- Finish :documentation
-- Add GLOBAL context, each actions of spreads are dupplicated on their GLOBAL context
-- spread_to_me on **SpreadManager** should be configurable
-- Can use an other one entity manager than default
-- Filters should no be mandatory
+- Finish documentation
+- Do DataHydrator filter
 - Add renderer
+- Let user choose his provider
+- Let user choose delivery
+- Write tests !!!!!
 
 Withlist
 --------
 
 - Can use Doctrine ODM, Propel, etc ...
+- Making webservices
 - ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **

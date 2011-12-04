@@ -20,9 +20,10 @@ class EntryCollection implements \IteratorAggregate
 	 * @access public
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($dupplicate_on_global = true)
 	{
 		$this->coll = new \ArrayIterator();
+		$this->dupplicate_on_global = $dupplicate_on_global;
 	}
 
 	/**

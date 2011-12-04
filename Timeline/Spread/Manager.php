@@ -17,18 +17,18 @@ class Manager
 {
     protected $spreads;
     protected $results;
-    //@todo set this configurable
-    protected $spread_to_me = true;
+    protected $options;
 
     /**
      * __construct
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($options = array())
     {
         $this->spreads = new \ArrayIterator();
-        $this->results = new EntryCollection();
+        $this->options = $options;
+        $this->results = new EntryCollection($options['on_global_context']);
     }
 
     /**
@@ -52,7 +52,8 @@ class Manager
      */
     public function process(TimelineAction $timeline_action)
     {
-        if($this->spread_to_me)
+        // can be defined on config.yml
+        if($this->options['on_me'])
         {
             $entry = new Entry();
             $entry->subject_model = $timeline_action->getSubjectModel();
