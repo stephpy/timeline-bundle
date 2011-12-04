@@ -3,59 +3,31 @@
 namespace Highco\TimelineBundle\Tests\Stubs\Timeline;
 
 use Highco\TimelineBundle\Timeline\Spread\InterfaceSpread;
-use Highco\TimelineBundle\Timeline\Token\Timeline;
+
+use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
 class Spread implements InterfaceSpread
 {
     protected $supports = true;
 
-    /**
-     * getResults
-     *
-     * @access public
-     * @return void
-     */
-    public function getResults()
-    {
-        return $this->results;
-    }
-
-    /**
-     * supports
-     *
-     * @param Timeline $token
-     * @access public
-     * @return void
-     */
-    public function supports(Timeline $token)
+    public function supports(TimelineAction $timeline_action)
     {
         return $this->supports;
     }
 
-    /**
-     * setSupports
-     *
-     * @param mixed $v
-     * @access public
-     * @return void
-     */
     public function setSupports($v)
     {
         $this->supports = (bool) $v;
     }
 
-    /**
-     * process
-     *
-     * @param Timeline $token
-     * @access public
-     * @return void
-     */
-    public function process(Timeline $token)
+    public function process(TimelineAction $timeline_action, EntryCollection $coll)
     {
-        $this->results['mytimeline'][] = array(
-            'subject_model' => '\EveryBody',
-            'subject_id'    => 1,
-        );
+        $entry = new Entry();
+        $entry->subject_model = "\EveryBody";
+        $entry->subject_id = 1;
+
+        $coll->set('mytimeline', $entry);
     }
 }

@@ -4,9 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!-- @todo adding classes in parameters -->
+    <parameters>
+        <parameter key="highco.timeline.spread.manager.class">Highco\TimelineBundle\Timeline\Spread\Manager</parameter>
+    </parameters>
+
     <services>
-        <service id="highco.timeline.spread.manager" class="Highco\TimelineBundle\Timeline\Spread\Manager">
+        <service id="highco.timeline.spread.manager" class="%highco.timeline.spread.manager.class%">
         </service>
     </services>
 

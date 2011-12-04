@@ -4,7 +4,10 @@ namespace Highco\TimelineBundle\Tests\Timeline\Spread;
 
 use Highco\TimelineBundle\Timeline\Spread\Manager;
 use Highco\TimelineBundle\Tests\Stubs\Timeline\Spread as StubSpread;
-use Highco\TimelineBundle\Timeline\Token\Timeline;
+use Highco\TimelineBundle\Model\TimelineAction;
+
+use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
+use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 
 class SpreadTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,14 +21,16 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
         $manager->process($this->getTimelineHydrated());
 
         $results = $manager->getResults();
-        $this->assertEquals($results, array(
-            'mytimeline' => array(
-                0 => array(
-                    'subject_model' => '\EveryBody',
-                    'subject_id'    => 1,
-                )
-            )
-        ));
+        $entries = $results->getEntries();
+
+        $entry = new Entry();
+        $entry->subject_model = "\EveryBody";
+        $entry->subject_id = 1;
+
+        $this->assertEquals(count($entries), 1);
+        $this->assertTrue(isset($entries['mytimeline']));
+        $this->assertTrue(isset($entries['mytimeline'][$entry->getIdent()]));
+        $this->assertEquals(array_pop($entries['mytimeline']), $entry);
     }
 
     public function testNotSupport()
@@ -38,7 +43,7 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
 
         $manager->process($this->getTimelineHydrated());
 
-        $this->assertEquals($manager->getResults(), array());
+        $this->assertEquals($manager->getResults(), new EntryCollection());
     }
 
     /**
@@ -49,14 +54,14 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
      */
     private function getTimelineHydrated()
     {
-        $subject                            = new Timeline();
-        $subject->subject_model             = '\ChuckNorris';
-        $subject->subject_id                = '1';
-        $subject->verb                      = 'own';
-        $subject->direct_complement_model   = '\world';
-        $subject->direct_complement_id      = '1';
-        $subject->indirect_complement_model = '\VicMacKey';
-        $subject->indirect_complement_id    = '1';
+        $subject                            = new TimelineAction();
+        $subject->setSubjectModel('\ChuckNorris');
+        $subject->setSubjectId('1');
+        $subject->setVerb('own');
+        $subject->setDirectComplementModel('\world');
+        $subject->setDirectComplementId('1');
+        $subject->setIndirectComplementModel('\VicMacKey');
+        $subject->setIndirectComplementId('1');
 
         return $subject;
     }

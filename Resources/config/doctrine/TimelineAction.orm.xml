@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Highco\TimelineBundle\Entity\TimelineAction" table="timeline_action">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="subject_model" column="subject_model" type="string" length="255" />
+
+        <field name="subject_id" column="subject_id" type="integer" length="11" />
+
+        <field name="verb" column="verb" type="string" length="255" />
+
+        <field name="direct_complement_model" column="direct_complement_model" type="string" length="255" />
+
+        <field name="direct_complement_id" column="direct_complement_id" type="integer" length="11" />
+
+        <field name="indirect_complement_model" column="indirect_complement_model" type="string" length="255" />
+
+        <field name="indirect_complement_id" column="indirect_complement_id" type="integer" length="11" />
+
+        <field name="status_current" column="status_current" type="string" />
+
+        <field name="status_wanted" column="status_wanted" type="string" />
+
+        <field name="dupplicate_key" column="dupplicate_key" type="string" nullable="true" />
+
+        <field name="dupplicate_priority" column="dupplicate_priority" type="integer" nullable="true" />
+
+        <field name="created_at" column="created_at" type="datetime" />
+
+    </entity>
+
+</doctrine-mapping>

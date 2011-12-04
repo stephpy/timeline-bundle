@@ -2,7 +2,8 @@
 
 namespace Highco\TimelineBundle\Timeline\Spread;
 
-use Highco\TimelineBundle\Timeline\Token\Timeline;
+use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 
 /**
  * Manager
@@ -14,7 +15,7 @@ use Highco\TimelineBundle\Timeline\Token\Timeline;
 class Manager
 {
     protected $spreads;
-    protected $results = array();
+    protected $results;
 
     /**
      * __construct
@@ -24,6 +25,7 @@ class Manager
     public function __construct()
     {
         $this->spreads = new \ArrayIterator();
+        $this->results = new EntryCollection();
     }
 
     /**
@@ -41,18 +43,17 @@ class Manager
     /**
      * process
      *
-     * @param Timeline $token
+     * @param TimelineAction $timeline_action
      * @access public
      * @return void
      */
-    public function process(Timeline $token)
+    public function process(TimelineAction $timeline_action)
     {
         foreach($this->spreads as $spread)
         {
-            if($spread->supports($token))
+            if($spread->supports($timeline_action))
             {
-                $spread->process($token);
-                $this->results = array_merge($this->results, (array) $spread->getResults());
+                $spread->process($timeline_action, $this->results);
             }
         }
     }
@@ -76,6 +77,6 @@ class Manager
      */
     public function clear()
     {
-        $this->results = array();
+        $this->results = new EntryCollection();
     }
 }

@@ -5,50 +5,28 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.configuration.class">Highco\Bundle\TimelineBundle\Configuration\TimelineConfiguration</parameter>
-        <parameter key="highco.timeline.manager.class">Highco\Bundle\TimelineBundle\Manager\TimelineManager</parameter>
-        <parameter key="highco.timeline.pusher.class">Highco\Bundle\TimelineBundle\Manager\Pusher</parameter>
-        <parameter key="highco.timeline.puller.class">Highco\Bundle\TimelineBundle\Manager\Puller</parameter>
-        <parameter key="highco.timeline.entry.class">Highco\Bundle\TimelineBundle\Entry\TimelineEntry</parameter>
-        <parameter key="highco.timeline.entry.coll.class">Highco\Bundle\TimelineBundle\Entry\TimelineEntryCollection</parameter>
-        <parameter key="highco.timeline.dupplicate.filter.class">Highco\Bundle\TimelineBundle\Manager\Dupplicate\Filter</parameter>
-        <parameter key="highco.timeline.entry.renderer.class">Highco\Bundle\TimelineBundle\Entry\Renderer\Templating</parameter>
+        <parameter key="highco.timeline.manager.class">Highco\TimelineBundle\Timeline\Manager\Manager</parameter>
+        <parameter key="highco.timeline.local.pusher.class">Highco\TimelineBundle\Timeline\Manager\Pusher\LocalPusher</parameter>
+        <parameter key="highco.timeline.local.puller.class">Highco\TimelineBundle\Timeline\Manager\Puller\LocalPuller</parameter>
     </parameters>
 
     <services>
-
-        <!--- entry -->
-        <service id="highco.timeline.entry" class="%highco.timeline.entry.class%" scope="prototype">
-            <argument type="service" id="highco.timeline.entry.renderer" />
-        </service>
-
-        <service id="highco.timeline.entry.coll" class="%highco.timeline.entry.coll.class%" scope="prototype">
-            <argument type="service" id="service_container" />
-        </service>
-
-        <service id="highco.timeline.entry.renderer" class="%highco.timeline.entry.renderer.class%">
-            <argument type="service" id="templating" />
-        </service>
-
-        <service id="highco.timeline.configuration" class="%highco.timeline.configuration.class%" public="false"></service>
-
         <service id="highco.timeline.manager" class="%highco.timeline.manager.class%">
-            <argument type="service" id="highco.timeline.configuration" />
-            <argument type="service" id="highco.timeline.pusher" />
-            <argument type="service" id="highco.timeline.puller" />
+            <call method="setPusher">
+                <argument type="service" id="highco.timeline.local.pusher" />
+            </call>
+            <call method="setPuller">
+                <argument type="service" id="highco.timeline.local.puller" />
+            </call>
         </service>
 
-        <service id="highco.timeline.pusher" class="%highco.timeline.pusher.class%">
-            <argument type="service" id="highco.timeline.configuration" />
+        <service id="highco.timeline.local.pusher" class="%highco.timeline.local.pusher.class%">
+			<!-- @todo can use an other one -->
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="highco.timeline.spread.deployer" />
         </service>
 
-        <service id="highco.timeline.puller" class="%highco.timeline.puller.class%">
-            <argument type="service" id="highco.timeline.configuration" />
-            <argument type="service" id="jms_serializer.serializer" />
-            <argument type="service" id="highco.timeline.dupplicate.filter" />
-        </service>
-
-        <service id="highco.timeline.dupplicate.filter" class="%highco.timeline.dupplicate.filter.class%">
+        <service id="highco.timeline.local.puller" class="%highco.timeline.local.puller.class%">
         </service>
 
     </services>

@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="highco.timeline.provider.redis.class">Highco\TimelineBundle\Timeline\Provider\Redis</parameter>
+        <parameter key="highco.timeline.spread.deployer.class">Highco\TimelineBundle\Timeline\Spread\Deployer</parameter>
+        <parameter key="highco.timeline.spread.deployer.delivery">immediate</parameter>
+    </parameters>
+
+    <services>
+		<service id="highco.timeline.spread.deployer" class="%highco.timeline.spread.deployer.class%">
+            <argument type="service" id="highco.timeline.spread.manager" />
+			<!-- @todo can use an other one -->
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="highco.timeline.provider.redis" />
+            <call method="setDelivery">
+                <argument>%highco.timeline.spread.deployer.delivery%</argument>
+            </call>
+        </service>
+
+        <service id="highco.timeline.provider.redis" class="%highco.timeline.provider.redis.class%">
+			<!-- @todo Let the user choose the client -->
+			<argument type="service" id="snc_redis.default_client" />
+        </service>
+    </services>
+
+</container>

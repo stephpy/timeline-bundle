@@ -3,7 +3,6 @@ HighcoTimelineBundle
 
 **/!\ WARNING /!\ This version is not yet finished, wait to use it**
 
-
 Build timeline easily.
 
 # How it works ?
@@ -46,9 +45,15 @@ Exemple, we add action
 
 We want to publish it on Chuck Norris wall/timeline, but even in all users of the world. To do this, add a Spread and add this action on each Subject you want and on each **Context** you want.
 
+Todo
+----
+
+- Make documentation of adding a spread
+- Explain better the system of actions/walls/timelines/context/spread
+- Can use Doctrine ODM, Propel, etc ...
+- Can use an other one entity manager than default
+
 Withlist
 --------
 
-- Adding result of spread on a Token, difficulty is to keeping merge system on spreadManager
-- Make documentation of adding a spread
-- Explain better the system of actions/walls/timelines/context/spread
+- ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **
