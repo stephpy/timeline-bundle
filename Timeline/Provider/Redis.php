@@ -46,6 +46,10 @@ class Redis implements InterfaceProvider
 		$key          = $this->getKey($context, $params['subject_model'], $params['subject_id']);
 		$results      = $this->redis->zRange($key, $offset, $limit);
 
+		//if there is no results from REDIS, return an empty array
+		if(empty($results))
+			return array();
+
 		$qb           = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
 			->createQueryBuilder('ta')
 			->orderBy('ta.created_at', 'DESC')
