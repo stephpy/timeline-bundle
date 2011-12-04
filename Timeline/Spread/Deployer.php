@@ -41,7 +41,9 @@ class Deployer
 		$results = $this->spread_manager->getResults();
 
 		if($timeline_action->getStatusWanted() !== "published")
+		{
 			return;
+		}
 
 		foreach($results as $context => $values)
 		{

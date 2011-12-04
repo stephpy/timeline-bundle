@@ -24,6 +24,44 @@ class Manager
 	}
 
 	/**
+	 * getWall
+	 *
+	 * @param mixed $subject_model
+	 * @param mixed $subject_id
+	 * @param string $context default GLOBAL
+	 * @param array $options
+	 * @return array
+	 */
+	public function getWall($subject_model, $subject_id, $context = "GLOBAL", $options = array())
+	{
+		$params = array(
+			'subject_model' => $subject_model,
+			'subject_id'    => $subject_id,
+			'context'       => $context,
+		);
+
+		return $this->puller->pull('wall', $params, $options);
+	}
+
+	/**
+	 * getTimeline
+	 *
+	 * @param string $subject_model
+	 * @param string $subject_id
+	 * @param array $options
+	 * @return array
+	 */
+	public function getTimeline($subject_model, $subject_id, $options = array())
+	{
+		$params = array(
+			'subject_model' => $subject_model,
+			'subject_id'    => $subject_id,
+		);
+
+		return $this->puller->pull('timeline', $params, $options);
+	}
+
+	/**
 	 * setPusher
 	 *
 	 * @param InterfacePusher $pusher

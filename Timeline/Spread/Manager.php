@@ -4,6 +4,7 @@ namespace Highco\TimelineBundle\Timeline\Spread;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
 /**
  * Manager
@@ -16,6 +17,8 @@ class Manager
 {
     protected $spreads;
     protected $results;
+    //@todo set this configurable
+    protected $spread_to_me = true;
 
     /**
      * __construct
@@ -49,6 +52,15 @@ class Manager
      */
     public function process(TimelineAction $timeline_action)
     {
+        if($this->spread_to_me)
+        {
+            $entry = new Entry();
+            $entry->subject_model = $timeline_action->getSubjectModel();
+            $entry->subject_id    = $timeline_action->getSubjectId();
+
+            $this->results->set('GLOBAL', $entry);
+        }
+
         foreach($this->spreads as $spread)
         {
             if($spread->supports($timeline_action))

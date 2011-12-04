@@ -22,6 +22,7 @@ class HighcoTimelineExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('deployer.xml');
         $loader->load('manager.xml');
+        $loader->load('provider.xml');
         $loader->load('spreads.xml');
     }
 }

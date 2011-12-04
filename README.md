@@ -23,13 +23,13 @@ Vic Mc Key is the INDIRECT COMPLEMENT
 
 Now, we have:
 
-## Walls
-
-Wall of a subject is all his actions
-
 ## Timelines
 
-Timeline of a subject is all his actions +  all actions of his **spreads**
+Timeline of a subject is all his actions
+
+## Walls
+
+Wall of a subject is all his actions + all actions of his **spreads**
 
 ## Context
 
@@ -50,6 +50,8 @@ Todo
 
 - Make documentation of adding a spread
 - Explain better the system of actions/walls/timelines/context/spread
+- Add GLOBAL context, each actions of spreads are dupplicated on their GLOBAL context
+- spread_to_me on **SpreadManager** should be configurable
 - Can use Doctrine ODM, Propel, etc ...
 - Can use an other one entity manager than default
 
