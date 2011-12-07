@@ -188,6 +188,48 @@ class TimelineAction
     }
 
     /**
+     * create
+     *
+     * @param object $subject
+     * @param string $verb
+     * @param object $direct_complement
+     * @param object $indirect_complement
+     */
+    public function create($subject, $verb, $direct_complement, $indirect_complement = null)
+    {
+        if(false === is_object($subject))
+        {
+            throw new \InvalidArgumentException('Subject should be an object');
+        }
+
+        $this->setSubjectModel(get_class($subject));
+        $this->setSubjectId($subject->getId());
+
+        $this->setVerb((string) $verb);
+
+        if(false === is_object($direct_complement))
+        {
+            throw new \InvalidArgumentException('Direct complement should be an object');
+        }
+
+        $this->setDirectComplementModel(get_class($direct_complement));
+        $this->setDirectComplementId($direct_complement->getId());
+
+        if(is_null($indirect_complement_id))
+        {
+            return;
+        }
+
+        if(false === is_object($indirect_complement))
+        {
+            throw new \InvalidArgumentException('Direct complement should be an object');
+        }
+
+        $this->setIndirectComplementModel(get_class($indirect_complement));
+        $this->setIndirectComplementId($indirect_complement->getId());
+    }
+
+    /**
      * setSubject
      *
      * @param object $subject

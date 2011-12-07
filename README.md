@@ -60,6 +60,12 @@ That's why we have a "Global" context, and you can easily add other contexts.
     $entry->setIndirectComplementModel('\VicMcKey');
     $entry->setIndirectComplementId(1);
 
+    # OR #
+
+    $entry = new TimelineAction();
+    $entry->create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
+    # Warning, all of theses objects must have a getId() method.
+
     $manager = $this->get('highco.timeline.manager');
     $manager->push($entry);
 
@@ -139,7 +145,7 @@ This actually work with doctrine ORM, and the oid field should be an **id** fiel
 
 ## Provider "REDIS"
 
-**@todo**
+Using SncRedis
 
 # Renderer
 
@@ -149,7 +155,6 @@ Todo
 ----
 
 - Finish documentation
-- Do DataHydrator filter
 - Add renderer
 - Let user choose his provider
 - Let user choose delivery
