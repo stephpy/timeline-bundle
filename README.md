@@ -12,9 +12,8 @@ To have a timeline you have:
 * DirectComplement (direct_complement_model, direct_complement_id)
 * IndirectComplement (indirect_complement_model, indirect_complement_id)
 
-```
-Chuck Norris Own the World with Vic Mc Key
-``
+
+    Chuck Norris Own the World with Vic Mc Key
 
 * Chuck Norris is **SUBJECT**
 * Own is the **VERB**
@@ -107,10 +106,8 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 Imagine this use case:
 
-```
-\Entity\User | 1 | friend | \Entity\User | 2
-\Entity\User | 2 | friend | \Entity\User | 1
-``
+    \Entity\User | 1 | friend | \Entity\User | 2
+    \Entity\User | 2 | friend | \Entity\User | 1
 
 You may not want to show on your page these two identicals actions. By this way, you have **dupplicate_key** field.
 
@@ -124,10 +121,8 @@ It'll set to TRUE the **is_dupplicated** field on Timeline_aciton.
 This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
 By this way, if you have two timelines:
 
-```
-\Entity\User | 1 | comment | \Entity\Article | 2 | of | \Entity\User | 2
-\Entity\User | 2 | comment | \Entity\Article | 7 | of | \Entity\User | 1
-``
+    \Entity\User | 1 | comment | \Entity\Article | 2 | of | \Entity\User | 2
+    \Entity\User | 2 | comment | \Entity\Article | 7 | of | \Entity\User | 1
 
 It will execute 2 sql queries !
 
