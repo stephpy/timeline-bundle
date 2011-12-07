@@ -59,7 +59,7 @@ class DupplicateKey implements InterfaceFilter
 		{
 			if($values['dupplicated'])
 			{
-				$results[$key]->setIsDupplicated(true);
+				$results[$values['key']]->setIsDupplicated(true);
 			}
 		}
 

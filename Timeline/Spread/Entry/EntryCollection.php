@@ -7,7 +7,7 @@ namespace Highco\TimelineBundle\Timeline\Spread\Entry;
  *
  * @package
  * @version $id$
- * @author Your name <yourmail@yourhost.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class EntryCollection implements \IteratorAggregate
 {

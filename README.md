@@ -12,8 +12,9 @@ To have a timeline you have:
 * DirectComplement (direct_complement_model, direct_complement_id)
 * IndirectComplement (indirect_complement_model, indirect_complement_id)
 
-
-    Chuck Norris Own the World with Vic Mc Key
+```
+Chuck Norris Own the World with Vic Mc Key
+``
 
 * Chuck Norris is **SUBJECT**
 * Own is the **VERB**
@@ -104,11 +105,36 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 ## Filter "Dupplicate Key"
 
-**@todo**
+Imagine this use case:
+
+```
+\Entity\User | 1 | friend | \Entity\User | 2
+\Entity\User | 2 | friend | \Entity\User | 1
+``
+
+You may not want to show on your page these two identicals actions. By this way, you have **dupplicate_key** field.
+
+When you'll create these two TimelineActions, define a same DupplicateKey .
+
+After filtering with DupplicateKey filter, this will delete one of the two actions (the biggest dupplicate_priority field, if you not define it, it will delete second entry).
+It'll set to TRUE the **is_dupplicated** field on Timeline_aciton.
 
 ## Filter "Data hydrator"
 
-**@todo**
+This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
+By this way, if you have two timelines:
+
+```
+\Entity\User | 1 | comment | \Entity\Article | 2 | of | \Entity\User | 2
+\Entity\User | 2 | comment | \Entity\Article | 7 | of | \Entity\User | 1
+``
+
+It will execute 2 sql queries !
+
+* \Entity\User    -> whereIn 1 and 2
+* \Entity\Article -> whereIn 2 and 7
+
+This actually work with doctrine ORM, and the oid field should be an **id** field
 
 # Providers
 
@@ -133,6 +159,7 @@ Todo
 - Let user choose his provider
 - Let user choose delivery
 - Write tests !!!!!
+- Write static methods to easily create TimelineAction
 
 Withlist
 --------
