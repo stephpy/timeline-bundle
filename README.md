@@ -159,7 +159,6 @@ Todo
 - Let user choose his provider
 - Let user choose delivery
 - Write tests !!!!!
-- Write static methods to easily create TimelineAction
 
 Withlist
 --------
