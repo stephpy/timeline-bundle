@@ -21,6 +21,52 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($action->isPublished());
     }
 
+    public function testHasDupplicateKey()
+    {
+        $action = new TimelineAction();
+        $action->setDupplicateKey(null);
+
+        $this->assertFalse($action->hasDupplicateKey());
+
+        $action->setDupplicateKey('toto');
+
+        $this->assertTrue($action->hasDupplicateKey());
+    }
+
+    public function testCreate()
+    {
+        $action = new TimelineAction();
+
+        try {
+            $action->create('noobject', 'verb', 'nothing');
+        } catch(\InvalidArgumentException $e){
+            $this->assertEquals($e->getMessage(), 'Subject should be an object');
+        }
+
+        try {
+            $action->create(new TimelineAction(), 'verb', 'noobject');
+        } catch(\InvalidArgumentException $e){
+            $this->assertEquals($e->getMessage(), 'Direct complement should be an object');
+        }
+
+        try {
+            $action->create(new TimelineAction(), 'verb', new TimelineAction(), 'no object');
+        } catch(\InvalidArgumentException $e){
+            $this->assertEquals($e->getMessage(), 'Indirect complement should be an object');
+        }
+
+        //@todo testing id and class of objects
+    }
+
+    public function testIsValidStatus()
+    {
+        $action = new TimelineAction();
+        $this->assertTrue($action->isValidStatus(TimelineAction::STATUS_PENDING));
+        $this->assertTrue($action->isValidStatus(TimelineAction::STATUS_PUBLISHED));
+        $this->assertTrue($action->isValidStatus(TimelineAction::STATUS_FROZEN));
+        $this->assertFalse($action->isValidStatus('an other one'));
+    }
+
     public function testFromRequestInvalid()
     {
         $request = new Request();

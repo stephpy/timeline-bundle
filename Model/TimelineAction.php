@@ -218,14 +218,14 @@ class TimelineAction
         $this->setDirectComplementModel(get_class($direct_complement));
         $this->setDirectComplementId($direct_complement->getId());
 
-        if(is_null($indirect_complement_id))
+        if(is_null($indirect_complement))
         {
             return;
         }
 
         if(false === is_object($indirect_complement))
         {
-            throw new \InvalidArgumentException('Direct complement should be an object');
+            throw new \InvalidArgumentException('Indirect complement should be an object');
         }
 
         $this->setIndirectComplementModel(get_class($indirect_complement));
