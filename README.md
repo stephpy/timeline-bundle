@@ -227,10 +227,14 @@ Depend on SncRedis, this will use PRedis (not useful to have redis extension on 
 
 **@todo**
 
+# Delivery
+
+- Immediate: When the TimelineAction is persisted on DB, it will deploy on spreads via the provider
+- Wait: It will less the TimelineAction in "waiting" mode, you can deploy on spreads by the command or an other way.
+
 Todo
 ----
 
-- Let user choose delivery
 - Add renderer
 - Finish documentation
 - Write tests !!!!!
