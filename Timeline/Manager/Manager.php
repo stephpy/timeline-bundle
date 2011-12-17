@@ -23,8 +23,7 @@ class Manager
 	 * push
 	 *
 	 * @param TimelineAction $timeline_action
-	 * @access public
-	 * @return void
+	 * @return boolean
 	 */
 	public function push(TimelineAction $action)
 	{
@@ -34,8 +33,8 @@ class Manager
 	/**
 	 * getWall
 	 *
-	 * @param mixed $subject_model
-	 * @param mixed $subject_id
+	 * @param string $subject_model
+	 * @param string $subject_id
 	 * @param string $context default GLOBAL
 	 * @param array $options
 	 * @return array

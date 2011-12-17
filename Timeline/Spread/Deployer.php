@@ -27,8 +27,8 @@ class Deployer
 	 * __construct
 	 *
 	 * @param Manager $spread_manager
-	 * @access public
-	 * @return void
+	 * @param ObjectManager $em
+	 * @param InterfaceProvider $provider
 	 */
 	public function __construct(Manager $spread_manager, ObjectManager $em, InterfaceProvider $provider)
 	{
@@ -73,9 +73,7 @@ class Deployer
 	/**
 	 * setDelivery
 	 *
-	 * @param mixed $delivery
-	 * @access public
-	 * @return void
+	 * @param string $delivery
 	 */
 	public function setDelivery($delivery)
 	{

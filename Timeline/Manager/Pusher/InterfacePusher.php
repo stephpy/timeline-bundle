@@ -13,5 +13,11 @@ use Highco\TimelineBundle\Model\TimelineAction;
  */
 interface InterfacePusher
 {
+    /**
+     * push the timeline_action
+     *
+     * @param TimelineAction $timeline_action
+     * @return boolean
+     */
 	public function push(TimelineAction $timeline_action);
 }

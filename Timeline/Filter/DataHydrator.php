@@ -33,7 +33,7 @@ class DataHydrator implements InterfaceFilter
     /**
      * filter
      *
-     * @param mixed $results
+     * @param array $results
      * @return array
      */
 	public function filter($results)
@@ -54,8 +54,6 @@ class DataHydrator implements InterfaceFilter
 
     /**
      * hydrateReferences
-     *
-     * @access protected
      */
     protected function hydrateReferences()
     {
@@ -115,7 +113,6 @@ class DataHydrator implements InterfaceFilter
      * addReferences
      *
      * @param array $references
-     * @access public
      */
     public function addReferences(array $references)
     {

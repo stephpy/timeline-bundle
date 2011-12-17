@@ -102,9 +102,6 @@ class TimelineAction
 
     /**
      * __construct
-     *
-     * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -116,8 +113,7 @@ class TimelineAction
     /**
      * isPublished
      *
-     * @access public
-     * @return void
+     * @return boolean
      */
     public function isPublished()
     {
@@ -158,8 +154,7 @@ class TimelineAction
      * fromRequest
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @access public
-     * @return void
+     * @return TimelineAction
      */
     static public function fromRequest(\Symfony\Component\HttpFoundation\Request $request)
     {

@@ -14,6 +14,11 @@ class Entry
 	public $subject_model;
 	public $subject_id;
 
+    /**
+     * getIdent
+     *
+     * @return string
+     */
 	public function getIdent()
 	{
 		return sprintf('%s:%s', $this->subject_model, $this->subject_id);

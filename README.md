@@ -232,18 +232,33 @@ Depend on SncRedis, this will use PRedis (not useful to have redis extension on 
 - Immediate: When the TimelineAction is persisted on DB, it will deploy on spreads via the provider
 - Wait: It will less the TimelineAction in "waiting" mode, you can deploy on spreads by the command or an other way.
 
+# Full configuration
+
+    highco_timeline:
+        filters:
+            - highco.timeline.filter.dupplicate_key # Filter dupplicate keys
+            - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID
+        spread:
+            on_me: true                             # Spread each action on subject too
+            on_global_context: true                 # Spread automatically on global context
+        provider: highco.timeline.provider.redis    # write your own
+        delivery: immediate                         # wait
+
 Todo
 ----
 
-- Add renderer
-- Finish documentation
 - Write tests !!!!!
-- Update phpdoc
 
 Withlist
 --------
 
+As soon as posible:
+
 - Notification system !
+- Add renderer
 - Making webservices
+
+May be ...:
+
 - Can use Doctrine ODM, Propel, etc ...
 - ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **

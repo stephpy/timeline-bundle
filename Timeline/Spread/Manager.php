@@ -22,7 +22,7 @@ class Manager
     /**
      * __construct
      *
-     * @return void
+     * @param array $options
      */
     public function __construct($options = array())
     {
@@ -35,8 +35,6 @@ class Manager
      * add
      *
      * @param InterfaceSpread $spread
-     * @access public
-     * @return void
      */
     public function add(InterfaceSpread $spread)
     {
@@ -47,8 +45,6 @@ class Manager
      * process
      *
      * @param TimelineAction $timeline_action
-     * @access public
-     * @return void
      */
     public function process(TimelineAction $timeline_action)
     {
@@ -74,8 +70,7 @@ class Manager
     /**
      * getResults
      *
-     * @access public
-     * @return void
+     * @return array
      */
     public function getResults()
     {
@@ -83,10 +78,7 @@ class Manager
     }
 
     /**
-     * clear
-     *
-     * @access public
-     * @return void
+     * clear the results of manager
      */
     public function clear()
     {

@@ -31,9 +31,11 @@ abstract class AbstractPullerFilterable
 	/**
 	 * filter
 	 *
-	 * @param mixed $results
-	 * @access public
-	 * @return void
+     * This action will filters each results given in parameters
+     * You have to return results
+     *
+	 * @param array $results
+	 * @return array
 	 */
 	public function filter($results)
 	{

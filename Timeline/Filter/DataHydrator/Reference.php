@@ -14,12 +14,23 @@ class Reference
     public $model;
     public $id;
 
+    /**
+     * __construct
+     *
+     * @param string $model
+     * @param string $id
+     */
     public function __construct($model, $id)
     {
         $this->model = $model;
         $this->id    = $id;
     }
 
+    /**
+     * Return an unique key of the reference.
+     *
+     * @return string
+     */
     public function getKey()
     {
         return sprintf('%s:%s', $this->model, $this->id);

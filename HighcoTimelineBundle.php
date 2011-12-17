@@ -18,6 +18,11 @@ use Highco\TimelineBundle\Compiler\AddFilterCompilerPass;
  */
 class HighcoTimelineBundle extends Bundle
 {
+    /**
+     * build
+     *
+     * @param ContainerBuilder $container
+     */
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new AddSpreadCompilerPass());

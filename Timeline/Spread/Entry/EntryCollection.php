@@ -16,9 +16,6 @@ class EntryCollection implements \IteratorAggregate
 
 	/**
 	 * __construct
-	 *
-	 * @access public
-	 * @return void
 	 */
 	public function __construct($dupplicate_on_global = true)
 	{
@@ -29,8 +26,7 @@ class EntryCollection implements \IteratorAggregate
 	/**
 	 * getIterator
 	 *
-	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function getIterator()
 	{
@@ -40,12 +36,10 @@ class EntryCollection implements \IteratorAggregate
 	/**
 	 * set
 	 *
-	 * @param mixed $context
-	 * @param mixed $entry
-	 * @access public
-	 * @return void
+	 * @param string $context
+	 * @param Entry $entry
 	 */
-	public function set($context, $entry)
+	public function set($context, Entry $entry)
 	{
 		if(false === isset($this->coll[$context]))
 		{
@@ -63,8 +57,7 @@ class EntryCollection implements \IteratorAggregate
 	/**
 	 * getEntries
 	 *
-	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function getEntries()
 	{

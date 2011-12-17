@@ -25,8 +25,6 @@ class Redis implements InterfaceProvider
 	 * __construct
 	 *
 	 * @param Client $redis
-	 * @access public
-	 * @return void
 	 */
 	public function __construct(Client $redis, ObjectManager $em)
 	{
@@ -37,10 +35,9 @@ class Redis implements InterfaceProvider
 	/**
 	 * getWall
 	 *
-	 * @param mixed $params
+	 * @param array $params
 	 * @param array $options
-	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function getWall($params, $options = array())
 	{
@@ -56,7 +53,9 @@ class Redis implements InterfaceProvider
 
 		//if there is no results from REDIS, return an empty array
 		if(empty($results))
+        {
 			return array();
+        }
 
 		$qb           = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
 			->createQueryBuilder('ta')
@@ -72,10 +71,9 @@ class Redis implements InterfaceProvider
 	/**
 	 * getTimeline
 	 *
-	 * @param mixed $params
+	 * @param array $params
 	 * @param array $options
-	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function getTimeline($params, $options = array())
 	{
@@ -106,11 +104,10 @@ class Redis implements InterfaceProvider
 	 * add
 	 *
 	 * @param TimelineAction $timeline_action
-	 * @param mixed $context
-	 * @param mixed $subject_model
-	 * @param mixed $subject_id
-	 * @access public
-	 * @return void
+	 * @param string $context
+	 * @param string $subject_model
+	 * @param string  $subject_id
+	 * @return boolean
 	 */
 	public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
 	{
@@ -119,13 +116,12 @@ class Redis implements InterfaceProvider
 	}
 
 	/**
-	 * getKey
+     * Return redis key
 	 *
-	 * @param mixed $context
-	 * @param mixed $subject_model
-	 * @param mixed $subject_id
-	 * @access public
-	 * @return void
+	 * @param string $context
+	 * @param string $subject_model
+	 * @param string $subject_id
+	 * @return string
 	 */
 	public function getKey($context, $subject_model, $subject_id)
 	{

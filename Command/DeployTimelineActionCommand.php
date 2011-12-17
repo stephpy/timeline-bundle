@@ -13,6 +13,9 @@ use Highco\TimelineBundle\Model\TimelineAction;
 /**
  * DeployTimelineActionCommand
  *
+ * This command will deploy each timeline actions (see limit option) which
+ * has PUBLISHED on status_wanted.
+ *
  * @uses ContainerAwareCommand
  * @package HighcoTimelineBundle
  * @version 1.0.0

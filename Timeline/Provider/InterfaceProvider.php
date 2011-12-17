@@ -9,20 +9,18 @@ interface InterfaceProvider
     /**
      * getWall
      *
-     * @param mixed $params
+     * @param array $params
      * @param array $options
-     * @access public
-     * @return void
+     * @return array
      */
 	public function getWall($params, $options = array());
 
     /**
      * getTimeline
      *
-     * @param mixed $params
+     * @param array $params
      * @param array $options
-     * @access public
-     * @return void
+     * @return array
      */
 	public function getTimeline($params, $options = array());
 
@@ -30,11 +28,10 @@ interface InterfaceProvider
      * add
      *
      * @param TimelineAction $timeline_action
-     * @param mixed $context
-     * @param mixed $subject_model
-     * @param mixed $subject_id
-     * @access public
-     * @return void
+     * @param string $context
+     * @param string $subject_model
+     * @param string $subject_id
+     * @return boolean
      */
 	public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id);
 }

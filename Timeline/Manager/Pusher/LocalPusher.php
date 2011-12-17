@@ -36,7 +36,7 @@ class LocalPusher implements InterfacePusher
 	 * push
 	 *
 	 * @param TimelineAction $timeline_action
-	 * @return void
+     * @return boolean
 	 */
 	public function push(TimelineAction $timeline_action)
 	{
@@ -46,6 +46,9 @@ class LocalPusher implements InterfacePusher
 		if($this->deployer->getDelivery() == Deployer::DELIVERY_IMMEDIATE)
 		{
 			$this->deployer->deploy($timeline_action);
+            return true;
 		}
+
+        return false;
 	}
 }

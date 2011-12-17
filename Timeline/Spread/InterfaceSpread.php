@@ -14,6 +14,21 @@ use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
  */
 interface InterfaceSpread
 {
+    /**
+     * supports
+     *
+     * You spread class is support the timeline action ?
+     *
+     * @param TimelineAction $timeline_action
+     * @return boolean
+     */
     public function supports(TimelineAction $timeline_action);
+
+    /**
+     * process
+     *
+     * @param TimelineAction $timeline_action
+     * @param EntryCollection $coll
+     */
     public function process(TimelineAction $timeline_action, EntryCollection $coll);
 }

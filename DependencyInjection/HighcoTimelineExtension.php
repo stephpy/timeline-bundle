@@ -31,6 +31,7 @@ class HighcoTimelineExtension extends Extension
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
 
+        /* --- filters --- */
         $filters = $config['filters'];
         $definition = $container->getDefinition('highco.timeline.local.puller');
         foreach($filters as $filter)
@@ -38,6 +39,7 @@ class HighcoTimelineExtension extends Extension
             $definition->addMethodCall('addFilter', array(new Reference($filter)));
         }
 
+        /* --- spread --- */
         $spread  = isset($config['spread']) ? $config['spread'] : array();
 
         $definition = $container->getDefinition('highco.timeline.spread.manager');
@@ -63,9 +65,8 @@ class HighcoTimelineExtension extends Extension
      * mergeConfigs
      *
      * @param array $configs
-     * @param mixed $debug
-     * @access private
-     * @return void
+     * @param boolean $debug
+     * @return array
      */
     private function mergeConfigs(array $configs, $debug)
     {

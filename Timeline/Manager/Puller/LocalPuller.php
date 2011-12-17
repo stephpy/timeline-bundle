@@ -21,8 +21,6 @@ class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, I
 	 * __construct
 	 *
 	 * @param InterfaceProvider $provider
-	 * @access public
-	 * @return void
 	 */
 	public function __construct(InterfaceProvider $provider)
 	{
@@ -32,10 +30,10 @@ class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, I
 	/**
 	 * pull
 	 *
-	 * @param mixed $type
-	 * @param mixed $params
+	 * @param string $type
+	 * @param array $params
 	 * @param array $options
-	 * @return array
+	 * @return array or Exception
 	 */
 	public function pull($type, $params, $options = array())
 	{

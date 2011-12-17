@@ -12,13 +12,12 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 interface InterfacePuller
 {
     /**
-     * pull
+     * Pull results
      *
-     * @param mixed $type
-     * @param mixed $params
+     * @param string $type
+     * @param array $params
      * @param array $options
-     * @access public
-     * @return void
+     * @return array or Exception
      */
     public function pull($type, $params, $options = array());
 }

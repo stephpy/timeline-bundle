@@ -11,5 +11,14 @@ namespace Highco\TimelineBundle\Timeline\Filter;
  */
 interface InterfaceFilter
 {
+    /**
+     * filter
+     *
+     * This action will filters each results given in parameters
+     * You have to return results
+     *
+     * @param array $results
+     * @return array
+     */
 	public function filter($results);
 }

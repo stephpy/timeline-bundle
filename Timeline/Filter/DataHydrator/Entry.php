@@ -42,7 +42,7 @@ class Entry
     /**
      * buildReference
      *
-     * @param mixed $name
+     * @param string $name
      */
     public function buildReference($name)
     {
@@ -79,9 +79,6 @@ class Entry
 
     /**
      * hydrate
-     *
-     * @access public
-     * @return void
      */
     public function hydrate()
     {
@@ -101,10 +98,8 @@ class Entry
     /**
      * hydrateField
      *
-     * @param mixed $name
-     * @param mixed $object
-     * @access protected
-     * @return void
+     * @param string $name
+     * @param object $object
      */
     protected function hydrateField($name, $object)
     {

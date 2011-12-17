@@ -15,9 +15,8 @@ class DupplicateKey implements InterfaceFilter
 	/**
 	 * filter
 	 *
-	 * @param mixed $results
-	 * @access public
-	 * @return void
+	 * @param array $results
+	 * @return array
 	 */
 	public function filter($results)
 	{
