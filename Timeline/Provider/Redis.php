@@ -44,10 +44,6 @@ class Redis implements InterfaceProvider
 	 */
 	public function getWall($params, $options = array())
 	{
-        print "<pre>";
-        var_dump($params, $options);
-        print "</pre>";
-        exit('ici');
 		if(false === isset($params['subject_model']) || false === isset($params['subject_id']))
 			throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
 

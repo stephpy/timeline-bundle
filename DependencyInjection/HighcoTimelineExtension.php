@@ -54,6 +54,9 @@ class HighcoTimelineExtension extends Extension
 
         $container->getDefinition('highco.timeline.spread.deployer')
             ->replaceArgument(2, $providerDefinition);
+
+        /* ---- delivery ---- */
+        $container->setParameter('highco.timeline.spread.deployer.delivery', $config['delivery']);
     }
 
     /**

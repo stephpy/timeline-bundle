@@ -18,7 +18,7 @@ class Deployer
 	CONST DELIVERY_IMMEDIATE = "immediate";
 	CONST DELIVERY_WAIT      = "wait";
 
-	private $delivery;
+	private $delivery = "immediate";
 	private $spread_manager;
 	private $provider;
 	private $em;

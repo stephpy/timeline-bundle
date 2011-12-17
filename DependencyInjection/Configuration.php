@@ -46,6 +46,9 @@ class Configuration implements ConfigurationInterface
             ->children()
 				->scalarNode('provider')->defaultValue('highco.timeline.provider.redis')->end()
             ->end()
+            ->children()
+				->scalarNode('delivery')->defaultValue('immediate')->end()
+            ->end()
             ;
 
 
