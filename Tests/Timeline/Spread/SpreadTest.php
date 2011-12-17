@@ -14,6 +14,7 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
     public function testSupport()
     {
         // manager has only one stub spread
+        // @todo testing on_me, global
         // @todo testing with a lot of spreads
         $manager = new Manager();
         $manager->add(new StubSpread());
@@ -27,12 +28,18 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
         $entry->subject_model = "\EveryBody";
         $entry->subject_id = 1;
 
-        $this->assertEquals(count($entries), 1);
+        $this->assertEquals(count($entries), 2);
         $this->assertTrue(isset($entries['mytimeline']));
         $this->assertTrue(isset($entries['mytimeline'][$entry->getIdent()]));
         $this->assertEquals(array_pop($entries['mytimeline']), $entry);
     }
 
+    /**
+     * testNotSupport
+     *
+     * @access public
+     * @return void
+     */
     public function testNotSupport()
     {
         $stub = new StubSpread();
