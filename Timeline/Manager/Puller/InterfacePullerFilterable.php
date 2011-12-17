@@ -23,6 +23,13 @@ interface InterfacePullerFilterable
      */
 	public function addFilter(InterfaceFilter $filter);
 
+	/**
+     * removeFilter
+     *
+     * @param InterfaceFilter $filter
+     */
+	public function removeFilter(InterfaceFilter $filter);
+
     /**
      * filter
      *

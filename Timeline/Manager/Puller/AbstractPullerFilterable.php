@@ -29,6 +29,24 @@ abstract class AbstractPullerFilterable
 	}
 
 	/**
+	 * removeFilter
+	 *
+	 * @param InterfaceFilter $filter
+	 * @access public
+	 * @return void
+	 */
+	public function removeFilter(InterfaceFilter $filter)
+	{
+		foreach($this->filters as $key => $filterExisting)
+		{
+			if($filterExisting == $filter)
+			{
+				unset($this->filters[$key]);
+			}
+		}
+	}
+
+	/**
 	 * filter
 	 *
      * This action will filters each results given in parameters
