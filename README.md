@@ -239,7 +239,6 @@ Todo
 - Finish documentation
 - Write tests !!!!!
 - Update phpdoc
-- Write command for non immediate delivery
 
 Withlist
 --------

@@ -13,6 +13,7 @@ class TimelineAction
 {
     CONST STATUS_PENDING   = "pending";
     CONST STATUS_PUBLISHED = "published";
+    CONST STATUS_FROZEN    = "frozen";
 
     /**
      * @var integer $id
@@ -72,12 +73,12 @@ class TimelineAction
     /**
      * @var string $status_current
      */
-    protected $status_current;
+    protected $status_current = "pending";
 
     /**
      * @var string $status_wanted
      */
-    protected $status_wanted;
+    protected $status_wanted = "published";
 
     /**
      * @var string $dupplicate_key
@@ -244,7 +245,9 @@ class TimelineAction
     public function setSubject($subject)
     {
         if(false === is_object($subject))
+        {
             throw new \InvalidArgumentException('direct complement should be an object');
+        }
 
         $this->subject = $subject;
     }
@@ -327,7 +330,9 @@ class TimelineAction
     public function setDirectComplement($direct_complement)
     {
         if(false === is_object($direct_complement))
+        {
             throw new \InvalidArgumentException('direct complement should be an object');
+        }
 
         $this->direct_complement = $direct_complement;
     }
@@ -390,7 +395,9 @@ class TimelineAction
     public function setIndirectComplement($indirect_complement)
     {
         if(false === is_object($indirect_complement))
+        {
             throw new \InvalidArgumentException('indirect complement should be an object');
+        }
 
         $this->indirect_complement = $indirect_complement;
     }
@@ -446,12 +453,32 @@ class TimelineAction
     }
 
     /**
+     * isValidStatus
+     *
+     * @param string $v
+     * @return boolean
+     */
+    public function isValidStatus($v)
+    {
+        return in_array((string) $v, array(
+            self::STATUS_PENDING,
+            self::STATUS_PUBLISHED,
+            self::STATUS_FROZEN,
+        ));
+    }
+
+    /**
      * Set status_current
      *
      * @param string $statusCurrent
      */
     public function setStatusCurrent($statusCurrent)
     {
+        if(false === $this->isValidStatus($statusCurrent))
+        {
+            throw new \InvalidArgumentException('Status "'.$statusCurrent.'" is not valid');
+        }
+
         $this->status_current = $statusCurrent;
     }
 
@@ -472,6 +499,11 @@ class TimelineAction
      */
     public function setStatusWanted($statusWanted)
     {
+        if(false === $this->isValidStatus($statusWanted))
+        {
+            throw new \InvalidArgumentException('Status "'.$statusWanted.'" is not valid');
+        }
+
         $this->status_wanted = $statusWanted;
     }
 

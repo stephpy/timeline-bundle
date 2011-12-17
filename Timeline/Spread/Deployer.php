@@ -61,6 +61,7 @@ class Deployer
 		}
 
 		$timeline_action->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
+        $timeline_action->setStatusWanted(TimelineAction::STATUS_FROZEN);
 
 		$this->em->persist($timeline_action);
 		$this->em->flush();
