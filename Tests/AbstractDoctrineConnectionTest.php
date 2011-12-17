@@ -57,6 +57,8 @@ class AbstractDoctrineConnectionTest extends \PHPUnit_Framework_TestCase
         // Shutdown the kernel.
         $this->kernel->shutdown();
 
+		$this->dropSchema();
+
         parent::tearDown();
     }
 
@@ -75,6 +77,28 @@ class AbstractDoctrineConnectionTest extends \PHPUnit_Framework_TestCase
         {
             $tool = new SchemaTool($this->em);
             $tool->createSchema($metadatas);
+        }
+        else
+        {
+            throw new Doctrine\DBAL\Schema\SchemaException('No Metadata Classes to process.');
+        }
+    }
+
+    /**
+     * dropSchema
+     *
+     * @access protected
+     * @return void
+     */
+    protected function dropSchema()
+    {
+        // Get the metadatas of the application to create the schema.
+        $metadatas = $this->getMetadatas();
+
+        if ( ! empty($metadatas))
+        {
+            $tool = new SchemaTool($this->em);
+            $tool->dropSchema($metadatas);
         }
         else
         {

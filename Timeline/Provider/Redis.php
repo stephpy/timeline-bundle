@@ -28,7 +28,7 @@ class Redis implements InterfaceProvider
 	 */
 	public function __construct(Client $redis, ObjectManager $em)
 	{
-		$this->redis = $redis;
+		$this->setRedis($redis);
 		$this->em    = $em;
 	}
 
@@ -126,5 +126,17 @@ class Redis implements InterfaceProvider
 	public function getKey($context, $subject_model, $subject_id)
 	{
 		return sprintf(self::$key, $context, $subject_model, $subject_id);
+	}
+
+	/**
+	 * setRedis
+	 *
+	 * @param Client $redis
+	 * @access public
+	 * @return void
+	 */
+	public function setRedis(Client $redis)
+	{
+		$this->redis = $redis;
 	}
 }
