@@ -8,6 +8,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Highco\TimelineBundle\Compiler\AddSpreadCompilerPass;
 use Highco\TimelineBundle\Compiler\AddFilterCompilerPass;
 
+/**
+ * HighcoTimelineBundle
+ *
+ * @uses Bundle
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class HighcoTimelineBundle extends Bundle
 {
     public function build(ContainerBuilder $container)

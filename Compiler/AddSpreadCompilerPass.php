@@ -6,6 +6,14 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
+/**
+ * AddSpreadCompilerPass
+ *
+ * @uses CompilerPassInterface
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class AddSpreadCompilerPass implements CompilerPassInterface
 {
     /**

@@ -6,6 +6,14 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Configuration
+ *
+ * @uses ConfigurationInterface
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -34,7 +42,12 @@ class Configuration implements ConfigurationInterface
 						->scalarNode('on_global_context')->defaultValue(true)->end()
 					->end()
 				->end()
-			->end();
+			->end()
+            ->children()
+				->scalarNode('provider')->defaultValue('highco.timeline.provider.redis')->end()
+            ->end()
+            ;
+
 
         return $tb;
     }

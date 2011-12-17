@@ -2,6 +2,14 @@
 
 namespace Highco\TimelineBundle\Timeline\Filter;
 
+/**
+ * DupplicateKey
+ *
+ * @uses InterfaceFilter
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class DupplicateKey implements InterfaceFilter
 {
 	/**

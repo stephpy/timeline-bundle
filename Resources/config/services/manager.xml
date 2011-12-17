@@ -26,7 +26,6 @@
         </service>
 
         <service id="highco.timeline.local.puller" class="%highco.timeline.local.puller.class%">
-			<!-- @todo can use an other one -->
             <argument type="service" id="highco.timeline.provider.redis" />
         </service>
 

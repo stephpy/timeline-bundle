@@ -6,6 +6,13 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Deployer
+ *
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class Deployer
 {
 	CONST DELIVERY_IMMEDIATE = "immediate";

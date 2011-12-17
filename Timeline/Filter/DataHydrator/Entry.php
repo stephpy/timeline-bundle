@@ -8,8 +8,8 @@ use Highco\TimelineBundle\Model\TimelineAction;
 /**
  * Entry
  *
- * @package
- * @version $id$
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Entry

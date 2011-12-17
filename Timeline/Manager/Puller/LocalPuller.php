@@ -4,7 +4,16 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
 use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
 
-class LocalPuller extends AbstractPuller implements InterfacePuller
+/**
+ * LocalPuller
+ *
+ * @uses AbstractPuller
+ * @uses InterfacePuller
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, InterfacePullerFilterable
 {
 	private $provider;
 
@@ -33,16 +42,14 @@ class LocalPuller extends AbstractPuller implements InterfacePuller
 		switch($type)
 		{
 			case 'wall':
-				$results = $this->provider->getWall($params, $options);
+				return $this->provider->getWall($params, $options);
 			break;
 			case 'timeline':
-				$results = $this->provider->getTimeline($params, $options);
+                return $this->provider->getTimeline($params, $options);
 			break;
 			default:
 				throw new \InvalidArgumentException('Unknown type on '.__CLASS__);
 			break;
 		}
-
-		return $this->filter($results);
 	}
 }

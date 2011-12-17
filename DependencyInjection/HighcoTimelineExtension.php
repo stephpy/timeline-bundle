@@ -45,6 +45,15 @@ class HighcoTimelineExtension extends Extension
             'on_me' => isset($spread['on_me']) ? $spread['on_me'] : true,
             'on_global_context' => isset($spread['on_global_context']) ? $spread['on_global_context'] : true,
         ));
+
+        /* ---- provider ---- */
+        $providerDefinition = $container->getDefinition($config['provider']);
+
+        $container->getDefinition('highco.timeline.local.puller')
+            ->replaceArgument(0, $providerDefinition);
+
+        $container->getDefinition('highco.timeline.spread.deployer')
+            ->replaceArgument(2, $providerDefinition);
     }
 
     /**

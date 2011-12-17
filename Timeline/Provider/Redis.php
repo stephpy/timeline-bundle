@@ -6,6 +6,14 @@ use Predis\Client;
 use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * Redis
+ *
+ * @uses InterfaceProvider
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class Redis implements InterfaceProvider
 {
 	private $redis;
@@ -36,6 +44,10 @@ class Redis implements InterfaceProvider
 	 */
 	public function getWall($params, $options = array())
 	{
+        print "<pre>";
+        var_dump($params, $options);
+        print "</pre>";
+        exit('ici');
 		if(false === isset($params['subject_model']) || false === isset($params['subject_id']))
 			throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
 

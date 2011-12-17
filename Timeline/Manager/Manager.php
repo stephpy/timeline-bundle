@@ -4,8 +4,16 @@ namespace Highco\TimelineBundle\Timeline\Manager;
 
 use Highco\TimelineBundle\Timeline\Manager\Pusher\InterfacePusher;
 use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePuller;
+use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePullerFilterable;
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * Manager
+ *
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class Manager
 {
 	protected $pusher;
@@ -40,7 +48,15 @@ class Manager
 			'context'       => $context,
 		);
 
-		return $this->puller->pull('wall', $params, $options);
+		$results = $this->puller->pull('wall', $params, $options);
+
+        if($this->puller instanceof InterfacePullerFilterable)
+        {
+            $results = $this->puller->filter($results);
+        }
+
+        return $results;
+
 	}
 
 	/**
@@ -58,7 +74,14 @@ class Manager
 			'subject_id'    => $subject_id,
 		);
 
-		return $this->puller->pull('timeline', $params, $options);
+		$results = $this->puller->pull('timeline', $params, $options);
+
+        if($this->puller instanceof InterfacePullerFilterable)
+        {
+            $results = $this->puller->filter($results);
+        }
+
+        return $results;
 	}
 
 	/**

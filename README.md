@@ -96,17 +96,65 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 ## Defining a Spread class
 
-**@todo**
 
-## Exemple of Spread class
+Create the class:
 
-**@todo**
+    use Highco\TimelineBundle\Timeline\Spread\InterfaceSpread;
+    use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+    use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
+
+    class MySpread implements InterfaceSpread
+    {
+        public function supports(TimelineAction $timeline_action)
+        {
+            return true; //or false
+        }
+
+        public function process(TimelineAction $timeline_action, EntryCollection $coll)
+        {
+            $entry = new Entry();
+            $entry->subject_model = "\MySubject";
+            $entry->subject_id = 1;
+
+            $coll->set('mytimeline', $entry);
+        }
+    }
+
+
+Add it to services
+
+
+    <service id="my_service" class="MyClass">
+        <tag name="highco.timeline.spread"/>
+    </service>
+
 
 # Filters
 
 ## Adding a filter
 
-**@todo**
+Create the class and add it as a service:
+
+    use Highco\TimelineBundle\Timeline\Filter\InterfaceFilter;
+
+    MyOwnFilter implements InterfaceFilter
+    {
+        public function filter($results)
+        {
+            // have fun
+            return $results;
+        }
+    }
+
+Then, you can add this filter to the list on config.yml
+
+    highco_timeline:
+        filters:
+            - highco.timeline.filter.dupplicate_key
+            * your id service *
+            - highco.timeline.filter.data_hydrator
+
+The order on filters on config.yml is important, filters will be executed on this order.
 
 ## Filter "Dupplicate Key"
 
@@ -141,11 +189,39 @@ This actually work with doctrine ORM, and the oid field should be an **id** fiel
 
 ## Adding a provider
 
-**@todo**
+Create the class:
+
+    use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
+
+    MyProvider implements InterfaceProvider
+    {
+        public function getWall($params, $options = array())
+        {
+            // ...
+        }
+
+        public function getTimeline($params, $options = array())
+        {
+            // ...
+        }
+
+
+        public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
+        {
+            // ...
+        }
+
+    }
+
+Define this as a service, and replace on you config.yml:
+
+    highco_timeline:
+        provider: *your_service*
 
 ## Provider "REDIS"
 
-Using SncRedis
+Depend on SncRedis, this will use PRedis (not useful to have redis extension on your php)
+** Redis > 1.1 is recquired on server **
 
 # Renderer
 
@@ -154,15 +230,17 @@ Using SncRedis
 Todo
 ----
 
-- Finish documentation
-- Add renderer
-- Let user choose his provider
 - Let user choose delivery
+- Add renderer
+- Finish documentation
 - Write tests !!!!!
+- Update phpdoc
+- Write command for non immediate delivery
 
 Withlist
 --------
 
-- Can use Doctrine ODM, Propel, etc ...
+- Notification system !
 - Making webservices
+- Can use Doctrine ODM, Propel, etc ...
 - ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **
