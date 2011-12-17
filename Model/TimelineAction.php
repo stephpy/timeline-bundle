@@ -117,7 +117,7 @@ class TimelineAction
      */
     public function isPublished()
     {
-        return $this->status_current = self::STATUS_PUBLISHED;
+        return $this->status_current == self::STATUS_PUBLISHED;
     }
 
     /**

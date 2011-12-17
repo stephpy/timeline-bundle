@@ -8,6 +8,19 @@ use Highco\TimelineBundle\Model\TimelineAction;
 
 class TimelineActionTest extends \PHPUnit_Framework_TestCase
 {
+    public function testIsPublished()
+    {
+        $action = new TimelineAction();
+        $action->setStatusCurrent(TimelineAction::STATUS_PENDING);
+        $this->assertFalse($action->isPublished());
+
+        $action->setStatusCurrent(TimelineAction::STATUS_FROZEN);
+        $this->assertFalse($action->isPublished());
+
+        $action->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
+        $this->assertTrue($action->isPublished());
+    }
+
     public function testFromRequestInvalid()
     {
         $request = new Request();
