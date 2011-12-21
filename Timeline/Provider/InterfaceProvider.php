@@ -13,7 +13,7 @@ interface InterfaceProvider
      * @param array $options
      * @return array
      */
-	public function getWall($params, $options = array());
+    public function getWall($params, $options = array());
 
     /**
      * getTimeline
@@ -22,7 +22,7 @@ interface InterfaceProvider
      * @param array $options
      * @return array
      */
-	public function getTimeline($params, $options = array());
+    public function getTimeline($params, $options = array());
 
     /**
      * add
@@ -33,5 +33,5 @@ interface InterfaceProvider
      * @param string $subject_id
      * @return boolean
      */
-	public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id);
+    public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id);
 }

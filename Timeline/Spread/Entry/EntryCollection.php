@@ -11,56 +11,56 @@ namespace Highco\TimelineBundle\Timeline\Spread\Entry;
  */
 class EntryCollection implements \IteratorAggregate
 {
-	protected $coll;
-	protected $dupplicate_on_global = true;
+    protected $coll;
+    protected $dupplicate_on_global = true;
 
-	/**
-	 * __construct
-	 */
-	public function __construct($dupplicate_on_global = true)
-	{
-		$this->coll = new \ArrayIterator();
-		$this->dupplicate_on_global = $dupplicate_on_global;
-	}
+    /**
+     * __construct
+     */
+    public function __construct($dupplicate_on_global = true)
+    {
+        $this->coll = new \ArrayIterator();
+        $this->dupplicate_on_global = $dupplicate_on_global;
+    }
 
-	/**
-	 * getIterator
-	 *
-	 * @return array
-	 */
-	public function getIterator()
-	{
-		return $this->coll;
-	}
+    /**
+     * getIterator
+     *
+     * @return array
+     */
+    public function getIterator()
+    {
+        return $this->coll;
+    }
 
-	/**
-	 * set
-	 *
-	 * @param string $context
-	 * @param Entry $entry
-	 */
-	public function set($context, Entry $entry)
-	{
-		if(false === isset($this->coll[$context]))
-		{
-			$this->coll[$context] = array();
-		}
+    /**
+     * set
+     *
+     * @param string $context
+     * @param Entry $entry
+     */
+    public function set($context, Entry $entry)
+    {
+        if(false === isset($this->coll[$context]))
+        {
+            $this->coll[$context] = array();
+        }
 
-		$this->coll[$context][$entry->getIdent()] = $entry;
+        $this->coll[$context][$entry->getIdent()] = $entry;
 
-		if($this->dupplicate_on_global && $context !== "GLOBAL")
-		{
-			$this->set("GLOBAL", $entry);
-		}
-	}
+        if($this->dupplicate_on_global && $context !== "GLOBAL")
+        {
+            $this->set("GLOBAL", $entry);
+        }
+    }
 
-	/**
-	 * getEntries
-	 *
-	 * @return array
-	 */
-	public function getEntries()
-	{
-		return $this->coll;
-	}
+    /**
+     * getEntries
+     *
+     * @return array
+     */
+    public function getEntries()
+    {
+        return $this->coll;
+    }
 }

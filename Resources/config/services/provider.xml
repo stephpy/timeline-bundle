@@ -10,7 +10,7 @@
 
     <services>
         <service id="highco.timeline.provider.redis" class="%highco.timeline.provider.redis.class%">
-			<argument type="service" id="snc_redis.default_client" />
+            <argument type="service" id="snc_redis.default_client" />
             <argument type="service" id="highco.timeline.entity_manager" />
         </service>
     </services>

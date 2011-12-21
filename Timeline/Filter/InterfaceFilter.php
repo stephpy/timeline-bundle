@@ -20,5 +20,5 @@ interface InterfaceFilter
      * @param array $results
      * @return array
      */
-	public function filter($results);
+    public function filter($results);
 }

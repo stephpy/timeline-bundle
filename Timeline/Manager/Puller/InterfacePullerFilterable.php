@@ -21,14 +21,14 @@ interface InterfacePullerFilterable
      *
      * @param InterfaceFilter $filter
      */
-	public function addFilter(InterfaceFilter $filter);
+    public function addFilter(InterfaceFilter $filter);
 
-	/**
+    /**
      * removeFilter
      *
      * @param InterfaceFilter $filter
      */
-	public function removeFilter(InterfaceFilter $filter);
+    public function removeFilter(InterfaceFilter $filter);
 
     /**
      * filter
@@ -39,5 +39,5 @@ interface InterfacePullerFilterable
      * @param array $results
      * @return array
      */
-	public function filter($results);
+    public function filter($results);
 }

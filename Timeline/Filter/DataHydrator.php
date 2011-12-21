@@ -36,8 +36,8 @@ class DataHydrator implements InterfaceFilter
      * @param array $results
      * @return array
      */
-	public function filter($results)
-	{
+    public function filter($results)
+    {
         foreach($results as $result)
         {
             $entry = new Entry($result);
@@ -50,7 +50,7 @@ class DataHydrator implements InterfaceFilter
         $this->hydrateReferences();
 
         return $results;
-	}
+    }
 
     /**
      * hydrateReferences

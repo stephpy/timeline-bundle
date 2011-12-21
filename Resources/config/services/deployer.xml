@@ -10,7 +10,7 @@
     </parameters>
 
     <services>
-		<service id="highco.timeline.spread.deployer" class="%highco.timeline.spread.deployer.class%">
+        <service id="highco.timeline.spread.deployer" class="%highco.timeline.spread.deployer.class%">
             <argument type="service" id="highco.timeline.spread.manager" />
             <argument type="service" id="highco.timeline.entity_manager" />
             <argument type="service" id="highco.timeline.provider.redis" />

@@ -16,54 +16,54 @@ use Highco\TimelineBundle\Timeline\Filter\InterfaceFilter;
  */
 abstract class AbstractPullerFilterable
 {
-	protected $filters = array();
+    protected $filters = array();
 
-	/**
-	 * addFilter
-	 *
-	 * @param InterfaceFilter $filter
-	 */
-	public function addFilter(InterfaceFilter $filter)
-	{
-		$this->filters[] = $filter;
-	}
+    /**
+     * addFilter
+     *
+     * @param InterfaceFilter $filter
+     */
+    public function addFilter(InterfaceFilter $filter)
+    {
+        $this->filters[] = $filter;
+    }
 
-	/**
-	 * removeFilter
-	 *
-	 * @param InterfaceFilter $filter
-	 * @access public
-	 * @return void
-	 */
-	public function removeFilter(InterfaceFilter $filter)
-	{
-		foreach($this->filters as $key => $filterExisting)
-		{
-			if($filterExisting == $filter)
-			{
-				unset($this->filters[$key]);
-			}
-		}
-	}
+    /**
+     * removeFilter
+     *
+     * @param InterfaceFilter $filter
+     * @access public
+     * @return void
+     */
+    public function removeFilter(InterfaceFilter $filter)
+    {
+        foreach($this->filters as $key => $filterExisting)
+        {
+            if($filterExisting == $filter)
+            {
+                unset($this->filters[$key]);
+            }
+        }
+    }
 
-	/**
-	 * filter
-	 *
+    /**
+     * filter
+     *
      * This action will filters each results given in parameters
      * You have to return results
      *
-	 * @param array $results
-	 * @return array
-	 */
-	public function filter($results)
-	{
-		$filters = $this->filters;
+     * @param array $results
+     * @return array
+     */
+    public function filter($results)
+    {
+        $filters = $this->filters;
 
-		foreach($filters as $filter)
-		{
-			$results = $filter->filter($results);
-		}
+        foreach($filters as $filter)
+        {
+            $results = $filter->filter($results);
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 }

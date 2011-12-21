@@ -19,5 +19,5 @@ interface InterfacePusher
      * @param TimelineAction $timeline_action
      * @return boolean
      */
-	public function push(TimelineAction $timeline_action);
+    public function push(TimelineAction $timeline_action);
 }
