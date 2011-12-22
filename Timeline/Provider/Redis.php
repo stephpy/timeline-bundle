@@ -50,7 +50,7 @@ class Redis implements InterfaceProvider
         $limit        = $limit - 1; //coz redis return one more ...
 
         $key          = $this->getKey($context, $params['subject_model'], $params['subject_id']);
-        $results      = $this->redis->zRevRange($key, $offset, $limit);
+        $results      = $this->redis->zRevRange($key, $offset, ($offset + $limit));
 
         //if there is no results from REDIS, return an empty array
         if(empty($results))
