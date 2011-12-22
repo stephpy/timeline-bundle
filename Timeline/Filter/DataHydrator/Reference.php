@@ -12,6 +12,7 @@ namespace Highco\TimelineBundle\Timeline\Filter\DataHydrator;
 class Reference
 {
     public $model;
+    public $object;
     public $id;
 
     /**

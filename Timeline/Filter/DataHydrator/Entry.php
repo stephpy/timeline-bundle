@@ -79,10 +79,13 @@ class Entry
 
     /**
      * hydrate
+     *
+     * @param array $references
+     * @return void
      */
-    public function hydrate()
+    public function hydrate($references)
     {
-        foreach($this->references as $ref)
+        foreach($references as $ref)
         {
             if(false === is_null($ref->object))
             {

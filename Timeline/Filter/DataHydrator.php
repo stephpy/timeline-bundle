@@ -104,7 +104,7 @@ class DataHydrator implements InterfaceFilter
         /* ---- hydrate entries ---- */
         foreach($this->entries as $entry)
         {
-            $entry->hydrate();
+            $entry->hydrate($this->references);
         }
 
     }
