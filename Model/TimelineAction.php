@@ -218,6 +218,7 @@ class TimelineAction
             throw new \InvalidArgumentException('Subject should be an object');
         }
 
+        $this->setSubject($subject);
         $this->setSubjectModel(get_class($subject));
         $this->setSubjectId($subject->getId());
 
@@ -229,6 +230,7 @@ class TimelineAction
         }
         else
         {
+            $this->setDirectComplement($direct_complement);
             $this->setDirectComplementModel(get_class($direct_complement));
             $this->setDirectComplementId($direct_complement->getId());
         }
@@ -239,6 +241,7 @@ class TimelineAction
         }
         else
         {
+            $this->setIndirectComplement($indirect_complement);
             $this->setIndirectComplementModel(get_class($indirect_complement));
             $this->setIndirectComplementId($indirect_complement->getId());
         }
@@ -257,7 +260,9 @@ class TimelineAction
             throw new \InvalidArgumentException('direct complement should be an object');
         }
 
-        $this->subject = $subject;
+        $this->subject       = $subject;
+        $this->subject_model = get_class($subject);
+        $this->subject_id    = $subject->getId();
     }
 
     /**
@@ -342,7 +347,9 @@ class TimelineAction
             throw new \InvalidArgumentException('direct complement should be an object');
         }
 
-        $this->direct_complement = $direct_complement;
+        $this->direct_complement       = $direct_complement;
+        $this->direct_complement_model = get_class($direct_complement);
+        $this->direct_complement_id    = $direct_complement->getId();
     }
 
     /**
@@ -435,6 +442,9 @@ class TimelineAction
         }
 
         $this->indirect_complement = $indirect_complement;
+        $this->indirect_complement_model = get_class($indirect_complement);
+        $this->indirect_complement_id    = $indirect_complement->getId();
+
     }
 
     /**
