@@ -85,14 +85,13 @@ class Entry
      */
     public function hydrate($references)
     {
-        foreach($references as $ref)
+        foreach($this->referenceRelatedFields as $key => $fields)
         {
-            if(false === is_null($ref->object))
+            if(array_key_exists($key, $references) && false === is_null($references[$key]->object))
             {
-                $relatedFields = $this->referenceRelatedFields[$ref->getKey()];
-                foreach($relatedFields as $relatedField)
+                foreach($fields as $field)
                 {
-                    $this->hydrateField($relatedField, $ref->object);
+                    $this->hydrateField($field, $references[$key]->object);
                 }
             }
         }
