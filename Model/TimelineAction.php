@@ -41,6 +41,11 @@ class TimelineAction
     protected $verb;
 
     /**
+     * @var string $direct_complement_text
+     */
+    protected $direct_complement_text;
+
+    /**
      * @var string $direct_complement_model
      */
     protected $direct_complement_model;
@@ -54,6 +59,12 @@ class TimelineAction
      * @var object $direct_complement
      */
     protected $direct_complement;
+
+    /**
+     * @var string $indirect_complement_text
+     */
+    protected $indirect_complement_text;
+
 
     /**
      * @var string $indirect_complement_model
@@ -172,8 +183,10 @@ class TimelineAction
         $subject->setSubjectModel($request->get('subject_model'));
         $subject->setSubjectId($request->get('subject_id'));
         $subject->setVerb($request->get('verb'));
+        $subject->setDirectComplementText($request->get('direct_complement_text'));
         $subject->setDirectComplementModel($request->get('direct_complement_model'));
         $subject->setDirectComplementId($request->get('direct_complement_id'));
+        $subject->setIndirectComplementText($request->get('indirect_complement_text'));
         $subject->setIndirectComplementModel($request->get('indirect_complement_model'));
         $subject->setIndirectComplementId($request->get('indirect_complement_id'));
 
@@ -198,7 +211,7 @@ class TimelineAction
      * @param object $direct_complement
      * @param object $indirect_complement
      */
-    public function create($subject, $verb, $direct_complement, $indirect_complement = null)
+    public function create($subject, $verb, $direct_complement = null, $indirect_complement = null)
     {
         if(false === is_object($subject))
         {
@@ -212,24 +225,24 @@ class TimelineAction
 
         if(false === is_object($direct_complement))
         {
-            throw new \InvalidArgumentException('Direct complement should be an object');
+            $this->setDirectComplementText($direct_complement);
         }
-
-        $this->setDirectComplementModel(get_class($direct_complement));
-        $this->setDirectComplementId($direct_complement->getId());
-
-        if(is_null($indirect_complement))
+        else
         {
-            return;
+            $this->setDirectComplementModel(get_class($direct_complement));
+            $this->setDirectComplementId($direct_complement->getId());
         }
 
         if(false === is_object($indirect_complement))
         {
-            throw new \InvalidArgumentException('Indirect complement should be an object');
+            $this->setIndirectComplementText($direct_complement);
+        }
+        else
+        {
+            $this->setIndirectComplementModel(get_class($indirect_complement));
+            $this->setIndirectComplementId($indirect_complement->getId());
         }
 
-        $this->setIndirectComplementModel(get_class($indirect_complement));
-        $this->setIndirectComplementId($indirect_complement->getId());
     }
 
     /**
@@ -339,7 +352,34 @@ class TimelineAction
      */
     public function getDirectComplement()
     {
-        return $this->direct_complement;
+        if(false === is_null($this->direct_complement))
+        {
+            return $this->direct_complement;
+        }
+        else
+        {
+            return $this->getDirectComplementText();
+        }
+    }
+
+    /**
+     * Set direct_complement_text
+     *
+     * @param string $directComplementText
+     */
+    public function setDirectComplementText($directComplementText)
+    {
+        $this->direct_complement_text = $directComplementText;
+    }
+
+    /**
+     * Get direct_complement_text
+     *
+     * @return string
+     */
+    public function getDirectComplementText()
+    {
+        return $this->direct_complement_text;
     }
 
     /**
@@ -405,6 +445,26 @@ class TimelineAction
     public function getIndirectComplement()
     {
         return $this->indirect_complement;
+    }
+
+    /**
+     * Set indirect_complement_text
+     *
+     * @param string $indirectComplementText
+     */
+    public function setIndirectComplementText($indirectComplementText)
+    {
+        $this->indirect_complement_text = $indirectComplementText;
+    }
+
+    /**
+     * Get indirect_complement_text
+     *
+     * @return string
+     */
+    public function getIndirectComplementText()
+    {
+        return $this->indirect_complement_text;
     }
 
     /**

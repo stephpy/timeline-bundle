@@ -16,10 +16,13 @@
 
         <field name="verb" column="verb" type="string" length="255" />
 
-        <field name="direct_complement_model" column="direct_complement_model" type="string" length="255" />
+        <field name="direct_complement_text" column="direct_complement_text" type="string" length="255" nullable="true" />
 
-        <field name="direct_complement_id" column="direct_complement_id" type="integer" length="11" />
+        <field name="direct_complement_model" column="direct_complement_model" type="string" length="255" nullable="true" />
 
+        <field name="direct_complement_id" column="direct_complement_id" type="integer" length="11" nullable="true" />
+
+        <field name="indirect_complement_text" column="indirect_complement_text" type="string" length="255" nullable="true" />
         <field name="indirect_complement_model" column="indirect_complement_model" type="string" length="255" nullable="true" />
 
         <field name="indirect_complement_id" column="indirect_complement_id" type="integer" length="11" nullable="true" />
