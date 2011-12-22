@@ -47,6 +47,7 @@ class Redis implements InterfaceProvider
         $context      = $params['context'] ? (string) $params['context'] : 'GLOBAL';
         $offset       = isset($options['offset']) ? $options['offset'] : 0;
         $limit        = isset($options['limit']) ? $options['limit'] : 10;
+        $limit        = $limit - 1; //coz redis return one more ...
 
         $key          = $this->getKey($context, $params['subject_model'], $params['subject_id']);
         $results      = $this->redis->zRevRange($key, $offset, $limit);
