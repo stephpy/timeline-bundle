@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="highco.timeline.render.path">HighcoTimelineBundle:Timeline</parameter>
+        <parameter key="highco.timeline.render.fallback">HighcoTimelineBundle:Timeline:default.html.twig</parameter>
+    </parameters>
+
+    <services>
+        <service id="highco.twig.extension.timeline" class="Highco\TimelineBundle\Twig\Extension\TimelineExtension">
+            <tag name="twig.extension" />
+            <argument type="service" id="twig" />
+            <argument type="collection">
+                <argument key="path">%highco.timeline.render.path%</argument>
+                <argument key="fallback">%highco.timeline.render.fallback%</argument>
+            </argument>
+        </service>
+    </services>
+</container>

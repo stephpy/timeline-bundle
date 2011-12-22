@@ -30,6 +30,7 @@ class HighcoTimelineExtension extends Extension
         $loader->load('orm.xml');
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
+        $loader->load('twig.xml');
 
         /* --- filters --- */
         $filters = $config['filters'];
@@ -59,6 +60,11 @@ class HighcoTimelineExtension extends Extension
 
         /* ---- delivery ---- */
         $container->setParameter('highco.timeline.spread.deployer.delivery', $config['delivery']);
+
+        /* ---- render ---- */
+        $render = $config['render'];
+        $container->setParameter('highco.timeline.render.path', $render['path']);
+        $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
     }
 
     /**

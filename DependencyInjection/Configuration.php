@@ -49,6 +49,15 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('delivery')->defaultValue('immediate')->end()
             ->end()
+            ->children()
+                ->arrayNode('render')
+                    ->isRequired()
+                    ->children()
+                        ->scalarNode('path')->isRequired()->end()
+                        ->scalarNode('fallback')->defaultValue(null)->end()
+                    ->end()
+                ->end()
+            ->end()
             ;
 
         return $tb;
