@@ -258,6 +258,9 @@ Depend on SncRedis, this will use PRedis (not useful to have redis extension on 
             on_global_context: true                 # Spread automatically on global context
         provider: highco.timeline.provider.redis    # write your own
         delivery: immediate                         # wait
+        render:
+            path:     'AcmeBundle:Timeline'
+            fallback: 'AcmeBundle:Timeline:default.html.twig'
 
 Todo
 ----
@@ -270,7 +273,6 @@ Withlist
 As soon as posible:
 
 - Notification system !
-- Add renderer
 - Making webservices
 
 May be ...:
