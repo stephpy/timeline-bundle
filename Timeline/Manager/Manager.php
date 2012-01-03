@@ -6,6 +6,7 @@ use Highco\TimelineBundle\Timeline\Manager\Pusher\InterfacePusher;
 use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePuller;
 use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePullerFilterable;
 use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Timeline\Collection;
 
 /**
  * Manager
@@ -73,7 +74,7 @@ class Manager
             'subject_id'    => $subject_id,
         );
 
-        $results = $this->puller->pull('timeline', $params, $options);
+        $results = new Collection($this->puller->pull('timeline', $params, $options));
 
         if($this->puller instanceof InterfacePullerFilterable)
         {
