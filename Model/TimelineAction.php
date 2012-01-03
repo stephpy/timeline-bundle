@@ -237,7 +237,7 @@ class TimelineAction
 
         if(false === is_object($indirect_complement))
         {
-            $this->setIndirectComplementText($direct_complement);
+            $this->setIndirectComplementText($indirect_complement);
         }
         else
         {
@@ -640,5 +640,26 @@ class TimelineAction
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    public function __sleep()
+    {
+        return array(
+            'id',
+            'subject_model',
+            'subject_id',
+            'verb',
+            'direct_complement_text',
+            'direct_complement_model',
+            'direct_complement_id',
+            'indirect_complement_text',
+            'indirect_complement_model',
+            'indirect_complement_id',
+            'status_current',
+            'status_wanted',
+            'dupplicate_key',
+            'dupplicate_priority',
+            'created_at',
+        );
     }
 }
