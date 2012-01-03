@@ -48,7 +48,7 @@ class Manager
             'context'       => $context,
         );
 
-        $results = $this->puller->pull('wall', $params, $options);
+        $results = new Collection($this->puller->pull('wall', $params, $options));
 
         if($this->puller instanceof InterfacePullerFilterable)
         {
