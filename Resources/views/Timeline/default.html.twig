@@ -1,1 +1,1 @@
-{{ timeline.subject }} - {{ timeline.verb }} - {{ timeline.directComplement }}
+{{ app.user and app.user == timeline.subject ? 'I' : timeline.subject }} - {{ timeline.verb }} - {{ app.user and app.user == timeline.directComplement ? 'me' : timeline.directComplement }}
