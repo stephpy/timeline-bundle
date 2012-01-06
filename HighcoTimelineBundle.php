@@ -6,7 +6,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Highco\TimelineBundle\Compiler\AddSpreadCompilerPass;
-use Highco\TimelineBundle\Compiler\AddFilterCompilerPass;
 
 /**
  * HighcoTimelineBundle
