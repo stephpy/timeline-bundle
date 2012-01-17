@@ -261,8 +261,8 @@ class TimelineAction
         }
 
         $this->subject       = $subject;
-        $this->subject_model = get_class($subject);
-        $this->subject_id    = $subject->getId();
+        $this->setSubjectModel(get_class($subject));
+        $this->setSubjectId($subject->getId());
     }
 
     /**
@@ -348,8 +348,8 @@ class TimelineAction
         }
 
         $this->direct_complement       = $direct_complement;
-        $this->direct_complement_model = get_class($direct_complement);
-        $this->direct_complement_id    = $direct_complement->getId();
+        $this->setDirectComplementModel(get_class($direct_complement));
+        $this->setDirectComplementId($direct_complement->getId());
     }
 
     /**
@@ -442,8 +442,8 @@ class TimelineAction
         }
 
         $this->indirect_complement = $indirect_complement;
-        $this->indirect_complement_model = get_class($indirect_complement);
-        $this->indirect_complement_id    = $indirect_complement->getId();
+        $this->setIndirectComplementModel(get_class($indirect_complement));
+        $this->setIndirectComplementId($indirect_complement->getId());
 
     }
 
