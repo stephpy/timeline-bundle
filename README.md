@@ -9,8 +9,8 @@ To have a timeline you have:
 
 * Subjet (subject_model, subject_id)
 * Verb (verb)
-* DirectComplement (direct_complement_model, direct_complement_id)
-* IndirectComplement (indirect_complement_model, indirect_complement_id)
+* DirectComplement (direct_complement_model, direct_complement_id) *Direct complement can be a text too* (direct_complement_text)
+* IndirectComplement (indirect_complement_model, indirect_complement_id)  *Indirect complement can be a text too* (indirect_complement_text)
 
 
     Chuck Norris Own the World with Vic Mc Key
@@ -221,11 +221,11 @@ Define this as a service, and replace on you config.yml:
 ## Provider "REDIS"
 
 Depend on SncRedis, this will use PRedis (not useful to have redis extension on your php)
-** Redis > 1.1 is recquired on server **
+**Redis > 1.1 is recquired on server**
 
 # Renderer
 
-- Using twig
+Using twig
 
 
     # Define
@@ -273,9 +273,9 @@ Withlist
 As soon as posible:
 
 - Notification system !
-- Making webservices
+- Making webservices (difficult to return subject, cod, coi ... is it interesting to do that ?)
 
-May be ...:
+May be ...
 
 - Can use Doctrine ODM, Propel, etc ...
 - ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **
