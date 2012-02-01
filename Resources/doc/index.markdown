@@ -1,4 +1,4 @@
-HighcoTimelineBundle
+sHighcoTimelineBundle
 ====================
 
 # How it works ?
@@ -273,7 +273,7 @@ Todo
 
 - Write tests !!!!!
 
-Withlist
+Wishlist
 --------
 
 As soon as posible:
