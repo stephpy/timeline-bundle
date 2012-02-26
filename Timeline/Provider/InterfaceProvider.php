@@ -13,7 +13,7 @@ interface InterfaceProvider
      * @param array $options
      * @return array
      */
-    public function getWall($params, $options = array());
+    public function getWall(array $params, $options = array());
 
     /**
      * getTimeline
@@ -22,7 +22,7 @@ interface InterfaceProvider
      * @param array $options
      * @return array
      */
-    public function getTimeline($params, $options = array());
+    public function getTimeline(array $params, $options = array());
 
     /**
      * add

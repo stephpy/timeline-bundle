@@ -14,7 +14,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Redis implements InterfaceProvider
+class Redis extends DoctrineDbal implements InterfaceProvider
 {
     private $redis;
     private $em;
@@ -25,6 +25,7 @@ class Redis implements InterfaceProvider
      * __construct
      *
      * @param Client $redis
+     * @param ObjectManager $em
      */
     public function __construct(Client $redis, ObjectManager $em)
     {
@@ -39,7 +40,7 @@ class Redis implements InterfaceProvider
      * @param array $options
      * @return array
      */
-    public function getWall($params, $options = array())
+    public function getWall(array $params, $options = array())
     {
         if(false === isset($params['subject_model']) || false === isset($params['subject_id']))
             throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
@@ -58,7 +59,7 @@ class Redis implements InterfaceProvider
             return array();
         }
 
-        $qb           = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
             ->createQueryBuilder('ta')
             ->orderBy('ta.created_at', 'DESC')
             ;
@@ -67,38 +68,6 @@ class Redis implements InterfaceProvider
             ->setParameter(1, $results)
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * getTimeline
-     *
-     * @param array $params
-     * @param array $options
-     * @return array
-     */
-    public function getTimeline($params, $options = array())
-    {
-        if(false === isset($params['subject_model']) || false === isset($params['subject_id']))
-            throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
-
-        $offset       = isset($options['offset']) ? $options['offset'] : 0;
-        $limit        = isset($options['limit']) ? $options['limit'] : 10;
-        $status       = isset($options['status']) ? $options['status'] : 'published';
-
-        return $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
-            ->createQueryBuilder('ta')
-            ->where('ta.subject_model = :subject_model')
-            ->andWhere('ta.subject_id = :subject_id')
-            ->andWhere('ta.status_current = :status')
-            ->orderBy('ta.created_at', 'DESC')
-            ->setParameter('subject_model', $params['subject_model'])
-            ->setParameter('subject_id', $params['subject_id'])
-            ->setParameter('status', $status)
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
     }
 
     /**
