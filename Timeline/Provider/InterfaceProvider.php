@@ -4,13 +4,20 @@ namespace Highco\TimelineBundle\Timeline\Provider;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * InterfaceProvider
+ *
+ * @package HighcoTimelineBundle
+ * @version 1.0.0
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 interface InterfaceProvider
 {
     /**
      * getWall
      *
-     * @param array $params
-     * @param array $options
+     * @param array $params //Give here your subject Model, subject id, context
+     * @param array $options //offset, limit
      * @return array
      */
     public function getWall(array $params, $options = array());
@@ -18,8 +25,8 @@ interface InterfaceProvider
     /**
      * getTimeline
      *
-     * @param array $params
-     * @param array $options
+     * @param array $params //Give here your subject Model, subject id, context
+     * @param array $options //offset, limit
      * @return array
      */
     public function getTimeline(array $params, $options = array());

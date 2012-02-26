@@ -34,11 +34,7 @@ class Redis extends DoctrineDbal implements InterfaceProvider
     }
 
     /**
-     * getWall
-     *
-     * @param array $params
-     * @param array $options
-     * @return array
+     * {@inheritdoc}
      */
     public function getWall(array $params, $options = array())
     {
@@ -71,13 +67,7 @@ class Redis extends DoctrineDbal implements InterfaceProvider
     }
 
     /**
-     * add
-     *
-     * @param TimelineAction $timeline_action
-     * @param string $context
-     * @param string $subject_model
-     * @param string  $subject_id
-     * @return boolean
+     * {@inheritdoc}
      */
     public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
     {
