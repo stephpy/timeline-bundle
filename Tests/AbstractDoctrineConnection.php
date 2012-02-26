@@ -6,7 +6,7 @@ require_once __DIR__.'/../../../../../app/AppKernel.php';
 
 use Doctrine\ORM\Tools\SchemaTool;
 
-class AbstractDoctrineConnectionTest extends \PHPUnit_Framework_TestCase
+class AbstractDoctrineConnection extends \PHPUnit_Framework_TestCase
 {
 	protected $kernel;
 

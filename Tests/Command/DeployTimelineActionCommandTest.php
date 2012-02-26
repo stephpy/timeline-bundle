@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Tests\Command;
 
-use Highco\TimelineBundle\Tests\AbstractDoctrineConnectionTest;
+use Highco\TimelineBundle\Tests\AbstractDoctrineConnection;
 use Doctrine\ORM\Tools\SchemaTool;
 use Highco\TimelineBundle\Entity\TimelineAction;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Highco\TimelineBundle\Command\DeployTimelineActionCommand;
 
-class DeployTimelineActionCommandTest extends AbstractDoctrineConnectionTest
+class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
 {
     public function setUp()
     {
