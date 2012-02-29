@@ -278,12 +278,8 @@ Wishlist
 
 As soon as posible:
 
-- Use sets instead Nested sets, coz it's not useful to know the propagation time. There is no diff functions (will be used for notificaiton system) on nested sets, on sets YES.
 - Notification system !
-- Making webservices (difficult to return subject, cod, coi ... is it interesting to do that ?)
 
 May be ...
 
 - Can use Doctrine ODM, Propel, etc ...
-- ** Separate in HighcoTimelineClientBundle and HighcoTimelineServerBundle, because you may want to use only client part (get timeline/wall) and set server part in an other one app **
-
