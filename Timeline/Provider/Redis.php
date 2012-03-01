@@ -54,12 +54,7 @@ class Redis implements InterfaceProvider
     }
 
     /**
-     * getTimeline
-     *
-     * @param array $params
-     * @param array $options
-     * @access public
-     * @return void
+     * {@inheritdoc}
      */
     public function getTimeline(array $params, $options = array())
     {
@@ -78,6 +73,14 @@ class Redis implements InterfaceProvider
     {
         $key = $this->getKey($context, $subject_model, $subject_id);
         return $this->redis->zAdd($key, time(), $timeline_action->getId());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+    {
+        $this->entity_retriever = $entity_retriever;
     }
 
     /**
@@ -103,13 +106,5 @@ class Redis implements InterfaceProvider
     public function setRedis(Client $redis)
     {
         $this->redis = $redis;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
-    {
-        $this->entity_retriever = $entity_retriever;
     }
 }

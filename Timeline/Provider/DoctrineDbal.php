@@ -73,6 +73,14 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+    {
+        $this->entity_retriever = $entity_retriever;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function find(array $ids)
@@ -91,13 +99,5 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
             ->setParameter(1, $ids)
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
-    {
-        $this->entity_retriever = $entity_retriever;
     }
 }
