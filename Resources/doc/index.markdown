@@ -3,10 +3,10 @@ HighcoTimelineBundle
 
 See for more informations:
 
-[filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
-[provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
-[renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
-[spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
+- [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
+- [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
+- [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
+- [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
 
 # How it works ?
 
