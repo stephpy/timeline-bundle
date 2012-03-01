@@ -2,65 +2,37 @@
 
 namespace Highco\TimelineBundle\Tests;
 
-require_once __DIR__.'/../../../../../app/AppKernel.php';
-
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\ORM\Tools\SchemaTool;
 
-class AbstractDoctrineConnection extends \PHPUnit_Framework_TestCase
+abstract class AbstractTestCase extends WebTestCase
 {
-	protected $kernel;
-
-	/**
-     * setUp
-     *
-     * @access public
-     * @return void
-     */
     public function setUp()
     {
-        $this->kernel = new \AppKernel('test', true);
-        $this->kernel->boot();
+        $this->client = static::createClient(
+            array('environment' => 'test')
+        );
 
-        $this->container = $this->kernel->getContainer();
-
-		// this step is for users which not update their config_test.yml :/
-		// @todo, let user choice to use his config_test.yml connection
-        $conn = $this->container->get('doctrine.dbal.connection_factory')->createConnection(array(
-            'dbname' => 'highco_timeline_test',
-            'host' => 'localhost',
-            'port' => NULL,
-            'user' => 'root',
-            'password' => 'root',
-            'driver' => 'pdo_sqlite',
-            'charset' => 'UTF8',
-            'memory' => true,
-            'driverOptions' => array()
-        ), null, new \Doctrine\Common\EventManager(), array());
-
-        $this->container->set('doctrine.dbal.default_connection', $conn);
-
-        $this->em        = $this->container->get('doctrine')->getEntityManager();
+        $this->container = $this->client->getContainer();
+        $this->doctrine  = $this->container->get('doctrine');
+        $this->em        = $this->doctrine->getEntityManager();
 
         $this->generateSchema();
 
-        parent::setUp();
+        $this->redis = $this->container->get('snc_redis.test_client');
+
+        $this->container->get('highco.timeline.provider.redis')
+            ->setRedis($this->redis);
     }
 
-    /**
-     * tearDown
-     *
-     * @access public
-     * @return void
-     */
     public function tearDown()
     {
-        // Shutdown the kernel.
-        $this->kernel->shutdown();
-
-		$this->dropSchema();
-
         parent::tearDown();
+
+        $this->dropSchema();
+        $this->redis->flushDb();
     }
+
 
     /**
      * generateSchema
@@ -115,5 +87,4 @@ class AbstractDoctrineConnection extends \PHPUnit_Framework_TestCase
     {
         return $this->em->getMetadataFactory()->getAllMetadata();
     }
-
 }

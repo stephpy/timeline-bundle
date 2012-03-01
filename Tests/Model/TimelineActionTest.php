@@ -8,6 +8,14 @@ use Highco\TimelineBundle\Model\TimelineAction;
 
 class TimelineActionTest extends \PHPUnit_Framework_TestCase
 {
+    public function testConstruct()
+    {
+        $action = new TimelineAction();
+        $this->assertEquals($action->getCreatedAt(), new \DateTime());
+        $this->assertEquals($action->getStatusCurrent(), TimelineAction::STATUS_PENDING);
+        $this->assertEquals($action->getStatusWanted(), TimelineAction::STATUS_PUBLISHED);
+    }
+
     public function testIsPublished()
     {
         $action = new TimelineAction();
@@ -114,5 +122,46 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue(false, "This should not return an exception");
         }
     }
-}
 
+    public function testSetSubject()
+    {
+        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue('1337'));
+
+        $action = new TimelineAction();
+        $action->setSubject($stub);
+
+        $this->assertEquals($action->getSubjectId(), 1337);
+        $this->assertEquals($action->getSubjectModel(), get_class($stub));
+    }
+
+    public function testSetDirectComplement()
+    {
+        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue('1337'));
+
+        $action = new TimelineAction();
+        $action->setDirectComplement($stub);
+
+        $this->assertEquals($action->getDirectComplementId(), 1337);
+        $this->assertEquals($action->getDirectComplementModel(), get_class($stub));
+    }
+
+    public function testSetIndirectComplement()
+    {
+        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue('1337'));
+
+        $action = new TimelineAction();
+        $action->setIndirectComplement($stub);
+
+        $this->assertEquals($action->getIndirectComplementId(), 1337);
+        $this->assertEquals($action->getIndirectComplementModel(), get_class($stub));
+    }
+}

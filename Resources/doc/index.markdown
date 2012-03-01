@@ -268,6 +268,11 @@ Using twig
             path:     'AcmeBundle:Timeline'
             fallback: 'AcmeBundle:Timeline:default.html.twig'
 
+# Tests
+
+**Warning, be sure you configured you're doctrine connection for test environement, else you'll have your schema droped !!!!!!!!**
+
+
 Todo
 ----
 

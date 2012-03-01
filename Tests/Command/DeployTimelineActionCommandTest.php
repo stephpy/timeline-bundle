@@ -2,34 +2,16 @@
 
 namespace Highco\TimelineBundle\Tests\Command;
 
-use Highco\TimelineBundle\Tests\AbstractDoctrineConnection;
-use Doctrine\ORM\Tools\SchemaTool;
 use Highco\TimelineBundle\Entity\TimelineAction;
+use Highco\TimelineBundle\Tests\AbstractTestCase;
 
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Highco\TimelineBundle\Command\DeployTimelineActionCommand;
 
-class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
+class DeployTimelineActionCommandTest extends AbstractTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->redis = $this->container->get('snc_redis.test_client');
-
-        $this->container->get('highco.timeline.provider.redis')
-            ->setRedis($this->redis);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        $this->redis->flushDb();
-    }
-
-    /*public function testNoTimeline()
+    public function testNoTimeline()
     {
         $results = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
             ->createQueryBuilder('t')
@@ -38,7 +20,7 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
 
         $this->assertEquals(count($results), 0);
 
-        $application = new Application($this->kernel);
+        $application = new Application($this->client->getKernel());
         $application->add(new DeployTimelineActionCommand());
 
         $command = $application->find('highco:timeline-deploy');
@@ -69,7 +51,7 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PENDING);
         }
 
-        $application = new Application($this->kernel);
+        $application = new Application($this->client->getKernel());
         $application->add(new DeployTimelineActionCommand());
 
         $command = $application->find('highco:timeline-deploy');
@@ -95,14 +77,8 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
             $this->assertEquals($result->getStatusWanted(), TimelineAction::STATUS_FROZEN);
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PUBLISHED);
         }
-    }*/
+    }
 
-    /**
-     * testTwoTimelineWithLimit
-     *
-     * @access public
-     * @return void
-     */
     public function testTwoTimelineWithLimit()
     {
         $this->createTimelineAction(2);
@@ -119,7 +95,7 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PENDING);
         }
 
-        $application = new Application($this->kernel);
+        $application = new Application($this->client->getKernel());
         $application->add(new DeployTimelineActionCommand());
 
         $command = $application->find('highco:timeline-deploy');
@@ -149,7 +125,6 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
         $this->assertEquals($second->getStatusCurrent(), TimelineAction::STATUS_PENDING);
     }
 
-
     /**
      * createTimelineAction
      *
@@ -161,20 +136,37 @@ class DeployTimelineActionCommandTest extends AbstractDoctrineConnection
     {
         for($i = 0; $i < (int) $howMany; $i++)
         {
+            $stub = $this->getMock('Highco\TimelineBundle\Tests\Command\EntityStub');
+            $stub->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue(1));
+
             $entry = new TimelineAction();
-            $entry->setSubjectModel('\MYTEST');
-            $entry->setSubjectId(1);
+            $entry->setSubject($stub);
+
             $entry->setVerb('Own');
-            $entry->setDirectComplementModel('\World');
-            $entry->setDirectComplementId(1);
-            $entry->setIndirectComplementModel('\VicMcKey');
-            $entry->setIndirectComplementId(1);
+
+            $stub = $this->getMock('Highco\TimelineBundle\Tests\Command\EntityStub');
+            $stub->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue(2));
+
+            $entry->setDirectComplement($stub);
+
+            $stub = $this->getMock('Highco\TimelineBundle\Tests\Command\EntityStub');
+            $stub->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue(3));
+            $entry->setIndirectComplement($stub);
 
             $this->em->persist($entry);
         }
 
         $this->em->flush();
     }
+}
 
-
+class EntityStub{
+    public function getId() {
+    }
 }
