@@ -2,6 +2,8 @@
 
 namespace Highco\TimelineBundle\DependencyInjection;
 
+use Highco\TimelineBundle\Timeline\Provider\InterfaceRequiresEntityRetriever;
+
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Reference;
@@ -51,6 +53,17 @@ class HighcoTimelineExtension extends Extension
 
         /* ---- provider ---- */
         $providerDefinition = $container->getDefinition($config['provider']);
+
+        /* ---- entity retriever ---- */
+        $entityRetriever = $config['entity_retriever'];
+        if(false === empty($entityRetriever)) {
+            $entityRetriever = $container->getDefinition($entityRetriever);
+
+            if(false === is_null($entityRetriever)) {
+                $providerDefinition->addMethodCall('setEntityRetriever', array($entityRetriever));
+            }
+
+        }
 
         $container->getDefinition('highco.timeline.local.puller')
             ->replaceArgument(0, $providerDefinition);

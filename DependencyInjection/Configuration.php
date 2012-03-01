@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->children()
                 ->scalarNode('provider')->defaultValue('highco.timeline.provider.redis')->end()
+                ->scalarNode('entity_retriever')->defaultValue('highco.timeline.provider.doctrine.dbal')->end()
             ->end()
             ->children()
                 ->scalarNode('delivery')->defaultValue('immediate')->end()

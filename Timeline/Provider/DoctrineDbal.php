@@ -9,11 +9,12 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * DoctrineDbal
  *
  * @uses InterfaceProvider
+ * @uses InterfaceEntityRetriever
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DoctrineDbal implements InterfaceProvider
+class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
 {
     private $em;
 
@@ -69,5 +70,34 @@ class DoctrineDbal implements InterfaceProvider
     public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
     {
         throw new \OutOfRangeException("This method is not available yet for DoctrineDbal");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find(array $ids)
+    {
+        if(empty($ids))
+        {
+            return array();
+        }
+
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
+            ->createQueryBuilder('ta')
+            ->orderBy('ta.created_at', 'DESC')
+            ;
+
+        return $qb->add('where', $qb->expr()->in('ta.id', '?1'))
+            ->setParameter(1, $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+    {
+        $this->entity_retriever = $entity_retriever;
     }
 }

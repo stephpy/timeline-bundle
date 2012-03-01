@@ -3,7 +3,6 @@
 namespace Highco\TimelineBundle\Timeline\Provider;
 
 use Predis\Client;
-use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
@@ -14,10 +13,10 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Redis extends DoctrineDbal implements InterfaceProvider
+class Redis implements InterfaceProvider
 {
     private $redis;
-    private $em;
+    private $entity_retriever;
 
     protected static $key = "Timeline:%s:%s:%s";
 
@@ -25,12 +24,10 @@ class Redis extends DoctrineDbal implements InterfaceProvider
      * __construct
      *
      * @param Client $redis
-     * @param ObjectManager $em
      */
-    public function __construct(Client $redis, ObjectManager $em)
+    public function __construct(Client $redis)
     {
         $this->setRedis($redis);
-        $this->em    = $em;
     }
 
     /**
@@ -49,21 +46,29 @@ class Redis extends DoctrineDbal implements InterfaceProvider
         $key          = $this->getKey($context, $params['subject_model'], $params['subject_id']);
         $results      = $this->redis->zRevRange($key, $offset, ($offset + $limit));
 
-        //if there is no results from REDIS, return an empty array
-        if(empty($results))
+        if(null == $this->entity_retriever) {
+            return $results;
+        } else {
+            return $this->entity_retriever->find($results);
+        }
+    }
+
+    /**
+     * getTimeline
+     *
+     * @param array $params
+     * @param array $options
+     * @access public
+     * @return void
+     */
+    public function getTimeline(array $params, $options = array())
+    {
+        if(null == $this->entity_retriever || false === $this->entity_retriever instanceof InterfaceProvider)
         {
-            return array();
+            throw new \Exception('Redis cannot return a list of timeline action from storage, you have to give him the principal storage as entity retriever');
         }
 
-        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
-            ->createQueryBuilder('ta')
-            ->orderBy('ta.created_at', 'DESC')
-            ;
-
-        return $qb->add('where', $qb->expr()->in('ta.id', '?1'))
-            ->setParameter(1, $results)
-            ->getQuery()
-            ->getResult();
+        return $this->entity_retriever->getTimeline($params, $options);
     }
 
     /**
@@ -98,5 +103,13 @@ class Redis extends DoctrineDbal implements InterfaceProvider
     public function setRedis(Client $redis)
     {
         $this->redis = $redis;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+    {
+        $this->entity_retriever = $entity_retriever;
     }
 }

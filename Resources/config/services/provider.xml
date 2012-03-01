@@ -6,11 +6,15 @@
 
     <parameters>
         <parameter key="highco.timeline.provider.redis.class">Highco\TimelineBundle\Timeline\Provider\Redis</parameter>
+        <parameter key="highco.timeline.provider.doctrine.dbal.class">Highco\TimelineBundle\Timeline\Provider\DoctrineDbal</parameter>
     </parameters>
 
     <services>
         <service id="highco.timeline.provider.redis" class="%highco.timeline.provider.redis.class%">
             <argument type="service" id="snc_redis.default_client" />
+        </service>
+
+        <service id="highco.timeline.provider.doctrine.dbal" class="%highco.timeline.provider.doctrine.dbal.class%">
             <argument type="service" id="highco.timeline.entity_manager" />
         </service>
     </services>

@@ -41,4 +41,11 @@ interface InterfaceProvider
      * @return boolean
      */
     public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id);
+
+    /**
+     * This methods will hydrate object by an entity retriever defined on configuration
+     *
+     * @param InterfaceEntityRetriever $entity_retriever
+     */
+    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null);
 }
