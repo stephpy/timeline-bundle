@@ -2,6 +2,8 @@
 
 namespace Highco\TimelineBundle\Timeline;
 
+use Highco\TimelineBundle\Model\TimelineAction;
+
 /**
  * Collection
  *
@@ -18,12 +20,28 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * __construct
      *
-     * @param array $coll
-     * @return void
+     * @param array $coll = array()
      */
-    public function __construct(array $coll)
+    public function __construct(array $coll = array())
     {
-        $this->coll = $coll;
+        $this->setColl($coll);
+    }
+
+    /**
+     * setColl
+     *
+     * This method will use offsetSet method to hydrate collection,
+     * to be sure each object are instance of timeline action
+     *
+     * @param array $coll
+     */
+    public function setColl(array $coll)
+    {
+        foreach($coll as $key => $value)
+        {
+            $this->offsetSet($key, $value);
+        }
+
         //this variable is useful coz filter may modify length of the collection
         $this->initial_count = count($this->coll);
     }
@@ -68,6 +86,10 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
+        if(false === $value instanceof TimelineAction) {
+            throw new \InvalidArgumentException('Items must extends TimelineAction');
+        }
+
         $this->coll[$offset] = $value;
     }
 
