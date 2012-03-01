@@ -1,4 +1,4 @@
-sHighcoTimelineBundle
+HighcoTimelineBundle
 ====================
 
 # How it works ?
