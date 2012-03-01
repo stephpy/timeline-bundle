@@ -1,6 +1,13 @@
 HighcoTimelineBundle
 ====================
 
+See for more informations:
+
+[filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
+[provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
+[renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
+[spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
+
 # How it works ?
 
 To have a timeline you have:
@@ -108,7 +115,7 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 # Tests
 
-**Warning, be sure you configured you're doctrine connection for test environement, else you'll have your schema droped !!!!!!!!**
+**Warning, be sure you configured your doctrine connection for test environement, else you'll have your schema droped !!!!!!!!**
 
 
 Todo
