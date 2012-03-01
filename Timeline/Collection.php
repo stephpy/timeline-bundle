@@ -13,7 +13,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
  */
 class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
-    protected $coll;
+    protected $coll = array();
     //this variable is useful coz filter may modify length of the collection
     protected $initial_count = 0;
 
@@ -24,7 +24,9 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function __construct(array $coll = array())
     {
-        $this->setColl($coll);
+        if(false === empty($coll)) {
+            $this->setColl($coll);
+        }
     }
 
     /**
