@@ -5,22 +5,25 @@ namespace Highco\TimelineBundle\Twig\Extension;
 use Highco\TimelineBundle\Entity\TimelineAction;
 
 /**
- * TimelineExtension
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1(at)gmail.com>
  */
 class TimelineExtension extends \Twig_Extension
 {
+    /**
+     * @var \Twig_Environment
+     */
     private $twig;
+
+    /**
+     * @var array
+     */
     private $config;
 
     /**
-     * __construct
-     *
      * @param \Twig_Environment $twig
-     * @param array $config
+     * @param array             $config
      */
     public function __construct(\Twig_Environment $twig, array $config)
     {
@@ -34,34 +37,30 @@ class TimelineExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'timeline_render' => new \Twig_Function_Method($this, 'timeline_render', array('is_safe' => array('html'))),
+            'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
         );
     }
 
     /**
-     * timeline_render
+     * @param TimelineAction  $timelineAction
+     * @param string|null     $template
      *
-     * @param TimelineAction $timeline_action
-     * @param string $template
-     * @return void
+     * @return string
      */
-    public function timeline_render(TimelineAction $timeline_action, $template = null)
+    public function renderTimeline(TimelineAction $timelineAction, $template = null)
     {
-        if(is_null($template))
-        {
-            $template = $this->getDefaultTemplate($timeline_action);
+        if (null === $template) {
+            $template = $this->getDefaultTemplate($timelineAction);
         }
 
         $parameters = array(
-            'timeline' => $timeline_action,
+            'timeline' => $timelineAction,
         );
 
         try {
             return $this->twig->render($template, $parameters);
         } catch(\Exception $e){
-
-            if(false === is_null($this->config['fallback']))
-            {
+            if (null !== $this->config['fallback']) {
                 return $this->twig->render($this->config['fallback'], $parameters);
             }
 
@@ -70,16 +69,17 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * getDefaultTemplate
+     * Returns the default template name.
      *
-     * @param TimelineAction $timeline_action
-     * @return void
+     * @param TimelineAction $timelineAction
+     *
+     * @return string
      */
-    public function getDefaultTemplate(TimelineAction $timeline_action)
+    public function getDefaultTemplate(TimelineAction $timelineAction)
     {
         return vsprintf('%s:%s.html.twig', array(
             $this->config['path'],
-            \strtolower($timeline_action->getVerb())
+            strtolower($timelineAction->getVerb())
         ));
     }
 
@@ -91,10 +91,5 @@ class TimelineExtension extends \Twig_Extension
     public function getName()
     {
         return 'timeline_render';
-    }
-
-    public function getTokenParsers()
-    {
-        return array();
     }
 }

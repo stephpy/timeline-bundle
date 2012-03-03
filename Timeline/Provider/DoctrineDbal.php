@@ -6,8 +6,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
- * DoctrineDbal
- *
  * @uses InterfaceProvider
  * @uses InterfaceEntityRetriever
  * @package HighcoTimelineBundle
@@ -16,16 +14,22 @@ use Highco\TimelineBundle\Model\TimelineAction;
  */
 class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
 {
+    /**
+     * @var ObjectManager
+     */
     private $em;
 
     /**
-     * __construct
-     *
+     * @var InterfaceEntityRetriever
+     */
+    private $entityRetriever;
+
+    /**
      * @param ObjectManager $em
      */
     public function __construct(ObjectManager $em)
     {
-        $this->em    = $em;
+        $this->em = $em;
     }
 
     /**
@@ -41,15 +45,17 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
      */
     public function getTimeline(array $params, $options = array())
     {
-        if(false === isset($params['subject_model']) || false === isset($params['subject_id']))
+        if (!isset($params['subject_model']) || !isset($params['subject_id'])) {
             throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
+        }
 
-        $offset       = isset($options['offset']) ? $options['offset'] : 0;
-        $limit        = isset($options['limit']) ? $options['limit'] : 10;
-        $status       = isset($options['status']) ? $options['status'] : 'published';
+        $offset = isset($options['offset']) ? $options['offset'] : 0;
+        $limit  = isset($options['limit']) ? $options['limit'] : 10;
+        $status = isset($options['status']) ? $options['status'] : 'published';
 
-        return $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
-            ->createQueryBuilder('ta')
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
+
+        $qb
             ->where('ta.subject_model = :subject_model')
             ->andWhere('ta.subject_id = :subject_id')
             ->andWhere('ta.status_current = :status')
@@ -59,15 +65,15 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
             ->setParameter('status', $status)
             ->setFirstResult($offset)
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
+    public function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
     {
         throw new \OutOfRangeException("This method is not available yet for DoctrineDbal");
     }
@@ -75,9 +81,9 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
     /**
      * {@inheritDoc}
      */
-    public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+    public function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null)
     {
-        $this->entity_retriever = $entity_retriever;
+        $this->entityRetriever = $entityRetriever;
     }
 
     /**
@@ -85,19 +91,18 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
      */
     public function find(array $ids)
     {
-        if(empty($ids))
-        {
+        if (empty($ids)) {
             return array();
         }
 
-        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')
-            ->createQueryBuilder('ta')
-            ->orderBy('ta.created_at', 'DESC')
-            ;
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
 
-        return $qb->add('where', $qb->expr()->in('ta.id', '?1'))
+        $qb
+            ->add('where', $qb->expr()->in('ta.id', '?1'))
+            ->orderBy('ta.created_at', 'DESC')
             ->setParameter(1, $ids)
-            ->getQuery()
-            ->getResult();
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 }

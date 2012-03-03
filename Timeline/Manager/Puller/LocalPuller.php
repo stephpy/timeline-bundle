@@ -5,8 +5,6 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
 
 /**
- * LocalPuller
- *
  * @uses AbstractPuller
  * @uses InterfacePuller
  * @package HighcoTimelineBundle
@@ -15,11 +13,12 @@ use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
  */
 class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, InterfacePullerFilterable
 {
+    /**
+     * @var InterfaceProvider
+     */
     private $provider;
 
     /**
-     * __construct
-     *
      * @param InterfaceProvider $provider
      */
     public function __construct(InterfaceProvider $provider)
@@ -28,26 +27,23 @@ class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, I
     }
 
     /**
-     * pull
-     *
      * @param string $type
-     * @param array $params
-     * @param array $options
-     * @return array or Exception
+     * @param array  $params
+     * @param array  $options
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return array
      */
     public function pull($type, $params, $options = array())
     {
-        switch($type)
-        {
+        switch($type) {
             case 'wall':
                 return $this->provider->getWall($params, $options);
-                break;
             case 'timeline':
                 return $this->provider->getTimeline($params, $options);
-                break;
-            default:
-                throw new \InvalidArgumentException('Unknown type on '.__CLASS__);
-                break;
         }
+
+        throw new \InvalidArgumentException('Unknown type on '.__CLASS__);
     }
 }

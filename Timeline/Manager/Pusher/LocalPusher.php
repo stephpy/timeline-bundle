@@ -2,14 +2,11 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager\Pusher;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-
 use Doctrine\Common\Persistence\ObjectManager;
+use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
 /**
- * LocalPusher
- *
  * @uses InterfacePusher
  * @package HighcoTimelineBundle
  * @version 1.0.0
@@ -17,14 +14,19 @@ use Highco\TimelineBundle\Timeline\Spread\Deployer;
  */
 class LocalPusher implements InterfacePusher
 {
+    /**
+     * @var ObjectManager
+     */
     private $em;
+
+    /**
+     * @var Deployer
+     */
     private $deployer;
 
     /**
-     * __construct
-     *
      * @param ObjectManager $em
-     * @param Deployer $deployer
+     * @param Deployer      $deployer
      */
     public function __construct(ObjectManager $em, Deployer $deployer)
     {
@@ -33,19 +35,17 @@ class LocalPusher implements InterfacePusher
     }
 
     /**
-     * push
+     * @param TimelineAction $timelineAction
      *
-     * @param TimelineAction $timeline_action
      * @return boolean
      */
-    public function push(TimelineAction $timeline_action)
+    public function push(TimelineAction $timelineAction)
     {
-        $this->em->persist($timeline_action);
+        $this->em->persist($timelineAction);
         $this->em->flush();
 
-        if($this->deployer->getDelivery() == Deployer::DELIVERY_IMMEDIATE)
-        {
-            $this->deployer->deploy($timeline_action);
+        if ($this->deployer->getDelivery() == Deployer::DELIVERY_IMMEDIATE) {
+            $this->deployer->deploy($timelineAction);
             return true;
         }
 

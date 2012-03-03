@@ -3,21 +3,28 @@
 namespace Highco\TimelineBundle\Timeline\Filter\DataHydrator;
 
 /**
- * Reference
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Reference
 {
+    /**
+     * @var string
+     */
     public $model;
+
+    /**
+     * @var object
+     */
     public $object;
+
+    /**
+     * @var string
+     */
     public $id;
 
     /**
-     * __construct
-     *
      * @param string $model
      * @param string $id
      */

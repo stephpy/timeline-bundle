@@ -2,14 +2,13 @@
 
 namespace Highco\TimelineBundle\DependencyInjection;
 
-use Highco\TimelineBundle\Timeline\Provider\InterfaceRequiresEntityRetriever;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\Definition\Processor;
+use Highco\TimelineBundle\Timeline\Provider\InterfaceRequiresEntityRetriever;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -37,13 +36,12 @@ class HighcoTimelineExtension extends Extension
         /* --- filters --- */
         $filters = $config['filters'];
         $definition = $container->getDefinition('highco.timeline.local.puller');
-        foreach($filters as $filter)
-        {
+        foreach ($filters as $filter) {
             $definition->addMethodCall('addFilter', array(new Reference($filter)));
         }
 
         /* --- spread --- */
-        $spread  = isset($config['spread']) ? $config['spread'] : array();
+        $spread = isset($config['spread']) ? $config['spread'] : array();
 
         $definition = $container->getDefinition('highco.timeline.spread.manager');
         $definition->addArgument(array(
@@ -56,10 +54,10 @@ class HighcoTimelineExtension extends Extension
 
         /* ---- entity retriever ---- */
         $entityRetriever = $config['entity_retriever'];
-        if(false === empty($entityRetriever)) {
+        if (!empty($entityRetriever)) {
             $entityRetriever = $container->getDefinition($entityRetriever);
 
-            if(false === is_null($entityRetriever)) {
+            if (null !== $entityRetriever) {
                 $providerDefinition->addMethodCall('setEntityRetriever', array($entityRetriever));
             }
 
@@ -81,10 +79,9 @@ class HighcoTimelineExtension extends Extension
     }
 
     /**
-     * mergeConfigs
-     *
      * @param array $configs
      * @param boolean $debug
+     *
      * @return array
      */
     private function mergeConfigs(array $configs, $debug)

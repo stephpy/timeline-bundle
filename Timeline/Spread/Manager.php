@@ -7,21 +7,28 @@ use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
 /**
- * Manager
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Manager
 {
+    /**
+     * @var \ArrayIterator
+     */
     protected $spreads;
+
+    /**
+     * @var EntryCollection
+     */
     protected $results;
+
+    /**
+     * @var array
+     */
     protected $options;
 
     /**
-     * __construct
-     *
      * @param array $options
      */
     public function __construct($options = array())
@@ -32,8 +39,6 @@ class Manager
     }
 
     /**
-     * add
-     *
      * @param InterfaceSpread $spread
      */
     public function add(InterfaceSpread $spread)
@@ -42,34 +47,27 @@ class Manager
     }
 
     /**
-     * process
-     *
-     * @param TimelineAction $timeline_action
+     * @param TimelineAction $timelineAction
      */
-    public function process(TimelineAction $timeline_action)
+    public function process(TimelineAction $timelineAction)
     {
         // can be defined on config.yml
-        if(isset($this->options['on_me']) && $this->options['on_me'])
-        {
+        if (isset($this->options['on_me']) && $this->options['on_me']) {
             $entry = new Entry();
-            $entry->subject_model = $timeline_action->getSubjectModel();
-            $entry->subject_id    = $timeline_action->getSubjectId();
+            $entry->subject_model = $timelineAction->getSubjectModel();
+            $entry->subject_id    = $timelineAction->getSubjectId();
 
             $this->results->set('GLOBAL', $entry);
         }
 
-        foreach($this->spreads as $spread)
-        {
-            if($spread->supports($timeline_action))
-            {
-                $spread->process($timeline_action, $this->results);
+        foreach ($this->spreads as $spread) {
+            if ($spread->supports($timelineAction)) {
+                $spread->process($timelineAction, $this->results);
             }
         }
     }
 
     /**
-     * getResults
-     *
      * @return array
      */
     public function getResults()
@@ -78,7 +76,7 @@ class Manager
     }
 
     /**
-     * clear the results of manager
+     * Clears the results of manager.
      */
     public function clear()
     {

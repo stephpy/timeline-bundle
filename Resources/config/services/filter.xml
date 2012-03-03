@@ -10,12 +10,11 @@
     </parameters>
 
     <services>
-		<service id="highco.timeline.filter.dupplicate_key" class="%highco.timeline.filter.dupplicate_key.class%" />
+        <service id="highco.timeline.filter.dupplicate_key" class="%highco.timeline.filter.dupplicate_key.class%" />
 
-		<service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
-			<argument type="service" id="highco.timeline.entity_manager" />
-		</service>
-
+        <service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
+            <argument type="service" id="highco.timeline.entity_manager" />
+        </service>
     </services>
 
 </container>

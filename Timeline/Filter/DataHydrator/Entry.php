@@ -6,31 +6,37 @@ use Symfony\Component\DependencyInjection\Container;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
- * Entry
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Entry
 {
-    private $timeline_action;
+    /**
+     * @var TimelineAction
+     */
+    private $timelineAction;
 
+    /**
+     * @var array
+     */
     private $references;
+
+    /**
+     * @var array
+     */
     private $referenceRelatedFields = array();
 
     /**
-     * __construct
-     *
-     * @param TimelineAction $timeline_action
+     * @param TimelineAction $timelineAction
      */
-    public function __construct(TimelineAction $timeline_action)
+    public function __construct(TimelineAction $timelineAction)
     {
-        $this->timeline_action = $timeline_action;
+        $this->timelineAction = $timelineAction;
     }
 
     /**
-     * build
+     *
      */
     public function build()
     {
@@ -40,8 +46,6 @@ class Entry
     }
 
     /**
-     * buildReference
-     *
      * @param string $name
      */
     public function buildReference($name)
@@ -50,27 +54,28 @@ class Entry
 
         $getSubjectMethod = sprintf('get%s', $key);
         // if object is already setted, we have not to continue
-        if(false === is_null($this->timeline_action->{$getSubjectMethod}()))
+        if (null !== $this->timelineAction->{$getSubjectMethod}()) {
             return;
+        }
 
         $getModelMethod = sprintf('%sModel', $getSubjectMethod);
         $getIdMethod    = sprintf('%sId', $getSubjectMethod);
 
         // if model and is are not define, we cannot build reference
-        if(is_null($this->timeline_action->{$getModelMethod}()) ||
-            is_null($this->timeline_action->{$getIdMethod}()))
+        if (null === $this->timelineAction->{$getModelMethod}()
+            || null === $this->timelineAction->{$getIdMethod}()) {
             return;
+        }
 
         $reference = new Reference(
-            $this->timeline_action->{$getModelMethod}(),
-            $this->timeline_action->{$getIdMethod}()
+            $this->timelineAction->{$getModelMethod}(),
+            $this->timelineAction->{$getIdMethod}()
         );
 
         $refKey = $reference->getKey();
         $this->references[$refKey] = $reference;
 
-        if(false === isset($this->referenceRelatedFields[$refKey]))
-        {
+        if (!isset($this->referenceRelatedFields[$refKey])) {
             $this->referenceRelatedFields[$refKey] = array();
         }
 
@@ -78,19 +83,13 @@ class Entry
     }
 
     /**
-     * hydrate
-     *
      * @param array $references
-     * @return void
      */
     public function hydrate($references)
     {
-        foreach($this->referenceRelatedFields as $key => $fields)
-        {
-            if(array_key_exists($key, $references) && false === is_null($references[$key]->object))
-            {
-                foreach($fields as $field)
-                {
+        foreach ($this->referenceRelatedFields as $key => $fields) {
+            if (array_key_exists($key, $references) && null !== $references[$key]->object) {
+                foreach ($fields as $field) {
                     $this->hydrateField($field, $references[$key]->object);
                 }
             }
@@ -98,8 +97,6 @@ class Entry
     }
 
     /**
-     * hydrateField
-     *
      * @param string $name
      * @param object $object
      */
@@ -108,12 +105,10 @@ class Entry
         $key = Container::camelize($name);
 
         $setSubjectMethod = sprintf('set%s', $key);
-        $this->timeline_action->{$setSubjectMethod}($object);
+        $this->timelineAction->{$setSubjectMethod}($object);
     }
 
     /**
-     * getReferences
-     *
      * @return array
      */
     public function getReferences()

@@ -2,6 +2,8 @@
 
 namespace Highco\TimelineBundle\Model;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * TimelineAction
  *
@@ -11,109 +13,105 @@ namespace Highco\TimelineBundle\Model;
  */
 class TimelineAction
 {
-    CONST STATUS_PENDING   = "pending";
-    CONST STATUS_PUBLISHED = "published";
-    CONST STATUS_FROZEN    = "frozen";
+    CONST STATUS_PENDING   = 'pending';
+    CONST STATUS_PUBLISHED = 'published';
+    CONST STATUS_FROZEN    = 'frozen';
 
     /**
-     * @var integer $id
+     * @var integer
      */
     protected $id;
 
     /**
-     * @var object $subject
+     * @var object
      */
     protected $subject;
 
     /**
-     * @var string $subject_model
+     * @var string
      */
     protected $subject_model;
 
     /**
-     * @var integer $subject_id
+     * @var integer
      */
     protected $subject_id;
 
     /**
-     * @var string $verb
+     * @var string
      */
     protected $verb;
 
     /**
-     * @var string $direct_complement_text
+     * @var string
      */
     protected $direct_complement_text;
 
     /**
-     * @var string $direct_complement_model
+     * @var string
      */
     protected $direct_complement_model;
 
     /**
-     * @var integer $direct_complement_id
+     * @var integer
      */
     protected $direct_complement_id;
 
     /**
-     * @var object $direct_complement
+     * @var object
      */
     protected $direct_complement;
 
     /**
-     * @var string $indirect_complement_text
+     * @var string
      */
     protected $indirect_complement_text;
 
-
     /**
-     * @var string $indirect_complement_model
+     * @var string
      */
     protected $indirect_complement_model;
 
     /**
-     * @var integer $indirect_complement_id
+     * @var integer
      */
     protected $indirect_complement_id;
 
     /**
-     * @var object $indirect_complement
+     * @var object
      */
     protected $indirect_complement;
 
     /**
-     * @var string $status_current
+     * @var string
      */
-    protected $status_current = "pending";
+    protected $status_current = 'pending';
 
     /**
-     * @var string $status_wanted
+     * @var string
      */
-    protected $status_wanted = "published";
+    protected $status_wanted = 'published';
 
     /**
-     * @var string $dupplicate_key
+     * @var string
      */
     protected $dupplicate_key;
 
     /**
-     * @var integer $dupplicate_priority
+     * @var integer
      */
     protected $dupplicate_priority;
 
     /**
-     * @var boolean $dupplicated
+     * @var boolean
      */
     protected $dupplicated = false;
 
     /**
-     * @var datetime $created_at
+     * @var \DateTime
      */
     protected $created_at;
 
-    /**
-     * __construct
-     */
     public function __construct()
     {
         $this->created_at     = new \DateTime();
@@ -122,8 +120,6 @@ class TimelineAction
     }
 
     /**
-     * isPublished
-     *
      * @return boolean
      */
     public function isPublished()
@@ -132,28 +128,22 @@ class TimelineAction
     }
 
     /**
-     * hasDupplicateKey
-     *
      * @return boolean
      */
     public function hasDupplicateKey()
     {
-        return false === is_null($this->dupplicate_key);
+        return null !== $this->dupplicate_key;
     }
 
     /**
-     * setIsDupplicated
-     *
      * @param boolean $v
      */
-    public function setIsDupplicated($v)
+    public function setIsDupplicated($dupplicated)
     {
-        $this->dupplicated = (bool) $v;
+        $this->dupplicated = (bool) $dupplicated;
     }
 
     /**
-     * isDupplicated
-     *
      * @return boolean
      */
     public function isDupplicated()
@@ -162,24 +152,21 @@ class TimelineAction
     }
 
     /**
-     * fromRequest
+     * @param Request $request
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
      * @return TimelineAction
      */
-    static public function fromRequest(\Symfony\Component\HttpFoundation\Request $request)
+    static public function fromRequest(Request $request)
     {
-        if(is_null($request->get('subject_model')))
-        {
+        if (null === $request->get('subject_model')) {
             throw new \InvalidArgumentException('You have to define subject model on "'.__CLASS__.'"');
         }
 
-        if(is_null($request->get('subject_id')))
-        {
+        if (null === $request->get('subject_id')) {
             throw new \InvalidArgumentException('You have to define subject id on "'.__CLASS__.'"');
         }
 
-        $subject  = new self();
+        $subject = new self();
         $subject->setSubjectModel($request->get('subject_model'));
         $subject->setSubjectId($request->get('subject_id'));
         $subject->setVerb($request->get('verb'));
@@ -194,8 +181,6 @@ class TimelineAction
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -204,17 +189,14 @@ class TimelineAction
     }
 
     /**
-     * create
-     *
      * @param object $subject
      * @param string $verb
-     * @param object $direct_complement
-     * @param object $indirect_complement
+     * @param object $directComplement
+     * @param object $indirectComplement
      */
-    public function create($subject, $verb, $direct_complement = null, $indirect_complement = null)
+    public function create($subject, $verb, $directComplement = null, $indirectComplement = null)
     {
-        if(false === is_object($subject))
-        {
+        if (!is_object($subject)) {
             throw new \InvalidArgumentException('Subject should be an object');
         }
 
@@ -224,50 +206,38 @@ class TimelineAction
 
         $this->setVerb((string) $verb);
 
-        if(false === is_object($direct_complement))
-        {
-            $this->setDirectComplementText($direct_complement);
-        }
-        else
-        {
-            $this->setDirectComplement($direct_complement);
-            $this->setDirectComplementModel(get_class($direct_complement));
-            $this->setDirectComplementId($direct_complement->getId());
+        if (!is_object($directComplement)) {
+            $this->setDirectComplementText($directComplement);
+        } else {
+            $this->setDirectComplement($directComplement);
+            $this->setDirectComplementModel(get_class($directComplement));
+            $this->setDirectComplementId($directComplement->getId());
         }
 
-        if(false === is_object($indirect_complement))
-        {
-            $this->setIndirectComplementText($indirect_complement);
+        if (!is_object($indirectComplement)) {
+            $this->setIndirectComplementText($indirectComplement);
+        } else {
+            $this->setIndirectComplement($indirectComplement);
+            $this->setIndirectComplementModel(get_class($indirectComplement));
+            $this->setIndirectComplementId($indirectComplement->getId());
         }
-        else
-        {
-            $this->setIndirectComplement($indirect_complement);
-            $this->setIndirectComplementModel(get_class($indirect_complement));
-            $this->setIndirectComplementId($indirect_complement->getId());
-        }
-
     }
 
     /**
-     * setSubject
-     *
      * @param object $subject
      */
     public function setSubject($subject)
     {
-        if(false === is_object($subject))
-        {
+        if (!is_object($subject)) {
             throw new \InvalidArgumentException('direct complement should be an object');
         }
 
-        $this->subject       = $subject;
+        $this->subject = $subject;
         $this->setSubjectModel(get_class($subject));
         $this->setSubjectId($subject->getId());
     }
 
     /**
-     * getSubject
-     *
      * @return object|null
      */
     public function getSubject()
@@ -276,8 +246,6 @@ class TimelineAction
     }
 
     /**
-     * Set subject_model
-     *
      * @param string $subjectModel
      */
     public function setSubjectModel($subjectModel)
@@ -286,8 +254,6 @@ class TimelineAction
     }
 
     /**
-     * Get subject_model
-     *
      * @return string
      */
     public function getSubjectModel()
@@ -296,8 +262,6 @@ class TimelineAction
     }
 
     /**
-     * Set subject_id
-     *
      * @param integer $subjectId
      */
     public function setSubjectId($subjectId)
@@ -306,8 +270,6 @@ class TimelineAction
     }
 
     /**
-     * Get subject_id
-     *
      * @return integer
      */
     public function getSubjectId()
@@ -316,8 +278,6 @@ class TimelineAction
     }
 
     /**
-     * Set verb
-     *
      * @param string $verb
      */
     public function setVerb($verb)
@@ -326,8 +286,6 @@ class TimelineAction
     }
 
     /**
-     * Get verb
-     *
      * @return string
      */
     public function getVerb()
@@ -336,14 +294,11 @@ class TimelineAction
     }
 
     /**
-     * setDirectComplement
-     *
      * @param object $direct_complement
      */
     public function setDirectComplement($direct_complement)
     {
-        if(false === is_object($direct_complement))
-        {
+        if (!is_object($direct_complement)) {
             throw new \InvalidArgumentException('direct complement should be an object');
         }
 
@@ -353,25 +308,18 @@ class TimelineAction
     }
 
     /**
-     * getDirectComplement
-     *
      * @return object|null
      */
     public function getDirectComplement()
     {
-        if(false === is_null($this->direct_complement))
-        {
+        if (null !== $this->direct_complement) {
             return $this->direct_complement;
         }
-        else
-        {
-            return $this->getDirectComplementText();
-        }
+
+        return $this->getDirectComplementText();
     }
 
     /**
-     * Set direct_complement_text
-     *
      * @param string $directComplementText
      */
     public function setDirectComplementText($directComplementText)
@@ -380,8 +328,6 @@ class TimelineAction
     }
 
     /**
-     * Get direct_complement_text
-     *
      * @return string
      */
     public function getDirectComplementText()
@@ -390,8 +336,6 @@ class TimelineAction
     }
 
     /**
-     * Set direct_complement_model
-     *
      * @param string $directComplementModel
      */
     public function setDirectComplementModel($directComplementModel)
@@ -400,8 +344,6 @@ class TimelineAction
     }
 
     /**
-     * Get direct_complement_model
-     *
      * @return string
      */
     public function getDirectComplementModel()
@@ -410,8 +352,6 @@ class TimelineAction
     }
 
     /**
-     * Set direct_complement_id
-     *
      * @param integer $directComplementId
      */
     public function setDirectComplementId($directComplementId)
@@ -420,8 +360,6 @@ class TimelineAction
     }
 
     /**
-     * Get direct_complement_id
-     *
      * @return integer
      */
     public function getDirectComplementId()
@@ -430,26 +368,21 @@ class TimelineAction
     }
 
     /**
-     * setIndirectComplement
-     *
-     * @param object $indirect_complement
+     * @param object $indirectComplement
      */
-    public function setIndirectComplement($indirect_complement)
+    public function setIndirectComplement($indirectComplement)
     {
-        if(false === is_object($indirect_complement))
-        {
+        if (!is_object($indirectComplement)) {
             throw new \InvalidArgumentException('indirect complement should be an object');
         }
 
-        $this->indirect_complement = $indirect_complement;
-        $this->setIndirectComplementModel(get_class($indirect_complement));
-        $this->setIndirectComplementId($indirect_complement->getId());
+        $this->indirect_complement = $indirectComplement;
+        $this->setIndirectComplementModel(get_class($indirectComplement));
+        $this->setIndirectComplementId($indirectComplement->getId());
 
     }
 
     /**
-     * getIndirectComplement
-     *
      * @return object|null
      */
     public function getIndirectComplement()
@@ -458,8 +391,6 @@ class TimelineAction
     }
 
     /**
-     * Set indirect_complement_text
-     *
      * @param string $indirectComplementText
      */
     public function setIndirectComplementText($indirectComplementText)
@@ -468,8 +399,6 @@ class TimelineAction
     }
 
     /**
-     * Get indirect_complement_text
-     *
      * @return string
      */
     public function getIndirectComplementText()
@@ -478,8 +407,6 @@ class TimelineAction
     }
 
     /**
-     * Set indirect_complement_model
-     *
      * @param string $indirectComplementModel
      */
     public function setIndirectComplementModel($indirectComplementModel)
@@ -488,8 +415,6 @@ class TimelineAction
     }
 
     /**
-     * Get indirect_complement_model
-     *
      * @return string
      */
     public function getIndirectComplementModel()
@@ -498,8 +423,6 @@ class TimelineAction
     }
 
     /**
-     * Set indirect_complement_id
-     *
      * @param integer $indirectComplementId
      */
     public function setIndirectComplementId($indirectComplementId)
@@ -508,8 +431,6 @@ class TimelineAction
     }
 
     /**
-     * Get indirect_complement_id
-     *
      * @return integer
      */
     public function getIndirectComplementId()
@@ -518,14 +439,13 @@ class TimelineAction
     }
 
     /**
-     * isValidStatus
+     * @param string $status
      *
-     * @param string $v
      * @return boolean
      */
-    public function isValidStatus($v)
+    public function isValidStatus($status)
     {
-        return in_array((string) $v, array(
+        return in_array((string) $status, array(
             self::STATUS_PENDING,
             self::STATUS_PUBLISHED,
             self::STATUS_FROZEN,
@@ -533,14 +453,11 @@ class TimelineAction
     }
 
     /**
-     * Set status_current
-     *
      * @param string $statusCurrent
      */
     public function setStatusCurrent($statusCurrent)
     {
-        if(false === $this->isValidStatus($statusCurrent))
-        {
+        if (!$this->isValidStatus($statusCurrent)) {
             throw new \InvalidArgumentException('Status "'.$statusCurrent.'" is not valid');
         }
 
@@ -548,8 +465,6 @@ class TimelineAction
     }
 
     /**
-     * Get status_current
-     *
      * @return string
      */
     public function getStatusCurrent()
@@ -558,14 +473,11 @@ class TimelineAction
     }
 
     /**
-     * Set status_wanted
-     *
      * @param string $statusWanted
      */
     public function setStatusWanted($statusWanted)
     {
-        if(false === $this->isValidStatus($statusWanted))
-        {
+        if (!$this->isValidStatus($statusWanted)) {
             throw new \InvalidArgumentException('Status "'.$statusWanted.'" is not valid');
         }
 
@@ -573,8 +485,6 @@ class TimelineAction
     }
 
     /**
-     * Get status_wanted
-     *
      * @return string
      */
     public function getStatusWanted()
@@ -583,8 +493,6 @@ class TimelineAction
     }
 
     /**
-     * Set dupplicate_key
-     *
      * @param string $dupplicateKey
      */
     public function setDupplicateKey($dupplicateKey)
@@ -593,8 +501,6 @@ class TimelineAction
     }
 
     /**
-     * Get dupplicate_key
-     *
      * @return string
      */
     public function getDupplicateKey()
@@ -603,8 +509,6 @@ class TimelineAction
     }
 
     /**
-     * Set dupplicate_priority
-     *
      * @param integer $dupplicatePriority
      */
     public function setDupplicatePriority($dupplicatePriority)
@@ -613,8 +517,6 @@ class TimelineAction
     }
 
     /**
-     * Get dupplicate_priority
-     *
      * @return integer
      */
     public function getDupplicatePriority()
@@ -623,8 +525,6 @@ class TimelineAction
     }
 
     /**
-     * Set created_at
-     *
      * @param datetime $createdAt
      */
     public function setCreatedAt($createdAt)

@@ -18,4 +18,5 @@
             <argument type="service" id="highco.timeline.entity_manager" />
         </service>
     </services>
+
 </container>
