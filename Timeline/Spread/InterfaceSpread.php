@@ -6,8 +6,6 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 
 /**
- * Spread
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
@@ -15,20 +13,17 @@ use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 interface InterfaceSpread
 {
     /**
-     * supports
-     *
      * You spread class is support the timeline action ?
      *
-     * @param TimelineAction $timeline_action
+     * @param TimelineAction $timelineAction
+     *
      * @return boolean
      */
-    public function supports(TimelineAction $timeline_action);
+    function supports(TimelineAction $timelineAction);
 
     /**
-     * process
-     *
-     * @param TimelineAction $timeline_action
+     * @param TimelineAction  $timelineAction
      * @param EntryCollection $coll
      */
-    public function process(TimelineAction $timeline_action, EntryCollection $coll);
+    function process(TimelineAction $timelineAction, EntryCollection $coll);
 }

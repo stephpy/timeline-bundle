@@ -9,75 +9,74 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Collection;
 
 /**
- * Manager
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Manager
 {
+    /**
+     * @var InterfacePusher
+     */
     protected $pusher;
+
+    /**
+     * @var InterfacePuller
+     */
     protected $puller;
 
     /**
-     * push
+     * @param TimelineAction $timelineAction
      *
-     * @param TimelineAction $timeline_action
      * @return boolean
      */
-    public function push(TimelineAction $action)
+    public function push(TimelineAction $timelineAction)
     {
-        return $this->pusher->push($action);
+        return $this->pusher->push($timelineAction);
     }
 
     /**
-     * getWall
-     *
-     * @param string $subject_model
-     * @param string $subject_id
+     * @param string $subjectModel
+     * @param string $subjectId
      * @param string $context default GLOBAL
-     * @param array $options
+     * @param array  $options
+     *
      * @return array
      */
-    public function getWall($subject_model, $subject_id, $context = "GLOBAL", $options = array())
+    public function getWall($subjectModel, $subjectId, $context = 'GLOBAL', $options = array())
     {
         $params = array(
-            'subject_model' => $subject_model,
-            'subject_id'    => $subject_id,
+            'subject_model' => $subjectModel,
+            'subject_id'    => $subjectId,
             'context'       => $context,
         );
 
         $results = new Collection($this->puller->pull('wall', $params, $options));
 
-        if($this->puller instanceof InterfacePullerFilterable)
-        {
+        if ($this->puller instanceof InterfacePullerFilterable) {
             $results = $this->puller->filter($results);
         }
 
         return $results;
-
     }
 
     /**
-     * getTimeline
-     *
-     * @param string $subject_model
-     * @param string $subject_id
+     * @param string $subjectModel
+     * @param string $subjectId
      * @param array $options
+     *
      * @return array
      */
-    public function getTimeline($subject_model, $subject_id, $options = array())
+    public function getTimeline($subjectModel, $subjectId, $options = array())
     {
         $params = array(
-            'subject_model' => $subject_model,
-            'subject_id'    => $subject_id,
+            'subject_model' => $subjectModel,
+            'subject_id'    => $subjectId,
         );
 
         $results = new Collection($this->puller->pull('timeline', $params, $options));
 
-        if($this->puller instanceof InterfacePullerFilterable)
-        {
+        if ($this->puller instanceof InterfacePullerFilterable) {
             $results = $this->puller->filter($results);
         }
 
@@ -85,8 +84,6 @@ class Manager
     }
 
     /**
-     * setPusher
-     *
      * @param InterfacePusher $pusher
      */
     public function setPusher(InterfacePusher $pusher)
@@ -95,8 +92,6 @@ class Manager
     }
 
     /**
-     * setPuller
-     *
      * @param InterfacePuller $puller
      */
     public function setPuller(InterfacePuller $puller)

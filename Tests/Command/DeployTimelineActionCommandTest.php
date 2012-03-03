@@ -45,7 +45,7 @@ class DeployTimelineActionCommandTest extends AbstractTestCase
             ->getResult();
 
         $this->assertEquals(count($results), 1);
-        foreach($results as $result)
+        foreach ($results as $result)
         {
             $this->assertEquals($result->getStatusWanted(), TimelineAction::STATUS_PUBLISHED);
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PENDING);
@@ -72,7 +72,7 @@ class DeployTimelineActionCommandTest extends AbstractTestCase
             ->getResult();
 
         $this->assertEquals(count($results), 1);
-        foreach($results as $result)
+        foreach ($results as $result)
         {
             $this->assertEquals($result->getStatusWanted(), TimelineAction::STATUS_FROZEN);
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PUBLISHED);
@@ -89,7 +89,7 @@ class DeployTimelineActionCommandTest extends AbstractTestCase
             ->getResult();
 
         $this->assertEquals(count($results), 2);
-        foreach($results as $result)
+        foreach ($results as $result)
         {
             $this->assertEquals($result->getStatusWanted(), TimelineAction::STATUS_PUBLISHED);
             $this->assertEquals($result->getStatusCurrent(), TimelineAction::STATUS_PENDING);

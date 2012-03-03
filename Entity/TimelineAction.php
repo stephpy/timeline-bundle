@@ -5,8 +5,6 @@ namespace Highco\TimelineBundle\Entity;
 use Highco\TimelineBundle\Model\TimelineAction as BaseTimelineAction;
 
 /**
- * TimelineAction
- *
  * @uses BaseTimelineAction
  * @package HighcoTimelineBundle
  * @version 1.0.0
@@ -15,56 +13,44 @@ use Highco\TimelineBundle\Model\TimelineAction as BaseTimelineAction;
 class TimelineAction extends BaseTimelineAction
 {
     /**
-     * setSubjectModel
-     *
-     * @param string $v
-     * @return void
+     * @param string $class
      */
-    public function setSubjectModel($v)
+    public function setSubjectModel($class)
     {
-        return parent::setSubjectModel($this->exceedDoctrineORMProxy($v));
+        parent::setSubjectModel($this->exceedDoctrineORMProxy($class));
     }
 
     /**
-     * setDirectComplementModel
-     *
-     * @param string $v
-     * @return void
+     * @param string $class
      */
-    public function setDirectComplementModel($v)
+    public function setDirectComplementModel($class)
     {
-        return parent::setDirectComplementModel($this->exceedDoctrineORMProxy($v));
+        parent::setDirectComplementModel($this->exceedDoctrineORMProxy($class));
     }
 
     /**
-     * setIndirectComplementModel
-     *
-     * @param string $v
-     * @return void
+     * @param string $class
      */
-    public function setIndirectComplementModel($v)
+    public function setIndirectComplementModel($class)
     {
-        return parent::setIndirectComplementModel($this->exceedDoctrineORMProxy($v));
+        parent::setIndirectComplementModel($this->exceedDoctrineORMProxy($class));
     }
 
     /**
-     * exceedDoctrineORMProxy
-     *
      * Because proxy of doctrine ORM are boring and spread supports will be impacted if we do not use it.
      *
      * @param string $class
+     *
      * @return string
      */
     public function exceedDoctrineORMProxy($class)
     {
-        if(empty($class))
-        {
+        if (empty($class)) {
             return $class;
         }
 
         $reflectionClass = new \ReflectionClass($class);
-        if($reflectionClass->implementsInterface('\Doctrine\ORM\Proxy\Proxy'))
-        {
+        if ($reflectionClass->implementsInterface('\Doctrine\ORM\Proxy\Proxy')) {
             $reflectionClass = $reflectionClass->getParentClass();
         }
 

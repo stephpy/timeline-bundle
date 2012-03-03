@@ -2,77 +2,81 @@
 
 namespace Highco\TimelineBundle\Timeline\Spread;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Deployer
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Deployer
 {
-    CONST DELIVERY_IMMEDIATE = "immediate";
-    CONST DELIVERY_WAIT      = "wait";
+    CONST DELIVERY_IMMEDIATE = 'immediate';
+    CONST DELIVERY_WAIT      = 'wait';
 
-    private $delivery = "immediate";
-    private $spread_manager;
+    /**
+     * @var string
+     */
+    private $delivery = 'immediate';
+
+    /**
+     * @var Manager
+     */
+    private $spreadManager;
+
+    /**
+     * @var InterfaceProvider
+     */
     private $provider;
+
+    /**
+     * @var ObjectManager
+     */
     private $em;
 
     /**
-     * __construct
-     *
-     * @param Manager $spread_manager
-     * @param ObjectManager $em
+     * @param Manager           $spreadManager
+     * @param ObjectManager     $em
      * @param InterfaceProvider $provider
      */
-    public function __construct(Manager $spread_manager, ObjectManager $em, InterfaceProvider $provider)
+    public function __construct(Manager $spreadManager, ObjectManager $em, InterfaceProvider $provider)
     {
-        $this->spread_manager = $spread_manager;
-        $this->em             = $em;
-        $this->provider       = $provider;
+        $this->spreadManager = $spreadManager;
+        $this->em            = $em;
+        $this->provider      = $provider;
     }
 
     /**
-     * deploy
-     *
-     * @param TimelineAction $timeline_action
+     * @param TimelineAction $timelineAction
      */
-    public function deploy(TimelineAction $timeline_action)
+    public function deploy(TimelineAction $timelineAction)
     {
-        $this->spread_manager->process($timeline_action);
-        $results = $this->spread_manager->getResults();
+        $this->spreadManager->process($timelineAction);
+        $results = $this->spreadManager->getResults();
 
-        if($timeline_action->getStatusWanted() !== "published")
-        {
+        if ($timelineAction->getStatusWanted() !== 'published') {
             return;
         }
 
-        foreach($results as $context => $values)
-        {
-            foreach($values as $entry)
-            {
-                $this->provider->add($timeline_action, $context, $entry->subject_model, $entry->subject_id);
+        foreach ($results as $context => $values) {
+            foreach ($values as $entry) {
+                $this->provider->add($timelineAction, $context, $entry->subject_model, $entry->subject_id);
             }
         }
 
-        $timeline_action->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
-        $timeline_action->setStatusWanted(TimelineAction::STATUS_FROZEN);
+        $timelineAction->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
+        $timelineAction->setStatusWanted(TimelineAction::STATUS_FROZEN);
 
-        $this->em->persist($timeline_action);
+        $this->em->persist($timelineAction);
         $this->em->flush();
 
         // we have to clear results from spread manager
-        $this->spread_manager->clear();
+        $this->spreadManager->clear();
     }
 
     /**
-     * setDelivery
-     *
      * @param string $delivery
      */
     public function setDelivery($delivery)
@@ -81,8 +85,6 @@ class Deployer
     }
 
     /**
-     * getDelivery
-     *
      * @return string
      */
     public function getDelivery()

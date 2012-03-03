@@ -29,7 +29,7 @@ class DupplicateKeyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($coll->count(), 2);
         $this->assertEquals($coll->getInitialCount(), 2);
-        foreach($coll as $result) {
+        foreach ($coll as $result) {
             $this->assertEquals($result->isDupplicated(), false);
         }
     }
@@ -51,7 +51,7 @@ class DupplicateKeyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($coll->count(), 2);
         $this->assertEquals($coll->getInitialCount(), 2);
-        foreach($coll as $result) {
+        foreach ($coll as $result) {
             $this->assertEquals($result->isDupplicated(), false);
         }
     }
@@ -76,7 +76,7 @@ class DupplicateKeyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($coll->count(), 2);
         $this->assertEquals($coll->getInitialCount(), 2);
-        foreach($coll as $result) {
+        foreach ($coll as $result) {
             $this->assertEquals($result->isDupplicated(), false);
         }
     }
