@@ -101,7 +101,7 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
     highco_timeline:
         filters:
-            - highco.timeline.filter.dupplicate_key # Filter dupplicate keys
+            - highco.timeline.filter.duplicate_key # Filter duplicate keys
             - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID
         spread:
             on_me: true                             # Spread each action on subject too

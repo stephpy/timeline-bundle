@@ -10,15 +10,15 @@ namespace Highco\TimelineBundle\Timeline\Spread\Entry;
 class EntryCollection implements \IteratorAggregate
 {
     protected $coll;
-    protected $dupplicateOnGlobal = true;
+    protected $duplicateOnGlobal = true;
 
     /**
      * __construct
      */
-    public function __construct($dupplicateOnGlobal = true)
+    public function __construct($duplicateOnGlobal = true)
     {
         $this->coll = new \ArrayIterator();
-        $this->dupplicateOnGlobal = $dupplicateOnGlobal;
+        $this->duplicateOnGlobal = $duplicateOnGlobal;
     }
 
     /**
@@ -43,7 +43,7 @@ class EntryCollection implements \IteratorAggregate
 
         $this->coll[$context][$entry->getIdent()] = $entry;
 
-        if ($this->dupplicateOnGlobal && $context !== 'GLOBAL') {
+        if ($this->duplicateOnGlobal && $context !== 'GLOBAL') {
             $this->set('GLOBAL', $entry);
         }
     }

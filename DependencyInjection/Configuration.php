@@ -28,7 +28,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('filters')
                     ->useAttributeAsKey('options')->prototype('scalar')->end()
                     ->defaultValue(array(
-                        'highco.timeline.filter.dupplicate_key',
+                        'highco.timeline.filter.duplicate_key',
                         'highco.timeline.filter.data_hydrator',
                     ))
                 ->end()

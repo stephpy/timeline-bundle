@@ -29,16 +29,16 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($action->isPublished());
     }
 
-    public function testHasDupplicateKey()
+    public function testHasDuplicateKey()
     {
         $action = new TimelineAction();
-        $action->setDupplicateKey(null);
+        $action->setDuplicateKey(null);
 
-        $this->assertFalse($action->hasDupplicateKey());
+        $this->assertFalse($action->hasDuplicateKey());
 
-        $action->setDupplicateKey('toto');
+        $action->setDuplicateKey('toto');
 
-        $this->assertTrue($action->hasDupplicateKey());
+        $this->assertTrue($action->hasDuplicateKey());
     }
 
     public function testCreate()

@@ -19,25 +19,25 @@ Then, you can add this filter to the list on config.yml
 
     highco_timeline:
         filters:
-            - highco.timeline.filter.dupplicate_key
+            - highco.timeline.filter.duplicate_key
             * your id service *
             - highco.timeline.filter.data_hydrator
 
 The order on filters on config.yml is important, filters will be executed on this order.
 
-## Filter "Dupplicate Key"
+## Filter "Duplicate Key"
 
 Imagine this use case:
 
     \Entity\User | 1 | friend | \Entity\User | 2
     \Entity\User | 2 | friend | \Entity\User | 1
 
-You may not want to show on your page these two identicals actions. By this way, you have **dupplicateKey** field.
+You may not want to show on your page these two identicals actions. By this way, you have **duplicateKey** field.
 
-When you'll create these two TimelineActions, define a same DupplicateKey .
+When you'll create these two TimelineActions, define a same DuplicateKey .
 
-After filtering with DupplicateKey filter, this will delete one of the two actions (the biggest dupplicatePriority field, if you not define it, it will delete second entry).
-It'll set to TRUE the **isDupplicated** field on timeline_action.
+After filtering with DuplicateKey filter, this will delete one of the two actions (the biggest duplicatePriority field, if you not define it, it will delete second entry).
+It'll set to TRUE the **isDuplicated** field on timeline_action.
 
 ## Filter "Data hydrator"
 

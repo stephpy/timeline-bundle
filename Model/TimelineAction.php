@@ -95,17 +95,17 @@ class TimelineAction
     /**
      * @var string
      */
-    protected $dupplicateKey;
+    protected $duplicateKey;
 
     /**
      * @var integer
      */
-    protected $dupplicatePriority;
+    protected $duplicatePriority;
 
     /**
      * @var boolean
      */
-    protected $dupplicated = false;
+    protected $duplicated = false;
 
     /**
      * @var \DateTime
@@ -130,25 +130,25 @@ class TimelineAction
     /**
      * @return boolean
      */
-    public function hasDupplicateKey()
+    public function hasDuplicateKey()
     {
-        return null !== $this->dupplicateKey;
+        return null !== $this->duplicateKey;
     }
 
     /**
      * @param boolean $v
      */
-    public function setIsDupplicated($dupplicated)
+    public function setIsDuplicated($duplicated)
     {
-        $this->dupplicated = (bool) $dupplicated;
+        $this->duplicated = (bool) $duplicated;
     }
 
     /**
      * @return boolean
      */
-    public function isDupplicated()
+    public function isDuplicated()
     {
-        return (bool) $this->dupplicated;
+        return (bool) $this->duplicated;
     }
 
     /**
@@ -493,35 +493,35 @@ class TimelineAction
     }
 
     /**
-     * @param string $dupplicateKey
+     * @param string $duplicateKey
      */
-    public function setDupplicateKey($dupplicateKey)
+    public function setDuplicateKey($duplicateKey)
     {
-        $this->dupplicateKey = $dupplicateKey;
+        $this->duplicateKey = $duplicateKey;
     }
 
     /**
      * @return string
      */
-    public function getDupplicateKey()
+    public function getDuplicateKey()
     {
-        return $this->dupplicateKey;
+        return $this->duplicateKey;
     }
 
     /**
-     * @param integer $dupplicatePriority
+     * @param integer $duplicatePriority
      */
-    public function setDupplicatePriority($dupplicatePriority)
+    public function setDuplicatePriority($duplicatePriority)
     {
-        $this->dupplicatePriority = $dupplicatePriority;
+        $this->duplicatePriority = $duplicatePriority;
     }
 
     /**
      * @return integer
      */
-    public function getDupplicatePriority()
+    public function getDuplicatePriority()
     {
-        return (int) $this->dupplicatePriority;
+        return (int) $this->duplicatePriority;
     }
 
     /**
@@ -557,8 +557,8 @@ class TimelineAction
             'indirectComplementId',
             'statusCurrent',
             'statusWanted',
-            'dupplicateKey',
-            'dupplicatePriority',
+            'duplicateKey',
+            'duplicatePriority',
             'createdAt',
         );
     }
