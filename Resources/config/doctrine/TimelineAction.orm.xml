@@ -10,33 +10,33 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="subject_model" column="subject_model" type="string" length="255" />
+        <field name="subjectModel" column="subject_model" type="string" length="255" />
 
-        <field name="subject_id" column="subject_id" type="integer" length="11" />
+        <field name="subjectId" column="subject_id" type="integer" length="11" />
 
         <field name="verb" column="verb" type="string" length="255" />
 
-        <field name="direct_complement_text" column="direct_complement_text" type="string" length="255" nullable="true" />
+        <field name="directComplementText" column="direct_complement_text" type="string" length="255" nullable="true" />
 
-        <field name="direct_complement_model" column="direct_complement_model" type="string" length="255" nullable="true" />
+        <field name="directComplementModel" column="direct_complement_model" type="string" length="255" nullable="true" />
 
-        <field name="direct_complement_id" column="direct_complement_id" type="integer" length="11" nullable="true" />
+        <field name="directComplementId" column="direct_complement_id" type="integer" length="11" nullable="true" />
 
-        <field name="indirect_complement_text" column="indirect_complement_text" type="string" length="255" nullable="true" />
+        <field name="indirectComplementText" column="indirect_complement_text" type="string" length="255" nullable="true" />
 
-        <field name="indirect_complement_model" column="indirect_complement_model" type="string" length="255" nullable="true" />
+        <field name="indirectComplementModel" column="indirect_complement_model" type="string" length="255" nullable="true" />
 
-        <field name="indirect_complement_id" column="indirect_complement_id" type="integer" length="11" nullable="true" />
+        <field name="indirectComplementId" column="indirect_complement_id" type="integer" length="11" nullable="true" />
 
-        <field name="status_current" column="status_current" type="string" />
+        <field name="statusCurrent" column="status_current" type="string" />
 
-        <field name="status_wanted" column="status_wanted" type="string" />
+        <field name="statusWanted" column="status_wanted" type="string" />
 
-        <field name="dupplicate_key" column="dupplicate_key" type="string" nullable="true" />
+        <field name="dupplicateKey" column="dupplicate_key" type="string" nullable="true" />
 
-        <field name="dupplicate_priority" column="dupplicate_priority" type="integer" nullable="true" />
+        <field name="dupplicatePriority" column="dupplicate_priority" type="integer" nullable="true" />
 
-        <field name="created_at" column="created_at" type="datetime" />
+        <field name="createdAt" column="created_at" type="datetime" />
 
     </entity>
 

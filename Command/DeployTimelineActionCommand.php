@@ -44,9 +44,9 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
         $qb = $em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
 
         $qb
-            ->where('ta.status_wanted = :status_wanted')
+            ->where('ta.statusWanted = :statusWanted')
             ->setMaxResults($limit)
-            ->setParameter('status_wanted', TimelineAction::STATUS_PUBLISHED)
+            ->setParameter('statusWanted', TimelineAction::STATUS_PUBLISHED)
         ;
 
         $results = $qb->getQuery()->getResult();

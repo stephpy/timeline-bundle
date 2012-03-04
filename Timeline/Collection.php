@@ -21,7 +21,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      *
      * @var int
      */
-    protected $initial_count = 0;
+    protected $initialCount = 0;
 
     /**
      * @param array $coll
@@ -46,7 +46,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
         }
 
         //this variable is useful coz filter may modify length of the collection
-        $this->initial_count = count($this->coll);
+        $this->initialCount = count($this->coll);
     }
 
     /**
@@ -111,6 +111,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
      */
     public function getInitialCount()
     {
-        return $this->initial_count;
+        return $this->initialCount;
     }
 }

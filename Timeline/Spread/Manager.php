@@ -35,7 +35,7 @@ class Manager
     {
         $this->spreads = new \ArrayIterator();
         $this->options = $options;
-        $this->results = new EntryCollection(isset($options['on_global_context']) ? $options['on_global_context'] : true);
+        $this->results = new EntryCollection(isset($options['onGlobalContext']) ? $options['onGlobalContext'] : true);
     }
 
     /**
@@ -52,10 +52,10 @@ class Manager
     public function process(TimelineAction $timelineAction)
     {
         // can be defined on config.yml
-        if (isset($this->options['on_me']) && $this->options['on_me']) {
+        if (isset($this->options['onMe']) && $this->options['onMe']) {
             $entry = new Entry();
-            $entry->subject_model = $timelineAction->getSubjectModel();
-            $entry->subject_id    = $timelineAction->getSubjectId();
+            $entry->subjectModel = $timelineAction->getSubjectModel();
+            $entry->subjectId    = $timelineAction->getSubjectId();
 
             $this->results->set('GLOBAL', $entry);
         }

@@ -62,7 +62,7 @@ class Deployer
 
         foreach ($results as $context => $values) {
             foreach ($values as $entry) {
-                $this->provider->add($timelineAction, $context, $entry->subject_model, $entry->subject_id);
+                $this->provider->add($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
             }
         }
 

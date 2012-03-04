@@ -19,12 +19,12 @@ Create the class:
         }
 
 
-        public function add(TimelineAction $timeline_action, $context, $subject_model, $subject_id)
+        public function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
         {
             // ...
         }
 
-        public function setEntityRetriever(InterfaceEntityRetriever $entity_retriever = null)
+        public function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null)
         {
             // ....
         }

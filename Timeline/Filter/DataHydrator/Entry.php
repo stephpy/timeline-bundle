@@ -41,8 +41,8 @@ class Entry
     public function build()
     {
         $this->buildReference('subject');
-        $this->buildReference('direct_complement');
-        $this->buildReference('indirect_complement');
+        $this->buildReference('directComplement');
+        $this->buildReference('indirectComplement');
     }
 
     /**

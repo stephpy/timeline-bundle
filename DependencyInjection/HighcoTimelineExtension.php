@@ -45,8 +45,8 @@ class HighcoTimelineExtension extends Extension
 
         $definition = $container->getDefinition('highco.timeline.spread.manager');
         $definition->addArgument(array(
-            'on_me' => isset($spread['on_me']) ? $spread['on_me'] : true,
-            'on_global_context' => isset($spread['on_global_context']) ? $spread['on_global_context'] : true,
+            'onMe' => isset($spread['on_me']) ? $spread['on_me'] : true,
+            'onGlobalContext' => isset($spread['on_global_context']) ? $spread['on_global_context'] : true,
         ));
 
         /* ---- provider ---- */

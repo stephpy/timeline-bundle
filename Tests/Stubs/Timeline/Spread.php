@@ -12,7 +12,7 @@ class Spread implements InterfaceSpread
 {
     protected $supports = true;
 
-    public function supports(TimelineAction $timeline_action)
+    public function supports(TimelineAction $timelineAction)
     {
         return $this->supports;
     }
@@ -22,11 +22,11 @@ class Spread implements InterfaceSpread
         $this->supports = (bool) $v;
     }
 
-    public function process(TimelineAction $timeline_action, EntryCollection $coll)
+    public function process(TimelineAction $timelineAction, EntryCollection $coll)
     {
         $entry = new Entry();
-        $entry->subject_model = "\EveryBody";
-        $entry->subject_id = 1;
+        $entry->subjectModel = "\EveryBody";
+        $entry->subjectId = 1;
 
         $coll->set('mytimeline', $entry);
     }

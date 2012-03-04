@@ -24,16 +24,16 @@ Create the class:
 
     class MySpread implements InterfaceSpread
     {
-        public function supports(TimelineAction $timeline_action)
+        public function supports(TimelineAction $timelineAction)
         {
             return true; //or false
         }
 
-        public function process(TimelineAction $timeline_action, EntryCollection $coll)
+        public function process(TimelineAction $timelineAction, EntryCollection $coll)
         {
             $entry = new Entry();
-            $entry->subject_model = "\MySubject";
-            $entry->subject_id = 1;
+            $entry->subjectModel = "\MySubject";
+            $entry->subjectId = 1;
 
             $coll->set('mytimeline', $entry);
         }

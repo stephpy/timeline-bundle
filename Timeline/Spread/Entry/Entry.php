@@ -11,14 +11,14 @@ namespace Highco\TimelineBundle\Timeline\Spread\Entry;
  */
 class Entry
 {
-    public $subject_model;
-    public $subject_id;
+    public $subjectModel;
+    public $subjectId;
 
     /**
      * @return string
      */
     public function getIdent()
     {
-        return sprintf('%s:%s', $this->subject_model, $this->subject_id);
+        return sprintf('%s:%s', $this->subjectModel, $this->subjectId);
     }
 }

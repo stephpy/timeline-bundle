@@ -17,7 +17,7 @@ class Redis implements InterfaceProvider
      * @var Client
      */
     private $redis;
-    
+
     /**
      * @var InterfaceEntityRetriever
      */
@@ -41,8 +41,8 @@ class Redis implements InterfaceProvider
      */
     public function getWall(array $params, $options = array())
     {
-        if (!isset($params['subject_model']) || !isset($params['subject_id'])) {
-            throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
+        if (!isset($params['subjectModel']) || !isset($params['subjectId'])) {
+            throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
         }
 
         $context    = $params['context'] ? (string) $params['context'] : 'GLOBAL';
@@ -50,7 +50,7 @@ class Redis implements InterfaceProvider
         $limit      = isset($options['limit']) ? $options['limit'] : 10;
         $limit      = $limit - 1; //coz redis return one more ...
 
-        $key        = $this->getKey($context, $params['subject_model'], $params['subject_id']);
+        $key        = $this->getKey($context, $params['subjectModel'], $params['subjectId']);
         $results    = $this->redis->zRevRange($key, $offset, ($offset + $limit));
 
         if (null === $this->entityRetriever) {

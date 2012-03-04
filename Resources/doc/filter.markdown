@@ -32,12 +32,12 @@ Imagine this use case:
     \Entity\User | 1 | friend | \Entity\User | 2
     \Entity\User | 2 | friend | \Entity\User | 1
 
-You may not want to show on your page these two identicals actions. By this way, you have **dupplicate_key** field.
+You may not want to show on your page these two identicals actions. By this way, you have **dupplicateKey** field.
 
 When you'll create these two TimelineActions, define a same DupplicateKey .
 
-After filtering with DupplicateKey filter, this will delete one of the two actions (the biggest dupplicate_priority field, if you not define it, it will delete second entry).
-It'll set to TRUE the **is_dupplicated** field on Timeline_aciton.
+After filtering with DupplicateKey filter, this will delete one of the two actions (the biggest dupplicatePriority field, if you not define it, it will delete second entry).
+It'll set to TRUE the **isDupplicated** field on timeline_action.
 
 ## Filter "Data hydrator"
 

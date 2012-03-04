@@ -30,12 +30,12 @@ class TimelineAction
     /**
      * @var string
      */
-    protected $subject_model;
+    protected $subjectModel;
 
     /**
      * @var integer
      */
-    protected $subject_id;
+    protected $subjectId;
 
     /**
      * @var string
@@ -45,62 +45,62 @@ class TimelineAction
     /**
      * @var string
      */
-    protected $direct_complement_text;
+    protected $directComplementText;
 
     /**
      * @var string
      */
-    protected $direct_complement_model;
+    protected $directComplementModel;
 
     /**
      * @var integer
      */
-    protected $direct_complement_id;
+    protected $directComplementId;
 
     /**
      * @var object
      */
-    protected $direct_complement;
+    protected $directComplement;
 
     /**
      * @var string
      */
-    protected $indirect_complement_text;
+    protected $indirectComplementText;
 
     /**
      * @var string
      */
-    protected $indirect_complement_model;
+    protected $indirectComplementModel;
 
     /**
      * @var integer
      */
-    protected $indirect_complement_id;
+    protected $indirectComplementId;
 
     /**
      * @var object
      */
-    protected $indirect_complement;
+    protected $indirectComplement;
 
     /**
      * @var string
      */
-    protected $status_current = 'pending';
+    protected $statusCurrent = 'pending';
 
     /**
      * @var string
      */
-    protected $status_wanted = 'published';
+    protected $statusWanted = 'published';
 
     /**
      * @var string
      */
-    protected $dupplicate_key;
+    protected $dupplicateKey;
 
     /**
      * @var integer
      */
-    protected $dupplicate_priority;
+    protected $dupplicatePriority;
 
     /**
      * @var boolean
@@ -110,13 +110,13 @@ class TimelineAction
     /**
      * @var \DateTime
      */
-    protected $created_at;
+    protected $createdAt;
 
     public function __construct()
     {
-        $this->created_at     = new \DateTime();
-        $this->status_current = self::STATUS_PENDING;
-        $this->status_wanted  = self::STATUS_PUBLISHED;
+        $this->createdAt     = new \DateTime();
+        $this->statusCurrent = self::STATUS_PENDING;
+        $this->statusWanted  = self::STATUS_PUBLISHED;
     }
 
     /**
@@ -124,7 +124,7 @@ class TimelineAction
      */
     public function isPublished()
     {
-        return $this->status_current == self::STATUS_PUBLISHED;
+        return $this->statusCurrent == self::STATUS_PUBLISHED;
     }
 
     /**
@@ -132,7 +132,7 @@ class TimelineAction
      */
     public function hasDupplicateKey()
     {
-        return null !== $this->dupplicate_key;
+        return null !== $this->dupplicateKey;
     }
 
     /**
@@ -250,7 +250,7 @@ class TimelineAction
      */
     public function setSubjectModel($subjectModel)
     {
-        $this->subject_model = $subjectModel;
+        $this->subjectModel = $subjectModel;
     }
 
     /**
@@ -258,7 +258,7 @@ class TimelineAction
      */
     public function getSubjectModel()
     {
-        return $this->subject_model;
+        return $this->subjectModel;
     }
 
     /**
@@ -266,7 +266,7 @@ class TimelineAction
      */
     public function setSubjectId($subjectId)
     {
-        $this->subject_id = $subjectId;
+        $this->subjectId = $subjectId;
     }
 
     /**
@@ -274,7 +274,7 @@ class TimelineAction
      */
     public function getSubjectId()
     {
-        return $this->subject_id;
+        return $this->subjectId;
     }
 
     /**
@@ -294,17 +294,17 @@ class TimelineAction
     }
 
     /**
-     * @param object $direct_complement
+     * @param object $directComplement
      */
-    public function setDirectComplement($direct_complement)
+    public function setDirectComplement($directComplement)
     {
-        if (!is_object($direct_complement)) {
+        if (!is_object($directComplement)) {
             throw new \InvalidArgumentException('direct complement should be an object');
         }
 
-        $this->direct_complement       = $direct_complement;
-        $this->setDirectComplementModel(get_class($direct_complement));
-        $this->setDirectComplementId($direct_complement->getId());
+        $this->directComplement       = $directComplement;
+        $this->setDirectComplementModel(get_class($directComplement));
+        $this->setDirectComplementId($directComplement->getId());
     }
 
     /**
@@ -312,8 +312,8 @@ class TimelineAction
      */
     public function getDirectComplement()
     {
-        if (null !== $this->direct_complement) {
-            return $this->direct_complement;
+        if (null !== $this->directComplement) {
+            return $this->directComplement;
         }
 
         return $this->getDirectComplementText();
@@ -324,7 +324,7 @@ class TimelineAction
      */
     public function setDirectComplementText($directComplementText)
     {
-        $this->direct_complement_text = $directComplementText;
+        $this->directComplementText = $directComplementText;
     }
 
     /**
@@ -332,7 +332,7 @@ class TimelineAction
      */
     public function getDirectComplementText()
     {
-        return $this->direct_complement_text;
+        return $this->directComplementText;
     }
 
     /**
@@ -340,7 +340,7 @@ class TimelineAction
      */
     public function setDirectComplementModel($directComplementModel)
     {
-        $this->direct_complement_model = $directComplementModel;
+        $this->directComplementModel = $directComplementModel;
     }
 
     /**
@@ -348,7 +348,7 @@ class TimelineAction
      */
     public function getDirectComplementModel()
     {
-        return $this->direct_complement_model;
+        return $this->directComplementModel;
     }
 
     /**
@@ -356,7 +356,7 @@ class TimelineAction
      */
     public function setDirectComplementId($directComplementId)
     {
-        $this->direct_complement_id = $directComplementId;
+        $this->directComplementId = $directComplementId;
     }
 
     /**
@@ -364,7 +364,7 @@ class TimelineAction
      */
     public function getDirectComplementId()
     {
-        return $this->direct_complement_id;
+        return $this->directComplementId;
     }
 
     /**
@@ -376,7 +376,7 @@ class TimelineAction
             throw new \InvalidArgumentException('indirect complement should be an object');
         }
 
-        $this->indirect_complement = $indirectComplement;
+        $this->indirectComplement = $indirectComplement;
         $this->setIndirectComplementModel(get_class($indirectComplement));
         $this->setIndirectComplementId($indirectComplement->getId());
 
@@ -387,7 +387,7 @@ class TimelineAction
      */
     public function getIndirectComplement()
     {
-        return $this->indirect_complement;
+        return $this->indirectComplement;
     }
 
     /**
@@ -395,7 +395,7 @@ class TimelineAction
      */
     public function setIndirectComplementText($indirectComplementText)
     {
-        $this->indirect_complement_text = $indirectComplementText;
+        $this->indirectComplementText = $indirectComplementText;
     }
 
     /**
@@ -403,7 +403,7 @@ class TimelineAction
      */
     public function getIndirectComplementText()
     {
-        return $this->indirect_complement_text;
+        return $this->indirectComplementText;
     }
 
     /**
@@ -411,7 +411,7 @@ class TimelineAction
      */
     public function setIndirectComplementModel($indirectComplementModel)
     {
-        $this->indirect_complement_model = $indirectComplementModel;
+        $this->indirectComplementModel = $indirectComplementModel;
     }
 
     /**
@@ -419,7 +419,7 @@ class TimelineAction
      */
     public function getIndirectComplementModel()
     {
-        return $this->indirect_complement_model;
+        return $this->indirectComplementModel;
     }
 
     /**
@@ -427,7 +427,7 @@ class TimelineAction
      */
     public function setIndirectComplementId($indirectComplementId)
     {
-        $this->indirect_complement_id = $indirectComplementId;
+        $this->indirectComplementId = $indirectComplementId;
     }
 
     /**
@@ -435,7 +435,7 @@ class TimelineAction
      */
     public function getIndirectComplementId()
     {
-        return $this->indirect_complement_id;
+        return $this->indirectComplementId;
     }
 
     /**
@@ -461,7 +461,7 @@ class TimelineAction
             throw new \InvalidArgumentException('Status "'.$statusCurrent.'" is not valid');
         }
 
-        $this->status_current = $statusCurrent;
+        $this->statusCurrent = $statusCurrent;
     }
 
     /**
@@ -469,7 +469,7 @@ class TimelineAction
      */
     public function getStatusCurrent()
     {
-        return $this->status_current;
+        return $this->statusCurrent;
     }
 
     /**
@@ -481,7 +481,7 @@ class TimelineAction
             throw new \InvalidArgumentException('Status "'.$statusWanted.'" is not valid');
         }
 
-        $this->status_wanted = $statusWanted;
+        $this->statusWanted = $statusWanted;
     }
 
     /**
@@ -489,7 +489,7 @@ class TimelineAction
      */
     public function getStatusWanted()
     {
-        return $this->status_wanted;
+        return $this->statusWanted;
     }
 
     /**
@@ -497,7 +497,7 @@ class TimelineAction
      */
     public function setDupplicateKey($dupplicateKey)
     {
-        $this->dupplicate_key = $dupplicateKey;
+        $this->dupplicateKey = $dupplicateKey;
     }
 
     /**
@@ -505,7 +505,7 @@ class TimelineAction
      */
     public function getDupplicateKey()
     {
-        return $this->dupplicate_key;
+        return $this->dupplicateKey;
     }
 
     /**
@@ -513,7 +513,7 @@ class TimelineAction
      */
     public function setDupplicatePriority($dupplicatePriority)
     {
-        $this->dupplicate_priority = $dupplicatePriority;
+        $this->dupplicatePriority = $dupplicatePriority;
     }
 
     /**
@@ -521,7 +521,7 @@ class TimelineAction
      */
     public function getDupplicatePriority()
     {
-        return (int) $this->dupplicate_priority;
+        return (int) $this->dupplicatePriority;
     }
 
     /**
@@ -529,37 +529,37 @@ class TimelineAction
      */
     public function setCreatedAt($createdAt)
     {
-        $this->created_at = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get created_at
+     * Get createdAt
      *
      * @return datetime
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     public function __sleep()
     {
         return array(
             'id',
-            'subject_model',
-            'subject_id',
+            'subjectModel',
+            'subjectId',
             'verb',
-            'direct_complement_text',
-            'direct_complement_model',
-            'direct_complement_id',
-            'indirect_complement_text',
-            'indirect_complement_model',
-            'indirect_complement_id',
-            'status_current',
-            'status_wanted',
-            'dupplicate_key',
-            'dupplicate_priority',
-            'created_at',
+            'directComplementText',
+            'directComplementModel',
+            'directComplementId',
+            'indirectComplementText',
+            'indirectComplementModel',
+            'indirectComplementId',
+            'statusCurrent',
+            'statusWanted',
+            'dupplicateKey',
+            'dupplicatePriority',
+            'createdAt',
         );
     }
 }

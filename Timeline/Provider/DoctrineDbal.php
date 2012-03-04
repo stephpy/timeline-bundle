@@ -45,8 +45,8 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
      */
     public function getTimeline(array $params, $options = array())
     {
-        if (!isset($params['subject_model']) || !isset($params['subject_id'])) {
-            throw new \InvalidArgumentException('You have to define a "subject_model" and a "subject_id" to pull data');
+        if (!isset($params['subjectModel']) || !isset($params['subjectId'])) {
+            throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
         }
 
         $offset = isset($options['offset']) ? $options['offset'] : 0;
@@ -56,12 +56,12 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
         $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
 
         $qb
-            ->where('ta.subject_model = :subject_model')
-            ->andWhere('ta.subject_id = :subject_id')
-            ->andWhere('ta.status_current = :status')
-            ->orderBy('ta.created_at', 'DESC')
-            ->setParameter('subject_model', $params['subject_model'])
-            ->setParameter('subject_id', $params['subject_id'])
+            ->where('ta.subjectModel = :subjectModel')
+            ->andWhere('ta.subjectId = :subjectId')
+            ->andWhere('ta.statusCurrent = :status')
+            ->orderBy('ta.createdAt', 'DESC')
+            ->setParameter('subjectModel', $params['subjectModel'])
+            ->setParameter('subjectId', $params['subjectId'])
             ->setParameter('status', $status)
             ->setFirstResult($offset)
             ->setMaxResults($limit)
@@ -99,7 +99,7 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
 
         $qb
             ->add('where', $qb->expr()->in('ta.id', '?1'))
-            ->orderBy('ta.created_at', 'DESC')
+            ->orderBy('ta.createdAt', 'DESC')
             ->setParameter(1, $ids)
         ;
 

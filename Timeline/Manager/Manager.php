@@ -46,9 +46,9 @@ class Manager
     public function getWall($subjectModel, $subjectId, $context = 'GLOBAL', $options = array())
     {
         $params = array(
-            'subject_model' => $subjectModel,
-            'subject_id'    => $subjectId,
-            'context'       => $context,
+            'subjectModel' => $subjectModel,
+            'subjectId'    => $subjectId,
+            'context'      => $context,
         );
 
         $results = new Collection($this->puller->pull('wall', $params, $options));
@@ -70,8 +70,8 @@ class Manager
     public function getTimeline($subjectModel, $subjectId, $options = array())
     {
         $params = array(
-            'subject_model' => $subjectModel,
-            'subject_id'    => $subjectId,
+            'subjectModel' => $subjectModel,
+            'subjectId'    => $subjectId,
         );
 
         $results = new Collection($this->puller->pull('timeline', $params, $options));
