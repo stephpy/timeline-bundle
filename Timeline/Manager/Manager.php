@@ -2,9 +2,9 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager;
 
-use Highco\TimelineBundle\Timeline\Manager\Pusher\InterfacePusher;
-use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePuller;
-use Highco\TimelineBundle\Timeline\Manager\Puller\InterfacePullerFilterable;
+use Highco\TimelineBundle\Timeline\Manager\Pusher\PusherInterface;
+use Highco\TimelineBundle\Timeline\Manager\Puller\PullerInterface;
+use Highco\TimelineBundle\Timeline\Manager\Puller\PullerFilterableInterface;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Collection;
 
@@ -16,12 +16,12 @@ use Highco\TimelineBundle\Timeline\Collection;
 class Manager
 {
     /**
-     * @var InterfacePusher
+     * @var PusherInterface
      */
     protected $pusher;
 
     /**
-     * @var InterfacePuller
+     * @var PullerInterface
      */
     protected $puller;
 
@@ -53,7 +53,7 @@ class Manager
 
         $results = new Collection($this->puller->pull('wall', $params, $options));
 
-        if ($this->puller instanceof InterfacePullerFilterable) {
+        if ($this->puller instanceof PullerFilterableInterface) {
             $results = $this->puller->filter($results);
         }
 
@@ -76,7 +76,7 @@ class Manager
 
         $results = new Collection($this->puller->pull('timeline', $params, $options));
 
-        if ($this->puller instanceof InterfacePullerFilterable) {
+        if ($this->puller instanceof PullerFilterableInterface) {
             $results = $this->puller->filter($results);
         }
 
@@ -84,17 +84,17 @@ class Manager
     }
 
     /**
-     * @param InterfacePusher $pusher
+     * @param PusherInterface $pusher
      */
-    public function setPusher(InterfacePusher $pusher)
+    public function setPusher(PusherInterface $pusher)
     {
         $this->pusher = $pusher;
     }
 
     /**
-     * @param InterfacePuller $puller
+     * @param PullerInterface $puller
      */
-    public function setPuller(InterfacePuller $puller)
+    public function setPuller(PullerInterface $puller)
     {
         $this->puller = $puller;
     }

@@ -3,12 +3,12 @@
 namespace Highco\TimelineBundle\Timeline\Filter;
 
 /**
- * @uses InterfaceFilter
+ * @uses FilterInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DuplicateKey implements InterfaceFilter
+class DuplicateKey implements FilterInterface
 {
     /**
      * @param array $results

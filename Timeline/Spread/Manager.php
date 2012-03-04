@@ -39,9 +39,9 @@ class Manager
     }
 
     /**
-     * @param InterfaceSpread $spread
+     * @param SpreadInterface $spread
      */
-    public function add(InterfaceSpread $spread)
+    public function add(SpreadInterface $spread)
     {
         $this->spreads[] = $spread;
     }

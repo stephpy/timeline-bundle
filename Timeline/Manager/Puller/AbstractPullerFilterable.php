@@ -2,8 +2,8 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
-use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
-use Highco\TimelineBundle\Timeline\Filter\InterfaceFilter;
+use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 
 /**
  * @abstract
@@ -19,17 +19,17 @@ abstract class AbstractPullerFilterable
     protected $filters = array();
 
     /**
-     * @param InterfaceFilter $filter
+     * @param FilterInterface $filter
      */
-    public function addFilter(InterfaceFilter $filter)
+    public function addFilter(FilterInterface $filter)
     {
         $this->filters[] = $filter;
     }
 
     /**
-     * @param InterfaceFilter $filter
+     * @param FilterInterface $filter
      */
-    public function removeFilter(InterfaceFilter $filter)
+    public function removeFilter(FilterInterface $filter)
     {
         foreach ($this->filters as $key => $filterExisting) {
             if ($filterExisting == $filter) {

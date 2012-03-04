@@ -7,7 +7,7 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfacePuller
+interface PullerInterface
 {
     /**
      * Pull results

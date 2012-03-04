@@ -6,12 +6,12 @@ use Predis\Client;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
- * @uses InterfaceProvider
+ * @uses ProviderInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Redis implements InterfaceProvider
+class Redis implements ProviderInterface
 {
     /**
      * @var Client
@@ -19,7 +19,7 @@ class Redis implements InterfaceProvider
     private $redis;
 
     /**
-     * @var InterfaceEntityRetriever
+     * @var EntityRetrieverInterface
      */
     private $entityRetriever;
 
@@ -65,7 +65,7 @@ class Redis implements InterfaceProvider
      */
     public function getTimeline(array $params, $options = array())
     {
-        if (null === $this->entityRetriever || !$this->entityRetriever instanceof InterfaceProvider) {
+        if (null === $this->entityRetriever || !$this->entityRetriever instanceof ProviderInterface) {
             throw new \Exception('Redis cannot return a list of timeline action from storage, you have to give him the principal storage as entity retriever');
         }
 
@@ -85,7 +85,7 @@ class Redis implements InterfaceProvider
     /**
      * {@inheritDoc}
      */
-    public function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null)
+    public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
     {
         $this->entityRetriever = $entityRetriever;
     }

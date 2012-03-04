@@ -4,9 +4,9 @@
 
 Create the class and add it as a service:
 
-    use Highco\TimelineBundle\Timeline\Filter\InterfaceFilter;
+    use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 
-    MyOwnFilter implements InterfaceFilter
+    MyOwnFilter implements FilterInterface
     {
         public function filter($results)
         {

@@ -7,7 +7,7 @@ namespace Highco\TimelineBundle\Timeline\Provider;
  * @version 1.0.0
  * @authort stephane py <py.stephane1(at)gmail.com>
  */
-interface InterfaceEntityRetriever
+interface EntityRetrieverInterface
 {
     /**
      * An array of id is given an return with an array of entity/models/doc

@@ -6,12 +6,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Timeline\Filter\DataHydrator\Entry;
 
 /**
- * @uses InterfaceFilter
+ * @uses FilterInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DataHydrator implements InterfaceFilter
+class DataHydrator implements FilterInterface
 {
     /**
      * @var array

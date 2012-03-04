@@ -7,7 +7,7 @@ namespace Highco\TimelineBundle\Timeline\Filter;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfaceFilter
+interface FilterInterface
 {
     /**
      * This action will filters each results given in parameters

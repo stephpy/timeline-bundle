@@ -9,7 +9,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfacePusher
+interface PusherInterface
 {
     /**
      * @param TimelineAction $timelineAction

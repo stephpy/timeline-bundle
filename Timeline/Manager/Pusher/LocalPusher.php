@@ -7,12 +7,12 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
 /**
- * @uses InterfacePusher
+ * @uses PusherInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class LocalPusher implements InterfacePusher
+class LocalPusher implements PusherInterface
 {
     /**
      * @var ObjectManager

@@ -2,26 +2,27 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
-use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
+use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 
 /**
  * @uses AbstractPuller
- * @uses InterfacePuller
+ * @uses PullerInterface
+ * @uses PullerFilterableInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class LocalPuller extends AbstractPullerFilterable implements InterfacePuller, InterfacePullerFilterable
+class LocalPuller extends AbstractPullerFilterable implements PullerInterface, PullerFilterableInterface
 {
     /**
-     * @var InterfaceProvider
+     * @var ProviderInterface
      */
     private $provider;
 
     /**
-     * @param InterfaceProvider $provider
+     * @param ProviderInterface $provider
      */
-    public function __construct(InterfaceProvider $provider)
+    public function __construct(ProviderInterface $provider)
     {
         $this->provider = $provider;
     }

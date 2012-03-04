@@ -4,7 +4,7 @@ namespace Highco\TimelineBundle\Timeline\Spread;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
+use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 
 /**
  * @package HighcoTimelineBundle
@@ -27,7 +27,7 @@ class Deployer
     private $spreadManager;
 
     /**
-     * @var InterfaceProvider
+     * @var ProviderInterface
      */
     private $provider;
 
@@ -39,9 +39,9 @@ class Deployer
     /**
      * @param Manager           $spreadManager
      * @param ObjectManager     $em
-     * @param InterfaceProvider $provider
+     * @param ProviderInterface $provider
      */
-    public function __construct(Manager $spreadManager, ObjectManager $em, InterfaceProvider $provider)
+    public function __construct(Manager $spreadManager, ObjectManager $em, ProviderInterface $provider)
     {
         $this->spreadManager = $spreadManager;
         $this->em            = $em;

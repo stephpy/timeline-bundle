@@ -18,11 +18,11 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 Create the class:
 
-    use Highco\TimelineBundle\Timeline\Spread\InterfaceSpread;
+    use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
     use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
     use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
-    class MySpread implements InterfaceSpread
+    class MySpread implements SpreadInterface
     {
         public function supports(TimelineAction $timelineAction)
         {

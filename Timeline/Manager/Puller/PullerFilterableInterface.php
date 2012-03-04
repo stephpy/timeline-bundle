@@ -2,27 +2,27 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
-use Highco\TimelineBundle\Timeline\Filter\InterfaceFilter;
+use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 
 /**
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfacePullerFilterable
+interface PullerFilterableInterface
 {
     /**
      * Adding a filter to the list, when puller will get a colletion of results
      * it will apply results on each filters
      *
-     * @param InterfaceFilter $filter
+     * @param FilterInterface $filter
      */
-    function addFilter(InterfaceFilter $filter);
+    function addFilter(FilterInterface $filter);
 
     /**
-     * @param InterfaceFilter $filter
+     * @param FilterInterface $filter
      */
-    function removeFilter(InterfaceFilter $filter);
+    function removeFilter(FilterInterface $filter);
 
     /**
      * This action will filters each results given in parameters

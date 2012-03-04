@@ -6,13 +6,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
- * @uses InterfaceProvider
- * @uses InterfaceEntityRetriever
+ * @uses ProviderInterface
+ * @uses EntityRetrieverInterface
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
+class DoctrineDbal implements ProviderInterface, EntityRetrieverInterface
 {
     /**
      * @var ObjectManager
@@ -20,7 +20,7 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
     private $em;
 
     /**
-     * @var InterfaceEntityRetriever
+     * @var EntityRetrieverInterface
      */
     private $entityRetriever;
 
@@ -81,7 +81,7 @@ class DoctrineDbal implements InterfaceProvider, InterfaceEntityRetriever
     /**
      * {@inheritDoc}
      */
-    public function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null)
+    public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
     {
         $this->entityRetriever = $entityRetriever;
     }

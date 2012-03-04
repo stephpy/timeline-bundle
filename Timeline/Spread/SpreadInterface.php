@@ -10,7 +10,7 @@ use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfaceSpread
+interface SpreadInterface
 {
     /**
      * You spread class is support the timeline action ?

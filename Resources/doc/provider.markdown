@@ -4,9 +4,9 @@
 
 Create the class:
 
-    use Highco\TimelineBundle\Timeline\Provider\InterfaceProvider;
+    use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 
-    MyProvider implements InterfaceProvider
+    MyProvider implements ProviderInterface
     {
         public function getWall($params, $options = array())
         {
@@ -24,7 +24,7 @@ Create the class:
             // ...
         }
 
-        public function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null)
+        public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
         {
             // ....
         }

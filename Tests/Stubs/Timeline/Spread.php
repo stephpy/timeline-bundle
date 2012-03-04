@@ -2,13 +2,13 @@
 
 namespace Highco\TimelineBundle\Tests\Stubs\Timeline;
 
-use Highco\TimelineBundle\Timeline\Spread\InterfaceSpread;
+use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
-class Spread implements InterfaceSpread
+class Spread implements SpreadInterface
 {
     protected $supports = true;
 

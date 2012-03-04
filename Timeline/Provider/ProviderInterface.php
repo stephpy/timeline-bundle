@@ -9,7 +9,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-interface InterfaceProvider
+interface ProviderInterface
 {
     /**
      * @param array $params //Give here your subject Model, subject id, context
@@ -40,7 +40,7 @@ interface InterfaceProvider
     /**
      * This methods will hydrate object by an entity retriever defined on configuration.
      *
-     * @param InterfaceEntityRetriever $entityRetriever
+     * @param EntityRetrieverInterface $entityRetriever
      */
-    function setEntityRetriever(InterfaceEntityRetriever $entityRetriever = null);
+    function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null);
 }
