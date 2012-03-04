@@ -5,42 +5,43 @@ namespace Highco\TimelineBundle\Timeline;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
- * Collection
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1(at)gmail.com>
  */
 class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
+    /**
+     * @var array
+     */
     protected $coll = array();
-    //this variable is useful coz filter may modify length of the collection
+
+    /**
+     * This variable is useful coz filter may modify length of the collection.
+     *
+     * @var int
+     */
     protected $initial_count = 0;
 
     /**
-     * __construct
-     *
-     * @param array $coll = array()
+     * @param array $coll
      */
     public function __construct(array $coll = array())
     {
-        if(false === empty($coll)) {
+        if (!empty($coll)) {
             $this->setColl($coll);
         }
     }
 
     /**
-     * setColl
-     *
      * This method will use offsetSet method to hydrate collection,
-     * to be sure each object are instance of timeline action
+     * to be sure each object are instance of timeline action.
      *
      * @param array $coll
      */
     public function setColl(array $coll)
     {
-        foreach($coll as $key => $value)
-        {
+        foreach ($coll as $key => $value) {
             $this->offsetSet($key, $value);
         }
 
@@ -49,9 +50,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * getIterator
-     *
-     * @return void
+     * @return \ArrayIterator
      */
     public function getIterator()
     {
@@ -59,9 +58,8 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * offsetExists
-     *
      * @param mixed $offset
+     *
      * @return boolean
      */
     public function offsetExists($offset)
@@ -70,10 +68,9 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * offsetGet
-     *
      * @param mixed $offset
-     * @return void
+     *
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -81,14 +78,12 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * offsetSet
-     *
      * @param mixed $offset
      * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
-        if(false === $value instanceof TimelineAction) {
+        if (!$value instanceof TimelineAction) {
             throw new \InvalidArgumentException('Items must extends TimelineAction');
         }
 
@@ -96,10 +91,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * offsetUnset
-     *
      * @param mixed $offset
-     * @return void
      */
     public function offsetUnset($offset)
     {
@@ -107,8 +99,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * count
-     *
      * @return integer
      */
     public function count()
@@ -117,8 +107,6 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * getInitialCount
-     *
      * @return integer
      */
     public function getInitialCount()

@@ -21,8 +21,7 @@ class AddSpreadCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        foreach($container->findTaggedServiceIds('highco.timeline.spread') as $id => $tags)
-        {
+        foreach ($container->findTaggedServiceIds('highco.timeline.spread') as $id => $tags) {
             $container->getDefinition('highco.timeline.spread.manager')->addMethodCall('add', array($container->getDefinition($id)));
         }
     }

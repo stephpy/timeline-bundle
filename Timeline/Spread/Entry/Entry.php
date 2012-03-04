@@ -15,8 +15,6 @@ class Entry
     public $subject_id;
 
     /**
-     * getIdent
-     *
      * @return string
      */
     public function getIdent()

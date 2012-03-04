@@ -3,8 +3,6 @@
 namespace Highco\TimelineBundle\Timeline\Spread\Entry;
 
 /**
- * EntryCollection
- *
  * @package HighcoTimelineBundle
  * @version 1.0.0
  * @author Stephane PY <py.stephane1@gmail.com>
@@ -24,8 +22,6 @@ class EntryCollection implements \IteratorAggregate
     }
 
     /**
-     * getIterator
-     *
      * @return array
      */
     public function getIterator()
@@ -41,23 +37,19 @@ class EntryCollection implements \IteratorAggregate
      */
     public function set($context, Entry $entry)
     {
-        if(false === isset($this->coll[$context]))
-        {
+        if (!isset($this->coll[$context])) {
             $this->coll[$context] = array();
         }
 
         $this->coll[$context][$entry->getIdent()] = $entry;
 
-        if($this->dupplicate_on_global && $context !== "GLOBAL")
-        {
-            $this->set("GLOBAL", $entry);
+        if ($this->dupplicate_on_global && $context !== 'GLOBAL') {
+            $this->set('GLOBAL', $entry);
         }
     }
 
     /**
-     * getEntries
-     *
-     * @return array
+     * @return \ArrayIterator
      */
     public function getEntries()
     {
