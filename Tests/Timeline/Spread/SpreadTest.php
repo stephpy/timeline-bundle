@@ -25,8 +25,8 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
         $entries = $results->getEntries();
 
         $entry = new Entry();
-        $entry->subject_model = "\EveryBody";
-        $entry->subject_id = 1;
+        $entry->subjectModel = "\EveryBody";
+        $entry->subjectId = 1;
 
         $this->assertEquals(count($entries), 2);
         $this->assertTrue(isset($entries['mytimeline']));
