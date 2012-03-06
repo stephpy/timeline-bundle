@@ -1,0 +1,31 @@
+{
+    "name": "stephpy/TimelineBundle",
+    "type": "symfony-bundle",
+    "description": "Build timeline/wall for an entity easily.",
+    "keywords": ["timeline", "notification", "redis", "symfony"],
+    "homepage": "https://github.com/stephpy/TimelineBundle",
+    "license": "MIT",
+    "authors": [{
+        "name": "Stéphane PY",
+        "email": "py.stephane1@gmail.com"
+    },{
+        "name": "Community contributors",
+        "homepage": "https://github.com/stephpy/TimelineBundle/contributors"
+    }],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/config": "2.1.*",
+        "symfony/dependency-injection": "2.1.*",
+        "symfony/yaml": "2.1.*",
+        "snc/redis-bundle": ">=1.0.1",
+        "predis/predis": "0.7.*"
+    },
+    "suggest": {
+        "symfony/doctrine-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "Highco\\TimelineBundle": "" }
+    },
+    "target-dir": "Highco/TimelineBundle"
+}
