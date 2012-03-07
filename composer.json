@@ -24,7 +24,7 @@
     "suggest": {
     },
     "autoload": {
-        "psr-0": { "Highco\\TimelineBundle": "../../" }
+        "psr-0": { "Highco\\TimelineBundle": "" }
     },
     "target-dir": "Highco/TimelineBundle"
 }
