@@ -1,0 +1,6 @@
+composer.lock
+composer.phar
+phpunit.xml
+Tests/autoload.php
+vendor/*
+!vendor/vendors.php
