@@ -20,7 +20,7 @@ class Entry
     /**
      * @var array
      */
-    private $references;
+    private $references = array();
 
     /**
      * @var array
