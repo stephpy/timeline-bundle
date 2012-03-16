@@ -54,4 +54,23 @@ It will execute 2 sql queries !
 
 This actually work with doctrine ORM, and the oid field should be an **id** field
 
+** Data hydrator actuality works only for Doctrine 2 orm **
 
+You can override query for each models by add a method **getTimelineResultsForOIds** on repository related to model and then return entities in an array, ** INDEXED BY theirs oid !**
+
+An example:
+
+
+    public function getTimelineResultsForOIds($ids)
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u INDEX BY u.id')
+            //.......
+            ;
+
+        return $qb
+            ->where($qb->expr()->in('u.id', $ids))
+            ->getQuery()
+            ->getResult();
+    }
