@@ -20,14 +20,6 @@ interface ProviderInterface
     function getWall(array $params, $options = array());
 
     /**
-     * @param array $params  Give here your subject Model, subject id, context
-     * @param array $options offset, limit
-     *
-     * @return array
-     */
-    function getTimeline(array $params, $options = array());
-
-    /**
      * @param TimelineAction $timelineAction The timeline action object
      * @param string         $context        The context where you want to push
      * @param string         $subjectModel   The class of subject
@@ -41,11 +33,4 @@ interface ProviderInterface
      * @return array
      */
     function flush();
-
-    /**
-     * This methods will hydrate object by an entity retriever defined on configuration.
-     *
-     * @param EntityRetrieverInterface $entityRetriever
-     */
-    function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null);
 }

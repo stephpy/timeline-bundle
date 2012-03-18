@@ -54,12 +54,31 @@ class TimelineActionManager implements TimelineActionManagerInterface
     /**
      * {@inheritedDoc}
      */
+    public function getTimelineActionsForIds(array $ids)
+    {
+        if (empty($ids)) {
+            return array();
+        }
+
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
+
+        $qb
+            ->add('where', $qb->expr()->in('ta.id', '?1'))
+            ->orderBy('ta.createdAt', 'DESC')
+            ->setParameter(1, $ids);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritedDoc}
+     */
     public function getTimelineResultsForModelAndOids($model, array $oids)
     {
         $repository = $this->em->getRepository($model);
-        if (method_exists($repository, "getTimelineResultsForOIds")) {
+        if (method_exists($repository, "getTimelineResultsForModelAndOids")) {
 
-            return $repository->getTimelineResultsForOIds($oids);
+            return $repository->getTimelineResultsForModelAndOids($oids);
         } else {
             $qb = $this->em->createQueryBuilder();
 
@@ -70,5 +89,34 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
             return $qb->getQuery()->getResult();
         }
+    }
+
+    /**
+     * {@inheritedDoc}
+     */
+    public function getTimeline(array $params, array $options = array())
+    {
+        if (!isset($params['subjectModel']) || !isset($params['subjectId'])) {
+            throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
+        }
+
+        $offset = isset($options['offset']) ? $options['offset'] : 0;
+        $limit  = isset($options['limit']) ? $options['limit'] : 10;
+        $status = isset($options['status']) ? $options['status'] : 'published';
+
+        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
+
+        $qb
+            ->where('ta.subjectModel = :subjectModel')
+            ->andWhere('ta.subjectId = :subjectId')
+            ->andWhere('ta.statusCurrent = :status')
+            ->orderBy('ta.createdAt', 'DESC')
+            ->setParameter('subjectModel', $params['subjectModel'])
+            ->setParameter('subjectId', $params['subjectId'])
+            ->setParameter('status', $status)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
     }
 }

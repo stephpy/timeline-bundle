@@ -64,17 +64,6 @@ class HighcoTimelineExtension extends Extension
         /* ---- provider ---- */
         $providerDefinition = $container->getDefinition($config['provider']);
 
-        /* ---- entity retriever ---- */
-        $entityRetriever = $config['entity_retriever'];
-        if (!empty($entityRetriever)) {
-            $entityRetriever = $container->getDefinition($entityRetriever);
-
-            if (null !== $entityRetriever) {
-                $providerDefinition->addMethodCall('setEntityRetriever', array($entityRetriever));
-            }
-
-        }
-
         $container->getDefinition('highco.timeline.local.puller')
             ->replaceArgument(0, $providerDefinition);
 

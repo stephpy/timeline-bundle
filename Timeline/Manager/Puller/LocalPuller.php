@@ -3,6 +3,7 @@
 namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 
 use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Puller retrieved on local by using provider
@@ -20,11 +21,18 @@ class LocalPuller extends AbstractPullerFilterable implements PullerInterface, P
     private $provider;
 
     /**
-     * @param ProviderInterface $provider
+     * @var TimelineActionManagerInterface
      */
-    public function __construct(ProviderInterface $provider)
+    private $timelineActionManager;
+
+    /**
+     * @param ProviderInterface $provider
+     * @param TimelineActionManagerInterface $timelineActionManager
+     */
+    public function __construct(ProviderInterface $provider, TimelineActionManagerInterface $timelineActionManager)
     {
-        $this->provider = $provider;
+        $this->provider              = $provider;
+        $this->timelineActionManager = $timelineActionManager;
     }
 
     /**
@@ -43,7 +51,7 @@ class LocalPuller extends AbstractPullerFilterable implements PullerInterface, P
                 $result = $this->provider->getWall($params, $options);
                 break;
             case 'timeline':
-                $result = $this->provider->getTimeline($params, $options);
+                $result = $this->timelineActionManager->getTimeline($params, $options);
                 break;
             default:
                 throw new \InvalidArgumentException('Unknown type on '.__CLASS__);

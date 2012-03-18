@@ -4,6 +4,7 @@ namespace Highco\TimelineBundle\Timeline\Provider;
 
 use Predis\Client;
 use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Redis provider (using SncRedis)
@@ -19,9 +20,9 @@ class Redis implements ProviderInterface
     private $redis;
 
     /**
-     * @var EntityRetrieverInterface
+     * @var TimelineActionManagerInterface
      */
-    private $entityRetriever;
+    private $timelineActionManager;
 
     /**
      * @var array
@@ -40,11 +41,13 @@ class Redis implements ProviderInterface
 
     /**
      * @param Client $redis
+     * @param TimelineActionManagerInterface $timelineActionManager
      * @param array  $options
      */
-    public function __construct(Client $redis, array $options = array())
+    public function __construct(Client $redis, TimelineActionManagerInterface $timelineActionManager, array $options = array())
     {
         $this->setRedis($redis);
+        $this->timelineActionManager = $timelineActionManager;
         $this->options = array_merge($options, array(
             'pipeline' => true,
         ));
@@ -67,23 +70,7 @@ class Redis implements ProviderInterface
         $key        = $this->getKey($context, $params['subjectModel'], $params['subjectId']);
         $results    = $this->redis->zRevRange($key, $offset, ($offset + $limit));
 
-        if (null === $this->entityRetriever) {
-            return $results;
-        }
-
-        return $this->entityRetriever->find($results);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTimeline(array $params, $options = array())
-    {
-        if (null === $this->entityRetriever || !$this->entityRetriever instanceof ProviderInterface) {
-            throw new \Exception('Redis cannot return a list of timeline action from storage, you have to give him the principal storage as entity retriever');
-        }
-
-        return $this->entityRetriever->getTimeline($params, $options);
+        return $this->timelineActionManager->getTimelineActionsForIds($results);
     }
 
     /**
@@ -124,14 +111,6 @@ class Redis implements ProviderInterface
         }
 
         return $replies;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
-    {
-        $this->entityRetriever = $entityRetriever;
     }
 
     /**

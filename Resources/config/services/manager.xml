@@ -27,6 +27,7 @@
 
         <service id="highco.timeline.local.puller" class="%highco.timeline.local.puller.class%">
             <argument type="service" id="highco.timeline.provider.redis" />
+            <argument type="service" id="highco.timeline_action_manager" />
         </service>
     </services>
 

@@ -12,3 +12,4 @@ CHANGELOG for 1.0.X
 # 1.0.1:
 
 - You can define a db_driver on your configuration, or override TimelineActionManager (314af222148e760c73cac75f49ea64279ef5b00d)
+- Deleting Entity retriever, TimelineActionManager has to do this ...

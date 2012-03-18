@@ -13,12 +13,6 @@ Create the class:
             // ...
         }
 
-        public function getTimeline($params, $options = array())
-        {
-            // ...
-        }
-
-
         public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
         {
             // ...
@@ -29,23 +23,12 @@ Create the class:
 			// ...
 		}
 
-        public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
-        {
-            // ....
-        }
-
     }
 
 Define this as a service, and replace on you config.yml:
 
     highco_timeline:
         provider: *your_service*
-
-        # Entity retriever is the instance which will retrieve entity/docs from storage, typically doctrine.dbal/propel/doctrine.odm ...
-        # Because redis return only ids and provider should return a collection of TimelineAction models.
-
-        entity_retriever: *your_service*
-
 
 ## Provider "REDIS"
 

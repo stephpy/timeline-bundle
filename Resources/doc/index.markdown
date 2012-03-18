@@ -109,7 +109,6 @@ That's why we have a "Global" context, and you can easily add other contexts.
             on_me: true                             # Spread each action on subject too
             on_global_context: true                 # Spread automatically on global context
         provider: highco.timeline.provider.redis    # write your own
-        entity_retriever: highco.timeline.provider.doctrine.dbal # This provider will get TimelineAction from database with ids
         delivery: immediate                         # wait
         render:
             path:     'AcmeBundle:Timeline'

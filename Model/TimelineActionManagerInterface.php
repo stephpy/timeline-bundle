@@ -17,6 +17,19 @@ interface TimelineActionManagerInterface
     public function updateTimelineAction(TimelineAction $timelineAction);
 
     /**
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function getTimelineWithStatusPublished($limit = 10);
+
+    /**
+     * @param array $ids
+     * @return array
+     */
+    public function getTimelineActionsForIds(array $ids);
+
+    /**
      * @param string $model
      * @param array  $oids
      *
@@ -25,9 +38,11 @@ interface TimelineActionManagerInterface
     public function getTimelineResultsForModelAndOids($model, array $oids);
 
     /**
-     * @param int $limit
+     * getTimeline of a subject
      *
+     * @param array $params (subjectModel, subjectId)
+     * @param array $options (offset, limit, status)
      * @return array
      */
-    public function getTimelineWithStatusPublished($limit = 10);
+    public function getTimeline(array $params, array $options = array());
 }
