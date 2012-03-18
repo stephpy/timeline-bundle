@@ -4,6 +4,7 @@ namespace Highco\TimelineBundle\Timeline\Spread;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Timeline\Notification\NotificationManager;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
@@ -36,16 +37,22 @@ class Deployer
      */
     private $timelineActionManager;
 
+	/**
+     * @var NotificationManager
+     */
+    private $notificationManager;
+
     /**
      * @param Manager                        $spreadManager         Spread manager to retrieve entries where to deploy
      * @param TimelineActionManagerInterface $timelineActionManager ObjectManager to notify Action is published
      * @param ProviderInterface              $provider              Provider to deploy
      */
-    public function __construct(Manager $spreadManager, TimelineActionManagerInterface $timelineActionManager, ProviderInterface $provider)
+    public function __construct(Manager $spreadManager, TimelineActionManagerInterface $timelineActionManager, ProviderInterface $provider, NotificationManager $notificationManager)
     {
         $this->spreadManager         = $spreadManager;
         $this->timelineActionManager = $timelineActionManager;
         $this->provider              = $provider;
+        $this->notificationManager   = $notificationManager;
     }
 
     /**
@@ -63,6 +70,7 @@ class Deployer
         foreach ($results as $context => $values) {
             foreach ($values as $entry) {
                 $this->provider->persist($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
+				$this->notificationManager->notify($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
             }
         }
 

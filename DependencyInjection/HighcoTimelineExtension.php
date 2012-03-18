@@ -41,9 +41,18 @@ class HighcoTimelineExtension extends Extension
         $loader->load('deployer.xml');
         $loader->load('filter.xml');
         $loader->load('manager.xml');
+        $loader->load('notification.xml');
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
         $loader->load('twig.xml');
+
+        /* --- notifiers --- */
+        $notifiers = $config['notifiers'];
+        $definition = $container->getDefinition('highco.timeline.notification_manager');
+
+        foreach($notifiers as $notifier) {
+            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
+        }
 
         /* --- filters --- */
         $filters = $config['filters'];
