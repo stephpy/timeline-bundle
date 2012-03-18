@@ -5,9 +5,11 @@ namespace Highco\TimelineBundle\Timeline\Manager\Puller;
 use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 
 /**
+ * Define methods to make pull filterfable
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 interface PullerFilterableInterface
 {

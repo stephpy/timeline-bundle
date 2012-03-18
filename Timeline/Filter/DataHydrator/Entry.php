@@ -6,9 +6,11 @@ use Symfony\Component\DependencyInjection\Container;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
+ * Entry, each timeline actions are an entry
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Entry
 {
@@ -36,7 +38,8 @@ class Entry
     }
 
     /**
-     *
+     * Build references (subject, directComplement, indirectComplement)
+     * of timeline action
      */
     public function build()
     {

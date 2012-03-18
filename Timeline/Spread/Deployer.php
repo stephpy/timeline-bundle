@@ -7,9 +7,11 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 
 /**
+ * Deployer class, this class will deploy on spread
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Deployer
 {
@@ -37,9 +39,9 @@ class Deployer
     private $em;
 
     /**
-     * @param Manager           $spreadManager
-     * @param ObjectManager     $em
-     * @param ProviderInterface $provider
+     * @param Manager           $spreadManager Spread manager to retrieve entries where to deploy
+     * @param ObjectManager     $em            ObjectManager to notify Action is published
+     * @param ProviderInterface $provider      Provider to deploy
      */
     public function __construct(Manager $spreadManager, ObjectManager $em, ProviderInterface $provider)
     {

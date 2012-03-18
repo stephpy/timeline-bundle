@@ -3,9 +3,11 @@
 namespace Highco\TimelineBundle\Timeline\Provider;
 
 /**
+ * How to define an entity retriever
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @authort stephane py <py.stephane1(at)gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 interface EntityRetrieverInterface
 {

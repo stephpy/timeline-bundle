@@ -5,9 +5,11 @@ namespace Highco\TimelineBundle\Timeline;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
+ * Collection of TimelineAction
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1(at)gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -78,8 +80,8 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
-     * @param mixed $value
+     * @param mixed $offset key
+     * @param mixed $value  value
      */
     public function offsetSet($offset, $value)
     {

@@ -6,10 +6,12 @@ use Predis\Client;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
+ * Redis provider (using SncRedis)
+ *
  * @uses ProviderInterface
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Redis implements ProviderInterface
 {
@@ -93,9 +95,9 @@ class Redis implements ProviderInterface
     /**
      * Returns the redis key.
      *
-     * @param string $context
-     * @param string $subjectModel
-     * @param string $subjectId
+     * @param string $context      context
+     * @param string $subjectModel class of subject
+     * @param string $subjectId    oid of subject
      *
      * @return string
      */

@@ -5,9 +5,13 @@ namespace Highco\TimelineBundle\Twig\Extension;
 use Highco\TimelineBundle\Entity\TimelineAction;
 
 /**
+ * Twig extension
+ * "timeline_render" -> render a timeline by get from your config
+ * the path of twig templates. Then, call PATH/VERB.html.twig
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1(at)gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class TimelineExtension extends \Twig_Extension
 {
@@ -22,8 +26,8 @@ class TimelineExtension extends \Twig_Extension
     private $config;
 
     /**
-     * @param \Twig_Environment $twig
-     * @param array             $config
+     * @param \Twig_Environment $twig   Twig environment
+     * @param array             $config and array of configuration
      */
     public function __construct(\Twig_Environment $twig, array $config)
     {
@@ -42,8 +46,8 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * @param TimelineAction  $timelineAction
-     * @param string|null     $template
+     * @param TimelineAction $timelineAction What TimelineAction to render
+     * @param string|null    $template       Force template path
      *
      * @return string
      */
@@ -59,7 +63,7 @@ class TimelineExtension extends \Twig_Extension
 
         try {
             return $this->twig->render($template, $parameters);
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             if (null !== $this->config['fallback']) {
                 return $this->twig->render($this->config['fallback'], $parameters);
             }

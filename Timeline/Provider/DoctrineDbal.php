@@ -6,11 +6,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
+ * DoctrineDbal provider
+ *
  * @uses ProviderInterface
  * @uses EntityRetrieverInterface
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class DoctrineDbal implements ProviderInterface, EntityRetrieverInterface
 {
@@ -64,8 +66,7 @@ class DoctrineDbal implements ProviderInterface, EntityRetrieverInterface
             ->setParameter('subjectId', $params['subjectId'])
             ->setParameter('status', $status)
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-        ;
+            ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
     }
@@ -100,8 +101,7 @@ class DoctrineDbal implements ProviderInterface, EntityRetrieverInterface
         $qb
             ->add('where', $qb->expr()->in('ta.id', '?1'))
             ->orderBy('ta.createdAt', 'DESC')
-            ->setParameter(1, $ids)
-        ;
+            ->setParameter(1, $ids);
 
         return $qb->getQuery()->getResult();
     }

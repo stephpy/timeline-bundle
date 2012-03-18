@@ -6,10 +6,12 @@ use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 
 /**
+ * Puller with filter methods
+ *
  * @abstract
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 abstract class AbstractPullerFilterable
 {

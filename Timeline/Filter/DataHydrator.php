@@ -6,10 +6,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Timeline\Filter\DataHydrator\Entry;
 
 /**
+ * Defined on "Resources/doc/filter.markdown"
+ * This filter will hydrate TimelineActions by getting references
+ * from Doctrine
+ *
  * @uses FilterInterface
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class DataHydrator implements FilterInterface
 {
@@ -37,9 +41,7 @@ class DataHydrator implements FilterInterface
     }
 
     /**
-     * @param array $results
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function filter($results)
     {
@@ -57,7 +59,7 @@ class DataHydrator implements FilterInterface
     }
 
     /**
-     *
+     * Will retrieve references from Doctrine and hydrate entries
      */
     protected function hydrateReferences()
     {
@@ -80,11 +82,10 @@ class DataHydrator implements FilterInterface
                 $qb
                     ->select('r')
                     ->from($model, 'r INDEX BY r.id')
-                    ->where($qb->expr()->in('r.id', $ids))
-                ;
+                    ->where($qb->expr()->in('r.id', $ids));
 
                 $results = $qb->getQuery()->getResult();
-            } catch(\Exception $e){
+            } catch (\Exception $e) {
                 $results = array();
             }
 

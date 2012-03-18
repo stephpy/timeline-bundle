@@ -7,10 +7,12 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
 /**
+ * Push on local by using provider
+ *
  * @uses PusherInterface
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class LocalPusher implements PusherInterface
 {
@@ -35,9 +37,7 @@ class LocalPusher implements PusherInterface
     }
 
     /**
-     * @param TimelineAction $timelineAction
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function push(TimelineAction $timelineAction)
     {
@@ -46,6 +46,7 @@ class LocalPusher implements PusherInterface
 
         if ($this->deployer->getDelivery() == Deployer::DELIVERY_IMMEDIATE) {
             $this->deployer->deploy($timelineAction);
+
             return true;
         }
 

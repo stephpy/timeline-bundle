@@ -9,9 +9,12 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Collection;
 
 /**
+ * Manager timeline
+ * Allow to push a timeline action or pull a list of timeline action
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Manager
 {
@@ -36,10 +39,10 @@ class Manager
     }
 
     /**
-     * @param string $subjectModel
-     * @param string $subjectId
-     * @param string $context default GLOBAL
-     * @param array  $options
+     * @param string $subjectModel The class of the subject
+     * @param string $subjectId    The oid of the subject
+     * @param string $context      default GLOBAL
+     * @param array  $options      An array of options to give to puller
      *
      * @return array
      */
@@ -61,9 +64,9 @@ class Manager
     }
 
     /**
-     * @param string $subjectModel
-     * @param string $subjectId
-     * @param array $options
+     * @param string $subjectModel The class of the subject
+     * @param string $subjectId    The oid of the subject
+     * @param array  $options      An array of options to give to puller
      *
      * @return array
      */

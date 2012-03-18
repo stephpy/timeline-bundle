@@ -16,20 +16,26 @@ use Highco\TimelineBundle\Model\TimelineAction;
  *
  * @uses ContainerAwareCommand
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class DeployTimelineActionCommand extends ContainerAwareCommand
 {
+    /**
+     * configure command
+     */
     protected function configure()
     {
         $this
             ->setName('highco:timeline-deploy')
             ->setDescription('Deploy on spreads for waiting timeline action')
-            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'How many actions will be deployed', 200)
-        ;
+            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'How many actions will be deployed', 200);
     }
 
+    /**
+     * @param InputInterface  $input  input variable
+     * @param OutputInterface $output output variable
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $limit = (int) $input->getOption('limit');
@@ -46,8 +52,7 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
         $qb
             ->where('ta.statusWanted = :statusWanted')
             ->setMaxResults($limit)
-            ->setParameter('statusWanted', TimelineAction::STATUS_PUBLISHED)
-        ;
+            ->setParameter('statusWanted', TimelineAction::STATUS_PUBLISHED);
 
         $results = $qb->getQuery()->getResult();
 
@@ -59,7 +64,7 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
             try {
                 $deployer->deploy($timelineAction);
                 $output->writeln(sprintf('<comment>Deploy timeline action %s</comment>', $timelineAction->getId()));
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $message = sprintf('[TIMELINE] Error during deploy timeline_action %s', $timelineAction->getId());
 
                 $container->get('logger')->crit($message);

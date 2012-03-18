@@ -6,8 +6,8 @@ namespace Highco\TimelineBundle\Timeline\Spread\Entry;
  * Entry
  *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Entry
 {

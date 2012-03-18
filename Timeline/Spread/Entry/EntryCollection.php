@@ -3,9 +3,11 @@
 namespace Highco\TimelineBundle\Timeline\Spread\Entry;
 
 /**
+ * A collection of entry
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class EntryCollection implements \IteratorAggregate
 {
@@ -13,7 +15,7 @@ class EntryCollection implements \IteratorAggregate
     protected $duplicateOnGlobal = true;
 
     /**
-     * __construct
+     * @param boolean $duplicateOnGlobal Each timeline action are automatically pushed on Global context
      */
     public function __construct($duplicateOnGlobal = true)
     {
@@ -32,8 +34,8 @@ class EntryCollection implements \IteratorAggregate
     /**
      * set
      *
-     * @param string $context
-     * @param Entry $entry
+     * @param string $context context where you want to push
+     * @param Entry  $entry   entry you want to push
      */
     public function set($context, Entry $entry)
     {

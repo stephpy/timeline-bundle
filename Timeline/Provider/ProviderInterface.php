@@ -5,33 +5,35 @@ namespace Highco\TimelineBundle\Timeline\Provider;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**
+ * How to define a provider
+ *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 interface ProviderInterface
 {
     /**
-     * @param array $params //Give here your subject Model, subject id, context
-     * @param array $options //offset, limit
+     * @param array $params  Give here your subject Model, subject id, context
+     * @param array $options offset, limit
      *
      * @return array
      */
     function getWall(array $params, $options = array());
 
     /**
-     * @param array $params //Give here your subject Model, subject id, context
-     * @param array $options //offset, limit
+     * @param array $params  Give here your subject Model, subject id, context
+     * @param array $options offset, limit
      *
      * @return array
      */
     function getTimeline(array $params, $options = array());
 
     /**
-     * @param TimelineAction $timelineAction
-     * @param string         $context
-     * @param string         $subjectModel
-     * @param string         $subjectId
+     * @param TimelineAction $timelineAction The timeline action object
+     * @param string         $context        The context where you want to push
+     * @param string         $subjectModel   The class of subject
+     * @param string         $subjectId      The oid of subject
      *
      * @return boolean
      */

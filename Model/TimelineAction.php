@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
  * TimelineAction
  *
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @release 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class TimelineAction
 {
@@ -112,6 +112,9 @@ class TimelineAction
      */
     protected $createdAt;
 
+    /**
+     * Initialize createdAt, statusCurrent and statusWanted property
+     */
     public function __construct()
     {
         $this->createdAt     = new \DateTime();
@@ -136,7 +139,7 @@ class TimelineAction
     }
 
     /**
-     * @param boolean $v
+     * @param boolean $duplicated
      */
     public function setIsDuplicated($duplicated)
     {
@@ -189,10 +192,12 @@ class TimelineAction
     }
 
     /**
-     * @param object $subject
-     * @param string $verb
-     * @param object $directComplement
-     * @param object $indirectComplement
+     * Chuck Norris comments Fight 1337 of Vic Mc Key
+     *
+     * @param object $subject            The subject of the timeline action (Chuck Norris)
+     * @param string $verb               The verb (comments)
+     * @param object $directComplement   The direct complement (optional) (fight 1337)
+     * @param object $indirectComplement The indirect complement (optional) (Vic Mc Key)
      */
     public function create($subject, $verb, $directComplement = null, $indirectComplement = null)
     {
@@ -542,6 +547,9 @@ class TimelineAction
         return $this->createdAt;
     }
 
+    /**
+     * @return array
+     */
     public function __sleep()
     {
         return array(

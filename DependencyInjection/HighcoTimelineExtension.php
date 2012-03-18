@@ -13,6 +13,10 @@ use Symfony\Component\Config\Definition\Processor;
  * This is the class that loads and manages your bundle configuration
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ *
+ * @package HighcoTimelineBundle
+ * @relase 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class HighcoTimelineExtension extends Extension
 {
@@ -78,7 +82,7 @@ class HighcoTimelineExtension extends Extension
     }
 
     /**
-     * @param array $configs
+     * @param array   $configs
      * @param boolean $debug
      *
      * @return array

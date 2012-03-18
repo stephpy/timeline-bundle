@@ -7,10 +7,12 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
+ * Configuration
+ *
  * @uses ConfigurationInterface
  * @package HighcoTimelineBundle
- * @version 1.0.0
- * @author Stephane PY <py.stephane1@gmail.com>
+ * @relase 1.0.0
+ * @author  Stephane PY <py.stephane1@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -56,8 +58,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('fallback')->defaultValue(null)->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         return $tb;
     }
