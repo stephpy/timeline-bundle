@@ -120,6 +120,14 @@ class TimelineAction
         $this->statusWanted  = self::STATUS_PUBLISHED;
     }
 
+	/**
+	 * @return timestamp
+	 */
+	public function getSpreadTime()
+	{
+		return time();
+	}
+
     /**
      * @return boolean
      */

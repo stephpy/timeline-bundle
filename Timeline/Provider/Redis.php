@@ -80,7 +80,7 @@ class Redis implements ProviderInterface
     {
         $key = $this->getKey($context, $subjectModel, $subjectId);
 
-        $this->persistedDatas[] = array($key, time(), $timelineAction->getId());
+        $this->persistedDatas[] = array($key, $timelineAction->getSpreadTime(), $timelineAction->getId());
     }
 
     /**

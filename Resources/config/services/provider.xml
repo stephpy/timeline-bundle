@@ -6,12 +6,16 @@
 
     <parameters>
         <parameter key="highco.timeline.provider.redis.class">Highco\TimelineBundle\Timeline\Provider\Redis</parameter>
+        <parameter key="highco.timeline.provider.redis.pipeline">true</parameter>
     </parameters>
 
     <services>
         <service id="highco.timeline.provider.redis" class="%highco.timeline.provider.redis.class%">
             <argument type="service" id="snc_redis.default_client" />
             <argument type="service" id="highco.timeline_action_manager" />
+            <argument type="collection">
+                <argument key="pipeline">%highco.timeline.provider.redis.pipeline%</argument>
+            </argument>
         </service>
     </services>
 
