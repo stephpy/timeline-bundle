@@ -8,3 +8,7 @@ CHANGELOG for 1.0.X
 - camelCase on arguments/properties (fb5a2540d5482e6733a6ae40cbde6eda4656f2e5)
 - Be able to override the Datahydrator query for each models, use getTimelineResultsForOIds
 - Pipelining is available for RedisProvider (ed9da0866a7e55ba3dc3b78f64cac1b0dd9daae7)
+
+# 1.0.1:
+
+- You can define a db_driver on your configuration, or override TimelineActionManager (314af222148e760c73cac75f49ea64279ef5b00d)
