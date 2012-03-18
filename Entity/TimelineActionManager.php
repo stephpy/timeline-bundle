@@ -59,14 +59,14 @@ class TimelineActionManager implements TimelineActionManagerInterface
         $repository = $this->em->getRepository($model);
         if (method_exists($repository, "getTimelineResultsForOIds")) {
 
-            return $repository->getTimelineResultsForOIds($ids);
+            return $repository->getTimelineResultsForOIds($oids);
         } else {
             $qb = $this->em->createQueryBuilder();
 
             $qb
                 ->select('r')
                 ->from($model, 'r INDEX BY r.id')
-                ->where($qb->expr()->in('r.id', $ids));
+                ->where($qb->expr()->in('r.id', $oids));
 
             return $qb->getQuery()->getResult();
         }
