@@ -7,9 +7,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
 /**
  * Collection of TimelineAction
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
 {

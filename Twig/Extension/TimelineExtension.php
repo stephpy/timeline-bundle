@@ -9,9 +9,7 @@ use Highco\TimelineBundle\Entity\TimelineAction;
  * "timeline_render" -> render a timeline by get from your config
  * the path of twig templates. Then, call PATH/VERB.html.twig
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class TimelineExtension extends \Twig_Extension
 {

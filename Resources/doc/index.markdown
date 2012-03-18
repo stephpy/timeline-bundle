@@ -100,6 +100,8 @@ That's why we have a "Global" context, and you can easily add other contexts.
 # Full configuration
 
     highco_timeline:
+		db_driver: orm
+		timeline_action_manager: highco.timeline_action_manager.default
         filters:
             - highco.timeline.filter.duplicate_key # Filter duplicate keys
             - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID

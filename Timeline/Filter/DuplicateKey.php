@@ -8,9 +8,7 @@ namespace Highco\TimelineBundle\Timeline\Filter;
  * has same duplicate_key property
  *
  * @uses FilterInterface
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class DuplicateKey implements FilterInterface
 {

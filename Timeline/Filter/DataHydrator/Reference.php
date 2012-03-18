@@ -6,9 +6,7 @@ namespace Highco\TimelineBundle\Timeline\Filter\DataHydrator;
  * This class represent a reference for an entry,
  * properties "model, and id" become an object
  *
- * @package HighcoTimelineBundle
- * @verison 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Reference
 {

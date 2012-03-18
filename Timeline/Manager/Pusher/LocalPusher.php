@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Timeline\Manager\Pusher;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
@@ -10,16 +10,14 @@ use Highco\TimelineBundle\Timeline\Spread\Deployer;
  * Push on local by using provider
  *
  * @uses PusherInterface
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class LocalPusher implements PusherInterface
 {
     /**
-     * @var ObjectManager
+     * @var TimelineActionManagerInterface
      */
-    private $em;
+    private $timelineActionManager;
 
     /**
      * @var Deployer
@@ -27,13 +25,13 @@ class LocalPusher implements PusherInterface
     private $deployer;
 
     /**
-     * @param ObjectManager $em
-     * @param Deployer      $deployer
+     * @param TimelineActionManagerInterface $timelineActionManager
+     * @param Deployer                       $deployer
      */
-    public function __construct(ObjectManager $em, Deployer $deployer)
+    public function __construct(TimelineActionManagerInterface $timelineActionManager, Deployer $deployer)
     {
-        $this->em       = $em;
-        $this->deployer = $deployer;
+        $this->timelineActionManager = $timelineActionManager;
+        $this->deployer              = $deployer;
     }
 
     /**
@@ -41,8 +39,7 @@ class LocalPusher implements PusherInterface
      */
     public function push(TimelineAction $timelineAction)
     {
-        $this->em->persist($timelineAction);
-        $this->em->flush();
+        $this->timelineActionManager->updateTimelineAction($timelineAction);
 
         if ($this->deployer->getDelivery() == Deployer::DELIVERY_IMMEDIATE) {
             $this->deployer->deploy($timelineAction);

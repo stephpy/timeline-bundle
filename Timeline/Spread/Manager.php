@@ -9,9 +9,7 @@ use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 /**
  * Manager spread, retrieve with tags
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Manager
 {

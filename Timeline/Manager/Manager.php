@@ -12,9 +12,7 @@ use Highco\TimelineBundle\Timeline\Collection;
  * Manager timeline
  * Allow to push a timeline action or pull a list of timeline action
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Manager
 {

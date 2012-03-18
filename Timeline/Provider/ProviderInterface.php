@@ -7,9 +7,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
 /**
  * How to define a provider
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 interface ProviderInterface
 {

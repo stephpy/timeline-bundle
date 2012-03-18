@@ -9,9 +9,7 @@ use Highco\TimelineBundle\Model\TimelineAction;
  * Redis provider (using SncRedis)
  *
  * @uses ProviderInterface
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Redis implements ProviderInterface
 {

@@ -7,9 +7,7 @@ use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
 /**
  * Define methods to make pull filterfable
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 interface PullerFilterableInterface
 {

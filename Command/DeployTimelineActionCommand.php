@@ -8,16 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-
 /**
  * This command will deploy each timeline actions (see limit option) which
  * has PUBLISHED on status_wanted.
  *
  * @uses ContainerAwareCommand
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class DeployTimelineActionCommand extends ContainerAwareCommand
 {
@@ -46,15 +42,8 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
 
         $container = $this->getContainer();
 
-        $em = $container->get('highco.timeline.entity_manager');
-        $qb = $em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
-
-        $qb
-            ->where('ta.statusWanted = :statusWanted')
-            ->setMaxResults($limit)
-            ->setParameter('statusWanted', TimelineAction::STATUS_PUBLISHED);
-
-        $results = $qb->getQuery()->getResult();
+        $manager = $container->get('highco.timeline_action_manager');
+        $results = $manager->getTimelineWithStatusPublished($limit);
 
         $output->writeln(sprintf('<info>There is %s timeline action(s) to deploy</info>', count($results)));
 

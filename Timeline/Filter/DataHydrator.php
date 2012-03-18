@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Timeline\Filter;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Timeline\Filter\DataHydrator\Entry;
 
 /**
@@ -11,9 +11,7 @@ use Highco\TimelineBundle\Timeline\Filter\DataHydrator\Entry;
  * from Doctrine
  *
  * @uses FilterInterface
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class DataHydrator implements FilterInterface
 {
@@ -28,16 +26,16 @@ class DataHydrator implements FilterInterface
     protected $entries    = array();
 
     /**
-     * @var ObjectManager
+     * @var TimelineActionManagerInterface
      */
-    private $em;
+    private $timelineActionManager;
 
     /**
-     * @param ObjectManager $em
+     * @param TimelineActionManagerInterface $timelineActionManager
      */
-    public function __construct(ObjectManager $em)
+    public function __construct(TimelineActionManagerInterface $timelineActionManager)
     {
-        $this->em = $em;
+        $this->timelineActionManager = $timelineActionManager;
     }
 
     /**
@@ -77,20 +75,7 @@ class DataHydrator implements FilterInterface
         $resultsByModel = array();
         foreach ($referencesByModel as $model => $ids) {
             try {
-                $repository = $this->em->getRepository($model);
-                if(method_exists($repository, "getTimelineResultsForOIds")) {
-                    $results = $repository->getTimelineResultsForOIds($ids);
-                } else {
-                    $qb = $this->em->createQueryBuilder();
-
-                    $qb
-                        ->select('r')
-                        ->from($model, 'r INDEX BY r.id')
-                        ->where($qb->expr()->in('r.id', $ids))
-                        ;
-
-                    $results = $qb->getQuery()->getResult();
-                }
+                $results = $this->timelineActionManager->getTimelineResultsForModelAndOids($model, $ids);
             } catch (\Exception $e) {
                 $results = array();
             }

@@ -14,9 +14,7 @@ use Symfony\Component\Config\Definition\Processor;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  *
- * @package HighcoTimelineBundle
- * @relase 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class HighcoTimelineExtension extends Extension
 {
@@ -25,13 +23,24 @@ class HighcoTimelineExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $config = $this->mergeConfigs($configs, $container->getParameter('kernel.debug'));
+        $processor = new Processor();
+        $configuration = new Configuration();
+
+        $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+
+        if (!in_array(strtolower($config['db_driver']), array('orm'))) {
+            throw new \InvalidArgumentException(sprintf('Invalid db driver "%s".', $config['db_driver']));
+        }
+
+        $loader->load(sprintf('%s.xml', $config['db_driver']));
+
+        $container->setAlias('highco.timeline_action_manager', $config['timeline_action_manager']);
+
         $loader->load('deployer.xml');
         $loader->load('filter.xml');
         $loader->load('manager.xml');
-        $loader->load('orm.xml');
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
         $loader->load('twig.xml');
@@ -79,19 +88,5 @@ class HighcoTimelineExtension extends Extension
         $render = $config['render'];
         $container->setParameter('highco.timeline.render.path', $render['path']);
         $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
-    }
-
-    /**
-     * @param array   $configs
-     * @param boolean $debug
-     *
-     * @return array
-     */
-    private function mergeConfigs(array $configs, $debug)
-    {
-        $processor = new Processor();
-        $config = new Configuration($debug);
-
-        return $processor->process($config->getConfigTreeBuilder()->buildTree(), $configs);
     }
 }

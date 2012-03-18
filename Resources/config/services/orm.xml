@@ -6,6 +6,10 @@
 
     <services>
         <service id="highco.timeline.entity_manager" alias="doctrine.orm.default_entity_manager" />
+
+		<service id="highco.timeline_action_manager.default" class="Highco\TimelineBundle\Entity\TimelineActionManager" public="false">
+			<argument type="service" id="highco.timeline.entity_manager" />
+		</service>
     </services>
 
 </container>

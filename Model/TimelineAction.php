@@ -7,9 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * TimelineAction
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class TimelineAction
 {

@@ -10,9 +10,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  * AddSpreadCompilerPass
  *
  * @uses CompilerPassInterface
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class AddSpreadCompilerPass implements CompilerPassInterface
 {

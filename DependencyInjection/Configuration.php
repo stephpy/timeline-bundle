@@ -10,9 +10,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Configuration
  *
  * @uses ConfigurationInterface
- * @package HighcoTimelineBundle
- * @relase 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -27,6 +25,8 @@ class Configuration implements ConfigurationInterface
 
         $tb->root('highco_timeline')
             ->children()
+				->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
+				->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
                 ->arrayNode('filters')
                     ->useAttributeAsKey('options')->prototype('scalar')->end()
                     ->defaultValue(array(

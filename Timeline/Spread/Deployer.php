@@ -2,16 +2,14 @@
 
 namespace Highco\TimelineBundle\Timeline\Spread;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Deployer class, this class will deploy on spread
  *
- * @package HighcoTimelineBundle
- * @release 1.0.0
- * @author  Stephane PY <py.stephane1@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Deployer
 {
@@ -34,20 +32,20 @@ class Deployer
     private $provider;
 
     /**
-     * @var ObjectManager
+     * @var TimelineActionManagerInterface
      */
-    private $em;
+    private $timelineActionManager;
 
     /**
-     * @param Manager           $spreadManager Spread manager to retrieve entries where to deploy
-     * @param ObjectManager     $em            ObjectManager to notify Action is published
-     * @param ProviderInterface $provider      Provider to deploy
+     * @param Manager                        $spreadManager         Spread manager to retrieve entries where to deploy
+     * @param TimelineActionManagerInterface $timelineActionManager ObjectManager to notify Action is published
+     * @param ProviderInterface              $provider              Provider to deploy
      */
-    public function __construct(Manager $spreadManager, ObjectManager $em, ProviderInterface $provider)
+    public function __construct(Manager $spreadManager, TimelineActionManagerInterface $timelineActionManager, ProviderInterface $provider)
     {
-        $this->spreadManager = $spreadManager;
-        $this->em            = $em;
-        $this->provider      = $provider;
+        $this->spreadManager         = $spreadManager;
+        $this->timelineActionManager = $timelineActionManager;
+        $this->provider              = $provider;
     }
 
     /**
@@ -73,8 +71,7 @@ class Deployer
         $timelineAction->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
         $timelineAction->setStatusWanted(TimelineAction::STATUS_FROZEN);
 
-        $this->em->persist($timelineAction);
-        $this->em->flush();
+        $this->timelineActionManager->updateTimelineAction($timelineAction);
 
         // we have to clear results from spread manager
         $this->spreadManager->clear();
