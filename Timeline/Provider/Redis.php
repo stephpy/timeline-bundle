@@ -26,16 +26,30 @@ class Redis implements ProviderInterface
     private $entityRetriever;
 
     /**
+     * @var array
+     */
+    private $persistedDatas = array();
+
+    /**
+     * @var array
+     */
+    protected $options = array();
+
+    /**
      * @var string
      */
     protected static $key = "Timeline:%s:%s:%s";
 
     /**
      * @param Client $redis
+     * @param array  $options
      */
-    public function __construct(Client $redis)
+    public function __construct(Client $redis, array $options = array())
     {
         $this->setRedis($redis);
+        $this->options = array_merge($options, array(
+            'pipeline' => true,
+        ));
     }
 
     /**
@@ -77,11 +91,41 @@ class Redis implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
     {
         $key = $this->getKey($context, $subjectModel, $subjectId);
 
-        return $this->redis->zAdd($key, time(), $timelineAction->getId());
+        $this->persistedDatas[] = array($key, time(), $timelineAction->getId());
+    }
+
+    /**
+     * Flush data persisted,
+     * If pipeline option is set to TRUE, pipeline of predis client will be used
+     *
+     * @return array
+     */
+    public function flush()
+    {
+        if (empty($this->persistedDatas)) {
+            return array();
+        }
+
+        $client  = $this->redis;
+        $replies = array();
+
+        if ($this->options['pipeline']) {
+            $client = $this->redis->pipeline();
+        }
+
+        foreach ($this->persistedDatas as $persistData) {
+            $replies[] = $client->zAdd($persistData[0], $persistData[1], $persistData[2]);
+        }
+
+        if ($this->options['pipeline']) {
+            return $client->execute();
+        }
+
+        return $replies;
     }
 
     /**

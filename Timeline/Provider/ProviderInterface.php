@@ -34,10 +34,15 @@ interface ProviderInterface
      * @param string         $context        The context where you want to push
      * @param string         $subjectModel   The class of subject
      * @param string         $subjectId      The oid of subject
-     *
-     * @return boolean
      */
-    function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId);
+    function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId);
+
+    /**
+     * flush data persisted
+     *
+     * @return array
+     */
+    function flush();
 
     /**
      * This methods will hydrate object by an entity retriever defined on configuration.

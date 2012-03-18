@@ -19,10 +19,15 @@ Create the class:
         }
 
 
-        public function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+        public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
         {
             // ...
         }
+
+		public function flush()
+		{
+			// ...
+		}
 
         public function setEntityRetriever(EntityRetrieverInterface $entityRetriever = null)
         {

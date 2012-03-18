@@ -64,9 +64,11 @@ class Deployer
 
         foreach ($results as $context => $values) {
             foreach ($values as $entry) {
-                $this->provider->add($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
+                $this->provider->persist($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
             }
         }
+
+        $this->provider->flush();
 
         $timelineAction->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
         $timelineAction->setStatusWanted(TimelineAction::STATUS_FROZEN);

@@ -74,7 +74,15 @@ class DoctrineDbal implements ProviderInterface, EntityRetrieverInterface
     /**
      * {@inheritdoc}
      */
-    public function add(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    {
+        throw new \OutOfRangeException("This method is not available yet for DoctrineDbal");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function flush()
     {
         throw new \OutOfRangeException("This method is not available yet for DoctrineDbal");
     }
