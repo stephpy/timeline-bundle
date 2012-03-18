@@ -1,8 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Notification\Notifier;
+namespace Highco\TimelineBundle\Timeline\Notification\Unread\Notifier;
 
 use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Timeline\Notification\Notifier\NotifierInterface;
 
 /**
  * UnreadNotificationNotifier

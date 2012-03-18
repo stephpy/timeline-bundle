@@ -4,7 +4,7 @@
 
     <parameters>
         <parameter key="highco.timeline.notification_manager.class">Highco\TimelineBundle\Timeline\Notification\NotificationManager</parameter>
-        <parameter key="highco.timeline.unread_notifications.class">Highco\TimelineBundle\Timeline\Notification\Notifier\UnreadNotificationNotifier</parameter>
+        <parameter key="highco.timeline.unread_notifications.class">Highco\TimelineBundle\Timeline\Notification\Unread\Notifier\UnreadNotificationNotifier</parameter>
     </parameters>
 
     <services>
