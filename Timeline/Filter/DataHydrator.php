@@ -77,14 +77,20 @@ class DataHydrator implements FilterInterface
         $resultsByModel = array();
         foreach ($referencesByModel as $model => $ids) {
             try {
-                $qb = $this->em->createQueryBuilder();
+                $repository = $this->em->getRepository($model);
+                if(method_exists($repository, "getTimelineResultsForOIds")) {
+                    $results = $repository->getTimelineResultsForOIds($ids);
+                } else {
+                    $qb = $this->em->createQueryBuilder();
 
-                $qb
-                    ->select('r')
-                    ->from($model, 'r INDEX BY r.id')
-                    ->where($qb->expr()->in('r.id', $ids));
+                    $qb
+                        ->select('r')
+                        ->from($model, 'r INDEX BY r.id')
+                        ->where($qb->expr()->in('r.id', $ids))
+                        ;
 
-                $results = $qb->getQuery()->getResult();
+                    $results = $qb->getQuery()->getResult();
+                }
             } catch (\Exception $e) {
                 $results = array();
             }
