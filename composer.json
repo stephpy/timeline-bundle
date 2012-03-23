@@ -18,8 +18,8 @@
         "symfony/console": "2.*",
         "snc/redis-bundle": ">=1.0.1",
         "predis/predis": "0.7.*",
-        "doctrine/orm": "2.2.*",
-        "doctrine/dbal": "2.2.*"
+        "doctrine/orm": "2.*",
+        "doctrine/dbal": "2.*"
     },
     "suggest": {
     },

@@ -22,6 +22,11 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
 }
 
 class StubEntityTimelineActionProxy extends StubEntityTimeline implements \Doctrine\ORM\Proxy\Proxy {
+    public function __load() {
+    }
+
+    public function __isInitialized() {
+    }
 }
 
 class StubEntityTimeline {
