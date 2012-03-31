@@ -74,13 +74,8 @@ class DataHydrator implements FilterInterface
         /* ---- fetch results from database --- */
         $resultsByModel = array();
         foreach ($referencesByModel as $model => $ids) {
-            try {
-                $results = $this->timelineActionManager->getTimelineResultsForModelAndOids($model, $ids);
-            } catch (\Exception $e) {
-                $results = array();
-            }
-
-            $resultsByModel[$model] = $results;
+            $resultsByModel[$model] = $this->timelineActionManager
+                ->getTimelineResultsForModelAndOids($model, $ids);
         }
 
         /* ---- hydrate references ---- */

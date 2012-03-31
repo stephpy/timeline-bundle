@@ -72,6 +72,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
     /**
      * {@inheritedDoc}
+     * @todo, we should detach this from the TimelineActionManager, no sense to let it on this class
      */
     public function getTimelineResultsForModelAndOids($model, array $oids)
     {

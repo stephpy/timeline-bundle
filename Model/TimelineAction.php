@@ -120,13 +120,13 @@ class TimelineAction
         $this->statusWanted  = self::STATUS_PUBLISHED;
     }
 
-	/**
-	 * @return timestamp
-	 */
-	public function getSpreadTime()
-	{
-		return time();
-	}
+    /**
+     * @return timestamp
+     */
+    public function getSpreadTime()
+    {
+        return time();
+    }
 
     /**
      * @return boolean
@@ -240,7 +240,7 @@ class TimelineAction
     public function setSubject($subject)
     {
         if (!is_object($subject)) {
-            throw new \InvalidArgumentException('direct complement should be an object');
+            throw new \InvalidArgumentException('direct complement must be an object');
         }
 
         $this->subject = $subject;
@@ -310,10 +310,10 @@ class TimelineAction
     public function setDirectComplement($directComplement)
     {
         if (!is_object($directComplement)) {
-            throw new \InvalidArgumentException('direct complement should be an object');
+            throw new \InvalidArgumentException('direct complement must be an object');
         }
 
-        $this->directComplement       = $directComplement;
+        $this->directComplement = $directComplement;
         $this->setDirectComplementModel(get_class($directComplement));
         $this->setDirectComplementId($directComplement->getId());
     }
@@ -384,7 +384,7 @@ class TimelineAction
     public function setIndirectComplement($indirectComplement)
     {
         if (!is_object($indirectComplement)) {
-            throw new \InvalidArgumentException('indirect complement should be an object');
+            throw new \InvalidArgumentException('indirect complement must be an object');
         }
 
         $this->indirectComplement = $indirectComplement;
@@ -524,7 +524,7 @@ class TimelineAction
      */
     public function setDuplicatePriority($duplicatePriority)
     {
-        $this->duplicatePriority = $duplicatePriority;
+        $this->duplicatePriority = (int) $duplicatePriority;
     }
 
     /**

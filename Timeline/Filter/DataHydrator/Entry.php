@@ -51,9 +51,7 @@ class Entry
      */
     public function buildReference($name)
     {
-        $key = Container::camelize($name);
-
-        $getSubjectMethod = sprintf('get%s', $key);
+        $getSubjectMethod = sprintf('get%s', Container::camelize($name));
         // if object is already setted, we have not to continue
         if (null !== $this->timelineAction->{$getSubjectMethod}()) {
             return;
@@ -103,9 +101,7 @@ class Entry
      */
     protected function hydrateField($name, $object)
     {
-        $key = Container::camelize($name);
-
-        $setSubjectMethod = sprintf('set%s', $key);
+        $setSubjectMethod = sprintf('set%s', Container::camelize($name));
         $this->timelineAction->{$setSubjectMethod}($object);
     }
 

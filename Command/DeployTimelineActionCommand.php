@@ -42,8 +42,8 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
 
         $container = $this->getContainer();
 
-        $manager = $container->get('highco.timeline_action_manager');
-        $results = $manager->getTimelineWithStatusPublished($limit);
+        $results = $container->get('highco.timeline_action_manager')
+            ->getTimelineWithStatusPublished($limit);
 
         $output->writeln(sprintf('<info>There is %s timeline action(s) to deploy</info>', count($results)));
 

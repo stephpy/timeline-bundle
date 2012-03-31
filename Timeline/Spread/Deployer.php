@@ -60,12 +60,12 @@ class Deployer
      */
     public function deploy(TimelineAction $timelineAction)
     {
-        $this->spreadManager->process($timelineAction);
-        $results = $this->spreadManager->getResults();
-
         if ($timelineAction->getStatusWanted() !== 'published') {
             return;
         }
+
+		$this->spreadManager->process($timelineAction);
+		$results = $this->spreadManager->getResults();
 
         foreach ($results as $context => $values) {
             foreach ($values as $entry) {
@@ -81,7 +81,6 @@ class Deployer
 
         $this->timelineActionManager->updateTimelineAction($timelineAction);
 
-        // we have to clear results from spread manager
         $this->spreadManager->clear();
     }
 
