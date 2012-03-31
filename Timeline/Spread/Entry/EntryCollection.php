@@ -17,7 +17,7 @@ class EntryCollection implements \IteratorAggregate
      */
     public function __construct($duplicateOnGlobal = true)
     {
-        $this->coll = new \ArrayIterator();
+        $this->coll              = new \ArrayIterator();
         $this->duplicateOnGlobal = $duplicateOnGlobal;
     }
 

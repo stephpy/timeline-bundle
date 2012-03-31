@@ -48,9 +48,7 @@ abstract class AbstractPullerFilterable
      */
     public function filter($results)
     {
-        $filters = $this->filters;
-
-        foreach ($filters as $filter) {
+        foreach ($this->filters as $filter) {
             $results = $filter->filter($results);
         }
 
