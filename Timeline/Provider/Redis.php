@@ -66,7 +66,7 @@ class Redis implements ProviderInterface
         $offset     = isset($options['offset']) ? $options['offset'] : 0;
         $limit      = isset($options['limit']) ? $options['limit'] : 10;
         $limit      = $limit - 1; //coz redis return one more ...
-        $redisKey   = isset($options['redis_key']) ? $options['redis_key'] : self::$timelineKey;
+        $redisKey   = isset($options['key']) ? $options['key'] : self::$timelineKey;
 
         $key        = $this->getKey($context, $params['subjectModel'], $params['subjectId'], $redisKey);
         $results    = $this->redis->zRevRange($key, $offset, ($offset + $limit));
@@ -80,10 +80,10 @@ class Redis implements ProviderInterface
     public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array())
     {
         $options = array_merge(array(
-            'redis_key' => self::$timelineKey,
+            'key' => self::$timelineKey,
         ), $options);
 
-        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['key']);
 
         $this->persistedDatas[] = array(
             'zAdd',
@@ -98,10 +98,10 @@ class Redis implements ProviderInterface
     public function countKeys($context, $subjectModel, $subjectId, array $options = array())
     {
         $options = array_merge(array(
-            'redis_key' => self::$timelineKey,
+            'key' => self::$timelineKey,
         ), $options);
 
-        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['key']);
 
         return $this->redis->zCard($key);
     }
@@ -112,10 +112,10 @@ class Redis implements ProviderInterface
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
     {
         $options = array_merge(array(
-            'redis_key' => self::$timelineKey,
+            'key' => self::$timelineKey,
         ), $options);
 
-        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['key']);
 
         $this->persistedDatas[] = array(
             'zRem',
