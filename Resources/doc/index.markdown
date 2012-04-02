@@ -53,6 +53,8 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 # Adding a timeline action
 
+````php
+<?php
     $manager = $this->get('highco.timeline.manager');
 
     $entry = new TimelineAction();
@@ -81,18 +83,25 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
     $manager = $this->get('highco.timeline.manager');
     $manager->push($entry);
+````
 
 # Pull Wall of Subject
 
+````php
+<?php
     $manager = $this->get('highco.timeline.manager');
     $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
     //GLOBAL is the context wanted (GLOBAL is default)
+````
 
 # Pull Timeline of Subject
 
+````php
+<?php
     $manager = $this->get('highco.timeline.manager');
     $results = $manager->getTimeline('\Chuck', 1);
     // There is no context to call here
+````
 
 # Delivery
 
@@ -101,22 +110,24 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 # Full configuration
 
-    highco_timeline:
-		db_driver: orm
-		notifiers:
-			- highco.timeline.unread_notifications
-		timeline_action_manager: highco.timeline_action_manager.default
-        filters:
-            - highco.timeline.filter.duplicate_key # Filter duplicate keys
-            - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID
-        spread:
-            on_me: true                             # Spread each action on subject too
-            on_global_context: true                 # Spread automatically on global context
-        provider: highco.timeline.provider.redis    # write your own
-        delivery: immediate                         # wait
-        render:
-            path:     'AcmeBundle:Timeline'
-            fallback: 'AcmeBundle:Timeline:default.html.twig'
+````yaml
+highco_timeline:
+    db_driver: orm
+    notifiers:
+        - highco.timeline.unread_notifications
+    timeline_action_manager: highco.timeline_action_manager.default
+    filters:
+        - highco.timeline.filter.duplicate_key # Filter duplicate keys
+        - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID
+    spread:
+        on_me: true                             # Spread each action on subject too
+        on_global_context: true                 # Spread automatically on global context
+    provider: highco.timeline.provider.redis    # write your own
+    delivery: immediate                         # wait
+    render:
+        path:     'AcmeBundle:Timeline'
+        fallback: 'AcmeBundle:Timeline:default.html.twig'
+````
 
 Todo
 ----
