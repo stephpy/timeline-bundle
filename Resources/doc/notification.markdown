@@ -19,10 +19,12 @@ highco_timeline:
 
 $unread = $this->get('highco.timeline.unread_notifications');
 //count how many unread message for global context
-$count  = $unread->countKeys('GLOBAL', 'MySubject', 'MyId'));
+$count  = $unread->countKeys('MySubject', 'MyId'); // on global context
+$count  = $unread->countKeys('MySubject', 'MyId', 'MyContext');
 
 // remove ONE unread notification
-$unread->removeUnreadNotification('GLOBAL', 'MySubject', 'MyId', 'TimelineActionId');
+$unread->removeUnreadNotification('MySubject', 'MyId', 'TimelineActionId'); // on global context
+$unread->removeUnreadNotification('MySubject', 'MyId', 'TimelineActionId', 'MyContext);
 
 // remove several unread notifications
 $unread->removeUnreadNotifications(array(
@@ -32,13 +34,12 @@ $unread->removeUnreadNotifications(array(
 ));
 
 // retrieve timeline actions
-$actions = $unread->getTimelineActions('GLOBAL', 'MySubject', 'MyId', $options);
+$actions = $unread->getTimelineActions('MySubject', 'MyId'); // on global context, no options
+$actions = $unread->getTimelineActions('MySubject', 'MyId', 'MyContext', $options);
 // in options you can define offset, limit, etc ...
 
 // apply filters ?
-$puller = $this->get('highco.timeline.local.puller');
-$actions = $puller->filter($actions);
-
+$actions = $this->get('highco.timeline.local.puller')->filter($actions);
 ````
 
 

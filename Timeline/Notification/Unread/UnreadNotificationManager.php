@@ -51,14 +51,14 @@ class UnreadNotificationManager implements NotifierInterface
      * If you want to apply filters to these results,
      * $actions = $this->get('highco.timeline.local.puller')->filter($actions);
      *
-     * @param string $context      The context
      * @param string $subjectModel The class of subject
      * @param string $subjectId    The oid of subject
+     * @param string $context      The context
      * @param array  $options      An array of options (offset, limit), see your provider
      *
      * @return array
      */
-    public function getTimelineActions($context, $subjectModel, $subjectId, array $options = array())
+    public function getTimelineActions($subjectModel, $subjectId, $context = "GLOBAL", array $options = array())
     {
         $params = array(
             'subjectModel' => $subjectModel,
@@ -74,13 +74,13 @@ class UnreadNotificationManager implements NotifierInterface
     /**
      * count how many timeline had not be read
      *
-     * @param string $context      The context
      * @param string $subjectModel The class of subject
      * @param string $subjectId    The oid of subject
+     * @param string $context      The context
      *
      * @return integer
      */
-    public function countKeys($context, $subjectModel, $subjectId)
+    public function countKeys($subjectModel, $subjectId, $context = "GLOBAL")
     {
         $options = array(
             'key' => self::$unreadNotificationKey,
@@ -90,12 +90,12 @@ class UnreadNotificationManager implements NotifierInterface
     }
 
     /**
-     * @param string $context          The context
      * @param string $subjectModel     The class of subject
      * @param string $subjectId        The oid of subject
      * @param string $timelineActionId The timelineActionId
+     * @param string $context          The context
      */
-    public function removeUnreadNotification($context, $subjectModel, $subjectId, $timelineActionId)
+    public function removeUnreadNotification($subjectModel, $subjectId, $timelineActionId, $context = "GLOBAL")
     {
         $this->removeUnreadNotifications(array(
             array($context, $subjectModel, $subjectId, $timelineActionId)
