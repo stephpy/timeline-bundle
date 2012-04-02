@@ -15,7 +15,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 
         $coll         = new Collection(array($timelineAction));
 
-        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\timelineActionManager');
+        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionManager');
         $dataHydrator = new DataHydrator($taManager);
         $results      = $dataHydrator->filter($coll);
 
@@ -47,7 +47,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 
         $coll         = new Collection(array($timelineAction));
 
-        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\timelineActionManager');
+        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionManager');
 
         $value = array(
             1337 => $stdClass,
