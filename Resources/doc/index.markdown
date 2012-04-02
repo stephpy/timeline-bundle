@@ -3,11 +3,42 @@ HighcoTimelineBundle
 
 See for more informations:
 
+- [installation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/install.markdown)
 - [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
 - [notification](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/notification.markdown)
 - [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
+
+# Install
+
+## Via deps
+
+Add this to your deps file
+
+    [TimelineBundle]
+        git=git://github.com/stephpy/TimelineBundle
+        target=/bundles/Highco/TimelineBundle
+
+Then
+
+    php bin/vendors install
+
+## Via composer
+
+Add this to your composer.json
+
+        "stephpy/TimelineBundle": "dev-master"
+
+Then
+
+    php composer.phar update # or install
+
+## Via submodule
+
+    git submodule add git://github.com/stephpy/TimelineBundle vendor/bundles/Highco/TimelineBundle
+    git submodule update --init
+
 
 # How it works ?
 
