@@ -14,3 +14,8 @@ CHANGELOG for 1.0.X
 - You can define a db_driver on your configuration, or override TimelineActionManager (314af222148e760c73cac75f49ea64279ef5b00d)
 - Deleting Entity retriever, TimelineActionManager has to do this ... (8794ca52c7442e983a9ee2e9686b1b20e8d237c2)
 - Option pipeline is overrideable, %highco.timeline.provider.redis.pipeline%, then, spreadtime can be change TimelineAction::getSpreadTime(); (5aeca75ab5f8bf0a5b6c9a961d2541b07bd48de6)
+
+
+# 1.1.0:
+
+- Notifiers are available ! ( UnreadNotification actually available)
