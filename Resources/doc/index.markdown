@@ -102,6 +102,8 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
     highco_timeline:
 		db_driver: orm
+		notifiers:
+			- highco.timeline.unread_notifications
 		timeline_action_manager: highco.timeline_action_manager.default
         filters:
             - highco.timeline.filter.duplicate_key # Filter duplicate keys
