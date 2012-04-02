@@ -55,52 +55,52 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 ````php
 <?php
-    $manager = $this->get('highco.timeline.manager');
+$manager = $this->get('highco.timeline.manager');
 
-    $entry = new TimelineAction();
-    $entry->setSubjectModel('\Chuck');
-    $entry->setSubjectId(1);
-    $entry->setVerb('Own');
+$entry = new TimelineAction();
+$entry->setSubjectModel('\Chuck');
+$entry->setSubjectId(1);
+$entry->setVerb('Own');
 
-    ##
-    $entry->setDirectComplementModel('\World');
-    $entry->setDirectComplementId(1);
-    OR
-    $entry->setDirectComplementText('World');
-    ##
+##
+$entry->setDirectComplementModel('\World');
+$entry->setDirectComplementId(1);
+OR
+$entry->setDirectComplementText('World');
+##
 
-    ##
-    $entry->setIndirectComplementModel('\VicMcKey');
-    $entry->setIndirectComplementId(1);
-    OR
-    $entry->setIndirectComplementText('Vic');
-    ##
+##
+$entry->setIndirectComplementModel('\VicMcKey');
+$entry->setIndirectComplementId(1);
+OR
+$entry->setIndirectComplementText('Vic');
+##
 
-    # OR #
+# OR #
 
-    $entry = new TimelineAction();
-    $entry->create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
+$entry = new TimelineAction();
+$entry->create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
 
-    $manager = $this->get('highco.timeline.manager');
-    $manager->push($entry);
+$manager = $this->get('highco.timeline.manager');
+$manager->push($entry);
 ````
 
 # Pull Wall of Subject
 
 ````php
 <?php
-    $manager = $this->get('highco.timeline.manager');
-    $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
-    //GLOBAL is the context wanted (GLOBAL is default)
+$manager = $this->get('highco.timeline.manager');
+$results = $manager->getWall('\Chuck', 1, 'GLOBAL');
+//GLOBAL is the context wanted (GLOBAL is default)
 ````
 
 # Pull Timeline of Subject
 
 ````php
 <?php
-    $manager = $this->get('highco.timeline.manager');
-    $results = $manager->getTimeline('\Chuck', 1);
-    // There is no context to call here
+$manager = $this->get('highco.timeline.manager');
+$results = $manager->getTimeline('\Chuck', 1);
+// There is no context to call here
 ````
 
 # Delivery
