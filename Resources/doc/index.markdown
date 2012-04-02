@@ -10,36 +10,6 @@ See for more informations:
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
 
-# Install
-
-## Via deps
-
-Add this to your deps file
-
-    [TimelineBundle]
-        git=git://github.com/stephpy/TimelineBundle
-        target=/bundles/Highco/TimelineBundle
-
-Then
-
-    php bin/vendors install
-
-## Via composer
-
-Add this to your composer.json
-
-        "stephpy/TimelineBundle": "dev-master"
-
-Then
-
-    php composer.phar update # or install
-
-## Via submodule
-
-    git submodule add git://github.com/stephpy/TimelineBundle vendor/bundles/Highco/TimelineBundle
-    git submodule update --init
-
-
 # How it works ?
 
 To have a timeline you have:
