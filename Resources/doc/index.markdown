@@ -117,11 +117,6 @@ That's why we have a "Global" context, and you can easily add other contexts.
             path:     'AcmeBundle:Timeline'
             fallback: 'AcmeBundle:Timeline:default.html.twig'
 
-# Tests
-
-**Warning, be sure you configured your doctrine connection for test environement, else you'll have your schema droped !!!!!!!!**
-
-
 Todo
 ----
 
@@ -130,10 +125,5 @@ Todo
 Wishlist
 --------
 
-As soon as posible:
-
-- Notification system !
-
-May be ...
-
-- Can use Doctrine ODM, Propel, etc ...
+- Other providers ( contribute guys !)
+- Propel/Dotrine ODM supports
