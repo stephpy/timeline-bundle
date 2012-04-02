@@ -18,6 +18,8 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 Create the class:
 
+````php
+<?php
     use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
     use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
     use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
@@ -38,12 +40,13 @@ Create the class:
             $coll->set('mytimeline', $entry);
         }
     }
-
+````
 
 Add it to services
 
 
+````xml
     <service id="my_service" class="MyClass">
         <tag name="highco.timeline.spread"/>
     </service>
-
+````

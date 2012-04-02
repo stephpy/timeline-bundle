@@ -2,6 +2,7 @@
 
 Using twig
 
+````yaml
     # Define
     render:
         path:     'AcmeBundle:Timeline'
@@ -14,3 +15,4 @@ Using twig
     {{ timeline_render(entry, "your template") }}
     # This will try to call "your template"
     # If exception, it return the fallback defined on config
+````

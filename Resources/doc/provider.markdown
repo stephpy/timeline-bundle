@@ -4,6 +4,9 @@
 
 Create the class:
 
+
+````php
+<?php
     use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 
     MyProvider implements ProviderInterface
@@ -24,11 +27,14 @@ Create the class:
 		}
 
     }
+````
 
 Define this as a service, and replace on you config.yml:
 
+````yaml
     highco_timeline:
         provider: *your_service*
+````
 
 ## Provider "REDIS"
 

@@ -4,24 +4,30 @@
 
 Create the class and add it as a service:
 
-    use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
+````php
+<?php
 
-    MyOwnFilter implements FilterInterface
-    {
-        public function filter($results)
-        {
-            // have fun
-            return $results;
-        }
-    }
+use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
+
+MyOwnFilter implements FilterInterface
+{
+	public function filter($results)
+	{
+		// have fun
+		return $results;
+	}
+}
+````
 
 Then, you can add this filter to the list on config.yml
 
-    highco_timeline:
-        filters:
-            - highco.timeline.filter.duplicate_key
-            * your id service *
-            - highco.timeline.filter.data_hydrator
+````yaml
+highco_timeline:
+	filters:
+		- highco.timeline.filter.duplicate_key
+		* your id service *
+		- highco.timeline.filter.data_hydrator
+````
 
 The order on filters on config.yml is important, filters will be executed on this order.
 
@@ -60,7 +66,8 @@ You can override query for each models by add a method **getTimelineActionsForOI
 
 An example:
 
-
+````php
+<?php
     public function getTimelineActionsForOIds($ids)
     {
         $qb = $this->_em->createQueryBuilder()
@@ -74,3 +81,4 @@ An example:
             ->getQuery()
             ->getResult();
     }
+````
