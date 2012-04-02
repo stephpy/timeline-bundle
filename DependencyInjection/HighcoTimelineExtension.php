@@ -73,6 +73,8 @@ class HighcoTimelineExtension extends Extension
         /* ---- provider ---- */
         $providerDefinition = $container->getDefinition($config['provider']);
 
+        $container->setAlias('highco.timeline.provider', $config['provider']);
+
         $container->getDefinition('highco.timeline.local.puller')
             ->replaceArgument(0, $providerDefinition);
 

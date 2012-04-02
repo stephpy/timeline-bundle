@@ -37,7 +37,7 @@ class Redis implements ProviderInterface
     /**
      * @var string
      */
-    protected static $key = "Timeline:%s:%s:%s";
+    protected static $timelineKey = "Timeline:%s:%s:%s";
 
     /**
      * @param Client $redis
@@ -66,8 +66,9 @@ class Redis implements ProviderInterface
         $offset     = isset($options['offset']) ? $options['offset'] : 0;
         $limit      = isset($options['limit']) ? $options['limit'] : 10;
         $limit      = $limit - 1; //coz redis return one more ...
+        $redisKey   = isset($options['redis_key']) ? $options['redis_key'] : self::$timelineKey;
 
-        $key        = $this->getKey($context, $params['subjectModel'], $params['subjectId']);
+        $key        = $this->getKey($context, $params['subjectModel'], $params['subjectId'], $redisKey);
         $results    = $this->redis->zRevRange($key, $offset, ($offset + $limit));
 
         return $this->timelineActionManager->getTimelineActionsForIds($results);
@@ -76,11 +77,51 @@ class Redis implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array())
     {
-        $key = $this->getKey($context, $subjectModel, $subjectId);
+        $options = array_merge(array(
+            'redis_key' => self::$timelineKey,
+        ), $options);
 
-        $this->persistedDatas[] = array($key, $timelineAction->getSpreadTime(), $timelineAction->getId());
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+
+        $this->persistedDatas[] = array(
+            'zAdd',
+            $key,
+            $timelineAction->getSpreadTime(),
+            $timelineAction->getId());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countKeys($context, $subjectModel, $subjectId, array $options = array())
+    {
+        $options = array_merge(array(
+            'redis_key' => self::$timelineKey,
+        ), $options);
+
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+
+        return $this->redis->zCard($key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
+    {
+        $options = array_merge(array(
+            'redis_key' => self::$timelineKey,
+        ), $options);
+
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['redis_key']);
+
+        $this->persistedDatas[] = array(
+            'zRem',
+            $key,
+            $timelineActionId
+        );
     }
 
     /**
@@ -103,7 +144,17 @@ class Redis implements ProviderInterface
         }
 
         foreach ($this->persistedDatas as $persistData) {
-            $replies[] = $client->zAdd($persistData[0], $persistData[1], $persistData[2]);
+            switch($persistData[0]) {
+                case 'zAdd':
+                    $replies[] = $client->zAdd($persistData[1], $persistData[2], $persistData[3]);
+                break;
+                case 'zRem':
+                    $replies[] = $client->zRem($persistData[1], $persistData[2]);
+                break;
+                default:
+                    throw new \OutOfRangeException('This function is not supported');
+                break;
+            }
         }
 
         if ($this->options['pipeline']) {
@@ -119,12 +170,13 @@ class Redis implements ProviderInterface
      * @param string $context      context
      * @param string $subjectModel class of subject
      * @param string $subjectId    oid of subject
+     * @param string $redisKey     the key for redis
      *
      * @return string
      */
-    public function getKey($context, $subjectModel, $subjectId)
+    public function getKey($context, $subjectModel, $subjectId, $redisKey)
     {
-        return sprintf(self::$key, $context, $subjectModel, $subjectId);
+        return sprintf($redisKey, $context, $subjectModel, $subjectId);
     }
 
     /**

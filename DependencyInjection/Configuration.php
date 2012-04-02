@@ -25,12 +25,11 @@ class Configuration implements ConfigurationInterface
 
         $tb->root('highco_timeline')
             ->children()
-				->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
-				->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
+                ->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
+                ->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
                 ->arrayNode('notifiers')
                     ->useAttributeAsKey('options')->prototype('scalar')->end()
                     ->defaultValue(array(
-                        'highco.timeline.notifier.unread_notifications',
                     ))
                 ->end()
                 ->arrayNode('filters')

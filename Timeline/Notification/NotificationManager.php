@@ -12,26 +12,26 @@ use Highco\TimelineBundle\Timeline\Notification\Notifier\NotifierInterface;
  */
 class NotificationManager
 {
-	private $notifiers = array();
+    private $notifiers = array();
 
-	/**
-	 * @param NotifierInterface $notifier
-	 */
-	public function addNotifier(NotifierInterface $notifier)
-	{
-		$this->notifiers[] = $notifier;
-	}
+    /**
+     * @param NotifierInterface $notifier
+     */
+    public function addNotifier(NotifierInterface $notifier)
+    {
+        $this->notifiers[] = $notifier;
+    }
 
-	/**
-	 * @param TimelineAction $timelineAction
-	 * @param string         $context
-	 * @param string         $subjectModel
-	 * @param string         $subjectId
-	 */
-	public function notify(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
-	{
-		foreach($this->notifiers as $notifier) {
-			$notifier->notify($timelineAction, $context, $subjectModel, $subjectId);
-		}
-	}
+    /**
+     * @param TimelineAction $timelineAction
+     * @param string         $context
+     * @param string         $subjectModel
+     * @param string         $subjectId
+     */
+    public function notify(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->notify($timelineAction, $context, $subjectModel, $subjectId);
+        }
+    }
 }

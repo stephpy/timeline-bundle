@@ -20,12 +20,39 @@ interface ProviderInterface
     function getWall(array $params, $options = array());
 
     /**
+     * This action has to be flushed
+     *
      * @param TimelineAction $timelineAction The timeline action object
      * @param string         $context        The context where you want to push
      * @param string         $subjectModel   The class of subject
      * @param string         $subjectId      The oid of subject
+     * @param array          $options        Array of options
      */
-    function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId);
+    function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array());
+
+    /**
+     * count how many keys are stored
+     *
+     * @param string $context      The context
+     * @param string $subjectModel The class of subject
+     * @param string $subjectId    The oid of subject
+     * @param array  $options      Array of options
+     *
+     * @return integer
+     */
+    function countKeys($context, $subjectModel, $subjectId, array $options = array());
+
+    /**
+     * remove key from storage
+     * This action has to be flushed
+     *
+     * @param string $context          The context
+     * @param string $subjectModel     The class of subject
+     * @param string $subjectId        The oid of subject
+     * @param string $timelineActionId The timeline action id
+     * @param array  $options          Array of options
+     */
+    function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array());
 
     /**
      * flush data persisted

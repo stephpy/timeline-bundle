@@ -4,14 +4,15 @@
 
     <parameters>
         <parameter key="highco.timeline.notification_manager.class">Highco\TimelineBundle\Timeline\Notification\NotificationManager</parameter>
-        <parameter key="highco.timeline.unread_notifications.class">Highco\TimelineBundle\Timeline\Notification\Unread\Notifier\UnreadNotificationNotifier</parameter>
+        <parameter key="highco.timeline.unread_notifications.class">Highco\TimelineBundle\Timeline\Notification\Unread\UnreadNotificationManager</parameter>
     </parameters>
 
     <services>
         <service id="highco.timeline.notification_manager" class="%highco.timeline.notification_manager.class%">
         </service>
 
-		<service id="highco.timeline.notifier.unread_notifications" class="%highco.timeline.unread_notifications.class%">
+		<service id="highco.timeline.unread_notifications" class="%highco.timeline.unread_notifications.class%">
+            <argument type="service" id="highco.timeline.provider" />
         </service>
 
     </services>
