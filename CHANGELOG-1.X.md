@@ -25,5 +25,5 @@ CHANGELOG for 1.X
 - [UnreadNotification] Can mark all as read
 - [Provider] Can remove all data from a key
 
-# 1.1.1:
+# 1.2.0:
 - [BC BREAK] Deleting puller and pusher, because they are not useful, only use Manager now, **Manager migrate from Timeline\Manager\Manager to Timeline\Manager** !
