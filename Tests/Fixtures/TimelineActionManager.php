@@ -9,14 +9,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 class TimelineActionManager implements TimelineActionManagerInterface
 {
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function updateTimelineAction(TimelineAction $timelineAction)
     {
     }
 
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function getTimelineWithStatusPublished($limit = 10)
     {
@@ -24,7 +24,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function getTimelineActionsForIds(array $ids)
     {
@@ -32,7 +32,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function getTimelineResultsForModelAndOids($model, array $oids)
     {
@@ -40,7 +40,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function getTimeline(array $params, array $options = array())
     {

@@ -5,8 +5,16 @@ namespace Highco\TimelineBundle\Tests\Timeline\Manager\Puller;
 use Highco\TimelineBundle\Timeline\Manager\Pusher\LocalPusher;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
+/**
+ * LocalPusherTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class LocalPusherTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testPushLater
+     */
     public function testPushLater()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
@@ -30,6 +38,9 @@ class LocalPusherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result);
     }
 
+    /**
+     * testPushNow
+     */
     public function testPushNow()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);

@@ -7,8 +7,16 @@ use Highco\TimelineBundle\Timeline\Filter\DataHydrator;
 use Highco\TimelineBundle\Timeline\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * DataHydratorTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class DataHydratorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testFilterNoReferences
+     */
     public function testFilterNoReferences()
     {
         $timelineAction = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
@@ -25,6 +33,9 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($results[0]->getIndirectComplement(), null, "No indirect complement");
     }
 
+    /**
+     * testFilterSubjectReference
+     */
     public function testFilterSubjectReference()
     {
         // object from storage

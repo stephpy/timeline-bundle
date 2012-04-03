@@ -25,8 +25,8 @@ class LocalPusher implements PusherInterface
     private $deployer;
 
     /**
-     * @param TimelineActionManagerInterface $timelineActionManager
-     * @param Deployer                       $deployer
+     * @param TimelineActionManagerInterface $timelineActionManager Manager to retrieve from local storage
+     * @param Deployer                       $deployer              Deploy to notify on deploy on spreads
      */
     public function __construct(TimelineActionManagerInterface $timelineActionManager, Deployer $deployer)
     {

@@ -9,8 +9,16 @@ use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 
+/**
+ * SpreadTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class SpreadTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testSupport
+     */
     public function testSupport()
     {
         // manager has only one stub spread

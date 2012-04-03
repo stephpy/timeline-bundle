@@ -26,8 +26,8 @@ class LocalPuller extends AbstractPullerFilterable implements PullerInterface, P
     private $timelineActionManager;
 
     /**
-     * @param ProviderInterface $provider
-     * @param TimelineActionManagerInterface $timelineActionManager
+     * @param ProviderInterface              $provider              Provider to pull
+     * @param TimelineActionManagerInterface $timelineActionManager Manager to retrieve from local storage
      */
     public function __construct(ProviderInterface $provider, TimelineActionManagerInterface $timelineActionManager)
     {

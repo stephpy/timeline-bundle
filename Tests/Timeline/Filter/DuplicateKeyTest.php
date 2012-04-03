@@ -7,13 +7,15 @@ use Highco\TimelineBundle\Timeline\Filter\DuplicateKey;
 use Highco\TimelineBundle\Timeline\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * DuplicateKeyTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * testFilterNoDuplicateKey
-     *
-     * @access public
-     * @return void
      */
     public function testFilterNoDuplicateKey()
     {
@@ -34,6 +36,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * testFilterOnlyOneDuplicateKey
+     */
     public function testFilterOnlyOneDuplicateKey()
     {
         $t1 = $this->createTimelineAction(1);
@@ -56,6 +61,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * testFilterTwoDuplicateKeyDifferents
+     */
     public function testFilterTwoDuplicateKeyDifferents()
     {
         $t1 = $this->createTimelineAction(1);
@@ -81,6 +89,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * testFilterTwoDuplicateKeyNoPriority
+     */
     public function testFilterTwoDuplicateKeyNoPriority()
     {
         $t1 = $this->createTimelineAction(1);
@@ -106,6 +117,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
+    /**
+     * testFilterTwoDuplicateKeyPriorityEquals
+     */
     public function testFilterTwoDuplicateKeyPriorityEquals()
     {
         $t1 = $this->createTimelineAction(1);
@@ -133,6 +147,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
+    /**
+     * testFilterTwoDuplicateKeyPriorityFirst
+     */
     public function testFilterTwoDuplicateKeyPriorityFirst()
     {
         $t1 = $this->createTimelineAction(1);
@@ -160,6 +177,9 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
+    /**
+     * testFilterTwoDuplicateKeyPrioritySecond
+     */
     public function testFilterTwoDuplicateKeyPrioritySecond()
     {
         $t1 = $this->createTimelineAction(1);
@@ -188,13 +208,12 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * createTimelineAction
-     *
      * @param int $id
-     * @access private
-     * @return void
+     *
+     * @return TimelineAction
      */
-    private function createTimelineAction($id = 1) {
+    private function createTimelineAction($id = 1)
+    {
         $subject = $this->getMock('Highco\TimelineBundle\Tests\Timeline\Filter\EntityStub');
         $subject ->expects($this->any())
             ->method('getId')
@@ -212,7 +231,17 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class EntityStub {
-    public function getId(){
+/**
+ * EntityStub
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class EntityStub
+{
+    /**
+     * getId
+     */
+    public function getId()
+    {
     }
 }

@@ -50,7 +50,7 @@ class HighcoTimelineExtension extends Extension
         $notifiers = $config['notifiers'];
         $definition = $container->getDefinition('highco.timeline.notification_manager');
 
-        foreach($notifiers as $notifier) {
+        foreach ($notifiers as $notifier) {
             $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
         }
 

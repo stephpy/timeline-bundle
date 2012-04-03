@@ -26,8 +26,8 @@ class Reference
     public $id;
 
     /**
-     * @param string $model
-     * @param string $id
+     * @param string $model The model of reference
+     * @param string $id    The id of model
      */
     public function __construct($model, $id)
     {

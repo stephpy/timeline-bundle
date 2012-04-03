@@ -5,8 +5,16 @@ namespace Highco\TimelineBundle\Tests\Timeline\Manager;
 use Highco\TimelineBundle\Timeline\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * ManagerTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testPush
+     */
     public function testPush()
     {
         $timelineAction = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
@@ -26,9 +34,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * testGetWall
-     *
-     * @access public
-     * @return void
      */
     public function testGetWall()
     {
@@ -54,6 +59,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, new Collection($coll));
     }
 
+    /**
+     * testGetTimeline
+     */
     public function testGetTimeline()
     {
         $puller = $this->getMock('\Highco\TimelineBundle\Timeline\Manager\Puller\LocalPuller', array(), array(), '', false);
@@ -79,13 +87,12 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * createTimelineAction
-     *
      * @param int $id
-     * @access private
-     * @return void
+     *
+     * @return TimelineAction
      */
-    private function createTimelineAction($id = 1) {
+    private function createTimelineAction($id = 1)
+    {
         $subject = $this->getMock('Highco\TimelineBundle\Tests\Timeline\Manager\EntityStub');
         $subject ->expects($this->any())
             ->method('getId')
@@ -103,7 +110,17 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class EntityStub {
-    public function getId(){
+/**
+ * EntityStub
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class EntityStub
+{
+    /**
+     * getId
+     */
+    public function getId()
+    {
     }
 }

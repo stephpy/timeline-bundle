@@ -96,8 +96,8 @@ class Entry
     }
 
     /**
-     * @param string $name
-     * @param object $object
+     * @param string $name   The name of field to hydrate
+     * @param object $object The object which is the value
      */
     protected function hydrateField($name, $object)
     {

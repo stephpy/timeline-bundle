@@ -4,6 +4,11 @@ namespace Highco\TimelineBundle\Tests\Timeline\Provider;
 
 use Highco\TimelineBundle\Timeline\Provider\Redis;
 
+/**
+ * RedisTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class RedisTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,6 +35,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->getWall(array('subjectModel' => 1));
     }
 
+    /**
+     * testGetWall
+     */
     public function testGetWall()
     {
         $client  = $this->getMock('Predis\Client');
@@ -50,6 +58,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->getWall(array('subjectModel' => 'toto', 'subjectId' => 1));
     }
 
+    /**
+     * testGetWallChangeParams
+     */
     public function testGetWallChangeParams()
     {
         $client  = $this->getMock('Predis\Client');
@@ -82,6 +93,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->getWall($params, $options);
     }
 
+    /**
+     * testPersist
+     */
     public function testPersist()
     {
         $client  = $this->getMock('Predis\Client');
@@ -126,6 +140,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
+    /**
+     * testCountKeys
+     */
     public function testCountKeys()
     {
         $client  = $this->getMock('Predis\Client');
@@ -150,6 +167,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, 13);
     }
 
+    /**
+     * testRemove
+     */
     public function testRemove()
     {
         $client  = $this->getMock('Predis\Client');
@@ -171,6 +191,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
+    /**
+     * testRemoveAll
+     */
     public function testRemoveAll()
     {
         $client  = $this->getMock('Predis\Client');
@@ -192,6 +215,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
+    /**
+     * testFlushNoCall
+     */
     public function testFlushNoCall()
     {
         $client  = $this->getMock('Predis\Client');
@@ -204,6 +230,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
+    /**
+     * testFlushNoPipeline
+     */
     public function testFlushNoPipeline()
     {
         $client  = $this->getMock('Predis\Client');
@@ -228,6 +257,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('DELOK', 'DELNOTOK'), $replies);
     }
 
+    /**
+     * testFlushPipeline
+     */
     public function testFlushPipeline()
     {
         $client  = $this->getMock('Predis\Client');
@@ -260,6 +292,9 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('DELOK', 'DELNOTOK'), $replies);
     }
 
+    /**
+     * testGetKey
+     */
     public function testGetKey()
     {
         $client  = $this->getMock('Predis\Client');
@@ -272,7 +307,27 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class RedisPipeline {
-    public function __call($method, $arguments){}
-    public function execute(){}
+/**
+ * RedisPipeline
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class RedisPipeline
+{
+    /**
+     * __call
+     *
+     * @param string $method    Method to call
+     * @param array  $arguments Arguments
+     */
+    public function __call($method, $arguments)
+    {
+    }
+
+    /**
+     * execute
+     */
+    public function execute()
+    {
+    }
 }

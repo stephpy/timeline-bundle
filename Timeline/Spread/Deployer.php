@@ -37,7 +37,7 @@ class Deployer
      */
     private $timelineActionManager;
 
-	/**
+    /**
      * @var NotificationManager
      */
     private $notificationManager;
@@ -46,6 +46,7 @@ class Deployer
      * @param Manager                        $spreadManager         Spread manager to retrieve entries where to deploy
      * @param TimelineActionManagerInterface $timelineActionManager ObjectManager to notify Action is published
      * @param ProviderInterface              $provider              Provider to deploy
+     * @param NotificationManager            $notificationManager   Notificaiton manager
      */
     public function __construct(Manager $spreadManager, TimelineActionManagerInterface $timelineActionManager, ProviderInterface $provider, NotificationManager $notificationManager)
     {
@@ -70,7 +71,7 @@ class Deployer
         foreach ($results as $context => $values) {
             foreach ($values as $entry) {
                 $this->provider->persist($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
-				$this->notificationManager->notify($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
+                $this->notificationManager->notify($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
             }
         }
 

@@ -6,8 +6,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 
+/**
+ * TimelineActionTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class TimelineActionTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testConstruct
+     */
     public function testConstruct()
     {
         $action = new TimelineAction();
@@ -16,6 +24,9 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($action->getStatusWanted(), TimelineAction::STATUS_PUBLISHED);
     }
 
+    /**
+     * testIsPublished
+     */
     public function testIsPublished()
     {
         $action = new TimelineAction();
@@ -29,6 +40,9 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($action->isPublished());
     }
 
+    /**
+     * testHasDuplicateKey
+     */
     public function testHasDuplicateKey()
     {
         $action = new TimelineAction();
@@ -41,31 +55,35 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($action->hasDuplicateKey());
     }
 
+    /**
+     * testCreate
+     */
     public function testCreate()
     {
         $action = new TimelineAction();
 
         try {
             $action->create('noobject', 'verb', 'nothing');
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Subject should be an object');
         }
 
         try {
             $action->create(new TimelineAction(), 'verb', 'noobject');
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Direct complement should be an object');
         }
 
         try {
             $action->create(new TimelineAction(), 'verb', new TimelineAction(), 'no object');
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Indirect complement should be an object');
         }
-
-        //@todo testing id and class of objects
     }
 
+    /**
+     * testIsValidStatus
+     */
     public function testIsValidStatus()
     {
         $action = new TimelineAction();
@@ -75,6 +93,9 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($action->isValidStatus('an other one'));
     }
 
+    /**
+     * testFromRequestInvalid
+     */
     public function testFromRequestInvalid()
     {
         $request = new Request();
@@ -82,7 +103,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         try {
             $subject = TimelineAction::fromRequest($request);
             $this->assertTrue(false, "This should return an exception");
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'You have to define subject model on "Highco\TimelineBundle\Model\TimelineAction"');
         }
 
@@ -91,11 +112,14 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         try {
             $subject = TimelineAction::fromRequest($request);
             $this->assertTrue(false, "This should return an exception");
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'You have to define subject id on "Highco\TimelineBundle\Model\TimelineAction"');
         }
     }
 
+    /**
+     * testFromRequest
+     */
     public function testFromRequest()
     {
         $request = new Request();
@@ -118,11 +142,14 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($request->get('indirect_complement_model'), $subject->getIndirectComplementModel());
             $this->assertEquals($request->get('indirect_complement_id'), $subject->getIndirectComplementId());
 
-        } catch(\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             $this->assertTrue(false, "This should not return an exception");
         }
     }
 
+    /**
+     * testSetSubject
+     */
     public function testSetSubject()
     {
         $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
@@ -137,6 +164,9 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($action->getSubjectModel(), get_class($stub));
     }
 
+    /**
+     * testSetDirectComplement
+     */
     public function testSetDirectComplement()
     {
         $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
@@ -151,6 +181,9 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($action->getDirectComplementModel(), get_class($stub));
     }
 
+    /**
+     * testSetIndirectComplement
+     */
     public function testSetIndirectComplement()
     {
         $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');

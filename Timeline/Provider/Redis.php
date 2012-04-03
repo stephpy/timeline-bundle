@@ -40,9 +40,9 @@ class Redis implements ProviderInterface
     protected static $timelineKey = "Timeline:%s:%s:%s";
 
     /**
-     * @param Client $redis
-     * @param TimelineActionManagerInterface $timelineActionManager
-     * @param array  $options
+     * @param Client                         $redis                 Redis client
+     * @param TimelineActionManagerInterface $timelineActionManager Manager for storage
+     * @param array                          $options               An array of options
      */
     public function __construct(Client $redis, TimelineActionManagerInterface $timelineActionManager, array $options = array())
     {
@@ -164,16 +164,16 @@ class Redis implements ProviderInterface
             switch($persistData[0]) {
                 case 'del':
                     $replies[] = $client->del($persistData[1]);
-                break;
+                    break;
                 case 'zAdd':
                     $replies[] = $client->zAdd($persistData[1], $persistData[2], $persistData[3]);
-                break;
+                    break;
                 case 'zRem':
                     $replies[] = $client->zRem($persistData[1], $persistData[2]);
-                break;
+                    break;
                 default:
                     throw new \OutOfRangeException('This function is not supported');
-                break;
+                    break;
             }
         }
 

@@ -33,7 +33,7 @@ class UnreadNotificationManager implements NotifierInterface
     }
 
     /**
-     * {@inheritedDoc}
+     * {@inheritDoc}
      */
     public function notify(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
     {

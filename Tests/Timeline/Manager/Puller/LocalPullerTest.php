@@ -4,8 +4,16 @@ namespace Highco\TimelineBundle\Tests\Timeline\Manager\Puller;
 
 use Highco\TimelineBundle\Timeline\Manager\Puller\LocalPuller;
 
+/**
+ * LocalPullerTest
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class LocalPullerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testPullWall
+     */
     public function testPullWall()
     {
         $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
@@ -29,6 +37,9 @@ class LocalPullerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, 'It Works');
     }
 
+    /**
+     * testPullTimeline
+     */
     public function testPullTimeline()
     {
         $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
