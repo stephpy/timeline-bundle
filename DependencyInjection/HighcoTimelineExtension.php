@@ -56,7 +56,7 @@ class HighcoTimelineExtension extends Extension
 
         /* --- filters --- */
         $filters = $config['filters'];
-        $definition = $container->getDefinition('highco.timeline.local.puller');
+        $definition = $container->getDefinition('highco.timeline.manager');
         foreach ($filters as $filter) {
             $definition->addMethodCall('addFilter', array(new Reference($filter)));
         }
@@ -75,8 +75,8 @@ class HighcoTimelineExtension extends Extension
 
         $container->setAlias('highco.timeline.provider', $config['provider']);
 
-        $container->getDefinition('highco.timeline.local.puller')
-            ->replaceArgument(0, $providerDefinition);
+        $container->getDefinition('highco.timeline.manager')
+            ->replaceArgument(2, $providerDefinition);
 
         $container->getDefinition('highco.timeline.spread.deployer')
             ->replaceArgument(2, $providerDefinition);
