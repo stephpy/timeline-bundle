@@ -48,9 +48,9 @@ class Redis implements ProviderInterface
     {
         $this->setRedis($redis);
         $this->timelineActionManager = $timelineActionManager;
-        $this->options = array_merge($options, array(
+        $this->options = array_merge(array(
             'pipeline' => true,
-        ));
+        ), $options);
     }
 
     /**
@@ -62,7 +62,7 @@ class Redis implements ProviderInterface
             throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
         }
 
-        $context    = $params['context'] ? (string) $params['context'] : 'GLOBAL';
+        $context    = isset($params['context']) ? (string) $params['context'] : 'GLOBAL';
         $offset     = isset($options['offset']) ? $options['offset'] : 0;
         $limit      = isset($options['limit']) ? $options['limit'] : 10;
         $limit      = $limit - 1; //coz redis return one more ...
