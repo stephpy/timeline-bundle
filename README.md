@@ -10,3 +10,5 @@ There is too a notification system, you can easily know how many unread notifica
 Actually depends on **SncRedisBundle**.
 
 [Read the Documentation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)
+
+Use this [coding standard](https://github.com/opensky/Symfony2-coding-standard)
