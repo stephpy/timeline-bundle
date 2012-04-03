@@ -5,9 +5,8 @@ HighcoTimelineBundle 1.1.0
 
 Build timeline/wall for an entity easily.
 
+There is too a notification system, you can easily know how many unread notification you have, mark as read one, all, etc ... You can too add your notifier easily ...
+
 Actually depends on **SncRedisBundle**.
 
 [Read the Documentation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)
-
-**Warning**,
-If you have version < 2012 03 04, you should look at CHANGELOG-1.0.md, they are BC break. To take the version until this date, look at tag v0.1

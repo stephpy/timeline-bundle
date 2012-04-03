@@ -14,7 +14,7 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
 		$spreadManager         = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Manager');
 		$timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
 		$provider              = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
-		$notificationManager   = $this->getMock('Highco\TimelineBundle\Timeline\Notification\notificationManager');
+		$notificationManager   = $this->getMock('Highco\TimelineBundle\Timeline\Notification\NotificationManager');
 
 		$spreadManager->expects($this->never())->method('process');
 		$spreadManager->expects($this->never())->method('getResults');
@@ -60,7 +60,7 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
 		$spreadManager         = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Manager');
 		$timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
 		$provider              = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
-		$notificationManager   = $this->getMock('Highco\TimelineBundle\Timeline\Notification\notificationManager');
+		$notificationManager   = $this->getMock('Highco\TimelineBundle\Timeline\Notification\NotificationManager');
 
 		$ta = $this->getMock('Highco\TimelineBundle\Entity\TimelineAction');
 		$ta->expects($this->once())
