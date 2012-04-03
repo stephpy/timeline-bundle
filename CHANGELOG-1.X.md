@@ -1,4 +1,4 @@
-CHANGELOG for 1.0.X
+CHANGELOG for 1.X
 ===================
 
 [BC Break] prefix the message if it has to ...
