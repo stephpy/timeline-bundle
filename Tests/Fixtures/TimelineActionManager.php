@@ -6,6 +6,12 @@ use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * TimelineActionManager
+ *
+ * @uses TimelineActionManagerInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 class TimelineActionManager implements TimelineActionManagerInterface
 {
     /**

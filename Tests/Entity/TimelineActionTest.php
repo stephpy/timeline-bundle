@@ -20,43 +20,11 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
     {
         $ta = new TimelineAction();
 
-        $class = 'Highco\TimelineBundle\Tests\Entity\StubEntityTimeline';
+        $class = 'Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity';
 
         $this->assertEquals($ta->exceedDoctrineORMProxy($class), $class, "no changements");
 
-        $proxyClass = 'Highco\TimelineBundle\Tests\Entity\StubEntityTimelineActionProxy';
+        $proxyClass = 'Highco\TimelineBundle\Tests\Fixtures\ProxyTimelineActionEntity';
         $this->assertEquals($ta->exceedDoctrineORMProxy($proxyClass), $class, "not return proxy");
     }
-}
-
-/**
- * StubEntityTimelineActionProxy
- *
- * @uses StubEntityTimeline
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class StubEntityTimelineActionProxy extends StubEntityTimeline implements \Doctrine\ORM\Proxy\Proxy
-{
-    /**
-     * __load
-     */
-    public function __load()
-    {
-    }
-
-    /**
-     * __isInitialized
-     */
-    public function __isInitialized()
-    {
-    }
-}
-
-/**
- * StubEntityTimeline
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class StubEntityTimeline
-{
 }

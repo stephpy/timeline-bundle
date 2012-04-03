@@ -264,7 +264,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     {
         $client  = $this->getMock('Predis\Client');
         $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $pipeline = $this->getMock('Highco\TimelineBundle\Tests\Timeline\Provider\RedisPipeline');
+        $pipeline = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\RedisPipeline');
 
         $pipeline->expects($this->once())
             ->method('execute')
@@ -304,30 +304,5 @@ class RedisTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($redis->getKey('Toto', 'Subject', '1', 'Timeline:%s:%s:%s'), 'Timeline:Toto:Subject:1');
         $this->assertEquals($redis->getKey('Tata', 'MySubject', '2', 'MyTimeline:%s:%s:%s'), 'MyTimeline:Tata:MySubject:2');
-    }
-}
-
-/**
- * RedisPipeline
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class RedisPipeline
-{
-    /**
-     * __call
-     *
-     * @param string $method    Method to call
-     * @param array  $arguments Arguments
-     */
-    public function __call($method, $arguments)
-    {
-    }
-
-    /**
-     * execute
-     */
-    public function execute()
-    {
     }
 }

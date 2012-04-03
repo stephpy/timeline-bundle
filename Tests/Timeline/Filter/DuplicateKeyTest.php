@@ -214,12 +214,12 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
      */
     private function createTimelineAction($id = 1)
     {
-        $subject = $this->getMock('Highco\TimelineBundle\Tests\Timeline\Filter\EntityStub');
+        $subject = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
         $subject ->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));
 
-        $cod = $this->getMock('Highco\TimelineBundle\Tests\Timeline\Filter\EntityStub');
+        $cod = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
         $cod->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));
@@ -228,20 +228,5 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $timeline->create($subject, 'verb', $cod);
 
         return $timeline;
-    }
-}
-
-/**
- * EntityStub
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class EntityStub
-{
-    /**
-     * getId
-     */
-    public function getId()
-    {
     }
 }
