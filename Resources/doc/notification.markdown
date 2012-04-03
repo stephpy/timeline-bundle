@@ -43,7 +43,7 @@ $actions = $unread->getTimelineActions('MySubject', 'MyId', 'MyContext', $option
 // in options you can define offset, limit, etc ...
 
 // apply filters ?
-$actions = $this->get('highco.timeline.local.puller')->filter($actions);
+$actions = $this->get('highco.timeline.manager')->applyFilters($actions);
 ````
 
 

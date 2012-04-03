@@ -1,9 +1,12 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Manager;
+namespace Highco\TimelineBundle\Tests;
 
 use Highco\TimelineBundle\Timeline\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Timeline\Spread\Deployer;
+
+use Highco\TimelineBundle\Timeline\Manager;
 
 /**
  * ManagerTest
@@ -15,48 +18,90 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * testPush
      */
-    public function testPush()
+    public function testPushLater()
     {
-        /*$timelineAction = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $ta       = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
 
-        $pusher = $this->getMock('\Highco\TimelineBundle\Timeline\Manager\Pusher\LocalPusher', array(), array(), '', false);
+        $manager->expects($this->once())
+            ->method('updateTimelineAction')
+            ->with($this->equalTo($ta));
 
-        $pusher->expects($this->once())
-            ->method('push')
-            ->will($this->returnValue(1337));
+        $deployer->expects($this->once())
+            ->method('getDelivery')
+            ->will($this->returnValue(Deployer::DELIVERY_WAIT));
 
-        $manager = new \Highco\TimelineBundle\Timeline\Manager();
-        $manager->setPusher($pusher);
+        $deployer->expects($this->never())
+            ->method('deploy');
 
-        $result = $manager->push($timelineAction);
-        $this->assertEquals($result, 1337);*/
+        $pusher = new Manager($manager, $deployer, $provider);
+        $result = $pusher->push($ta);
+
+        $this->assertFalse($result);
     }
+
+    /**
+     * testPushNow
+     */
+    public function testPushNow()
+    {
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $ta       = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
+
+        $manager->expects($this->once())
+            ->method('updateTimelineAction')
+            ->with($this->equalTo($ta));
+
+        $deployer->expects($this->once())
+            ->method('getDelivery')
+            ->will($this->returnValue(Deployer::DELIVERY_IMMEDIATE));
+
+        $deployer->expects($this->once())
+            ->method('deploy')
+            ->with($this->equalTo($ta));
+
+        $pusher = new Manager($manager, $deployer, $provider);
+        $result = $pusher->push($ta);
+
+        $this->assertTrue($result);
+    }
+
 
     /**
      * testGetWall
      */
     public function testGetWall()
     {
-        /*$puller = $this->getMock('\Highco\TimelineBundle\Timeline\Manager\Puller\LocalPuller', array(), array(), '', false);
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
 
         $coll = array(
             $this->createTimelineAction(1),
         );
 
-        $puller->expects($this->once())
-            ->method('pull')
+        $paramsExpected = array(
+            'subjectModel' => 'toto',
+            'subjectId' => 1,
+            'context' => 'GLOBAL',
+        );
+
+        $optionsExpected = array();
+
+        $provider->expects($this->once())
+            ->method('getWall')
+            ->with($this->equalTo($paramsExpected), $this->equalTo($optionsExpected))
             ->will($this->returnValue($coll));
 
-        $puller->expects($this->once())
-            ->method('filter')
-            ->will($this->returnArgument(0));
-
-        $manager = new \Highco\TimelineBundle\Timeline\Manager\Manager();
-        $manager->setPuller($puller);
+        $manager = new Manager($manager, $deployer, $provider);
 
         $result = $manager->getWall('toto', 1);
 
-        $this->assertEquals($result, new Collection($coll));*/
+        $this->assertEquals($result, new Collection($coll));
     }
 
     /**
@@ -64,28 +109,77 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTimeline()
     {
-        /*$puller = $this->getMock('\Highco\TimelineBundle\Timeline\Manager\Puller\LocalPuller', array(), array(), '', false);
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
 
         $coll = array(
             $this->createTimelineAction(1),
         );
 
-        $puller->expects($this->once())
-            ->method('pull')
+        $paramsExpected = array(
+            'subjectModel' => 'toto',
+            'subjectId' => 1,
+        );
+
+        $optionsExpected = array();
+
+        $manager->expects($this->once())
+            ->method('getTimeline')
+            ->with($this->equalTo($paramsExpected), $this->equalTo($optionsExpected))
             ->will($this->returnValue($coll));
 
-        $puller->expects($this->once())
-            ->method('filter')
-            ->will($this->returnArgument(0));
-
-        $manager = new \Highco\TimelineBundle\Timeline\Manager\Manager();
-        $manager->setPuller($puller);
-
+        $manager = new Manager($manager, $deployer, $provider);
         $result = $manager->getTimeline('toto', 1);
 
-        $this->assertEquals($result, new Collection($coll));*/
+        $this->assertEquals($result, new Collection($coll));
     }
 
+    /**
+     * testApplyNoFilter
+     */
+    public function testApplyNoFilter()
+    {
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
+
+        $manager = new Manager($manager, $deployer, $provider);
+        $coll = array(
+            $this->createTimelineAction(1),
+        );
+
+        $results = $manager->applyFilters($coll);
+
+        $this->assertEquals($results, $coll);
+    }
+
+    /**
+     * testApplyFilter
+     */
+    public function testApplyFilter()
+    {
+        $manager  = $this->getMock('Highco\TimelineBundle\Entity\timelineActionManager', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $provider = $this->getMock('Highco\TimelineBundle\Timeline\Provider\Redis', array(), array(), '', false);
+        $filter   = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\Filter');
+
+        $coll = array(
+            $this->createTimelineAction(1),
+        );
+
+        $filter->expects($this->once())
+            ->method('filter')
+            ->with($this->equalTo($coll))
+            ->will($this->returnValue(array(1)));
+
+        $manager = new Manager($manager, $deployer, $provider);
+        $manager->addFilter($filter);
+
+        $results = $manager->applyFilters($coll);
+
+        $this->assertEquals($results, array(1));
+    }
     /**
      * @param int $id
      *

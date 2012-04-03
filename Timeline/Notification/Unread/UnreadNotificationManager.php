@@ -49,7 +49,7 @@ class UnreadNotificationManager implements NotifierInterface
      * getTimelineActions
      *
      * If you want to apply filters to these results,
-     * $actions = $this->get('highco.timeline.manager')->applyFilter($actions);
+     * $actions = $this->get('highco.timeline.manager')->applyFilters($actions);
      *
      * @param string $subjectModel The class of subject
      * @param string $subjectId    The oid of subject

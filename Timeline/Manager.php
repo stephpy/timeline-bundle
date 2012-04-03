@@ -85,13 +85,13 @@ class Manager
 
         $results = new Collection($this->provider->getWall($params, $options));
 
-        return $this->applyFilter($results);
+        return $this->applyFilters($results);
     }
 
     /**
      * @param string $subjectModel The class of the subject
      * @param string $subjectId    The oid of the subject
-     * @param array  $options      An array of options to give to puller
+     * @param array  $options      An array of options to give
      *
      * @return array
      */
@@ -104,7 +104,7 @@ class Manager
 
         $results = new Collection($this->timelineActionManager->getTimeline($params, $options));
 
-        return $this->applyFilter($results);
+        return $this->applyFilters($results);
     }
 
     /**
@@ -115,7 +115,7 @@ class Manager
      *
      * @return array
      */
-    public function applyFilter($results)
+    public function applyFilters($results)
     {
         foreach ($this->filters as $filter) {
             $results = $filter->filter($results);

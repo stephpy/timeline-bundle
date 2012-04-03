@@ -24,3 +24,4 @@ CHANGELOG for 1.X
 - [BC Break] [UnreadNotification]Change "removeUnreadNotification" and "removeUnreadNotifications" by "markAsReadTimelineAction" and "markAsReadTimelineActions"
 - [UnreadNotification] Can mark all as read
 - [Provider] Can remove all data from a key
+- [BC BREAK] Deleting puller and pusher, because they are not useful, only use Manager now, Manager migrate from Timeline\Manager\Manager to Timeline\Manager !
