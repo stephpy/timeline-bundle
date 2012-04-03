@@ -55,6 +55,17 @@ interface ProviderInterface
     function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array());
 
     /**
+     * remove all keys from storage
+     * This action has to be flushed
+     *
+     * @param string $context          The context
+     * @param string $subjectModel     The class of subject
+     * @param string $subjectId        The oid of subject
+     * @param array  $options          Array of options
+     */
+    function removeAll($context, $subjectModel, $subjectId, array $options = array());
+
+    /**
      * flush data persisted
      *
      * @return array

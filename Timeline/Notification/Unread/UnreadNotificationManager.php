@@ -95,9 +95,9 @@ class UnreadNotificationManager implements NotifierInterface
      * @param string $timelineActionId The timelineActionId
      * @param string $context          The context
      */
-    public function removeUnreadNotification($subjectModel, $subjectId, $timelineActionId, $context = "GLOBAL")
+    public function markAsReadTimelineAction($subjectModel, $subjectId, $timelineActionId, $context = "GLOBAL")
     {
-        $this->removeUnreadNotifications(array(
+        $this->markAsReadTimelineActions(array(
             array($context, $subjectModel, $subjectId, $timelineActionId)
         ));
     }
@@ -112,7 +112,7 @@ class UnreadNotificationManager implements NotifierInterface
      *
      * @param array $timelineActions
      */
-    public function removeUnreadNotifications(array $timelineActions)
+    public function markAsReadTimelineActions(array $timelineActions)
     {
         $options = array(
             'key' => self::$unreadNotificationKey,
@@ -127,6 +127,23 @@ class UnreadNotificationManager implements NotifierInterface
             $this->provider->remove($context, $subjectModel, $subjectId, $timelineActionId, $options);
         }
 
+        $this->provider->flush();
+    }
+
+    /**
+     * markAllAsRead
+     *
+     * @param string $subjectModel The class of subject
+     * @param string $subjectId    The oid of subject
+     * @param string $context      The context
+     */
+    public function markAllAsRead($subjectModel, $subjectId, $context = "GLOBAL")
+    {
+        $options = array(
+            'key' => self::$unreadNotificationKey,
+        );
+
+        $this->provider->removeAll($context, $subjectModel, $subjectId, $options);
         $this->provider->flush();
     }
 }

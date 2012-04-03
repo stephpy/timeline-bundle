@@ -23,15 +23,19 @@ $count  = $unread->countKeys('MySubject', 'MyId'); // on global context
 $count  = $unread->countKeys('MySubject', 'MyId', 'MyContext');
 
 // remove ONE unread notification
-$unread->removeUnreadNotification('MySubject', 'MyId', 'TimelineActionId'); // on global context
-$unread->removeUnreadNotification('MySubject', 'MyId', 'TimelineActionId', 'MyContext);
+$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId'); // on global context
+$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId', 'MyContext);
 
 // remove several unread notifications
-$unread->removeUnreadNotifications(array(
+$unread->markAsReadTimelineActions(array(
 	array('GLOBAL', 'MySubject', 'MyId', 'TimelineActionId'),
 	array('GLOBAL', 'MySubject', 'MyId', 'TimelineActionId'),
 	...
 ));
+
+// all unread notifications
+$unread->markAllAsRead('MySubject', 'MyId'); // on global context
+$unread->markAllAsRead('MySubject', 'MyId', 'MyContext');
 
 // retrieve timeline actions
 $actions = $unread->getTimelineActions('MySubject', 'MyId'); // on global context, no options

@@ -125,6 +125,23 @@ class Redis implements ProviderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function removeAll($context, $subjectModel, $subjectId, array $options = array())
+    {
+        $options = array_merge(array(
+            'key' => self::$timelineKey,
+        ), $options);
+
+        $key = $this->getKey($context, $subjectModel, $subjectId, $options['key']);
+
+        $this->persistedDatas[] = array(
+            'del',
+            $key,
+        );
+    }
+
+    /**
      * Flush data persisted,
      * If pipeline option is set to TRUE, pipeline of predis client will be used
      *
@@ -145,6 +162,9 @@ class Redis implements ProviderInterface
 
         foreach ($this->persistedDatas as $persistData) {
             switch($persistData[0]) {
+                case 'del':
+                    $replies[] = $client->del($persistData[1]);
+                break;
                 case 'zAdd':
                     $replies[] = $client->zAdd($persistData[1], $persistData[2], $persistData[3]);
                 break;

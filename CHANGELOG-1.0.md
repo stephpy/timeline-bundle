@@ -21,3 +21,6 @@ CHANGELOG for 1.0.X
 # 1.1.0:
 
 - Notifiers are available ! ( UnreadNotification actually available)
+- [BC Break] [UnreadNotification]Change "removeUnreadNotification" and "removeUnreadNotifications" by "markAsReadTimelineAction" and "markAsReadTimelineActions"
+- [UnreadNotification] Can mark all as read
+- [Provider] Can remove all data from a key
