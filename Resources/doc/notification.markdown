@@ -24,7 +24,7 @@ $count  = $unread->countKeys('MySubject', 'MyId', 'MyContext');
 
 // remove ONE unread notification
 $unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId'); // on global context
-$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId', 'MyContext);
+$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId', 'MyContext');
 
 // remove several unread notifications
 $unread->markAsReadTimelineActions(array(
