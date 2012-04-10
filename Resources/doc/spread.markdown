@@ -20,6 +20,9 @@ Create the class:
 
 ````php
 <?php
+
+namespace Acme\TimelineBundle\Timeline\Spread;
+
 use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
 use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
 use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
