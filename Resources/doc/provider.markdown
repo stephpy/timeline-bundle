@@ -7,7 +7,7 @@ Create the class:
 
 ````php
 <?php
-    use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+    use Highco\TimelineBundle\Provider\ProviderInterface;
 
     MyProvider implements ProviderInterface
     {

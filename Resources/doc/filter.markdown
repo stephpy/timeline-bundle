@@ -7,7 +7,7 @@ Create the class and add it as a service:
 ````php
 <?php
 
-use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
+use Highco\TimelineBundle\Filter\FilterInterface;
 
 MyOwnFilter implements FilterInterface
 {

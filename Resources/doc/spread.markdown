@@ -21,11 +21,11 @@ Create the class:
 ````php
 <?php
 
-namespace Acme\TimelineBundle\Timeline\Spread;
+namespace Acme\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
-use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
+use Highco\TimelineBundle\Spread\SpreadInterface;
+use Highco\TimelineBundle\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Spread\Entry\Entry;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 class MySpread implements SpreadInterface
