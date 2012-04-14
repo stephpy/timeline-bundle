@@ -4,7 +4,7 @@ namespace Highco\TimelineBundle\Tests\Timeline\Filter;
 
 use Highco\TimelineBundle\Timeline\Filter\DataHydrator;
 
-use Highco\TimelineBundle\Timeline\Collection;
+use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 /**

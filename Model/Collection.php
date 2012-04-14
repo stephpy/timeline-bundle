@@ -1,8 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline;
-
-use Highco\TimelineBundle\Model\TimelineAction;
+namespace Highco\TimelineBundle\Model;
 
 /**
  * Collection of TimelineAction

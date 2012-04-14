@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Tests;
 
-use Highco\TimelineBundle\Timeline\Collection;
+use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 
