@@ -35,12 +35,11 @@ class DuplicateKey implements FilterInterface
 
                         $duplicateKeys[$currentKey]['key'] = $key;
                         $duplicateKeys[$currentKey]['priority'] = $currentPriority;
-                        $duplicateKeys[$currentKey]['duplicated'] = true;
                     } else {
                         $keyToDelete = $key;
-                        $duplicateKeys[$currentKey]['duplicated'] = true;
                     }
 
+                    $duplicateKeys[$currentKey]['duplicated'] = true;
                     unset($results[$keyToDelete]);
                 } else {
                     $duplicateKeys[$currentKey] = array(

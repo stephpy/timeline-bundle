@@ -68,6 +68,13 @@ class Manager
     }
 
     /**
+     * The wall of a subject is all timeline actions of his spreads, exemple, i'm Chuck Norris
+     * I'm friend with Steven Seagal and God.
+     *
+     * I'll see on the wall all actions of Steven Seagal and God (and may my actions if i want).
+     *
+     * Define a context to get an other one than GLOBAL
+     *
      * @param string $subjectModel The class of the subject
      * @param string $subjectId    The oid of the subject
      * @param string $context      default GLOBAL
@@ -89,6 +96,8 @@ class Manager
     }
 
     /**
+     * That's all actions of the subject
+     *
      * @param string $subjectModel The class of the subject
      * @param string $subjectId    The oid of the subject
      * @param array  $options      An array of options to give
