@@ -4,7 +4,7 @@ namespace Highco\TimelineBundle\Timeline;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Model\Collection;
-use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Provider\ProviderInterface;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
 use Highco\TimelineBundle\Filter\FilterInterface;

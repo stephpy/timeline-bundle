@@ -3,7 +3,7 @@
 namespace Highco\TimelineBundle\Timeline\Spread;
 
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
+use Highco\TimelineBundle\Provider\ProviderInterface;
 use Highco\TimelineBundle\Notification\NotificationManager;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 

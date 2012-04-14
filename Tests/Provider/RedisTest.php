@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Timeline\Provider;
+namespace Highco\TimelineBundle\Tests\Provider;
 
-use Highco\TimelineBundle\Timeline\Provider\Redis;
+use Highco\TimelineBundle\Provider\Redis;
 
 /**
  * RedisTest
