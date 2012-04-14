@@ -37,6 +37,7 @@ class HighcoTimelineExtension extends Extension
         $loader->load(sprintf('%s.xml', $config['db_driver']));
 
         $container->setAlias('highco.timeline_action_manager', $config['timeline_action_manager']);
+        $container->setParameter('highco.timeline.db_driver', $config['db_driver']);
 
         $loader->load('deployer.xml');
         $loader->load('filter.xml');

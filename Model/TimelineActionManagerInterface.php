@@ -31,14 +31,6 @@ interface TimelineActionManagerInterface
     public function getTimelineActionsForIds(array $ids);
 
     /**
-     * @param string $model The model
-     * @param array  $oids  An array of oids for model
-     *
-     * @return array
-     */
-    public function getTimelineResultsForModelAndOids($model, array $oids);
-
-    /**
      * getTimeline of a subject
      *
      * @param array $params  (subjectModel, subjectId)

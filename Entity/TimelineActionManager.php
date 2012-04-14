@@ -17,7 +17,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     /**
      * @var ObjectManager
      */
-    private $em;
+    protected $em;
 
     /**
      * @param ObjectManager $em
@@ -25,6 +25,16 @@ class TimelineActionManager implements TimelineActionManagerInterface
     public function __construct(ObjectManager $em)
     {
         $this->em = $em;
+    }
+
+    /**
+     * Return actual entity manager
+     *
+     * @return ObjectManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
     }
 
     /**
@@ -68,28 +78,6 @@ class TimelineActionManager implements TimelineActionManagerInterface
             ->setParameter(1, $ids);
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @todo, we should detach this from the TimelineActionManager, no sense to let it on this class
-     */
-    public function getTimelineResultsForModelAndOids($model, array $oids)
-    {
-        $repository = $this->em->getRepository($model);
-        if (method_exists($repository, "getTimelineResultsForModelAndOids")) {
-
-            return $repository->getTimelineResultsForModelAndOids($oids);
-        } else {
-            $qb = $this->em->createQueryBuilder();
-
-            $qb
-                ->select('r')
-                ->from($model, 'r INDEX BY r.id')
-                ->where($qb->expr()->in('r.id', $oids));
-
-            return $qb->getQuery()->getResult();
-        }
     }
 
     /**

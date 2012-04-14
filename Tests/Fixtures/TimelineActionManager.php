@@ -14,6 +14,13 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class TimelineActionManager implements TimelineActionManagerInterface
 {
+	/**
+	 * @return void
+	 */
+	public function getEntityManager()
+	{
+	}
+
     /**
      * {@inheritDoc}
      */
@@ -33,14 +40,6 @@ class TimelineActionManager implements TimelineActionManagerInterface
      * {@inheritDoc}
      */
     public function getTimelineActionsForIds(array $ids)
-    {
-        return array();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTimelineResultsForModelAndOids($model, array $oids)
     {
         return array();
     }

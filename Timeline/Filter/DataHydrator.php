@@ -31,11 +31,18 @@ class DataHydrator implements FilterInterface
     private $timelineActionManager;
 
     /**
-     * @param TimelineActionManagerInterface $timelineActionManager
+     * @var string
      */
-    public function __construct(TimelineActionManagerInterface $timelineActionManager)
+    private $dbDriver;
+
+    /**
+     * @param TimelineActionManagerInterface $timelineActionManager
+     * @param string                         $dbDriver
+     */
+    public function __construct(TimelineActionManagerInterface $timelineActionManager, $dbDriver)
     {
         $this->timelineActionManager = $timelineActionManager;
+        $this->dbDriver              = $dbDriver;
     }
 
     /**
@@ -72,10 +79,10 @@ class DataHydrator implements FilterInterface
         }
 
         /* ---- fetch results from database --- */
+
         $resultsByModel = array();
         foreach ($referencesByModel as $model => $ids) {
-            $resultsByModel[$model] = $this->timelineActionManager
-                ->getTimelineResultsForModelAndOids($model, $ids);
+            $resultsByModel[$model] = $this->_getTimelineResultsForModelAndOids($model, (array) $ids);
         }
 
         /* ---- hydrate references ---- */
@@ -97,5 +104,40 @@ class DataHydrator implements FilterInterface
     public function addReferences(array $references)
     {
         $this->references = array_merge($references, $this->references);
+    }
+
+    /**
+     * Return timeline results from storage (actually only 'orm')
+     *
+     * @param string $model Model to retrieve
+     * @param array  $oids  An array of oids
+     *
+     * @return array
+     */
+    protected function _getTimelineResultsForModelAndOids($model, array $oids)
+    {
+        switch($this->dbDriver) {
+            case 'orm':
+                $em         = $this->timelineActionManager->getEntityManager();
+                $repository = $em->getRepository($model);
+
+                if (method_exists($repository, "getTimelineResultsForModelAndOids")) {
+                    return $repository->getTimelineResultsForModelAndOids($oids);
+                } else {
+                    $qb = $em->createQueryBuilder();
+
+                    $qb
+                        ->select('r')
+                        ->from($model, 'r INDEX BY r.id')
+                        ->where($qb->expr()->in('r.id', $oids));
+
+                    return $qb->getQuery()->getResult();
+                }
+
+                break;
+            default;
+                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $this->dbDriver));
+                break;
+        }
     }
 }
