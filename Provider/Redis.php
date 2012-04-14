@@ -15,7 +15,7 @@ use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 class Redis implements ProviderInterface
 {
     /**
-     * @var Client
+     * @var Redis Client
      */
     private $redis;
 

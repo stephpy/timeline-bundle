@@ -61,7 +61,7 @@ class Deployer
      */
     public function deploy(TimelineAction $timelineAction)
     {
-        if ($timelineAction->getStatusWanted() !== 'published') {
+        if ($timelineAction->getStatusWanted() !== TimelineAction::STATUS_PUBLISHED) {
             return;
         }
 
