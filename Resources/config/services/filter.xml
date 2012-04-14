@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.filter.duplicate_key.class">Highco\TimelineBundle\Timeline\Filter\DuplicateKey</parameter>
-        <parameter key="highco.timeline.filter.data_hydrator.class">Highco\TimelineBundle\Timeline\Filter\DataHydrator</parameter>
+        <parameter key="highco.timeline.filter.duplicate_key.class">Highco\TimelineBundle\Filter\DuplicateKey</parameter>
+        <parameter key="highco.timeline.filter.data_hydrator.class">Highco\TimelineBundle\Filter\DataHydrator</parameter>
     </parameters>
 
     <services>

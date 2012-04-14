@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Filter\DataHydrator;
+namespace Highco\TimelineBundle\Filter\DataHydrator;
 
 use Symfony\Component\DependencyInjection\Container;
 use Highco\TimelineBundle\Model\TimelineAction;

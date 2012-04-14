@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Tests\Fixtures;
 
-use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
+use Highco\TimelineBundle\Filter\FilterInterface;
 
 /**
  * Filter

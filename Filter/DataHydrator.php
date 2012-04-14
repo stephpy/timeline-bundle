@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Filter;
+namespace Highco\TimelineBundle\Filter;
 
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Timeline\Filter\DataHydrator\Entry;
+use Highco\TimelineBundle\Filter\DataHydrator\Entry;
 
 /**
  * Defined on "Resources/doc/filter.markdown"

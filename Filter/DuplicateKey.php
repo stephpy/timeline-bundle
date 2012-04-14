@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Filter;
+namespace Highco\TimelineBundle\Filter;
 
 /**
  * Defined on "Resources/doc/filter.markdown"

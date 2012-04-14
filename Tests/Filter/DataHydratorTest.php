@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Timeline\Filter;
+namespace Highco\TimelineBundle\Tests\Filter;
 
-use Highco\TimelineBundle\Timeline\Filter\DataHydrator;
+use Highco\TimelineBundle\Filter\DataHydrator;
 
 use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;

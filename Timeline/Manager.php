@@ -7,7 +7,7 @@ use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Timeline\Provider\ProviderInterface;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Timeline\Spread\Deployer;
-use Highco\TimelineBundle\Timeline\Filter\FilterInterface;
+use Highco\TimelineBundle\Filter\FilterInterface;
 
 /**
  * Manager timeline
