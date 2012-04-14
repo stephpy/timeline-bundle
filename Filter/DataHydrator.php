@@ -36,8 +36,8 @@ class DataHydrator implements FilterInterface
     private $dbDriver;
 
     /**
-     * @param TimelineActionManagerInterface $timelineActionManager
-     * @param string                         $dbDriver
+     * @param TimelineActionManagerInterface $timelineActionManager TimelineActionManager
+     * @param string                         $dbDriver              Db driver defined on your config
      */
     public function __construct(TimelineActionManagerInterface $timelineActionManager, $dbDriver)
     {

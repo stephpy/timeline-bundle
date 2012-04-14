@@ -3,7 +3,7 @@
 namespace Highco\TimelineBundle\Tests\Spread;
 
 use Highco\TimelineBundle\Spread\Manager;
-use Highco\TimelineBundle\Tests\Stubs\Timeline\Spread as StubSpread;
+use Highco\TimelineBundle\Tests\Stubs\Spread as StubSpread;
 use Highco\TimelineBundle\Model\TimelineAction;
 
 use Highco\TimelineBundle\Spread\Entry\Entry;

@@ -6,7 +6,7 @@ use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Spread\Deployer;
 
-use Highco\TimelineBundle\Timeline\Manager;
+use Highco\TimelineBundle\Manager;
 
 /**
  * ManagerTest

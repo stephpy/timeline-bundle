@@ -21,7 +21,10 @@ class Entry
     }
 
     /**
-     * create an instance of the entry
+     * create
+     *
+     * @param string $subjectModel The subject model
+     * @param string $subjectId    The subject identifier
      *
      * @return Entry
      */

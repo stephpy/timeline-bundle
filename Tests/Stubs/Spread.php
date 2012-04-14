@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Stubs\Timeline;
+namespace Highco\TimelineBundle\Tests\Stubs;
 
 use Highco\TimelineBundle\Spread\SpreadInterface;
 

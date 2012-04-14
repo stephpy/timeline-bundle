@@ -14,12 +14,12 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class TimelineActionManager implements TimelineActionManagerInterface
 {
-	/**
-	 * @return void
-	 */
-	public function getEntityManager()
-	{
-	}
+    /**
+     * @return void
+     */
+    public function getEntityManager()
+    {
+    }
 
     /**
      * {@inheritDoc}
