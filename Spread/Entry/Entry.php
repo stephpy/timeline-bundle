@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Spread\Entry;
+namespace Highco\TimelineBundle\Spread\Entry;
 
 /**
  * Entry

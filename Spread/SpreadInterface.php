@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Spread;
+namespace Highco\TimelineBundle\Spread;
 
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**
  * How to define a spread

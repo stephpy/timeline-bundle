@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Timeline\Spread;
+namespace Highco\TimelineBundle\Tests\Spread;
 
-use Highco\TimelineBundle\Timeline\Spread\Deployer;
+use Highco\TimelineBundle\Spread\Deployer;
 
-use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
+use Highco\TimelineBundle\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Spread\Entry\Entry;
 
 /**
  * DeployerTest
@@ -19,7 +19,7 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeployNotWantToBePublished()
     {
-        $spreadManager         = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Manager');
+        $spreadManager         = $this->getMock('Highco\TimelineBundle\Spread\Manager');
         $timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
         $provider              = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
         $notificationManager   = $this->getMock('Highco\TimelineBundle\Notification\NotificationManager');
@@ -68,7 +68,7 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
         $entryCollection->set('GLOBAL', $entry);
         /* ---- end define ---- */
 
-        $spreadManager         = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Manager');
+        $spreadManager         = $this->getMock('Highco\TimelineBundle\Spread\Manager');
         $timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
         $provider              = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
         $notificationManager   = $this->getMock('Highco\TimelineBundle\Notification\NotificationManager');

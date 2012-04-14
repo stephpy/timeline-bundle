@@ -26,7 +26,7 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
             ->method('getTimelineWithStatusPublished')
             ->will($this->returnValue(array()));
 
-        $deployer = $this->getMock('\Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('\Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
 
         $container = new Container();
         $container->set('highco.timeline_action_manager', $manager);
@@ -67,7 +67,7 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($timelineAction)));
 
 
-        $deployer = $this->getMock('\Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('\Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
 
         $container = new Container();
         $container->set('highco.timeline_action_manager', $manager);

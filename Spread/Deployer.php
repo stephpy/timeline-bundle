@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Spread;
+namespace Highco\TimelineBundle\Spread;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Provider\ProviderInterface;

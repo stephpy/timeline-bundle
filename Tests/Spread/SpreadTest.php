@@ -1,13 +1,13 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Timeline\Spread;
+namespace Highco\TimelineBundle\Tests\Spread;
 
-use Highco\TimelineBundle\Timeline\Spread\Manager;
+use Highco\TimelineBundle\Spread\Manager;
 use Highco\TimelineBundle\Tests\Stubs\Timeline\Spread as StubSpread;
 use Highco\TimelineBundle\Model\TimelineAction;
 
-use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
-use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Spread\Entry\Entry;
+use Highco\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**
  * SpreadTest

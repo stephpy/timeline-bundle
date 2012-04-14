@@ -4,7 +4,7 @@ namespace Highco\TimelineBundle\Tests;
 
 use Highco\TimelineBundle\Model\Collection;
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Timeline\Spread\Deployer;
+use Highco\TimelineBundle\Spread\Deployer;
 
 use Highco\TimelineBundle\Timeline\Manager;
 
@@ -21,7 +21,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testPushLater()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $ta       = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
 
@@ -48,7 +48,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testPushNow()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $ta       = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
 
@@ -77,7 +77,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetWall()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
 
         $coll = array(
@@ -110,7 +110,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetTimeline()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
 
         $coll = array(
@@ -141,7 +141,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testApplyNoFilter()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
 
         $manager = new Manager($manager, $deployer, $provider);
@@ -160,7 +160,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testApplyFilter()
     {
         $manager  = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $deployer = $this->getMock('Highco\TimelineBundle\Timeline\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
         $provider = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
         $filter   = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\Filter');
 
