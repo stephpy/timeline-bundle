@@ -27,3 +27,4 @@ CHANGELOG for 1.X
 
 # 1.2.0:
 - [BC BREAK] Deleting puller and pusher, because they are not useful, only use Manager now, **Manager migrate from Timeline\Manager\Manager to Timeline\Manager** !
+- DataHydrator filter use db_driver to get TimelineResults, `getTimelineResultsForModelAndOids` was deleted from TimelineActionManagerInterface
