@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Timeline\Notification\Notifier;
+namespace Highco\TimelineBundle\Notification\Notifier;
 
 use Highco\TimelineBundle\Model\TimelineAction;
 
