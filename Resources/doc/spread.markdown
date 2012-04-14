@@ -20,33 +20,41 @@ Create the class:
 
 ````php
 <?php
-    use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
-    use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
-    use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
 
-    class MySpread implements SpreadInterface
+namespace Acme\TimelineBundle\Timeline\Spread;
+
+use Highco\TimelineBundle\Timeline\Spread\SpreadInterface;
+use Highco\TimelineBundle\Timeline\Spread\Entry\EntryCollection;
+use Highco\TimelineBundle\Timeline\Spread\Entry\Entry;
+use Highco\TimelineBundle\Model\TimelineAction;
+
+class MySpread implements SpreadInterface
+{
+    public function supports(TimelineAction $timelineAction)
     {
-        public function supports(TimelineAction $timelineAction)
-        {
-            return true; //or false
-        }
-
-        public function process(TimelineAction $timelineAction, EntryCollection $coll)
-        {
-            $entry = new Entry();
-            $entry->subjectModel = "\MySubject";
-            $entry->subjectId = 1;
-
-            $coll->set('mytimeline', $entry);
-        }
+        return true; //or false, you can look at timeline action to make your decision
     }
+
+    public function process(TimelineAction $timelineAction, EntryCollection $coll)
+    {
+        $entry = new Entry();
+        $entry->subjectModel = "\MySubject";
+        $entry->subjectId = 1;
+
+        //OR
+
+        $entry = Entry::create('\MySubject', 1);
+
+        $coll->set('mytimeline', $entry);
+    }
+}
 ````
 
 Add it to services
 
 
 ````xml
-    <service id="my_service" class="MyClass">
-        <tag name="highco.timeline.spread"/>
-    </service>
+<service id="my_service" class="MyClass">
+    <tag name="highco.timeline.spread"/>
+</service>
 ````
