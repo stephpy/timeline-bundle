@@ -3,7 +3,6 @@
 namespace Highco\TimelineBundle\Entity;
 
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Model\TimelineAction;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
