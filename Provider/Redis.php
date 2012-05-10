@@ -179,7 +179,12 @@ class Redis implements ProviderInterface
         }
 
         if ($this->options['pipeline']) {
-            return $client->execute();
+            //@todo see how to make agree predis or phpredis to use only one method...
+            if ($client instanceof \Predis\Pipeline\PipelineContext) {
+                return $client->execute();
+            } else {
+                return $client->exec();
+            }
         }
 
         return $replies;
