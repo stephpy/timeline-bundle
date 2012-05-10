@@ -30,3 +30,4 @@ CHANGELOG for 1.X
 - DataHydrator filter use db_driver to get TimelineResults, `getTimelineResultsForModelAndOids` was deleted from TimelineActionManagerInterface
 - Collection of TimelineAction moved to Model dir
 - [BC BREAK] Move all dirs from Timeline to /
+- Create an interface for TimelineAction.
