@@ -138,4 +138,4 @@ Wishlist
 --------
 
 - Other providers ( contribute guys !)
-- Propel/Dotrine ODM supports
+- Propel/Doctrine ODM supports
