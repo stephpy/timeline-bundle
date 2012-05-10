@@ -7,7 +7,7 @@ namespace Highco\TimelineBundle\Tests\Fixtures;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class RedisPipeline
+class RedisPipeline extends \Predis\Pipeline\PipelineContext
 {
     /**
      * __call
@@ -22,7 +22,7 @@ class RedisPipeline
     /**
      * execute
      */
-    public function execute()
+    public function execute($callable = null)
     {
     }
 }

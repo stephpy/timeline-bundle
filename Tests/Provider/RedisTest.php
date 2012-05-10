@@ -264,7 +264,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
     {
         $client  = $this->getMock('Predis\Client');
         $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $pipeline = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\RedisPipeline');
+        $pipeline = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\RedisPipeline', array(), array(), '', false);
 
         $pipeline->expects($this->once())
             ->method('execute')
