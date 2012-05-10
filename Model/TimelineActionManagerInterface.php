@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Model;
 
-use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Model\TimelineActionInterface;
 
 /**
  * TimelineActionManagerInterface
@@ -12,9 +12,9 @@ use Highco\TimelineBundle\Model\TimelineAction;
 interface TimelineActionManagerInterface
 {
     /**
-     * @param TimelineAction $timelineAction
+     * @param TimelineActionInterface $timelineAction
      */
-    public function updateTimelineAction(TimelineAction $timelineAction);
+    public function updateTimelineAction(TimelineActionInterface $timelineAction);
 
     /**
      * @param int $limit

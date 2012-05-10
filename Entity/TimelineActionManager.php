@@ -3,7 +3,7 @@
 namespace Highco\TimelineBundle\Entity;
 
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Highco\TimelineBundle\Model\TimelineActionInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -40,7 +40,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function updateTimelineAction(TimelineAction $timelineAction)
+    public function updateTimelineAction(TimelineActionInterface $timelineAction)
     {
         $this->em->persist($timelineAction);
         $this->em->flush();

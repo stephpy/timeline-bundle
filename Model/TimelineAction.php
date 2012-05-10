@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineAction
+class TimelineAction implements TimelineActionInterface
 {
     CONST STATUS_PENDING   = 'pending';
     CONST STATUS_PUBLISHED = 'published';
@@ -121,7 +121,7 @@ class TimelineAction
     }
 
     /**
-     * @return timestamp
+     * {@inheritdoc}
      */
     public function getSpreadTime()
     {
@@ -129,7 +129,7 @@ class TimelineAction
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isPublished()
     {
@@ -137,7 +137,7 @@ class TimelineAction
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function hasDuplicateKey()
     {
@@ -145,7 +145,7 @@ class TimelineAction
     }
 
     /**
-     * @param boolean $duplicated
+     * {@inheritdoc}
      */
     public function setIsDuplicated($duplicated)
     {
@@ -153,7 +153,7 @@ class TimelineAction
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isDuplicated()
     {
@@ -161,9 +161,7 @@ class TimelineAction
     }
 
     /**
-     * @param Request $request
-     *
-     * @return TimelineAction
+     * {@inheritdoc}
      */
     static public function fromRequest(Request $request)
     {
@@ -190,7 +188,7 @@ class TimelineAction
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -198,12 +196,7 @@ class TimelineAction
     }
 
     /**
-     * Chuck Norris comments Fight 1337 of Vic Mc Key
-     *
-     * @param object $subject            The subject of the timeline action (Chuck Norris)
-     * @param string $verb               The verb (comments)
-     * @param object $directComplement   The direct complement (optional) (fight 1337)
-     * @param object $indirectComplement The indirect complement (optional) (Vic Mc Key)
+     * {@inheritdoc}
      */
     public function create($subject, $verb, $directComplement = null, $indirectComplement = null)
     {
@@ -235,7 +228,7 @@ class TimelineAction
     }
 
     /**
-     * @param object $subject
+     * {@inheritdoc}
      */
     public function setSubject($subject)
     {
@@ -249,7 +242,7 @@ class TimelineAction
     }
 
     /**
-     * @return object|null
+     * {@inheritdoc}
      */
     public function getSubject()
     {
@@ -257,7 +250,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $subjectModel
+     * {@inheritdoc}
      */
     public function setSubjectModel($subjectModel)
     {
@@ -265,7 +258,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getSubjectModel()
     {
@@ -273,7 +266,7 @@ class TimelineAction
     }
 
     /**
-     * @param integer $subjectId
+     * {@inheritdoc}
      */
     public function setSubjectId($subjectId)
     {
@@ -281,7 +274,7 @@ class TimelineAction
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getSubjectId()
     {
@@ -289,7 +282,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $verb
+     * {@inheritdoc}
      */
     public function setVerb($verb)
     {
@@ -297,7 +290,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getVerb()
     {
@@ -305,7 +298,7 @@ class TimelineAction
     }
 
     /**
-     * @param object $directComplement
+     * {@inheritdoc}
      */
     public function setDirectComplement($directComplement)
     {
@@ -319,7 +312,7 @@ class TimelineAction
     }
 
     /**
-     * @return object|null
+     * {@inheritdoc}
      */
     public function getDirectComplement()
     {
@@ -331,7 +324,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $directComplementText
+     * {@inheritdoc}
      */
     public function setDirectComplementText($directComplementText)
     {
@@ -339,7 +332,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDirectComplementText()
     {
@@ -347,7 +340,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $directComplementModel
+     * {@inheritdoc}
      */
     public function setDirectComplementModel($directComplementModel)
     {
@@ -355,7 +348,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDirectComplementModel()
     {
@@ -363,7 +356,7 @@ class TimelineAction
     }
 
     /**
-     * @param integer $directComplementId
+     * {@inheritdoc}
      */
     public function setDirectComplementId($directComplementId)
     {
@@ -371,7 +364,7 @@ class TimelineAction
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getDirectComplementId()
     {
@@ -379,7 +372,7 @@ class TimelineAction
     }
 
     /**
-     * @param object $indirectComplement
+     * {@inheritdoc}
      */
     public function setIndirectComplement($indirectComplement)
     {
@@ -394,7 +387,7 @@ class TimelineAction
     }
 
     /**
-     * @return object|null
+     * {@inheritdoc}
      */
     public function getIndirectComplement()
     {
@@ -402,7 +395,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $indirectComplementText
+     * {@inheritdoc}
      */
     public function setIndirectComplementText($indirectComplementText)
     {
@@ -410,7 +403,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getIndirectComplementText()
     {
@@ -418,7 +411,7 @@ class TimelineAction
     }
 
     /**
-     * @param string $indirectComplementModel
+     * {@inheritdoc}
      */
     public function setIndirectComplementModel($indirectComplementModel)
     {
@@ -426,7 +419,7 @@ class TimelineAction
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getIndirectComplementModel()
     {
@@ -434,7 +427,7 @@ class TimelineAction
     }
 
     /**
-     * @param integer $indirectComplementId
+     * {@inheritdoc}
      */
     public function setIndirectComplementId($indirectComplementId)
     {
@@ -442,7 +435,7 @@ class TimelineAction
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getIndirectComplementId()
     {
@@ -513,6 +506,7 @@ class TimelineAction
 
     /**
      * @return string
+     * {@inheritdoc}
      */
     public function getDuplicateKey()
     {
@@ -521,6 +515,7 @@ class TimelineAction
 
     /**
      * @param integer $duplicatePriority
+     * {@inheritdoc}
      */
     public function setDuplicatePriority($duplicatePriority)
     {
@@ -528,7 +523,7 @@ class TimelineAction
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getDuplicatePriority()
     {
@@ -536,7 +531,7 @@ class TimelineAction
     }
 
     /**
-     * @param datetime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt($createdAt)
     {
@@ -544,9 +539,7 @@ class TimelineAction
     }
 
     /**
-     * Get createdAt
-     *
-     * @return datetime
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
