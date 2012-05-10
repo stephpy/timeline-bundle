@@ -2,7 +2,8 @@
 
 namespace Highco\TimelineBundle\Provider;
 
-use Predis\Client;
+use Predis\Client as PredisClient;
+use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 
@@ -15,7 +16,7 @@ use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 class Redis implements ProviderInterface
 {
     /**
-     * @var Redis Client
+     * @var PredisClient|PhpredisClient Client
      */
     private $redis;
 
@@ -40,11 +41,11 @@ class Redis implements ProviderInterface
     protected static $timelineKey = "Timeline:%s:%s:%s";
 
     /**
-     * @param Client                         $redis                 Redis client
+     * @param PredisClient|PhpredisClient    $redis                 Redis client
      * @param TimelineActionManagerInterface $timelineActionManager Manager for storage
      * @param array                          $options               An array of options
      */
-    public function __construct(Client $redis, TimelineActionManagerInterface $timelineActionManager, array $options = array())
+    public function __construct($redis, TimelineActionManagerInterface $timelineActionManager, array $options = array())
     {
         $this->setRedis($redis);
         $this->timelineActionManager = $timelineActionManager;
@@ -200,10 +201,14 @@ class Redis implements ProviderInterface
     }
 
     /**
-     * @param Client $redis
+     * @param PredisClient|PhpredisClient $redis
      */
-    public function setRedis(Client $redis)
+    public function setRedis($redis)
     {
+        if (!$redis instanceof PhpredisClient && !$redis instanceof PredisClient) {
+            throw new \InvalidArgumentException('You have to give a PhpRedisClient or a PredisClient');
+        }
+
         $this->redis = $redis;
     }
 }
