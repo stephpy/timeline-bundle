@@ -32,3 +32,4 @@ CHANGELOG for 1.X
 - [BC BREAK] Move all dirs from Timeline to /
 - Create an interface for TimelineAction.
 - Thanks to snc works, TimelineBundle accepts now phpredis as provider. You just have to define your connection with phpredis on snc_redis.
+- $timelineAction = new TimelineAction(); $timelineAction->create('...'); become $timelineAction = TimelineAction::create('....');
