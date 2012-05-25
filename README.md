@@ -15,6 +15,7 @@ Actually depends on **SncRedisBundle**.
 
 # Todo
 
+- Move Doctrine Entity to super class to let user be able to override it.
 - `db_driver` **propel**
 - `db_driver` **propel2**
 - `db_driver` **redis**
