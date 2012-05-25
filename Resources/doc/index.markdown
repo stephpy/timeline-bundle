@@ -9,6 +9,7 @@ See for more informations:
 - [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
+- [basic_example](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/basic_example.markdown)
 
 # How it works ?
 
