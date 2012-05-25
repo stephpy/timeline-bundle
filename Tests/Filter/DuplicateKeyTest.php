@@ -224,9 +224,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($id));
 
-        $timeline = new TimelineAction();
-        $timeline->create($subject, 'verb', $cod);
-
-        return $timeline;
+        return TimelineAction::create($subject, 'verb', $cod);
     }
 }

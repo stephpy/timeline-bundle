@@ -60,22 +60,20 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $action = new TimelineAction();
-
         try {
-            $action->create('noobject', 'verb', 'nothing');
+            TimelineAction::create('noobject', 'verb', 'nothing');
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Subject should be an object');
         }
 
         try {
-            $action->create(new TimelineAction(), 'verb', 'noobject');
+            TimelineAction::create(new TimelineAction(), 'verb', 'noobject');
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Direct complement should be an object');
         }
 
         try {
-            $action->create(new TimelineAction(), 'verb', new TimelineAction(), 'no object');
+            TimelineAction::create(new TimelineAction(), 'verb', new TimelineAction(), 'no object');
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals($e->getMessage(), 'Indirect complement should be an object');
         }

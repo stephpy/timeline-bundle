@@ -79,8 +79,7 @@ $entry->setIndirectComplementText('Vic');
 
 # OR #
 
-$entry = new TimelineAction();
-$entry->create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
+$entry = TimelineAction::create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
 
 $manager = $this->get('highco.timeline.manager');
 $manager->push($entry);

@@ -56,7 +56,7 @@ interface TimelineActionInterface
      * @param object $directComplement   The direct complement (optional) (fight 1337)
      * @param object $indirectComplement The indirect complement (optional) (Vic Mc Key)
      */
-    public function create($subject, $verb, $directComplement = null, $indirectComplement = null);
+    public static function create($subject, $verb, $directComplement = null, $indirectComplement = null);
 
     /**
      * @param object $subject

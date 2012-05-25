@@ -21,8 +21,7 @@ use Highco\TimelineBundle\Entity\TimelineAction
 public functio myAction()
 {
     //......
-    $entry = new TimelineAction();
-    $entry->create($chuckNorrisObject, 'control', 'The world');
+    $entry = TimelineAction::create($chuckNorrisObject, 'control', 'The world');
 
     $this->get('highco.timeline.manager')->push($entry);
 }
