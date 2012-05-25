@@ -22,7 +22,7 @@ public functio myAction()
 {
     //......
     $entry = new TimelineAction();
-    $entry->create('ChuckNorris', 'control', 'The world');
+    $entry->create($chuckNorrisObject, 'control', 'The world');
 
     $this->get('highco.timeline.manager')->push($entry);
 }
@@ -41,7 +41,6 @@ Look at [documentation](http://symfony.com/doc/current/book/service_container.ht
 <service id="my_spread" class="Acme\MyBundle\Spread\MySpread">
     <tag name="highco.timeline.spread"/>
 </service>
-
 ```
 
 Now, create the class `Acme\MyBundle\Spread\MySpread`
@@ -61,7 +60,7 @@ class MySpread implements SpreadInterface
     public function supports(TimelineAction $timelineAction)
     {
         // here you define what actions you want to support, you have to return a boolean.
-        if ($timelineAction->getSubject() == "ChuckNorris") {
+        if ($timelineAction->getSubject()->getName() == "ChuckNorris") {
             return true;
         } else {
             return false;
@@ -93,7 +92,7 @@ It's ok, now you can get timeline actions for each users
 In your controller:
 
 ```php
-
+<?php
 // Get the timeline of Steven Seagal
 $results = $this->get('highco.timeline.manager')
     ->getWall('\User', 1337, 'GLOBAL');
