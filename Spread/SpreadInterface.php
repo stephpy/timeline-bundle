@@ -19,11 +19,11 @@ interface SpreadInterface
      *
      * @return boolean
      */
-    function supports(TimelineAction $timelineAction);
+    public function supports(TimelineAction $timelineAction);
 
     /**
      * @param TimelineAction  $timelineAction TimelineAction we look for spreads
      * @param EntryCollection $coll           Spreads defined on an EntryCollection
      */
-    function process(TimelineAction $timelineAction, EntryCollection $coll);
+    public function process(TimelineAction $timelineAction, EntryCollection $coll);
 }

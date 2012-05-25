@@ -162,7 +162,7 @@ class Redis implements ProviderInterface
         }
 
         foreach ($this->persistedDatas as $persistData) {
-            switch($persistData[0]) {
+            switch ($persistData[0]) {
                 case 'del':
                     $replies[] = $client->del($persistData[1]);
                     break;

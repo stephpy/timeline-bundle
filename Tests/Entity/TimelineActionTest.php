@@ -2,7 +2,6 @@
 
 namespace Highco\TimelineBundle\Tests\Entity;
 
-use Symfony\Component\HttpFoundation\Request;
 
 use Highco\TimelineBundle\Entity\TimelineAction;
 

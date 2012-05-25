@@ -41,7 +41,7 @@ interface TimelineActionInterface
      *
      * @return TimelineAction
      */
-    static public function fromRequest(Request $request);
+    public static function fromRequest(Request $request);
 
     /**
      * @return integer

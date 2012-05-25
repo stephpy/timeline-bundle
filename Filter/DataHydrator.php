@@ -116,7 +116,7 @@ class DataHydrator implements FilterInterface
      */
     protected function _getTimelineResultsForModelAndOids($model, array $oids)
     {
-        switch($this->dbDriver) {
+        switch ($this->dbDriver) {
             case 'orm':
                 $em         = $this->timelineActionManager->getEntityManager();
                 $repository = $em->getRepository($model);

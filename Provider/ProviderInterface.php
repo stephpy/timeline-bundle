@@ -17,7 +17,7 @@ interface ProviderInterface
      *
      * @return array
      */
-    function getWall(array $params, $options = array());
+    public function getWall(array $params, $options = array());
 
     /**
      * This action has to be flushed
@@ -28,7 +28,7 @@ interface ProviderInterface
      * @param string         $subjectId      The oid of subject
      * @param array          $options        Array of options
      */
-    function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array());
+    public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array());
 
     /**
      * count how many keys are stored
@@ -40,7 +40,7 @@ interface ProviderInterface
      *
      * @return integer
      */
-    function countKeys($context, $subjectModel, $subjectId, array $options = array());
+    public function countKeys($context, $subjectModel, $subjectId, array $options = array());
 
     /**
      * remove key from storage
@@ -52,7 +52,7 @@ interface ProviderInterface
      * @param string $timelineActionId The timeline action id
      * @param array  $options          Array of options
      */
-    function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array());
+    public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array());
 
     /**
      * remove all keys from storage
@@ -63,12 +63,12 @@ interface ProviderInterface
      * @param string $subjectId    The oid of subject
      * @param array  $options      Array of options
      */
-    function removeAll($context, $subjectModel, $subjectId, array $options = array());
+    public function removeAll($context, $subjectModel, $subjectId, array $options = array());
 
     /**
      * flush data persisted
      *
      * @return array
      */
-    function flush();
+    public function flush();
 }
