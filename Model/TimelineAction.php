@@ -198,6 +198,14 @@ class TimelineAction implements TimelineActionInterface
     /**
      * {@inheritdoc}
      */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function create($subject, $verb, $directComplement = null, $indirectComplement = null)
     {
         if (!is_object($subject)) {
