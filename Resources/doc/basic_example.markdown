@@ -108,7 +108,7 @@ In your template .twig:
 
 ```twig
 {% for timeline in coll %}
-    {% timeline_render(timeline) %}
+    {{ timeline_render(timeline) }}
 {% endfor %}
 ```
 
