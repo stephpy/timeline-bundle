@@ -92,9 +92,26 @@ In your controller:
 
 ```php
 <?php
-// Get the timeline of Steven Seagal
-$results = $this->get('highco.timeline.manager')
-    ->getWall('\User', 1337, 'GLOBAL');
+public function myAction()
+{
+    // Get the timeline (an array of TimelineAction) of Steven Seagal
+    $results = $this->get('highco.timeline.manager')
+        ->getWall('\User', 1337, 'GLOBAL');
+
+    // this method works with annotations.
+    return array('coll' => $results);
+}
+
 ```
+
+In your template .twig:
+
+```twig
+{% for timeline in coll %}
+    {% timeline_render(timeline) %}
+{% endfor %}
+```
+
+Look at [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
 
 If you have any question, feel free to ask me
