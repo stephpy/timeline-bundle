@@ -54,7 +54,7 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 # Adding a timeline action
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 
@@ -83,25 +83,25 @@ $entry = TimelineAction::create($chuckObject, 'Own', $worldObject, $vicMcKeyObje
 
 $manager = $this->get('highco.timeline.manager');
 $manager->push($entry);
-````
+```
 
 # Pull Wall of Subject
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
 //GLOBAL is the context wanted (GLOBAL is default)
-````
+```
 
 # Pull Timeline of Subject
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 $results = $manager->getTimeline('\Chuck', 1);
 // There is no context to call here
-````
+```
 
 # Delivery
 
@@ -110,7 +110,7 @@ $results = $manager->getTimeline('\Chuck', 1);
 
 # Full configuration
 
-````yaml
+```yaml
 highco_timeline:
     db_driver: orm
     notifiers:
@@ -127,15 +127,4 @@ highco_timeline:
     render:
         path:     'AcmeBundle:Timeline'
         fallback: 'AcmeBundle:Timeline:default.html.twig'
-````
-
-Todo
-----
-
-- Write tests !!!!!
-
-Wishlist
---------
-
-- Other providers ( contribute guys !)
-- Propel/Doctrine ODM supports
+```

@@ -18,7 +18,7 @@ When you publish a timeline action, you can choose spreads by defining Subject M
 
 Create the class:
 
-````php
+```php
 <?php
 
 namespace Acme\TimelineBundle\Spread;
@@ -48,13 +48,13 @@ class MySpread implements SpreadInterface
         $coll->set('mytimeline', $entry);
     }
 }
-````
+```
 
 Add it to services
 
 
-````xml
+```xml
 <service id="my_service" class="MyClass">
     <tag name="highco.timeline.spread"/>
 </service>
-````
+```
