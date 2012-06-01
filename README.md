@@ -5,7 +5,7 @@ HighcoTimelineBundle 1.2.0
 
 Build timeline/wall for an entity easily.
 
-There is too a notification system, you can easily know how many unread notification you have, mark as read one, all, etc ... You can too add your notifier easily ...
+There is too a notification system, you can easily know how many unread notifications you have, mark as read one/all, etc ... You can too add your notifier easily ...
 
 Actually depends on **SncRedisBundle**.
 
@@ -13,11 +13,19 @@ Actually depends on **SncRedisBundle**.
 
 ---------------
 
+# Wishlist
+
+- Other providers ( contribute guys !)
+- Propel/Doctrine ODM supports
+
 # Todo
 
 - Move Doctrine Entity to super class to let user be able to override it.
 - `db_driver` **propel**
 - `db_driver` **propel2**
-- `db_driver` **redis**
 
 - Be able to pass options to filters (we should define filters as tag too)
+
+# WIP
+
+- `db_driver` **redis**

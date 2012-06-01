@@ -6,15 +6,15 @@ During the deployment of a timeline action, you can define some notifiers, they 
 
 How to use it ?
 
-````yaml
+```yaml
 #config.yml
 
 highco_timeline:
      notifiers:
 		 - highco.timeline.unread_notifications
-````
+```
 
-````php
+```php
 <?php
 
 $unread = $this->get('highco.timeline.unread_notifications');
@@ -44,7 +44,4 @@ $actions = $unread->getTimelineActions('MySubject', 'MyId', 'MyContext', $option
 
 // apply filters ?
 $actions = $this->get('highco.timeline.manager')->applyFilters($actions);
-````
-
-
-
+```
