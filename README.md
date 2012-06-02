@@ -25,7 +25,3 @@ Actually depends on **SncRedisBundle**.
 - `db_driver` **propel2**
 
 - Be able to pass options to filters (we should define filters as tag too)
-
-# WIP
-
-- `db_driver` **redis**
