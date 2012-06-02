@@ -49,6 +49,11 @@ interface TimelineActionInterface
     public function getId();
 
     /**
+     * @param mixed $id
+     */
+    public function setId($id);
+
+    /**
      * Chuck Norris comments Fight 1337 of Vic Mc Key
      *
      * @param object $subject            The subject of the timeline action (Chuck Norris)
