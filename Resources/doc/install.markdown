@@ -67,4 +67,36 @@ public function registerBundles()
 }
 ```
 
+# Step 4: (If you use Doctrine db_driver )Define your TimelineAction class
+
+```php
+<?php
+//Acme/YourBundle/Entity/TimelineAction
+use Highco\TimelineBundle\Entity\TimelineAction as BaseTimelineAction;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="timeline_action")
+ */
+class TimelineAction extends BaseTimelineAction
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+}
+```
+
+Don't forget to define it on `config.yml`
+
+```
+highco_timeline:
+	... other configuration ...
+	timeline_action_class: Acme\YourBundle\Entity\TimelineAction
+	... other configuration ...
+```
+
 Then, look at full configuration on [index](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)

@@ -112,7 +112,8 @@ $results = $manager->getTimeline('\Chuck', 1);
 
 ```yaml
 highco_timeline:
-    db_driver: orm
+    db_driver: orm # or redis
+	timeline_action_class: Acme\YourBundle\Entity\TimelineAction #if db_driver = orm
     notifiers:
         - highco.timeline.unread_notifications
     timeline_action_manager: highco.timeline_action_manager.default

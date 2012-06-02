@@ -13,7 +13,7 @@ Add this to your controller:
 
 ```php
 <?php
-use Highco\TimelineBundle\Entity\TimelineAction
+use Acme\YourBundle\Entity\TimelineAction
 // or other DbDriver TimelineAction.
 
 //.....

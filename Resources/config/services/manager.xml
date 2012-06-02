@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="highco.timeline.manager.class">Highco\TimelineBundle\Manager</parameter>
+        <parameter key="highco.timeline_action.model.class">Highco\TimelineBundle\Entity\TimelineAction</parameter>
     </parameters>
 
     <services>
