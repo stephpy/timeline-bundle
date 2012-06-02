@@ -58,6 +58,10 @@ class TimelineActionManager implements TimelineActionManagerInterface
      */
     public function getTimelineActionsForIds(array $ids)
     {
+        if (empty($ids)) {
+            return array();
+        }
+
         $fromStorage = $this->redis->hmget(self::TIMELINE_ACTION_KEY, $ids);
 
         $results     = array();
