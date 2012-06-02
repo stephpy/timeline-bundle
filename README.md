@@ -1,4 +1,4 @@
-HighcoTimelineBundle 1.2.1
+HighcoTimelineBundle 1.3.0
 ==========================
 
 [![Build Status](https://secure.travis-ci.org/stephpy/TimelineBundle.png)](http://travis-ci.org/stephpy/TimelineBundle)
@@ -19,7 +19,5 @@ Actually depends on **SncRedisBundle**.
 - Propel/Doctrine ODM supports
 
 # Todo
-
-- Move Doctrine Entity to super class to let user be able to override it.
 
 - Be able to pass options to filters (we should define filters as tag too)

@@ -48,6 +48,10 @@ class HighcoTimelineExtension extends Extension
         $loader->load('spreads.xml');
         $loader->load('twig.xml');
 
+        if (!empty($config['timeline_action_class'])) {
+            $container->setParameter('highco.timeline_action.model.class', $config['timeline_action_class']);
+        }
+
         /* --- notifiers --- */
         $notifiers = $config['notifiers'];
         $definition = $container->getDefinition('highco.timeline.notification_manager');
