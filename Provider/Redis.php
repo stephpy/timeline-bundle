@@ -162,7 +162,7 @@ class Redis implements ProviderInterface
         }
 
         foreach ($this->persistedDatas as $persistData) {
-            switch($persistData[0]) {
+            switch ($persistData[0]) {
                 case 'del':
                     $replies[] = $client->del($persistData[1]);
                     break;
@@ -179,7 +179,6 @@ class Redis implements ProviderInterface
         }
 
         if ($this->options['pipeline']) {
-            //@todo see how to make agree predis or phpredis to use only one method...
             if ($client instanceof \Predis\Pipeline\PipelineContext) {
                 return $client->execute();
             } else {

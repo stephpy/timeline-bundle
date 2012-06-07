@@ -60,12 +60,10 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
 
-
         $manager = $this->getMock('\Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
         $manager->expects($this->once())
             ->method('getTimelineWithStatusPublished')
             ->will($this->returnValue(array($timelineAction)));
-
 
         $deployer = $this->getMock('\Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
 

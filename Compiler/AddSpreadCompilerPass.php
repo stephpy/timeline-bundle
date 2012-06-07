@@ -2,7 +2,6 @@
 
 namespace Highco\TimelineBundle\Compiler;
 
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
@@ -15,7 +14,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 class AddSpreadCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

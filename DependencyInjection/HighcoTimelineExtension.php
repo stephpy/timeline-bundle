@@ -19,7 +19,7 @@ use Symfony\Component\Config\Definition\Processor;
 class HighcoTimelineExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {

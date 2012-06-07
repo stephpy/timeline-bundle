@@ -28,7 +28,7 @@ class Entry
      *
      * @return Entry
      */
-    static public function create($subjectModel, $subjectId)
+    public static function create($subjectModel, $subjectId)
     {
         $entry               = new self();
         $entry->subjectModel = $subjectModel;

@@ -163,7 +163,7 @@ class TimelineAction implements TimelineActionInterface
     /**
      * {@inheritdoc}
      */
-    static public function fromRequest(Request $request)
+    public static function fromRequest(Request $request)
     {
         if (null === $request->get('subject_model')) {
             throw new \InvalidArgumentException('You have to define subject model on "'.__CLASS__.'"');

@@ -38,7 +38,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function updateTimelineAction(TimelineActionInterface $timelineAction)
     {
@@ -47,7 +47,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimelineWithStatusPublished($limit = 10)
     {
@@ -62,7 +62,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimelineActionsForIds(array $ids)
     {
@@ -81,7 +81,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimeline(array $params, array $options = array())
     {

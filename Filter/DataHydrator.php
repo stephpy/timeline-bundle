@@ -52,7 +52,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter($results)
     {
