@@ -45,7 +45,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     public function initialize(array $options = array())
     {
         $defaultOptions = array(
-            'db_driver' => $this->dbDriver,
+            'db_driver' => 'orm',
         );
 
         $this->setOptions(array_merge($defaultOptions, $options));
@@ -122,7 +122,9 @@ class DataHydrator extends AbstractFilter implements FilterInterface
      */
     protected function _getTimelineResultsForModelAndOids($model, array $oids)
     {
-        switch ($this->getOption('db_driver')) {
+        $dbDriver = $this->getOption('db_driver', 'orm');
+
+        switch ($dbDriver) {
             case 'orm':
                 $em         = $this->timelineActionManager->getEntityManager();
                 $repository = $em->getRepository($model);
@@ -142,7 +144,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
 
                 break;
             default;
-                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $this->dbDriver));
+                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $dbDriver));
                 break;
         }
     }

@@ -58,7 +58,7 @@ highco_timeline:
 	filters:
 		highco.timeline.filter.data_hydrator:
             options:
-                db_driver: yourdbdriver #By default, it use master db_driver.
+                db_driver: yourdbdriver #orm By default
 
 ``
 

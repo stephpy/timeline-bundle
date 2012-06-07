@@ -20,4 +20,11 @@ class Filter implements FilterInterface
     public function filter($results)
     {
     }
+
+    /**
+     * @param array $options options
+     */
+    public function initialize(array $options = array())
+    {
+    }
 }
