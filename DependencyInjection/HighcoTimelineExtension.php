@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\Definition\Processor;
+use Highco\TimelineBundle\Spread\Deployer;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -30,7 +31,7 @@ class HighcoTimelineExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
 
-        if (!in_array(strtolower($config['db_driver']), array('orm'))) {
+        if (!in_array(strtolower($config['db_driver']), array('orm', 'redis'))) {
             throw new \InvalidArgumentException(sprintf('Invalid db driver "%s".', $config['db_driver']));
         }
 
@@ -46,6 +47,10 @@ class HighcoTimelineExtension extends Extension
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
         $loader->load('twig.xml');
+
+        if (!empty($config['timeline_action_class'])) {
+            $container->setParameter('highco.timeline_action.model.class', $config['timeline_action_class']);
+        }
 
         /* --- notifiers --- */
         $notifiers = $config['notifiers'];
@@ -87,6 +92,10 @@ class HighcoTimelineExtension extends Extension
             ->replaceArgument(2, $providerDefinition);
 
         /* ---- delivery ---- */
+        if ($config['delivery'] == Deployer::DELIVERY_WAIT && $config['db_driver'] == 'redis') {
+            throw new \InvalidArgumentException('Delivery wait and db_driver redis cannot work together');
+        }
+
         $container->setParameter('highco.timeline.spread.deployer.delivery', $config['delivery']);
 
         /* ---- render ---- */

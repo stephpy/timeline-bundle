@@ -198,33 +198,44 @@ class TimelineAction implements TimelineActionInterface
     /**
      * {@inheritdoc}
      */
-    public function create($subject, $verb, $directComplement = null, $indirectComplement = null)
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function create($subject, $verb, $directComplement = null, $indirectComplement = null)
     {
         if (!is_object($subject)) {
             throw new \InvalidArgumentException('Subject should be an object');
         }
 
-        $this->setSubject($subject);
-        $this->setSubjectModel(get_class($subject));
-        $this->setSubjectId($subject->getId());
+        $object = new static();
+        $object->setSubjectModel(get_class($subject));
+        $object->setSubject($subject);
+        $object->setSubjectId($subject->getId());
 
-        $this->setVerb((string) $verb);
+        $object->setVerb((string) $verb);
 
         if (!is_object($directComplement)) {
-            $this->setDirectComplementText($directComplement);
+            $object->setDirectComplementText($directComplement);
         } else {
-            $this->setDirectComplement($directComplement);
-            $this->setDirectComplementModel(get_class($directComplement));
-            $this->setDirectComplementId($directComplement->getId());
+            $object->setDirectComplement($directComplement);
+            $object->setDirectComplementModel(get_class($directComplement));
+            $object->setDirectComplementId($directComplement->getId());
         }
 
         if (!is_object($indirectComplement)) {
-            $this->setIndirectComplementText($indirectComplement);
+            $object->setIndirectComplementText($indirectComplement);
         } else {
-            $this->setIndirectComplement($indirectComplement);
-            $this->setIndirectComplementModel(get_class($indirectComplement));
-            $this->setIndirectComplementId($indirectComplement->getId());
+            $object->setIndirectComplement($indirectComplement);
+            $object->setIndirectComplementModel(get_class($indirectComplement));
+            $object->setIndirectComplementId($indirectComplement->getId());
         }
+
+        return $object;
     }
 
     /**

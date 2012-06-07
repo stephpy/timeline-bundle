@@ -9,6 +9,7 @@ See for more informations:
 - [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
+- [basic_example](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/basic_example.markdown)
 
 # How it works ?
 
@@ -53,7 +54,7 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 # Adding a timeline action
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 
@@ -78,30 +79,29 @@ $entry->setIndirectComplementText('Vic');
 
 # OR #
 
-$entry = new TimelineAction();
-$entry->create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
+$entry = TimelineAction::create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
 
 $manager = $this->get('highco.timeline.manager');
 $manager->push($entry);
-````
+```
 
 # Pull Wall of Subject
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
 //GLOBAL is the context wanted (GLOBAL is default)
-````
+```
 
 # Pull Timeline of Subject
 
-````php
+```php
 <?php
 $manager = $this->get('highco.timeline.manager');
 $results = $manager->getTimeline('\Chuck', 1);
 // There is no context to call here
-````
+```
 
 # Delivery
 
@@ -110,9 +110,10 @@ $results = $manager->getTimeline('\Chuck', 1);
 
 # Full configuration
 
-````yaml
+```yaml
 highco_timeline:
-    db_driver: orm
+    db_driver: orm # or redis
+	timeline_action_class: Acme\YourBundle\Entity\TimelineAction #if db_driver = orm
     notifiers:
         - highco.timeline.unread_notifications
     timeline_action_manager: highco.timeline_action_manager.default
@@ -127,15 +128,4 @@ highco_timeline:
     render:
         path:     'AcmeBundle:Timeline'
         fallback: 'AcmeBundle:Timeline:default.html.twig'
-````
-
-Todo
-----
-
-- Write tests !!!!!
-
-Wishlist
---------
-
-- Other providers ( contribute guys !)
-- Propel/Doctrine ODM supports
+```

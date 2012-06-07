@@ -23,7 +23,12 @@ class Configuration implements ConfigurationInterface
         $tb = new TreeBuilder();
 
         $tb->root('highco_timeline')
+            ->validate()
+                ->ifTrue(function($v){return 'orm' === $v['db_driver'] && empty($v['timeline_action_class']);})
+                ->thenInvalid('The doctrine model class must be defined by using the "timeline_action_class" key.')
+            ->end()
             ->children()
+                ->scalarNode('timeline_action_class')->end()
                 ->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
                 ->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
                 ->arrayNode('notifiers')

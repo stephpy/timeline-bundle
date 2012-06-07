@@ -20,11 +20,17 @@ class TimelineActionManager implements TimelineActionManagerInterface
     protected $em;
 
     /**
+     * @var string
+     */
+    protected $timelineActionClass;
+
+    /**
      * @param ObjectManager $em
      */
-    public function __construct(ObjectManager $em)
+    public function __construct(ObjectManager $em, $timelineActionClass)
     {
         $this->em = $em;
+        $this->timelineActionClass = $timelineActionClass;
     }
 
     /**
@@ -52,7 +58,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     public function getTimelineWithStatusPublished($limit = 10)
     {
         return $this->em
-            ->getRepository('HighcoTimelineBundle:TimelineAction')
+            ->getRepository($this->timelineActionClass)
             ->createQueryBuilder('ta')
             ->where('ta.statusWanted = :statusWanted')
             ->setMaxResults($limit)
@@ -70,7 +76,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
             return array();
         }
 
-        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
+        $qb = $this->em->getRepository($this->timelineActionClass)->createQueryBuilder('ta');
 
         $qb
             ->add('where', $qb->expr()->in('ta.id', '?1'))
@@ -93,7 +99,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
         $limit  = isset($options['limit']) ? $options['limit'] : 10;
         $status = isset($options['status']) ? $options['status'] : 'published';
 
-        $qb = $this->em->getRepository('HighcoTimelineBundle:TimelineAction')->createQueryBuilder('ta');
+        $qb = $this->em->getRepository($this->timelineActionClass)->createQueryBuilder('ta');
 
         $qb
             ->where('ta.subjectModel = :subjectModel')

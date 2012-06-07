@@ -49,6 +49,11 @@ interface TimelineActionInterface
     public function getId();
 
     /**
+     * @param mixed $id
+     */
+    public function setId($id);
+
+    /**
      * Chuck Norris comments Fight 1337 of Vic Mc Key
      *
      * @param object $subject            The subject of the timeline action (Chuck Norris)
@@ -56,7 +61,7 @@ interface TimelineActionInterface
      * @param object $directComplement   The direct complement (optional) (fight 1337)
      * @param object $indirectComplement The indirect complement (optional) (Vic Mc Key)
      */
-    public function create($subject, $verb, $directComplement = null, $indirectComplement = null);
+    public static function create($subject, $verb, $directComplement = null, $indirectComplement = null);
 
     /**
      * @param object $subject

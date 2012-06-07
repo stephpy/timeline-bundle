@@ -4,7 +4,7 @@
 
 Create the class and add it as a service:
 
-````php
+```php
 <?php
 
 use Highco\TimelineBundle\Filter\FilterInterface;
@@ -22,11 +22,11 @@ MyOwnFilter implements FilterInterface
 		return $results;
 	}
 }
-````
+```
 
 Then, you can add this filter to the list on config.yml
 
-````yaml
+```yaml
 highco_timeline:
 	filters:
 		highco.timeline.filter.duplicate_key: ~
@@ -81,7 +81,7 @@ You can override query for each models by add a method **getTimelineActionsForOI
 
 An example:
 
-````php
+```php
 <?php
     public function getTimelineActionsForOIds($ids)
     {
@@ -96,4 +96,4 @@ An example:
             ->getQuery()
             ->getResult();
     }
-````
+```
