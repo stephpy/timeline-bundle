@@ -10,6 +10,11 @@ namespace Highco\TimelineBundle\Filter;
 interface FilterInterface
 {
     /**
+     * @param array $options options
+     */
+    public function initialize(array $options = array());
+
+    /**
      * This action will filters each results given in parameters
      * You have to return results
      *

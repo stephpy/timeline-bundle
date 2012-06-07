@@ -11,6 +11,11 @@ use Highco\TimelineBundle\Filter\FilterInterface;
 
 MyOwnFilter implements FilterInterface
 {
+    public function initialize(array $options = array())
+    {
+        $this->setOptions($options);
+    }
+
 	public function filter($results)
 	{
 		// have fun
@@ -24,10 +29,10 @@ Then, you can add this filter to the list on config.yml
 ````yaml
 highco_timeline:
 	filters:
-		- highco.timeline.filter.duplicate_key
+		highco.timeline.filter.duplicate_key: ~
 		* your id service *
-		- highco.timeline.filter.data_hydrator
-````
+		highco.timeline.filter.data_hydrator: ~
+```
 
 The order on filters on config.yml is important, filters will be executed on this order.
 
@@ -46,6 +51,16 @@ After filtering with DuplicateKey filter, this will delete one of the two action
 It'll set to TRUE the **isDuplicated** field on timeline_action.
 
 ## Filter "Data hydrator"
+
+```
+#Options available:
+highco_timeline:
+	filters:
+		highco.timeline.filter.data_hydrator:
+            options:
+                db_driver: yourdbdriver #By default, it use master db_driver.
+
+``
 
 This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
 By this way, if you have two timelines:

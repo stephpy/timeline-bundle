@@ -11,4 +11,7 @@ Actually depends on **SncRedisBundle**.
 
 [Read the Documentation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)
 
-Use this [coding standard](https://github.com/opensky/Symfony2-coding-standard)
+# Wishlist
+
+- Other providers ( contribute guys !)
+- Propel/Doctrine ODM supports
