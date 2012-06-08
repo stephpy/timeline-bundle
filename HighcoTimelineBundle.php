@@ -4,7 +4,8 @@ namespace Highco\TimelineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Highco\TimelineBundle\Compiler\AddSpreadCompilerPass;
+use Highco\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
+use Highco\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
 
 /**
  * HighcoTimelineBundle
@@ -19,6 +20,7 @@ class HighcoTimelineBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new AddFilterCompilerPass());
         $container->addCompilerPass(new AddSpreadCompilerPass());
     }
 }
