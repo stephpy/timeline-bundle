@@ -38,3 +38,4 @@ CHANGELOG for 1.X
 # 1.3.0:
 
 - Define entity as superclass, user has now to create override entity to be able to use `orm` db_driver
+- Be able to pass options to filters, definition of configuration changed.

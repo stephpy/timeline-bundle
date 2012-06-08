@@ -24,7 +24,7 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())
             ->method('flush');
 
-        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em);
+        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
         $manager->updateTimelineAction($ta);
     }
 
@@ -37,7 +37,7 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
 
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
 
-        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em);
+        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
         $results = $manager->getTimelineActionsForIds($ids);
         $this->assertEquals($ids, array());
     }

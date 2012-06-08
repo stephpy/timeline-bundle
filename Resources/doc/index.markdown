@@ -118,8 +118,8 @@ highco_timeline:
         - highco.timeline.unread_notifications
     timeline_action_manager: highco.timeline_action_manager.default
     filters:
-        - highco.timeline.filter.duplicate_key # Filter duplicate keys
-        - highco.timeline.filter.data_hydrator  # Hydrate data from doctrine to get TimelineAction instead of ID
+        highco.timeline.filter.duplicate_key: ~ # Filter duplicate keys
+        highco.timeline.filter.data_hydrator: ~ # Hydrate data from doctrine to get TimelineAction instead of ID
     spread:
         on_me: true                             # Spread each action on subject too
         on_global_context: true                 # Spread automatically on global context

@@ -14,7 +14,6 @@
 
         <service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
             <argument type="service" id="highco.timeline_action_manager" />
-            <argument>%highco.timeline.db_driver%</argument>
         </service>
     </services>
 

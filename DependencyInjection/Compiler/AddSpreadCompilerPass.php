@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 class AddSpreadCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

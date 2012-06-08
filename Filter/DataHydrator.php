@@ -10,10 +10,11 @@ use Highco\TimelineBundle\Filter\DataHydrator\Entry;
  * This filter will hydrate TimelineActions by getting references
  * from Doctrine
  *
+ * @uses AbstractFilter
  * @uses FilterInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DataHydrator implements FilterInterface
+class DataHydrator extends AbstractFilter implements FilterInterface
 {
     /**
      * @var array
@@ -31,22 +32,27 @@ class DataHydrator implements FilterInterface
     private $timelineActionManager;
 
     /**
-     * @var string
-     */
-    private $dbDriver;
-
-    /**
      * @param TimelineActionManagerInterface $timelineActionManager TimelineActionManager
-     * @param string                         $dbDriver              Db driver defined on your config
      */
-    public function __construct(TimelineActionManagerInterface $timelineActionManager, $dbDriver)
+    public function __construct(TimelineActionManagerInterface $timelineActionManager)
     {
         $this->timelineActionManager = $timelineActionManager;
-        $this->dbDriver              = $dbDriver;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     */
+    public function initialize(array $options = array())
+    {
+        $defaultOptions = array(
+            'db_driver' => 'orm',
+        );
+
+        $this->setOptions(array_merge($defaultOptions, $options));
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function filter($results)
     {
@@ -116,7 +122,9 @@ class DataHydrator implements FilterInterface
      */
     protected function _getTimelineResultsForModelAndOids($model, array $oids)
     {
-        switch ($this->dbDriver) {
+        $dbDriver = $this->getOption('db_driver', 'orm');
+
+        switch ($dbDriver) {
             case 'orm':
                 $em         = $this->timelineActionManager->getEntityManager();
                 $repository = $em->getRepository($model);
@@ -136,7 +144,7 @@ class DataHydrator implements FilterInterface
 
                 break;
             default;
-                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $this->dbDriver));
+                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $dbDriver));
                 break;
         }
     }

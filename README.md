@@ -17,7 +17,3 @@ Actually depends on **SncRedisBundle**.
 
 - Other providers ( contribute guys !)
 - Propel/Doctrine ODM supports
-
-# Todo
-
-- Be able to pass options to filters (we should define filters as tag too)

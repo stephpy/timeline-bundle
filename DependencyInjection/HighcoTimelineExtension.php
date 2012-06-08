@@ -20,7 +20,7 @@ use Highco\TimelineBundle\Spread\Deployer;
 class HighcoTimelineExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {

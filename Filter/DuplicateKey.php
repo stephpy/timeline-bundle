@@ -7,13 +7,22 @@ namespace Highco\TimelineBundle\Filter;
  * This filter will unset from collection timeline_actions which
  * has same duplicate_key property
  *
+ * @uses AbstractFilter
  * @uses FilterInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class DuplicateKey implements FilterInterface
+class DuplicateKey extends AbstractFilter implements FilterInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     */
+    public function initialize(array $options = array())
+    {
+        $this->setOptions($options);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function filter($results)
     {
