@@ -21,7 +21,11 @@
         "doctrine/orm": "2.*",
         "doctrine/dbal": "2.*"
     },
+    "require-dev": {
+        "predis/predis": "0.7.*"
+    },
     "suggest": {
+        "predis/predis": "If you want to use predis (currently only v0.7.x is supported)."
     },
     "autoload": {
         "psr-0": { "Highco\\TimelineBundle": "" }
