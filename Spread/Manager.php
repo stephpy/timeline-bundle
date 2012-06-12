@@ -47,6 +47,14 @@ class Manager
     }
 
     /**
+     * @return array of SpreadInterface
+     */
+    public function getSpreads()
+    {
+        return $this->spreads;
+    }
+
+    /**
      * @param TimelineAction $timelineAction
      */
     public function process(TimelineAction $timelineAction)
