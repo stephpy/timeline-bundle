@@ -39,3 +39,4 @@ CHANGELOG for 1.X
 
 - Define entity as superclass, user has now to create override entity to be able to use `orm` db_driver
 - Be able to pass options to filters, definition of configuration changed.
+- Be able to know how many wall entries subject has.
