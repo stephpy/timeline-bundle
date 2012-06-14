@@ -60,17 +60,6 @@ class HighcoTimelineExtension extends Extension
             $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
         }
 
-        /* --- filters --- */
-        $filters = $config['filters'];
-
-        $definition = $container->getDefinition('highco.timeline.manager');
-        foreach ($filters as $filter => $arguments) {
-            $filter = $container->getDefinition($filter);
-            $filter->addMethodCall('initialize', array($arguments['options']));
-
-            $definition->addMethodCall('addFilter', array($filter));
-        }
-
         /* --- spread --- */
         $spread = isset($config['spread']) ? $config['spread'] : array();
 

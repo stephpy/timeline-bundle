@@ -32,11 +32,13 @@ CHANGELOG for 1.X
 - [BC BREAK] Move all dirs from Timeline to /
 - Create an interface for TimelineAction.
 - Thanks to snc works, TimelineBundle accepts now phpredis as provider. You just have to define your connection with phpredis on snc_redis.
-- $timelineAction = new TimelineAction(); $timelineAction->create('...'); become $timelineAction = TimelineAction::create('....');
+- [BC] $timelineAction = new TimelineAction(); $timelineAction->create('...'); become $timelineAction = TimelineAction::create('....');
 - `redis` db_driver added
 
 # 1.3.0:
 
-- Define entity as superclass, user has now to create override entity to be able to use `orm` db_driver
-- Be able to pass options to filters, definition of configuration changed.
+- [BC] Define entity as superclass, user has now to create override entity to be able to use `orm` db_driver
+- [BC] Be able to pass options to filters, definition of configuration changed.
+- Move Compilers to DependencyInjection dir
+- Define filters service on a compiler pass.
 - Be able to know how many wall entries subject has.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Compiler;
+namespace Highco\TimelineBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

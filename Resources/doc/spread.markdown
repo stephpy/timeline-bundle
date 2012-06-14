@@ -58,3 +58,9 @@ Add it to services
     <tag name="highco.timeline.spread"/>
 </service>
 ```
+
+To see which spreads are defined:
+
+```
+php app:console highco:timeline-spreads
+```
