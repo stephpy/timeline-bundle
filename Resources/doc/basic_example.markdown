@@ -98,6 +98,10 @@ public function myAction()
     $results = $this->get('highco.timeline.manager')
         ->getWall('\User', 1337, 'GLOBAL');
 
+    // how many entries are stored in redis.
+    $countEntries = $this->get('highco.timeline.manager')
+        ->countWallEntries('\User', 1337, 'GLOBAL');
+
     // this method works with annotations.
     return array('coll' => $results);
 }

@@ -96,6 +96,18 @@ class Manager
     }
 
     /**
+     * @param string $subjectModel subjectModel
+     * @param string $subjectId    subjectId
+     * @param string $context      context
+     *
+     * @return integer
+     */
+    public function countWallEntries($subjectModel, $subjectId, $context = 'GLOBAL')
+    {
+        return $this->provider->countKeys($context, $subjectModel, $subjectId);
+    }
+
+    /**
      * That's all actions of the subject
      *
      * @param string $subjectModel The class of the subject
