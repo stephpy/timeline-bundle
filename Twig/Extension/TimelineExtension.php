@@ -61,7 +61,7 @@ class TimelineExtension extends \Twig_Extension
 
         try {
             return $this->twig->render($template, $parameters);
-        } catch (\Exception $e) {
+        } catch (\Twig_Error_Loader $e) {
             if (null !== $this->config['fallback']) {
                 return $this->twig->render($this->config['fallback'], $parameters);
             }
