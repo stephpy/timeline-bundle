@@ -31,7 +31,6 @@ highco_timeline:
 	filters:
 		highco.timeline.filter.duplicate_key: ~
 		* your id service *
-		highco.timeline.filter.data_hydrator: ~
 ```
 
 The order on filters on config.yml is important, filters will be executed on this order.
@@ -51,6 +50,9 @@ After filtering with DuplicateKey filter, this will delete one of the two action
 It'll set to TRUE the **isDuplicated** field on timeline_action.
 
 ## Filter "Data hydrator"
+
+Since `5f680fe89418c457497263ca88c78ab6f54805e0`, this filter is useless, Entity from relations are loaded via a listener.
+You can still use it by disable listener and add `highco.timeline.filter.data_hydrator` on filters list.
 
 ```
 #Options available:
