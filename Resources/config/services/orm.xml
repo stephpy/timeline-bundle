@@ -11,6 +11,10 @@
             <argument type="service" id="highco.timeline.entity_manager" />
             <argument>%highco.timeline_action.model.class%</argument>
         </service>
+
+        <service id="highco.timeline_listener" class="Highco\TimelineBundle\Entity\TimelineActionListener" public="false">
+            <tag name="doctrine.event_subscriber" />
+        </service>
     </services>
 
 </container>
