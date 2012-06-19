@@ -45,7 +45,7 @@ class TimelineActionListener implements EventSubscriber
 
                 try {
                     $entity->setIndirectComplement($em->getReference($entity->getIndirectComplementModel(), $entity->getIndirectComplementId()));
-                } catch (\Eception $e) {
+                } catch (\Exception $e) {
                 }
             }
         }
