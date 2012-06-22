@@ -2,9 +2,11 @@
 
 namespace Highco\TimelineBundle\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Mapping\MappingException;
 use Highco\TimelineBundle\Model\TimelineActionInterface;
 
 /**
@@ -12,6 +14,7 @@ use Highco\TimelineBundle\Model\TimelineActionInterface;
  *
  * @uses EventSubscriber
  * @author Francisco Facioni <fran6co@gmail.com>
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class TimelineActionListener implements EventSubscriber
 {
@@ -25,28 +28,38 @@ class TimelineActionListener implements EventSubscriber
         if ($entity instanceof TimelineActionInterface) {
             $em = $eventArgs->getEntityManager();
 
-            if (null !== $entity->getSubjectModel() && null !== $entity->getSubjectId()) {
+            $this->buildReference($entity, 'Subject', $em);
+            $this->buildReference($entity, 'DirectComplement', $em);
+            $this->buildReference($entity, 'IndirectComplement', $em);
+        }
+    }
 
-                try {
-                    $entity->setSubject($em->getReference($entity->getSubjectModel(), $entity->getSubjectId()));
-                } catch (\Exception $e) {
-                }
-            }
+    /**
+     * build one reference for an entity
+     *
+     * @param object        $entity entity to add reference
+     * @param string        $name   name (Subject, DirectComplement, IndirectComplement)
+     * @param EntityManager $em     em
+     */
+    protected function buildReference($entity, $name, EntityManager $em)
+    {
+        $modelMethod     = sprintf('get%sModel', $name);
+        $model           = $entity->{$modelMethod}();
 
-            if (null !== $entity->getDirectComplementModel() && null !== $entity->getDirectComplementId()) {
+        $idMethod        = sprintf('get%sId', $name);
+        $id              = $entity->{$idMethod}();
 
-                try {
-                    $entity->setDirectComplement($em->getReference($entity->getDirectComplementModel(), $entity->getDirectComplementId()));
-                } catch (\Exception $e) {
-                }
-            }
+        $getObjectMethod = sprintf('get%s', $name);
 
-            if (null !== $entity->getIndirectComplementModel() && null !== $entity->getIndirectComplementId()) {
+        if (null !== $model && null !== $id && !is_object($entity->{$getObjectMethod}())) {
+            $setObjectMethod = sprintf('set%s', $name);
 
-                try {
-                    $entity->setIndirectComplement($em->getReference($entity->getIndirectComplementModel(), $entity->getIndirectComplementId()));
-                } catch (\Exception $e) {
-                }
+            try {
+                $entity->{$setObjectMethod}($em->getReference($model, $id));
+            } catch (EntityNotFoundException $e) {
+                // if entity has been deleted ...
+            } catch(MappingException $e) {
+                // if entity is not a valid entity or mapped super class
             }
         }
     }
