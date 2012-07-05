@@ -1,4 +1,4 @@
-HighcoTimelineBundle 1.3.0
+HighcoTimelineBundle 1.3.1
 ==========================
 
 [![Build Status](https://secure.travis-ci.org/stephpy/TimelineBundle.png)](http://travis-ci.org/stephpy/TimelineBundle)
