@@ -6,6 +6,7 @@ See for more informations:
 - [installation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/install.markdown)
 - [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
 - [notification](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/notification.markdown)
+- [pagination](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/pagination.markdown)
 - [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)

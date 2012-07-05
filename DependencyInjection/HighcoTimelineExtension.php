@@ -44,6 +44,7 @@ class HighcoTimelineExtension extends Extension
         $loader->load('filter.xml');
         $loader->load('manager.xml');
         $loader->load('notification.xml');
+        $loader->load('pager.xml');
         $loader->load('provider.xml');
         $loader->load('spreads.xml');
         $loader->load('twig.xml');
