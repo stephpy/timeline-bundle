@@ -21,7 +21,7 @@ class PRedisTest extends BaseRedis
     {
         if (!class_exists('\Predis\Client')) {
             $this->markTestSkipped(
-                'The PHPRedis extension is not available.'
+                'PRedis must be installed to launch this test'
             );
         }
     }
