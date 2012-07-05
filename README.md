@@ -15,6 +15,5 @@ Actually depends on **SncRedisBundle**.
 
 # Wishlist
 
-- Pagination using KnpPager
 - Other providers ( contribute guys !)
 - Propel/Doctrine ODM supports
