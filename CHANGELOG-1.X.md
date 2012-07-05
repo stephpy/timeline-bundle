@@ -42,3 +42,8 @@ CHANGELOG for 1.X
 - Move Compilers to DependencyInjection dir
 - Define filters service on a compiler pass.
 - Be able to know how many wall entries subject has.
+
+# 1.3.1:
+
+- Refactorize Tests
+- Add paginator (KnpPaginatorBundle)
