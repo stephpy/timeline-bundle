@@ -5,21 +5,35 @@ namespace Highco\TimelineBundle\Tests\Provider;
 use Highco\TimelineBundle\Provider\Redis;
 
 /**
- * RedisTest
+ * BaseRedis
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class RedisTest extends \PHPUnit_Framework_TestCase
+abstract class BaseRedis extends \PHPUnit_Framework_TestCase
 {
+    abstract protected function getRedisClientMock();
+    abstract protected function getRedisPipelineMock();
+
+    /**
+     * PHPRedis has to bee installed to launch theses tests
+     *
+     * @return void
+     */
+    protected function setUp()
+    {
+        if (!extension_loaded('redis')) {
+            $this->markTestSkipped(
+                'The PHPRedis extension is not available.'
+            );
+        }
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testGetWallNoSubjectModel()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-
-        $redis = new Redis($client, $manager);
+        $redis   = new Redis($this->getRedisClientMock(), $this->getTimelineActionManagerMock());
         $redis->getWall(array('subjectId' => 1));
     }
 
@@ -28,20 +42,14 @@ class RedisTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWallNoSubjectId()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-
-        $redis = new Redis($client, $manager);
+        $redis   = new Redis($this->getRedisClientMock(), $this->getTimelineActionManagerMock());
         $redis->getWall(array('subjectModel' => 1));
     }
 
-    /**
-     * testGetWall
-     */
     public function testGetWall()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('Timeline:GLOBAL:toto:1', 0, 9);
 
@@ -58,13 +66,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->getWall(array('subjectModel' => 'toto', 'subjectId' => 1));
     }
 
-    /**
-     * testGetWallChangeParams
-     */
     public function testGetWallChangeParams()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('TimelineNewKey:MyContext:toto:1', 5, 24);
 
@@ -93,13 +98,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->getWall($params, $options);
     }
 
-    /**
-     * testPersist
-     */
     public function testPersist()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array(
             'Timeline:GLOBAL:SubjectModel:SubjectId', 13371337, 1337
@@ -140,13 +142,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
-    /**
-     * testCountKeys
-     */
     public function testCountKeys()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('Timeline:GLOBAL:MySubject:MyId');
         $client->expects($this->at(0))
@@ -167,13 +166,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, 13);
     }
 
-    /**
-     * testRemove
-     */
     public function testRemove()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('Timeline:GLOBAL:MySubject:MyId', 1);
         $client->expects($this->at(0))
@@ -191,13 +187,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
-    /**
-     * testRemoveAll
-     */
     public function testRemoveAll()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('Timeline:GLOBAL:MySubject:MyId');
         $client->expects($this->at(0))
@@ -215,13 +208,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
-    /**
-     * testFlushNoCall
-     */
     public function testFlushNoCall()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $client->expects($this->never())
             ->method('__call');
@@ -230,13 +220,10 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $redis->flush();
     }
 
-    /**
-     * testFlushNoPipeline
-     */
     public function testFlushNoPipeline()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $client  = $this->getRedisClientMock();
+        $manager = $this->getTimelineActionManagerMock();
 
         $argumentsExpected = array('MyTimeline:MyContext:MySubject:MyId');
         $client->expects($this->at(0))
@@ -257,22 +244,32 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('DELOK', 'DELNOTOK'), $replies);
     }
 
-    /**
-     * testFlushPipeline
-     */
     public function testFlushPipeline()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $pipeline = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\RedisPipeline', array(), array(), '', false);
+        $client   = $this->getRedisClientMock();
+        $manager  = $this->getTimelineActionManagerMock();
+        $pipeline = $this->getRedisPipelineMock();
 
-        $pipeline->expects($this->once())
-            ->method('execute')
-            ->will($this->returnValue(array('DELOK', 'DELNOTOK')));
+        if ($pipeline instanceof \Highco\TimelineBundle\Tests\Fixtures\PRedisPipeline) {
+            $pipeline->expects($this->once())
+                ->method('execute')
+                ->will($this->returnValue(array('DELOK', 'DELNOTOK')));
 
-        $client->expects($this->once())
-            ->method('pipeline')
-            ->will($this->returnValue($pipeline));
+            $client->expects($this->once())
+                ->method('pipeline')
+                ->will($this->returnValue($pipeline));
+        } elseif ($pipeline instanceof \Highco\TimelineBundle\Tests\Fixtures\PHPRedisPipeline) {
+            $pipeline->expects($this->once())
+                ->method('exec')
+                ->will($this->returnValue(array('DELOK', 'DELNOTOK')));
+
+            $client->expects($this->once())
+                ->method('__call')
+                ->with($this->equalTo('pipeline'))
+                ->will($this->returnValue($pipeline));
+        } else {
+            $this->markTestSkipped('Pipeline unknown');
+        }
 
         $argumentsExpected = array('MyTimeline:MyContext:MySubject:MyId');
         $pipeline->expects($this->at(0))
@@ -292,17 +289,19 @@ class RedisTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('DELOK', 'DELNOTOK'), $replies);
     }
 
-    /**
-     * testGetKey
-     */
     public function testGetKey()
     {
-        $client  = $this->getMock('Predis\Client');
-        $manager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-
-        $redis   = new Redis($client, $manager);
+        $redis   = new Redis($this->getRedisClientMock(), $this->getTimelineActionManagerMock());
 
         $this->assertEquals($redis->getKey('Toto', 'Subject', '1', 'Timeline:%s:%s:%s'), 'Timeline:Toto:Subject:1');
         $this->assertEquals($redis->getKey('Tata', 'MySubject', '2', 'MyTimeline:%s:%s:%s'), 'MyTimeline:Tata:MySubject:2');
+    }
+
+    /**
+     * @return Highco\TimelineBundle\Entity\TimelineActionManager mock of
+     */
+    protected function getTimelineActionManagerMock()
+    {
+        return $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
     }
 }

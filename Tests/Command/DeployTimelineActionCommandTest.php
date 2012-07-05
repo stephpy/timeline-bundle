@@ -16,9 +16,6 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * testNoTimeline
-     */
     public function testNoTimeline()
     {
         $manager = $this->getMock('\Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
@@ -50,9 +47,6 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($display, $result);
     }
 
-    /**
-     * testOneTimeline
-     */
     public function testOneTimeline()
     {
         $timelineAction = $this->getMock('\Highco\TimelineBundle\Entity\TimelineAction');

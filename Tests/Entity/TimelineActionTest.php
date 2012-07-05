@@ -12,9 +12,6 @@ use Highco\TimelineBundle\Entity\TimelineAction;
  */
 class TimelineActionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * testExceedDoctrineORMProxy
-     */
     public function testExceedDoctrineORMProxy()
     {
         $ta = new TimelineAction();

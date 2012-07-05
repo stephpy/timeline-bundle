@@ -3,11 +3,11 @@
 namespace Highco\TimelineBundle\Tests\Fixtures;
 
 /**
- * RedisPipeline
+ * PHPRedisPipeline
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class RedisPipeline extends \Predis\Pipeline\PipelineContext
+class PHPRedisPipeline
 {
     /**
      * __call
@@ -20,9 +20,9 @@ class RedisPipeline extends \Predis\Pipeline\PipelineContext
     }
 
     /**
-     * execute
+     * @param mixed $callable callable
      */
-    public function execute($callable = null)
+    public function exec($callable = null)
     {
     }
 }

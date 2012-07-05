@@ -9,9 +9,6 @@ namespace Highco\TimelineBundle\Tests\Entity;
  */
 class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * testUpdate
-     */
     public function testUpdate()
     {
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
@@ -28,9 +25,6 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
         $manager->updateTimelineAction($ta);
     }
 
-    /**
-     * testGetTimelineActionsForIds
-     */
     public function testGetTimelineActionsForIds()
     {
         $ids = array();

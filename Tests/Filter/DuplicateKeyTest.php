@@ -14,9 +14,6 @@ use Highco\TimelineBundle\Model\TimelineAction;
  */
 class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * testFilterNoDuplicateKey
-     */
     public function testFilterNoDuplicateKey()
     {
         $timelines = array(
@@ -36,9 +33,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * testFilterOnlyOneDuplicateKey
-     */
     public function testFilterOnlyOneDuplicateKey()
     {
         $t1 = $this->createTimelineAction(1);
@@ -61,9 +55,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * testFilterTwoDuplicateKeyDifferents
-     */
     public function testFilterTwoDuplicateKeyDifferents()
     {
         $t1 = $this->createTimelineAction(1);
@@ -89,9 +80,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * testFilterTwoDuplicateKeyNoPriority
-     */
     public function testFilterTwoDuplicateKeyNoPriority()
     {
         $t1 = $this->createTimelineAction(1);
@@ -117,9 +105,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
-    /**
-     * testFilterTwoDuplicateKeyPriorityEquals
-     */
     public function testFilterTwoDuplicateKeyPriorityEquals()
     {
         $t1 = $this->createTimelineAction(1);
@@ -147,9 +132,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
-    /**
-     * testFilterTwoDuplicateKeyPriorityFirst
-     */
     public function testFilterTwoDuplicateKeyPriorityFirst()
     {
         $t1 = $this->createTimelineAction(1);
@@ -177,9 +159,6 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getSubjectId(), 1);
     }
 
-    /**
-     * testFilterTwoDuplicateKeyPrioritySecond
-     */
     public function testFilterTwoDuplicateKeyPrioritySecond()
     {
         $t1 = $this->createTimelineAction(1);
