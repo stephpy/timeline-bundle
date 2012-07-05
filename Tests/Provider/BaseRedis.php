@@ -259,14 +259,6 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
                 ->method('pipeline')
                 ->will($this->returnValue($pipeline));
 
-            $pipeline->expects($this->at(0))
-                ->method('del')
-                ->with($this->equalTo('MyTimeline:MyContext:MySubject:MyId'));
-
-            $pipeline->expects($this->at(1))
-                ->method('del')
-                ->with($this->equalTo('MyTimeline:My2Context:MySubject:MyId'));
-
         } elseif ($pipeline instanceof \Highco\TimelineBundle\Tests\Fixtures\PHPRedisPipeline) {
             $pipeline->expects($this->once())
                 ->method('exec')
@@ -277,19 +269,20 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo('pipeline'))
                 ->will($this->returnValue($pipeline));
 
-            $argumentsExpected = array('MyTimeline:MyContext:MySubject:MyId');
-            $pipeline->expects($this->at(0))
-                ->method('__call')
-                ->with($this->equalTo('del'), $this->equalTo($argumentsExpected));
-
-            $argumentsExpected = array('MyTimeline:My2Context:MySubject:MyId');
-            $pipeline->expects($this->at(1))
-                ->method('__call')
-                ->with($this->equalTo('del'), $this->equalTo($argumentsExpected));
-
         } else {
             $this->markTestSkipped('Pipeline unknown');
         }
+
+        $argumentsExpected = array('MyTimeline:MyContext:MySubject:MyId');
+        $pipeline->expects($this->at(0))
+            ->method('__call')
+            ->with($this->equalTo('del'), $this->equalTo($argumentsExpected));
+
+        $argumentsExpected = array('MyTimeline:My2Context:MySubject:MyId');
+        $pipeline->expects($this->at(1))
+            ->method('__call')
+            ->with($this->equalTo('del'), $this->equalTo($argumentsExpected));
+
 
         $redis  = new Redis($client, $manager);
         $redis->removeAll('MyContext', 'MySubject', 'MyId', array('key' => 'MyTimeline:%s:%s:%s'));

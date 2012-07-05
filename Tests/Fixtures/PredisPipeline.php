@@ -25,11 +25,4 @@ class PredisPipeline extends \Predis\Pipeline\PipelineContext
     public function execute($callable = null)
     {
     }
-
-    /**
-     * @param string $key key
-     */
-    public function del($key)
-    {
-    }
 }
