@@ -39,6 +39,6 @@ class PRedisTest extends BaseRedis
      */
     public function getRedisPipelineMock()
     {
-        return $this->getMock('Predis\Pipeline\PipelineContext', array(), array(), '', false);
+        return $this->getMock('\Predis\Pipeline\PipelineContext', array(), array(), '', false);
     }
 }
