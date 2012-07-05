@@ -250,7 +250,7 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
         $manager  = $this->getTimelineActionManagerMock();
         $pipeline = $this->getRedisPipelineMock();
 
-        if ($pipeline instanceof \Highco\TimelineBundle\Tests\Fixtures\PRedisPipeline) {
+        if ($pipeline instanceof \Predis\Pipeline\PipelineContext) {
             $pipeline->expects($this->once())
                 ->method('execute')
                 ->will($this->returnValue(array('DELOK', 'DELNOTOK')));
