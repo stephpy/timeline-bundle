@@ -31,8 +31,6 @@ class Controller
             $maxPerPage
         );
 
-        $data = compact('notifications', 'timeline');
-
         // ... look at knp paginator bundle to see how it works
     }
 
