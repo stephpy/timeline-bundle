@@ -46,10 +46,10 @@ class TimelineSubscriber implements EventSubscriberInterface
             );
 
             if ($token->getService() == TimelinePagerToken::SERVICE_TIMELINE) {
-                $event->count = $this->manager->countWallEntries($subjectClass, $subjectId);
+                $event->count = $this->manager->countWallEntries($subjectClass, $subjectId, $context);
                 $event->items = $this->manager->getWall($subjectClass, $subjectId, $context, $options);
             } elseif ($token->getService() == TimelinePagerToken::SERVICE_NOTIFICATION) {
-                $event->count = $this->unreadNotifications->countKeys($subjectClass, $subjectId);
+                $event->count = $this->unreadNotifications->countKeys($subjectClass, $subjectId, $context);
                 $event->items = $this->unreadNotifications->getTimelineActions($subjectClass, $subjectId, $context, $options);
             }
             $event->stopPropagation();
