@@ -12,6 +12,7 @@ class TimelinePagerToken
     protected $service;
     public $subjectClass;
     public $subjectId;
+    public $context;
 
     CONST SERVICE_TIMELINE     = "timeline";
     CONST SERVICE_NOTIFICATION = "notification";
@@ -20,12 +21,14 @@ class TimelinePagerToken
      * @param string  $service      service
      * @param string  $subjectClass subjectClass
      * @param integer $subjectId    subjectId
+     * @param string  $context      context
      */
-    public function __construct($service, $subjectClass, $subjectId)
+    public function __construct($service, $subjectClass, $subjectId, $context='GLOBAL')
     {
         $this->setService($service);
         $this->subjectClass = $subjectClass;
         $this->subjectId    = $subjectId;
+        $this->context      = $context;
     }
 
     /**
