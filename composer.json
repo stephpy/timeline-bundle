@@ -1,8 +1,8 @@
 {
     "name": "stephpy/TimelineBundle",
-    "type": "symfony-bundle",
     "description": "Build timeline/wall for an entity easily.",
     "keywords": ["timeline", "notification", "redis", "symfony"],
+    "type": "symfony-bundle",
     "homepage": "https://github.com/stephpy/TimelineBundle",
     "license": "MIT",
     "authors": [{
@@ -26,6 +26,7 @@
     "suggest": {
         "predis/predis": "If you want to use predis (currently only v0.7.x is supported)."
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "Highco\\TimelineBundle": "" }
     },
