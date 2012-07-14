@@ -7,15 +7,18 @@
     <parameters>
         <parameter key="highco.timeline.render.path">HighcoTimelineBundle:Timeline</parameter>
         <parameter key="highco.timeline.render.fallback">HighcoTimelineBundle:Timeline:default.html.twig</parameter>
+        <parameter key="highco.timeline.render.using_locale">false</parameter>
     </parameters>
 
     <services>
         <service id="highco.twig.extension.timeline" class="Highco\TimelineBundle\Twig\Extension\TimelineExtension">
             <tag name="twig.extension" />
             <argument type="service" id="twig" />
+            <argument type="service" id="session" />
             <argument type="collection">
                 <argument key="path">%highco.timeline.render.path%</argument>
                 <argument key="fallback">%highco.timeline.render.fallback%</argument>
+                <argument key="using_locale">%highco.timeline.render.using_locale%</argument>
             </argument>
         </service>
     </services>

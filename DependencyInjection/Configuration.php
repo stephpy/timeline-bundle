@@ -70,6 +70,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('path')->isRequired()->end()
                             ->scalarNode('fallback')->defaultValue(null)->end()
+                            ->scalarNode('using_locale')->defaultValue(false)->end()
                         ->end()
                     ->end()
                 ->end();

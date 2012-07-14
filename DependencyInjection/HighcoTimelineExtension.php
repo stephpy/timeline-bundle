@@ -92,5 +92,6 @@ class HighcoTimelineExtension extends Extension
         $render = $config['render'];
         $container->setParameter('highco.timeline.render.path', $render['path']);
         $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
+        $container->setParameter('highco.timeline.render.using_locale', $render['using_locale']);
     }
 }
