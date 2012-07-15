@@ -7,10 +7,13 @@ use Symfony\Component\HttpFoundation\Session;
 
 /**
  * Twig extension
+ * 
  * "timeline_render" -> renders a timeline by getting the path of twig 
- * templates from config.
- * Then, calls PATH/VERB.html.twig
- * Or, Calls PATH/VERB.LOCALE.html.twig if render.using_locale is true
+ * templates from config. Then, calls PATH/VERB.html.twig
+ * 
+ * "localized_timeline_render" -> renders timeline using locale.
+ * PATH/VERB.LOCALE.html.twig if file exists
+ * then falls back to PATH/VERB.DEFAULT_LOCALE.html.twig ( if set in conf )
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
@@ -37,8 +40,8 @@ class TimelineExtension extends \Twig_Extension
      */
     public function __construct(\Twig_Environment $twig, Session $session, array $config)
     {
-        $this->twig = $twig;
-        $this->config = $config;
+        $this->twig    = $twig;
+        $this->config  = $config;
         $this->session = $session;
     }
 
@@ -49,6 +52,7 @@ class TimelineExtension extends \Twig_Extension
     {
         return array(
             'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
+            'localized_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
         );
     }
 
@@ -61,7 +65,7 @@ class TimelineExtension extends \Twig_Extension
     public function renderTimeline(TimelineAction $timelineAction, $template = null)
     {
         if (null === $template) {
-            $template = $this->config['using_locale'] !== true ? $this->getDefaultTemplate($timelineAction) : $this->getDefaultLocalizedTemplate($timelineAction);
+            $template = $this->getDefaultTemplate($timelineAction);
         }
 
         $parameters = array(
@@ -95,18 +99,58 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * Returns the default template name using locale.
-     *
-     * @param TimelineAction $timelineAction
+     * 
+     * @param TimelineAction $timelineAction What TimelineAction to render
+     * @param string|null    $template       Force template path
      *
      * @return string
      */
-    public function getDefaultLocalizedTemplate(TimelineAction $timelineAction)
+    public function renderLocalizedTimeline(TimelineAction $timelineAction, $template = null)
+    {
+        if (null === $template) {
+            $template = $this->getDefaultLocalizedTemplate($timelineAction, $this->session->getLocale());
+        }
+
+        $parameters = array(
+            'timeline' => $timelineAction,
+        );
+
+        try {
+            return $this->twig->render($template, $parameters);
+        } catch (\Twig_Error_Loader $e) {
+            
+             // fallback using default locale if possible
+            if (null !== $this->config['fallback_locale']) {
+                $fallback_template = $this->getDefaultLocalizedTemplate($timelineAction, $this->config['fallback_locale']);
+                try {
+                    return $this->twig->render($fallback_template, $parameters);
+                } catch (\Twig_Error_Loader $e) {
+                    //Let's look at the default template
+                }
+            }
+            
+            if (null !== $this->config['fallback']) {
+                return $this->twig->render($this->config['fallback'], $parameters);
+            }
+
+            throw $e;
+        }
+    }
+    
+    /**
+     * Returns the default template name using locale.
+     *
+     * @param TimelineAction $timelineAction
+     * @param string $locale
+     *
+     * @return string
+     */
+    public function getDefaultLocalizedTemplate(TimelineAction $timelineAction,  $locale)
     {
         return vsprintf('%s:%s.%s.html.twig', array(
             $this->config['path'],
             strtolower($timelineAction->getVerb()),
-            $this->session->getLocale()
+            $locale
         ));
     }
 
