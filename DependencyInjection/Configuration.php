@@ -70,8 +70,12 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('path')->isRequired()->end()
                             ->scalarNode('fallback')->defaultValue(null)->end()
+                            ->arrayNode('i18n')
+                                ->children()
+                                    ->scalarNode('fallback')->isRequired()->end()
+                                ->end()
+                            ->end()
                         ->end()
-                    ->end()
                 ->end();
 
         return $tb;

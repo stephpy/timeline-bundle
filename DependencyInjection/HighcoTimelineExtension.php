@@ -92,5 +92,6 @@ class HighcoTimelineExtension extends Extension
         $render = $config['render'];
         $container->setParameter('highco.timeline.render.path', $render['path']);
         $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
+        $container->setParameter('highco.timeline.render.i18n.fallback', isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null );
     }
 }
