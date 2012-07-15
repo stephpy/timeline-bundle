@@ -47,3 +47,10 @@ CHANGELOG for 1.X
 
 - Refactorize Tests
 - Add paginator (KnpPaginatorBundle)
+
+# Master:
+- PR #18, Add a way to use i18n for render(2 files for 1 verb with 2 culture), i18n_timeline_render and a fallback on configuration like this: 
+```
+  i18n:
+    fallback: en
+```
