@@ -30,19 +30,13 @@ class TimelineExtension extends \Twig_Extension
     private $config;
 
     /**
-     * @var Symfony\Component\HttpFoundation\Session
-     */
-    private $session;
-
-    /**
      * @param \Twig_Environment $twig   Twig environment
      * @param array             $config and array of configuration
      */
-    public function __construct(\Twig_Environment $twig, Session $session, array $config)
+    public function __construct(\Twig_Environment $twig, array $config)
     {
         $this->twig    = $twig;
         $this->config  = $config;
-        $this->session = $session;
     }
 
     /**
@@ -52,7 +46,7 @@ class TimelineExtension extends \Twig_Extension
     {
         return array(
             'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
-            'localized_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
+            'i18n_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
         );
     }
 
@@ -101,15 +95,19 @@ class TimelineExtension extends \Twig_Extension
     /**
      * 
      * @param TimelineAction $timelineAction What TimelineAction to render
-     * @param string|null    $template       Force template path
-     *
+     * @param string|null    $locale         Locale of the template
+     * 
+     * 
      * @return string
+     * 
      */
-    public function renderLocalizedTimeline(TimelineAction $timelineAction, $template = null)
+    public function renderLocalizedTimeline(TimelineAction $timelineAction, $locale = null)
     {
-        if (null === $template) {
-            $template = $this->getDefaultLocalizedTemplate($timelineAction, $this->session->getLocale());
+        if ($locale === null) {
+            $locale = $this->config['i18n_fallback'];
         }
+        
+        $template = $this->getDefaultLocalizedTemplate($timelineAction, $locale);
 
         $parameters = array(
             'timeline' => $timelineAction,
@@ -118,17 +116,7 @@ class TimelineExtension extends \Twig_Extension
         try {
             return $this->twig->render($template, $parameters);
         } catch (\Twig_Error_Loader $e) {
-            
-             // fallback using default locale if possible
-            if (null !== $this->config['fallback_locale']) {
-                $fallback_template = $this->getDefaultLocalizedTemplate($timelineAction, $this->config['fallback_locale']);
-                try {
-                    return $this->twig->render($fallback_template, $parameters);
-                } catch (\Twig_Error_Loader $e) {
-                    //Let's look at the default template
-                }
-            }
-            
+
             if (null !== $this->config['fallback']) {
                 return $this->twig->render($this->config['fallback'], $parameters);
             }
