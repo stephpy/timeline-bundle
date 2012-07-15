@@ -113,6 +113,9 @@ In your template .twig:
 ```twig
 {% for timeline in coll %}
     {{ timeline_render(timeline) }}
+    {# i18n ? #}
+    {{ i18n_timeline_render(timeline, 'en') }}
+
 {% endfor %}
 ```
 

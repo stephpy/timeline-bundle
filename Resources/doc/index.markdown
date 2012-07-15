@@ -128,4 +128,6 @@ highco_timeline:
     render:
         path:     'AcmeBundle:Timeline'
         fallback: 'AcmeBundle:Timeline:default.html.twig'
+        i18n: #Do you want to use i18n when rendering ? if not, remove this not.
+            fallback: en
 ```

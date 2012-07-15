@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\Session;
 
 /**
  * Twig extension
- * 
- * "timeline_render" -> renders a timeline by getting the path of twig 
+ *
+ * "timeline_render" -> renders a timeline by getting the path of twig
  * templates from config. Then, calls PATH/VERB.html.twig
- * 
- * "localized_timeline_render" -> renders timeline using locale.
+ *
+ * "i18n_timeline_render" -> renders timeline using locale.
  * PATH/VERB.LOCALE.html.twig if file exists
  * then falls back to PATH/VERB.DEFAULT_LOCALE.html.twig ( if set in conf )
  *
@@ -93,20 +93,17 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * 
      * @param TimelineAction $timelineAction What TimelineAction to render
      * @param string|null    $locale         Locale of the template
-     * 
-     * 
+     *
      * @return string
-     * 
      */
     public function renderLocalizedTimeline(TimelineAction $timelineAction, $locale = null)
     {
         if ($locale === null) {
             $locale = $this->config['i18n_fallback'];
         }
-        
+
         $template = $this->getDefaultLocalizedTemplate($timelineAction, $locale);
 
         $parameters = array(
@@ -117,6 +114,15 @@ class TimelineExtension extends \Twig_Extension
             return $this->twig->render($template, $parameters);
         } catch (\Twig_Error_Loader $e) {
 
+            if ($locale != $this->config['i18n_fallback'] && null !== $this->config['i18n_fallback']) {
+                $fallbackTemplate = $this->getDefaultLocalizedTemplate($timelineAction, $this->config['i18n_fallback']);
+                try {
+                    return $this->twig->render($fallbackTemplate, $parameters);
+                } catch (\Twig_Error_Loader $e) {
+                    //Let's look at the default template
+                }
+            }
+
             if (null !== $this->config['fallback']) {
                 return $this->twig->render($this->config['fallback'], $parameters);
             }
@@ -124,12 +130,12 @@ class TimelineExtension extends \Twig_Extension
             throw $e;
         }
     }
-    
+
     /**
      * Returns the default template name using locale.
      *
-     * @param TimelineAction $timelineAction
-     * @param string $locale
+     * @param TimelineAction $timelineAction timeline action object
+     * @param string         $locale         which locale
      *
      * @return string
      */
