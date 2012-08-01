@@ -88,6 +88,6 @@ class Manager
      */
     public function clear()
     {
-        $this->results = new EntryCollection();
+        $this->results = new EntryCollection(isset($this->options['onGlobalContext']) ? $this->options['onGlobalContext'] : true);
     }
 }
