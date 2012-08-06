@@ -3,7 +3,6 @@
 namespace Highco\TimelineBundle\Twig\Extension;
 
 use Highco\TimelineBundle\Entity\TimelineAction;
-use Symfony\Component\HttpFoundation\Session;
 
 /**
  * Twig extension

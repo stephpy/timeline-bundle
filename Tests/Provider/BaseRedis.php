@@ -283,7 +283,6 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
             ->method('__call')
             ->with($this->equalTo('del'), $this->equalTo($argumentsExpected));
 
-
         $redis  = new Redis($client, $manager);
         $redis->removeAll('MyContext', 'MySubject', 'MyId', array('key' => 'MyTimeline:%s:%s:%s'));
         $redis->removeAll('My2Context', 'MySubject', 'MyId', array('key' => 'MyTimeline:%s:%s:%s'));

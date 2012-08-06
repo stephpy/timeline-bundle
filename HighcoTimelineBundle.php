@@ -24,4 +24,3 @@ class HighcoTimelineBundle extends Bundle
         $container->addCompilerPass(new AddSpreadCompilerPass());
     }
 }
-

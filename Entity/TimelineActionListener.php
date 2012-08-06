@@ -58,7 +58,7 @@ class TimelineActionListener implements EventSubscriber
                 $entity->{$setObjectMethod}($em->getReference($model, $id));
             } catch (EntityNotFoundException $e) {
                 // if entity has been deleted ...
-            } catch(MappingException $e) {
+            } catch (MappingException $e) {
                 // if entity is not a valid entity or mapped super class
             }
         }

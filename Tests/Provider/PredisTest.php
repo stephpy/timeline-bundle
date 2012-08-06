@@ -2,8 +2,6 @@
 
 namespace Highco\TimelineBundle\Tests\Provider;
 
-use Highco\TimelineBundle\Provider\Redis;
-
 /**
  * PRedisTest
  *

@@ -2,7 +2,6 @@
 
 namespace Highco\TimelineBundle\Tests\Entity;
 
-
 use Highco\TimelineBundle\Entity\TimelineAction;
 
 /**
