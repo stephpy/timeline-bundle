@@ -44,6 +44,7 @@ class TimelineExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            'timeline' => new \Twig_Function_Method($this, 'renderContextualTimeline', array('is_safe' => array('html'))),
             'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
             'i18n_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
         );
@@ -75,7 +76,7 @@ class TimelineExtension extends \Twig_Extension
             throw $e;
         }
     }
-
+    
     /**
      * Returns the default template name.
      *
@@ -90,6 +91,55 @@ class TimelineExtension extends \Twig_Extension
                     strtolower($timelineAction->getVerb())
                 ));
     }
+    
+    /**
+     * @param TimelineAction $timelineAction What TimelineAction to render
+     * @param string|null    $context        Template context path
+     * @param string|html    $format         Template format
+     *
+     * @return string
+     */
+    public function renderContextualTimeline(TimelineAction $timelineAction, $context = null, $format = 'html')
+    {
+        if (null === $context) {
+            $template = $this->getDefaultTemplate($timelineAction);
+        } else {
+            $template = $this->getContextualTemplate($timelineAction, $context, $format);
+        }
+
+        $parameters = array(
+            'timeline' => $timelineAction,
+        );
+
+        try {
+            return $this->twig->render($template, $parameters);
+        } catch (\Twig_Error_Loader $e) {
+            if (null !== $this->config['fallback']) {
+                return $this->twig->render($this->config['fallback'], $parameters);
+            }
+
+            throw $e;
+        }
+    }
+    
+    /**
+     * Returns the contextualized template name.
+     *
+     * @param TimelineAction $timelineAction
+     *
+     * @return string
+     */
+    public function getContextualTemplate(TimelineAction $timelineAction, $context, $format)
+    {
+        return vsprintf('%s:%s/%s.%s.twig', array(
+                    $this->config['path'],
+                    $context,
+                    strtolower($timelineAction->getVerb()),
+                    $format
+                ));
+    }
+
+    
 
     /**
      * @param TimelineAction $timelineAction What TimelineAction to render
