@@ -71,15 +71,7 @@ class HighcoTimelineExtension extends Extension
         ));
 
         /* ---- provider ---- */
-        $providerDefinition = $container->getDefinition($config['provider']);
-
         $container->setAlias('highco.timeline.provider', $config['provider']);
-
-        $container->getDefinition('highco.timeline.manager')
-            ->replaceArgument(2, $providerDefinition);
-
-        $container->getDefinition('highco.timeline.spread.deployer')
-            ->replaceArgument(2, $providerDefinition);
 
         /* ---- delivery ---- */
         if ($config['delivery'] == Deployer::DELIVERY_WAIT && $config['db_driver'] == 'redis') {

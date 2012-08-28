@@ -13,7 +13,7 @@
         <service id="highco.timeline.spread.deployer" class="%highco.timeline.spread.deployer.class%">
 			<argument type="service" id="highco.timeline.spread.manager" />
 			<argument type="service" id="highco.timeline_action_manager" />
-            <argument type="service" id="highco.timeline.provider.redis" />
+            <argument type="service" id="highco.timeline.provider" />
             <argument type="service" id="highco.timeline.notification_manager" />
             <call method="setDelivery">
                 <argument>%highco.timeline.spread.deployer.delivery%</argument>
