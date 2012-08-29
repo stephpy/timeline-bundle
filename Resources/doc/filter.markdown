@@ -60,7 +60,7 @@ highco_timeline:
 	filters:
 		highco.timeline.filter.data_hydrator:
             options:
-                db_driver: yourdbdriver #orm By default
+                db_driver: yourdbdriver #orm By default (only one supported actually)
 
 ``
 

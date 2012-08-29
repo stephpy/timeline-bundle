@@ -20,8 +20,8 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 
         $coll         = new Collection(array($timelineAction));
 
-        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionManager');
-        $dataHydrator = new DataHydrator($taManager, 'orm');
+        $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $dataHydrator = new DataHydrator($em, 'orm');
         $results      = $dataHydrator->filter($coll);
 
         $this->assertEquals(count($results), 1, "There is one result returned");
@@ -52,17 +52,11 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 
         $coll         = new Collection(array($timelineAction));
 
-        $taManager    = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionManager');
-
         $value = array(
             1337 => $stdClass,
         );
 
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-
-        $taManager->expects($this->once())
-            ->method('getEntityManager')
-            ->will($this->returnValue($em));
 
         $repository = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\EntityRepository', array(), array(), '', false);
 
@@ -75,7 +69,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(array('1337' => '1337')))
             ->will($this->returnValue($value));
 
-        $dataHydrator = new DataHydrator($taManager, 'orm');
+        $dataHydrator = new DataHydrator($em, 'orm');
         $results      = $dataHydrator->filter($coll);
     }
 }

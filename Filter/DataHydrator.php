@@ -2,7 +2,7 @@
 
 namespace Highco\TimelineBundle\Filter;
 
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Highco\TimelineBundle\Filter\DataHydrator\Entry;
 
 /**
@@ -27,16 +27,16 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     protected $entries    = array();
 
     /**
-     * @var TimelineActionManagerInterface
+     * @var ObjectManager
      */
-    private $timelineActionManager;
+    protected $em;
 
     /**
-     * @param TimelineActionManagerInterface $timelineActionManager TimelineActionManager
+     * @param ObjectManager $em
      */
-    public function __construct(TimelineActionManagerInterface $timelineActionManager)
+    public function __construct(ObjectManager $em)
     {
-        $this->timelineActionManager = $timelineActionManager;
+        $this->em = $em;
     }
 
     /**
@@ -126,13 +126,12 @@ class DataHydrator extends AbstractFilter implements FilterInterface
 
         switch ($dbDriver) {
             case 'orm':
-                $em         = $this->timelineActionManager->getEntityManager();
-                $repository = $em->getRepository($model);
+                $repository = $this->em->getRepository($model);
 
                 if (method_exists($repository, "getTimelineResultsForModelAndOids")) {
                     return $repository->getTimelineResultsForModelAndOids($oids);
                 } else {
-                    $qb = $em->createQueryBuilder();
+                    $qb = $this->em->createQueryBuilder();
 
                     $qb
                         ->select('r')
