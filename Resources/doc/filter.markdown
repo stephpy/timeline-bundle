@@ -60,9 +60,9 @@ highco_timeline:
 	filters:
 		highco.timeline.filter.data_hydrator:
             options:
-                db_driver: yourdbdriver #orm By default (only one supported actually)
+                db_driver: orm (only one supported actually)
 
-``
+```
 
 This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
 By this way, if you have two timelines:
