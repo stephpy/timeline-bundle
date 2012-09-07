@@ -13,7 +13,7 @@
         <service id="highco.timeline.filter.duplicate_key" class="%highco.timeline.filter.duplicate_key.class%" />
 
         <service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="service_container" />
         </service>
     </services>
 
