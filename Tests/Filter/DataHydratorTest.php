@@ -21,7 +21,13 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
         $coll         = new Collection(array($timelineAction));
 
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-        $dataHydrator = new DataHydrator($em, 'orm');
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($em));
+
+        $dataHydrator = new DataHydrator($container);
         $results      = $dataHydrator->filter($coll);
 
         $this->assertEquals(count($results), 1, "There is one result returned");
@@ -69,7 +75,12 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(array('1337' => '1337')))
             ->will($this->returnValue($value));
 
-        $dataHydrator = new DataHydrator($em, 'orm');
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($em));
+
+        $dataHydrator = new DataHydrator($container);
         $results      = $dataHydrator->filter($coll);
     }
 }
