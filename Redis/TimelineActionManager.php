@@ -73,7 +73,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
     }
 
     /**
-     * @return integer
+     * @return integer|double
      */
     protected function getNextId()
     {
@@ -94,6 +94,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
      * {@inheritDoc}
      * Not supported on Redis
      * @throw \Exception
+     * @param array $options
      */
     public function getTimeline(array $params, array $options = array())
     {

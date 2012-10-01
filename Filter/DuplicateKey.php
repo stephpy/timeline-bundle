@@ -15,6 +15,7 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
 {
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function initialize(array $options = array())
     {
@@ -23,6 +24,7 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
 
     /**
      * {@inheritdoc}
+     * @param \Highco\TimelineBundle\Model\Collection $results
      */
     public function filter($results)
     {

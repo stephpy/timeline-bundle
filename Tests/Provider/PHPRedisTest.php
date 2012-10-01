@@ -27,7 +27,7 @@ class PHPRedis extends BaseRedis
     }
 
     /**
-     * @return Snc\RedisBundle\Client\Phpredis\Client mock of
+     * @return \PHPUnit_Framework_MockObject_MockObject mock of
      */
     protected function getRedisClientMock()
     {
@@ -35,7 +35,7 @@ class PHPRedis extends BaseRedis
     }
 
     /**
-     * @return object mock
+     * @return \PHPUnit_Framework_MockObject_MockObject mock
      */
     public function getRedisPipelineMock()
     {

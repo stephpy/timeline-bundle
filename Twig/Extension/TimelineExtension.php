@@ -76,7 +76,7 @@ class TimelineExtension extends \Twig_Extension
             throw $e;
         }
     }
-    
+
     /**
      * Returns the default template name.
      *
@@ -91,11 +91,11 @@ class TimelineExtension extends \Twig_Extension
                     strtolower($timelineAction->getVerb())
                 ));
     }
-    
+
     /**
      * @param TimelineAction $timelineAction What TimelineAction to render
      * @param string|null    $context        Template context path
-     * @param string|html    $format         Template format
+     * @param string         $format         Template format
      *
      * @return string
      */
@@ -121,11 +121,13 @@ class TimelineExtension extends \Twig_Extension
             throw $e;
         }
     }
-    
+
     /**
      * Returns the contextualized template name.
      *
      * @param TimelineAction $timelineAction
+     * @param string         $context
+     * @param string         $format
      *
      * @return string
      */
@@ -138,8 +140,6 @@ class TimelineExtension extends \Twig_Extension
                     $format
                 ));
     }
-
-    
 
     /**
      * @param TimelineAction $timelineAction What TimelineAction to render

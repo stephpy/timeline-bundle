@@ -22,7 +22,7 @@ class EntryCollection implements \IteratorAggregate
     }
 
     /**
-     * @return array
+     * @return \ArrayIterator
      */
     public function getIterator()
     {

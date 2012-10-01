@@ -65,7 +65,7 @@ class TimelineActionListener implements EventSubscriber
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getSubscribedEvents()
     {

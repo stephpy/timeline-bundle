@@ -11,6 +11,9 @@ use Highco\TimelineBundle\Provider\Redis;
  */
 abstract class BaseRedis extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @return \Predis\Client|\Snc\RedisBundle\Client\Phpredis\Client|\Highco\TimelineBundle\Model\TimelineActionManagerInterface
+     */
     abstract protected function getRedisClientMock();
     abstract protected function getRedisPipelineMock();
 
@@ -300,7 +303,7 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Highco\TimelineBundle\Entity\TimelineActionManager mock of
+     * @return \PHPUnit_Framework_MockObject_MockObject mock of
      */
     protected function getTimelineActionManagerMock()
     {

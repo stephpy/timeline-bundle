@@ -69,6 +69,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
     /**
      * {@inheritdoc}
+     * @param array $ids
      */
     public function getTimelineActionsForIds(array $ids)
     {
@@ -88,6 +89,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function getTimeline(array $params, array $options = array())
     {
