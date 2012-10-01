@@ -64,7 +64,7 @@ class SpreadTest extends \PHPUnit_Framework_TestCase
     /**
      * getTimelineHydrated
      *
-     * @return void
+     * @return TimelineAction
      */
     private function getTimelineHydrated()
     {

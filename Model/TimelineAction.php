@@ -558,7 +558,7 @@ class TimelineAction implements TimelineActionInterface
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function __sleep()
     {

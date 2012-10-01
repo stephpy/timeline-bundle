@@ -25,7 +25,6 @@ class AddFilterCompilerPass implements CompilerPassInterface
         $config = $container->getExtensionConfig('highco_timeline');
 
         if (!isset($config[0]) || !isset($config[0]['filters'])) {
-
             return;
         }
 

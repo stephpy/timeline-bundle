@@ -10,7 +10,8 @@ namespace Highco\TimelineBundle\Filter;
 interface FilterInterface
 {
     /**
-     * @param array $options options
+     * @param  array $options options
+     * @return void
      */
     public function initialize(array $options = array());
 

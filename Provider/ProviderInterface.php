@@ -22,11 +22,12 @@ interface ProviderInterface
     /**
      * This action has to be flushed
      *
-     * @param TimelineAction $timelineAction The timeline action object
-     * @param string         $context        The context where you want to push
-     * @param string         $subjectModel   The class of subject
-     * @param string         $subjectId      The oid of subject
-     * @param array          $options        Array of options
+     * @param  TimelineAction $timelineAction The timeline action object
+     * @param  string         $context        The context where you want to push
+     * @param  string         $subjectModel   The class of subject
+     * @param  string         $subjectId      The oid of subject
+     * @param  array          $options        Array of options
+     * @return void
      */
     public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array());
 
@@ -46,11 +47,12 @@ interface ProviderInterface
      * remove key from storage
      * This action has to be flushed
      *
-     * @param string $context          The context
-     * @param string $subjectModel     The class of subject
-     * @param string $subjectId        The oid of subject
-     * @param string $timelineActionId The timeline action id
-     * @param array  $options          Array of options
+     * @param  string $context          The context
+     * @param  string $subjectModel     The class of subject
+     * @param  string $subjectId        The oid of subject
+     * @param  string $timelineActionId The timeline action id
+     * @param  array  $options          Array of options
+     * @return void
      */
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array());
 
@@ -58,10 +60,11 @@ interface ProviderInterface
      * remove all keys from storage
      * This action has to be flushed
      *
-     * @param string $context      The context
-     * @param string $subjectModel The class of subject
-     * @param string $subjectId    The oid of subject
-     * @param array  $options      Array of options
+     * @param  string $context      The context
+     * @param  string $subjectModel The class of subject
+     * @param  string $subjectId    The oid of subject
+     * @param  array  $options      Array of options
+     * @return void
      */
     public function removeAll($context, $subjectModel, $subjectId, array $options = array());
 
