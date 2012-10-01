@@ -56,6 +56,8 @@ class Redis implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     * @param array<string,string|integer> $params
+     * @param array                        $options
      */
     public function getWall(array $params, $options = array())
     {
@@ -77,6 +79,7 @@ class Redis implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function persist(TimelineAction $timelineAction, $context, $subjectModel, $subjectId, array $options = array())
     {
@@ -95,6 +98,7 @@ class Redis implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function countKeys($context, $subjectModel, $subjectId, array $options = array())
     {
@@ -109,6 +113,7 @@ class Redis implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
     {
@@ -127,6 +132,7 @@ class Redis implements ProviderInterface
 
     /**
      * {@inheritdoc}
+     * @param array $options
      */
     public function removeAll($context, $subjectModel, $subjectId, array $options = array())
     {

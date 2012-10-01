@@ -12,7 +12,8 @@ use Highco\TimelineBundle\Model\TimelineActionInterface;
 interface TimelineActionManagerInterface
 {
     /**
-     * @param TimelineActionInterface $timelineAction
+     * @param  TimelineActionInterface $timelineAction
+     * @return void
      */
     public function updateTimelineAction(TimelineActionInterface $timelineAction);
 

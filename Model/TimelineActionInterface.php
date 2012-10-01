@@ -27,7 +27,8 @@ interface TimelineActionInterface
     public function hasDuplicateKey();
 
     /**
-     * @param boolean $duplicated
+     * @param  boolean $duplicated
+     * @return void
      */
     public function setIsDuplicated($duplicated);
 
@@ -49,22 +50,25 @@ interface TimelineActionInterface
     public function getId();
 
     /**
-     * @param mixed $id
+     * @param  mixed $id
+     * @return void
      */
     public function setId($id);
 
     /**
      * Chuck Norris comments Fight 1337 of Vic Mc Key
      *
-     * @param object $subject            The subject of the timeline action (Chuck Norris)
-     * @param string $verb               The verb (comments)
-     * @param object $directComplement   The direct complement (optional) (fight 1337)
-     * @param object $indirectComplement The indirect complement (optional) (Vic Mc Key)
+     * @param  object         $subject            The subject of the timeline action (Chuck Norris)
+     * @param  string         $verb               The verb (comments)
+     * @param  object|null    $directComplement   The direct complement (optional) (fight 1337)
+     * @param  object|null    $indirectComplement The indirect complement (optional) (Vic Mc Key)
+     * @return TimelineAction
      */
     public static function create($subject, $verb, $directComplement = null, $indirectComplement = null);
 
     /**
-     * @param object $subject
+     * @param  object $subject
+     * @return void
      */
     public function setSubject($subject);
 
@@ -74,7 +78,8 @@ interface TimelineActionInterface
     public function getSubject();
 
     /**
-     * @param string $subjectModel
+     * @param  string $subjectModel
+     * @return void
      */
     public function setSubjectModel($subjectModel);
 
@@ -84,7 +89,8 @@ interface TimelineActionInterface
     public function getSubjectModel();
 
     /**
-     * @param integer $subjectId
+     * @param  integer $subjectId
+     * @return void
      */
     public function setSubjectId($subjectId);
 
@@ -94,7 +100,8 @@ interface TimelineActionInterface
     public function getSubjectId();
 
     /**
-     * @param string $verb
+     * @param  string $verb
+     * @return void
      */
     public function setVerb($verb);
 
@@ -104,7 +111,8 @@ interface TimelineActionInterface
     public function getVerb();
 
     /**
-     * @param object $directComplement
+     * @param  object $directComplement
+     * @return void
      */
     public function setDirectComplement($directComplement);
 
@@ -114,7 +122,8 @@ interface TimelineActionInterface
     public function getDirectComplement();
 
     /**
-     * @param string $directComplementText
+     * @param  string $directComplementText
+     * @return void
      */
     public function setDirectComplementText($directComplementText);
 
@@ -124,7 +133,8 @@ interface TimelineActionInterface
     public function getDirectComplementText();
 
     /**
-     * @param string $directComplementModel
+     * @param  string $directComplementModel
+     * @return void
      */
     public function setDirectComplementModel($directComplementModel);
 
@@ -134,7 +144,8 @@ interface TimelineActionInterface
     public function getDirectComplementModel();
 
     /**
-     * @param integer $directComplementId
+     * @param  integer $directComplementId
+     * @return void
      */
     public function setDirectComplementId($directComplementId);
 
@@ -144,7 +155,8 @@ interface TimelineActionInterface
     public function getDirectComplementId();
 
     /**
-     * @param object $indirectComplement
+     * @param  object $indirectComplement
+     * @return void
      */
     public function setIndirectComplement($indirectComplement);
 
@@ -154,7 +166,8 @@ interface TimelineActionInterface
     public function getIndirectComplement();
 
     /**
-     * @param string $indirectComplementText
+     * @param  string $indirectComplementText
+     * @return void
      */
     public function setIndirectComplementText($indirectComplementText);
 
@@ -164,7 +177,8 @@ interface TimelineActionInterface
     public function getIndirectComplementText();
 
     /**
-     * @param string $indirectComplementModel
+     * @param  string $indirectComplementModel
+     * @return void
      */
     public function setIndirectComplementModel($indirectComplementModel);
 
@@ -174,7 +188,8 @@ interface TimelineActionInterface
     public function getIndirectComplementModel();
 
     /**
-     * @param integer $indirectComplementId
+     * @param  integer $indirectComplementId
+     * @return void
      */
     public function setIndirectComplementId($indirectComplementId);
 
@@ -191,7 +206,8 @@ interface TimelineActionInterface
     public function isValidStatus($status);
 
     /**
-     * @param string $statusCurrent
+     * @param  string $statusCurrent
+     * @return void
      */
     public function setStatusCurrent($statusCurrent);
 
@@ -201,7 +217,8 @@ interface TimelineActionInterface
     public function getStatusCurrent();
 
     /**
-     * @param string $statusWanted
+     * @param  string $statusWanted
+     * @return void
      */
     public function setStatusWanted($statusWanted);
 
@@ -211,7 +228,8 @@ interface TimelineActionInterface
     public function getStatusWanted();
 
     /**
-     * @param string $duplicateKey
+     * @param  string $duplicateKey
+     * @return void
      */
     public function setDuplicateKey($duplicateKey);
 
@@ -221,7 +239,8 @@ interface TimelineActionInterface
     public function getDuplicateKey();
 
     /**
-     * @param integer $duplicatePriority
+     * @param  integer $duplicatePriority
+     * @return void
      */
     public function setDuplicatePriority($duplicatePriority);
 
@@ -231,7 +250,8 @@ interface TimelineActionInterface
     public function getDuplicatePriority();
 
     /**
-     * @param DateTime $createdAt
+     * @param  DateTime $createdAt
+     * @return void
      */
     public function setCreatedAt($createdAt);
 

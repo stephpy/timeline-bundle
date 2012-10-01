@@ -57,7 +57,7 @@ class TimelineSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return array
+     * @return array<string,array<string|integer>>
      */
     public static function getSubscribedEvents()
     {

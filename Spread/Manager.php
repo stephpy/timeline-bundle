@@ -47,7 +47,7 @@ class Manager
     }
 
     /**
-     * @return array of SpreadInterface
+     * @return \ArrayIterator of SpreadInterface
      */
     public function getSpreads()
     {
@@ -76,7 +76,7 @@ class Manager
     }
 
     /**
-     * @return array
+     * @return EntryCollection
      */
     public function getResults()
     {

@@ -106,7 +106,7 @@ class Entry
     }
 
     /**
-     * @return array
+     * @return array<*,Reference>
      */
     public function getReferences()
     {

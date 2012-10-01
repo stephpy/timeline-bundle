@@ -4,7 +4,6 @@ namespace Highco\TimelineBundle\Tests\Fixtures;
 
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Model\TimelineActionInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * TimelineActionManager
@@ -46,6 +45,7 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
     /**
      * {@inheritDoc}
+     * @param array $options
      */
     public function getTimeline(array $params, array $options = array())
     {

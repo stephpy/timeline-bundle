@@ -15,7 +15,7 @@ class Filter implements FilterInterface
     /**
      * @param array $results
      *
-     * @return array
+     * @return void
      */
     public function filter($results)
     {
