@@ -2,12 +2,13 @@
 
 namespace Highco\TimelineBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\Config\FileLocator;
 use Highco\TimelineBundle\Spread\Deployer;
 
 /**
@@ -16,6 +17,7 @@ use Highco\TimelineBundle\Spread\Deployer;
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  *
  * @author Stephane PY <py.stephane1@gmail.com>
+ * @author Chris Jones <leeked@gmail.com>
  */
 class HighcoTimelineExtension extends Extension
 {
@@ -24,18 +26,29 @@ class HighcoTimelineExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor = new Processor();
-        $configuration = new Configuration();
+        $processor     = new Processor();
+        $configuration = new Configuration($container->get('kernel.debug'));
 
         $config = $processor->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
-
-        if (!in_array(strtolower($config['db_driver']), array('orm', 'redis'))) {
-            throw new \InvalidArgumentException(sprintf('Invalid db driver "%s".', $config['db_driver']));
-        }
-
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load(sprintf('%s.xml', $config['db_driver']));
+
+        // Handle the MongoDB document manager name in a specific way as it does not have a registry to make it easy
+        // TODO: change it when bumping the requirement to Symfony 2.1
+        if ('mongodb' === $config['db_driver']) {
+            if (null === $config['model_manager_name']) {
+                $container->setAlias('highco_timeline.document_manager', new Alias(
+                    'doctrine.odm.mongodb.document_manager', false
+                ));
+            } else {
+                $container->setAlias('highco_timeline.document_manager', new Alias(
+                    sprintf('doctrine.odm.%s_mongodb.document_manager',
+                    $config['model_manager_name']),
+                    false
+                ));
+            }
+        }
 
         $container->setAlias('highco.timeline_action_manager', $config['timeline_action_manager']);
         $container->setParameter('highco.timeline.db_driver', $config['db_driver']);
