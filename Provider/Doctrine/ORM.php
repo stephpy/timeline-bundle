@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Highco\TimelineBundle\Model\TimelineAction;
 use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
 use Highco\TimelineBundle\Provider\ProviderInterface;
+use Highco\TimelineBundle\Model\TimelineInterface;
 
 /**
  * Doctrine Provider
@@ -36,7 +37,7 @@ class ORM implements ProviderInterface
     /**
      * @var array
      */
-    protected $timelines = array();
+    protected $delayedQueries = array();
 
     /**
      * @param EntityManager                  $em                    Doctrine Entity Manager
@@ -130,6 +131,22 @@ class ORM implements ProviderInterface
         return $this->timelineClass;
     }
 
+    protected function getBaseQueryBuilder($context, $subjectModel, $subjectId)
+    {
+        $qb = $this->getEm()->getRepository($this->getTimelineClass())->createQueryBuilder('t');
+
+        return $qb->where('t.subjectModel = :subjectModel')
+                  ->andWhere('t.subjectId = :subjectId')
+                  ->andWhere('t.context = :context')
+                  ->setParameters(
+                        array(
+                            'subjectModel' => $subjectModel,
+                            'subjectId'    => $subjectId,
+                            'context'      => $context,
+                        )
+                  );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -143,23 +160,14 @@ class ORM implements ProviderInterface
         $offset = isset($options['offset']) ? $options['offset'] : 0;
         $limit = isset($options['limit']) ? $options['limit'] : 10;
 
-        $qb = $this->getEm()->getRepository($this->getTimelineClass())->createQueryBuilder('t');
-
+        $qb = $this->getBaseQueryBuilder($context, $params['subjectModel'], $params['subjectId']);
 
         $qb->select('t.timelineActionId')
-            ->where('t.subjectModel = :subjectModel')
-            ->andWhere('t.subjectId = :subjectId')
-            ->andWhere('t.context = :context')
             ->orderBy('ta.createdAt', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
         $query = $qb->getQuery();
-        $query->setParameters(array(
-                'subjectModel' => $params['subjectModel'],
-                'subjectId' => $params['subjectId'],
-                'context' => $context
-            ));
 
         $results = $query->getScalarResult();
 
@@ -182,7 +190,18 @@ class ORM implements ProviderInterface
         $subjectId,
         array $options = array()
     ) {
-        $timelines[] = new $this->getTimelineClass()
+        $em = $this->getEm();
+
+        $timeline = new $this->getTimelineClass();
+        /* @var $timeline TimelineInterface */
+
+        $timeline->setTimelineAction($timelineAction);
+        $timeline->setContext($context);
+        $timeline->setSubjectModel($subjectModel);
+        $timeline->setSubjectId($subjectId);
+
+        $em->persist($timeline);
+        // $em->flush() performed in flush() method
     }
 
     /**
@@ -197,7 +216,10 @@ class ORM implements ProviderInterface
      */
     public function countKeys($context, $subjectModel, $subjectId, array $options = array())
     {
-        // TODO: Implement countKeys() method.
+        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+        $qb->select('COUNT(t)');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -214,7 +236,16 @@ class ORM implements ProviderInterface
      */
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
     {
-        // TODO: Implement remove() method.
+        $em = $this->getEm();
+        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+
+        $qb->andWhere('t.timelineActionId = :timelineActionId')
+           ->setMaxResults(1)
+           ;
+
+        $entity = $qb->getQuery()->getSingleResult();
+        $em->remove($entity);
+        // $em->flush() handled by flush() method
     }
 
     /**
@@ -230,7 +261,12 @@ class ORM implements ProviderInterface
      */
     public function removeAll($context, $subjectModel, $subjectId, array $options = array())
     {
-        // TODO: Implement removeAll() method.
+        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+
+        $qb->delete();
+
+        $this->delayedQueries[] = $qb->getQuery();
+        // Delay query until flush() is called.
     }
 
     /**
@@ -240,7 +276,31 @@ class ORM implements ProviderInterface
      */
     public function flush()
     {
-        // TODO: Implement flush() method.
+        $results = array();
+        $em = $this->getEm();
+        try {
+            $em->getConnection()->beginTransaction();
+
+            if(!empty($this->delayedQueries)) {
+                foreach($this->delayedQueries as $query) {
+                    /* @var $query \Doctrine\ORM\Query */
+                    $results[] = $query->execute();
+                }
+            }
+
+            $em->flush();
+            $em->getConnection()->commit();
+
+            $this->delayedQueries = array();
+        } catch (Exception $e) {
+            if($em->getConnection()->isTransactionActive()) {
+                $em->getConnection()->rollback();
+            }
+            $em->close();
+            throw $e;
+        }
+
+        return $results;
     }
 
 }
