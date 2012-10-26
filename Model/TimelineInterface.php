@@ -7,6 +7,15 @@ namespace Highco\TimelineBundle\Model;
  */
 interface TimelineInterface
 {
+
+    /**
+     * @param  object         $subject            The subject of the timeline
+     * @param  object         $timelineAction     The timelineAction
+     * @param  string         $context            The context (optional; default 'GLOBAL')
+     * @return TimelineInterface
+     */
+    public static function create($subject,TimelineActionInterface $timelineAction, $context = 'GLOBAL');
+
     /**
      * @param  object $subject
      *
@@ -76,4 +85,16 @@ interface TimelineInterface
      * @return TimelineActionInterface|null
      */
     public function getTimelineAction();
+
+    /**
+     * @param  \DateTime $createdAt
+     * @return void
+     */
+    public function setCreatedAt($createdAt);
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
 }
