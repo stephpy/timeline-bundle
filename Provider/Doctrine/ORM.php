@@ -3,148 +3,54 @@
 namespace Highco\TimelineBundle\Provider\Doctrine;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Provider\ProviderInterface;
 use Highco\TimelineBundle\Model\TimelineInterface;
+use Highco\TimelineBundle\Provider\AbstractDoctrineProvider;
 
 /**
  * Doctrine Provider
  */
-class ORM implements ProviderInterface
+class ORM extends AbstractDoctrineProvider
 {
-
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected $manager;
 
     /**
-     * @var TimelineActionManagerInterface
-     */
-    protected $timelineActionManager;
-
-    /**
-     * @var array
-     */
-    protected $options;
-
-    /**
-     * @var string
-     */
-    protected $timelineClass;
-
-    /**
-     * @var array
-     */
-    protected $delayedQueries = array();
-
-    /**
-     * @param EntityManager                  $em                    Doctrine Entity Manager
-     * @param TimelineActionManagerInterface $timelineActionManager Manager for storage
-     * @param array                          $options               An array of options
-     */
-    public function __construct(EntityManager $em, $timelineClass, TimelineActionManagerInterface $timelineActionManager, array $options = array()) {
-        $this->setEm($em)
-             ->setTimelineClass($timelineClass)
-             ->setTimelineActionManager($timelineActionManager)
-             ->setOptions($options);
-    }
-
-    /**
-     * @param EntityManager $em
+     * @param $context
+     * @param $subjectModel
+     * @param $subjectId
      *
-     * @return ORM Provides a fluent interface
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function setEm($em)
-    {
-        $this->em = $em;
-
-        return $this;
-    }
-
-    /**
-     * @return EntityManager
-     */
-    public function getEm()
-    {
-        return $this->em;
-    }
-
-    /**
-     * @param TimelineActionManagerInterface $timelineActionManager
-     *
-     * @return ORM Provides a fluent interface
-     */
-    public function setTimelineActionManager($timelineActionManager)
-    {
-        $this->timelineActionManager = $timelineActionManager;
-
-        return $this;
-    }
-
-    /**
-     * @return TimelineActionManagerInterface
-     */
-    public function getTimelineActionManager()
-    {
-        return $this->timelineActionManager;
-    }
-
-    /**
-     * @param array $options
-     *
-     * @return ORM Provides a fluent interface
-     */
-    public function setOptions($options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param string $timelineClass
-     *
-     * @return ORM Provides a fluent interface
-     */
-    public function setTimelineClass($timelineClass)
-    {
-        $this->timelineClass = $timelineClass;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTimelineClass()
-    {
-        return $this->timelineClass;
-    }
-
     protected function getBaseQueryBuilder($context, $subjectModel, $subjectId)
     {
-        $qb = $this->getEm()->getRepository($this->getTimelineClass())->createQueryBuilder('t');
+        $qb = $this->manager->getRepository($this->getTimelineClass())->createQueryBuilder('t');
 
         return $qb->where('t.subjectModel = :subjectModel')
-                  ->andWhere('t.subjectId = :subjectId')
-                  ->andWhere('t.context = :context')
-                  ->setParameters(
-                        array(
-                            'subjectModel' => $subjectModel,
-                            'subjectId'    => $subjectId,
-                            'context'      => $context,
-                        )
-                  );
+            ->andWhere('t.subjectId = :subjectId')
+            ->andWhere('t.context = :context')
+            ->setParameters(
+            array(
+                'subjectModel' => $subjectModel,
+                'subjectId'    => $subjectId,
+                'context'      => $context,
+            )
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws \InvalidArgumentException
+     */
+    public function setManager($manager)
+    {
+        if(!$manager instanceof EntityManager) {
+            throw new \InvalidArgumentException('Manager must be an instance of \Doctrine\ORM\EntityManager');
+        }
+        return parent::setManager($manager);
     }
 
     /**
@@ -171,11 +77,16 @@ class ORM implements ProviderInterface
 
         $results = $query->getScalarResult();
 
-        if(empty($results)) {
+        if (empty($results)) {
             return $results;
         }
 
-        $ids = array_map(function($row) { return $row['timelineActionId']; }, $results);
+        $ids = array_map(
+            function ($row) {
+                return $row['timelineActionId'];
+            },
+            $results
+        );
 
         return $this->getTimelineActionManager()->getTimelineActionsForIds($ids);
     }
@@ -190,7 +101,7 @@ class ORM implements ProviderInterface
         $subjectId,
         array $options = array()
     ) {
-        $em = $this->getEm();
+        $manager = $this->manager;
 
         $timeline = new $this->getTimelineClass();
         /* @var $timeline TimelineInterface */
@@ -200,8 +111,8 @@ class ORM implements ProviderInterface
         $timeline->setSubjectModel($subjectModel);
         $timeline->setSubjectId($subjectId);
 
-        $em->persist($timeline);
-        // $em->flush() performed in flush() method
+        $manager->persist($timeline);
+        // $manager->flush() performed in flush() method
     }
 
     /**
@@ -236,16 +147,15 @@ class ORM implements ProviderInterface
      */
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
     {
-        $em = $this->getEm();
+        $manager = $this->manager;
         $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
 
         $qb->andWhere('t.timelineActionId = :timelineActionId')
-           ->setMaxResults(1)
-           ;
+            ->setMaxResults(1);
 
         $entity = $qb->getQuery()->getSingleResult();
-        $em->remove($entity);
-        // $em->flush() handled by flush() method
+        $manager->remove($entity);
+        // $manager->flush() handled by flush() method
     }
 
     /**
@@ -277,30 +187,29 @@ class ORM implements ProviderInterface
     public function flush()
     {
         $results = array();
-        $em = $this->getEm();
+        $manager = $this->manager;
         try {
-            $em->getConnection()->beginTransaction();
+            $manager->getConnection()->beginTransaction();
 
-            if(!empty($this->delayedQueries)) {
-                foreach($this->delayedQueries as $query) {
+            if (!empty($this->delayedQueries)) {
+                foreach ($this->delayedQueries as $query) {
                     /* @var $query \Doctrine\ORM\Query */
                     $results[] = $query->execute();
                 }
             }
 
-            $em->flush();
-            $em->getConnection()->commit();
+            $manager->flush();
+            $manager->getConnection()->commit();
 
             $this->delayedQueries = array();
         } catch (Exception $e) {
-            if($em->getConnection()->isTransactionActive()) {
-                $em->getConnection()->rollback();
+            if ($manager->getConnection()->isTransactionActive()) {
+                $manager->getConnection()->rollback();
             }
-            $em->close();
+            $manager->close();
             throw $e;
         }
 
         return $results;
     }
-
 }
