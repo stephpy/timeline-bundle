@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Highco\TimelineBundle\Entity\Timeline" table="timeline">
+
+        <id name="subjectModel" column="subject_model" type="string"  />
+
+        <id name="subjectId" column="subject_id" type="integer"  />
+
+        <id name="context" column="context" type="string" />
+
+        <field name="createdAt" column="created_at" type="datetime" />
+
+    </mapped-superclass>
+
+</doctrine-mapping>

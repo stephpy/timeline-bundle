@@ -71,7 +71,7 @@ class HighcoTimelineExtension extends Extension
         ));
 
         /* ---- provider ---- */
-        $container->setAlias('highco.timeline.provider', $config['provider']);
+        $this->processProvider($config['provider'], $container);
 
         /* ---- delivery ---- */
         if ($config['delivery'] == Deployer::DELIVERY_WAIT && $config['db_driver'] == 'redis') {
@@ -85,5 +85,39 @@ class HighcoTimelineExtension extends Extension
         $container->setParameter('highco.timeline.render.path', $render['path']);
         $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
         $container->setParameter('highco.timeline.render.i18n.fallback', isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null );
+    }
+
+    /**
+     * Process the provider configuation
+     *
+     * @param array                 $config
+     * @param ContainerBuilder $container
+     */
+    protected function processProvider($config, ContainerBuilder $container) {
+        $container->setAlias('highco.timeline.provider', $config['service']);
+
+        if(!empty($config['object_manager'])) {
+            $container->setAlias('highco.timeline.provider.object_manager', $config['object_manager']);
+        }
+        if(!empty($config['timeline_class'])) {
+            $container->setParameter('highco.timeline.provider.timeline_class', $config['timeline_class']);
+        }
+
+        // Manipulate the provider definition to only load dependencies needed for chosen provider
+        $providerDefinition = $container->getDefinition($container->getAlias('highco.timeline.provider'));
+        $providerClass = $container->getParameterBag()->resolveValue($providerDefinition->getClass());
+
+        $reflectionProviderClass = new \ReflectionClass($providerClass);
+        if ($reflectionProviderClass->isSubclassOf('Highco\TimelineBundle\Provider\AbstractDoctrineProvider')) {
+            $providerDefinition->replaceArgument(0, new Reference('highco.timeline.provider.object_manager'))
+                ->replaceArgument(1, '%highco.timeline.provider.timeline_class%');
+
+        } elseif (
+            'Highco\TimelineBundle\Provider\Redis' == $reflectionProviderClass->getName()
+            OR $reflectionProviderClass->isSubclassOf('Highco\TimelineBundle\Provider\Redis')
+        ) {
+            $providerDefinition->replaceArgument(0, new Reference('snc_redis.default_client'));
+        }
+
     }
 }

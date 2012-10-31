@@ -35,9 +35,17 @@ abstract class AbstractDoctrineProvider implements ProviderInterface
     protected $timelineClass;
 
     /**
-     * @var array
+     * @param ObjectManager                  $manager               Doctrine Entity Manager
+     * @param TimelineActionManagerInterface $timelineActionManager Manager for storage
+     * @param array                          $options               An array of options
      */
-    protected $delayedQueries = array();
+    public function __construct(ObjectManager $manager, $timelineClass, TimelineActionManagerInterface $timelineActionManager, array $options = array())
+    {
+        $this->setManager($manager)
+            ->setTimelineClass($timelineClass)
+            ->setTimelineActionManager($timelineActionManager)
+            ->setOptions($options);
+    }
 
     /**
      * @param ObjectManager $manager

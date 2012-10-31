@@ -9,14 +9,19 @@ use Highco\TimelineBundle\Model\TimelineInterface;
 use Highco\TimelineBundle\Provider\AbstractDoctrineProvider;
 
 /**
- * Doctrine Provider
+ * Doctrine ORM Provider
  */
-class ORM extends AbstractDoctrineProvider
+class ORMProvider extends AbstractDoctrineProvider
 {
     /**
      * @var EntityManager
      */
     protected $manager;
+
+    /**
+     * @var array
+     */
+    protected $delayedQueries = array();
 
     /**
      * @param $context
@@ -43,13 +48,15 @@ class ORM extends AbstractDoctrineProvider
 
     /**
      * {@inheritDoc}
+     *
      * @throws \InvalidArgumentException
      */
     public function setManager($manager)
     {
-        if(!$manager instanceof EntityManager) {
+        if (!$manager instanceof EntityManager) {
             throw new \InvalidArgumentException('Manager must be an instance of \Doctrine\ORM\EntityManager');
         }
+
         return parent::setManager($manager);
     }
 
