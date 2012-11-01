@@ -6,6 +6,8 @@
 
     <mapped-superclass name="Highco\TimelineBundle\Entity\Timeline" table="timeline">
 
+        <id name="type" column="type" type="string"  />
+
         <id name="subjectModel" column="subject_model" type="string"  />
 
         <id name="subjectId" column="subject_id" type="integer"  />

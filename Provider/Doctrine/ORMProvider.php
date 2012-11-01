@@ -5,7 +5,7 @@ namespace Highco\TimelineBundle\Provider\Doctrine;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Model\TimelineInterface;
+use Highco\TimelineBundle\Entity\Timeline;
 use Highco\TimelineBundle\Provider\AbstractDoctrineProvider;
 
 /**
@@ -24,26 +24,58 @@ class ORMProvider extends AbstractDoctrineProvider
     protected $delayedQueries = array();
 
     /**
+     * @param $type
      * @param $context
      * @param $subjectModel
      * @param $subjectId
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function getBaseQueryBuilder($context, $subjectModel, $subjectId)
+    protected function getBaseQueryBuilder($type, $context, $subjectModel, $subjectId)
     {
         $qb = $this->manager->getRepository($this->getTimelineClass())->createQueryBuilder('t');
 
-        return $qb->where('t.subjectModel = :subjectModel')
-            ->andWhere('t.subjectId = :subjectId')
-            ->andWhere('t.context = :context')
-            ->setParameters(
-            array(
-                'subjectModel' => $subjectModel,
-                'subjectId'    => $subjectId,
-                'context'      => $context,
-            )
-        );
+        return $qb->where('t.type = :type')
+                  ->andWhere('t.context = :context')
+                  ->andWhere('t.subjectModel = :subjectModel')
+                  ->andWhere('t.subjectId = :subjectId')
+                  ->setParameters(
+                    array(
+                        'type'         => $type,
+                        'context'      => $context,
+                        'subjectModel' => $subjectModel,
+                        'subjectId'    => $subjectId,
+                    )
+                  );
+    }
+
+    /**
+     * Determine the type value for storage
+     *
+     * @param array $options
+     *
+     * @return string
+     */
+    protected function getTypeFromOptions(array $options)
+    {
+        /*
+         * @TODO: Currently this is the only way we have for determining the 'type' of the storage.
+         * The current method of passing in a key formatting string doesn't make sense in ORM space, and how this info
+         * is stored should really be determine within the provider. It may be more appropriate for provider-consumers
+         * to pass a 'type' value ('spread', 'unread-notifier', etc) to the provider and let the provider determine
+         * it's storage needs.
+         */
+        $type = null;
+
+        if (array_key_exists('key', $options)) {
+            list($keyPrefix,) = explode(':', $options['key'], 2);
+            if (preg_match('#^Timeline(.+)#', $keyPrefix, $matches)) {
+                $type = strtolower($matches[1]);
+            }
+        }
+
+        return $type ? : 'spread';
+
     }
 
     /**
@@ -69,33 +101,35 @@ class ORMProvider extends AbstractDoctrineProvider
             throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
         }
 
+        $type = $this->getTypeFromOptions($options);
         $context = isset($options['context']) ? (string)$params['context'] : 'GLOBAL';
         $offset = isset($options['offset']) ? $options['offset'] : 0;
         $limit = isset($options['limit']) ? $options['limit'] : 10;
 
-        $qb = $this->getBaseQueryBuilder($context, $params['subjectModel'], $params['subjectId']);
+        $qb = $this->getBaseQueryBuilder($type, $context, $params['subjectModel'], $params['subjectId']);
 
-        $qb->select('t.timelineActionId')
+        $qb->leftJoin('t.timelineAction', 'ta')
             ->orderBy('ta.createdAt', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
         $query = $qb->getQuery();
 
-        $results = $query->getScalarResult();
+        $results = $query->execute();
 
         if (empty($results)) {
             return $results;
         }
 
-        $ids = array_map(
-            function ($row) {
-                return $row['timelineActionId'];
+        // Extract actions
+        return array_map(
+            function ($timeline) {
+                /* @var $timeline Timeline */
+                return $timeline->getTimelineAction();
             },
             $results
         );
 
-        return $this->getTimelineActionManager()->getTimelineActionsForIds($ids);
     }
 
     /**
@@ -110,9 +144,11 @@ class ORMProvider extends AbstractDoctrineProvider
     ) {
         $manager = $this->manager;
 
-        $timeline = new $this->getTimelineClass();
-        /* @var $timeline TimelineInterface */
+        $timelineClass = $this->getTimelineClass();
+        $timeline = new $timelineClass;
+        /* @var $timeline Timeline */
 
+        $timeline->setType($this->getTypeFromOptions($options));
         $timeline->setTimelineAction($timelineAction);
         $timeline->setContext($context);
         $timeline->setSubjectModel($subjectModel);
@@ -134,7 +170,8 @@ class ORMProvider extends AbstractDoctrineProvider
      */
     public function countKeys($context, $subjectModel, $subjectId, array $options = array())
     {
-        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+        $type = $this->getTypeFromOptions($options);
+        $qb = $this->getBaseQueryBuilder($type, $context, $subjectModel, $subjectId);
         $qb->select('COUNT(t)');
 
         return $qb->getQuery()->getSingleScalarResult();
@@ -155,7 +192,8 @@ class ORMProvider extends AbstractDoctrineProvider
     public function remove($context, $subjectModel, $subjectId, $timelineActionId, array $options = array())
     {
         $manager = $this->manager;
-        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+        $type = $this->getTypeFromOptions($options);
+        $qb = $this->getBaseQueryBuilder($type, $context, $subjectModel, $subjectId);
 
         $qb->andWhere('t.timelineActionId = :timelineActionId')
             ->setMaxResults(1);
@@ -178,12 +216,13 @@ class ORMProvider extends AbstractDoctrineProvider
      */
     public function removeAll($context, $subjectModel, $subjectId, array $options = array())
     {
-        $qb = $this->getBaseQueryBuilder($context, $subjectModel, $subjectId);
+        $type = $this->getTypeFromOptions($options);
+        $qb = $this->getBaseQueryBuilder($type, $context, $subjectModel, $subjectId);
 
         $qb->delete();
 
-        $this->delayedQueries[] = $qb->getQuery();
         // Delay query until flush() is called.
+        $this->delayedQueries[] = $qb->getQuery();
     }
 
     /**

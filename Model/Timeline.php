@@ -32,6 +32,11 @@ class Timeline implements TimelineInterface
     protected $context;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * @var integer
      */
     protected $timelineActionId;
@@ -124,6 +129,25 @@ class Timeline implements TimelineInterface
     {
         return $this->context;
     }
+
+    /**
+     * @param string $type
+     *
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+
 
     /**
      * @param mixed $id
