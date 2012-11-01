@@ -18,6 +18,7 @@
                 <argument key="fallback">%highco.timeline.render.fallback%</argument>
                 <argument key="i18n_fallback">%highco.timeline.render.i18n.fallback%</argument>
             </argument>
+            <argument>%highco.timeline.twig.resources%</argument>
         </service>
     </services>
 

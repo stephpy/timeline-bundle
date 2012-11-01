@@ -66,6 +66,8 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->children()
                     ->arrayNode('render')
+                        ->addDefaultsIfNotSet()
+                        ->fixXmlConfig('resource')
                         ->isRequired()
                         ->children()
                             ->scalarNode('path')->isRequired()->end()
@@ -74,6 +76,17 @@ class Configuration implements ConfigurationInterface
                                 ->children()
                                     ->scalarNode('fallback')->isRequired()->end()
                                 ->end()
+                            ->end()
+                            ->arrayNode('resources')
+                                ->addDefaultsIfNotSet()
+                                ->defaultValue(array('HighcoTimelineBundle:Action:components.html.twig'))
+                                ->validate()
+                                    ->ifTrue(function($v) { return !in_array('HighcoTimelineBundle:Action:components.html.twig', $v); })
+                                    ->then(function($v){
+                                        return array_merge(array('HighcoTimelineBundle:Action:components.html.twig'), $v);
+                                    })
+                                ->end()
+                                ->prototype('scalar')->end()
                             ->end()
                         ->end()
                 ->end();
