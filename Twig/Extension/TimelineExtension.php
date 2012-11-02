@@ -3,6 +3,7 @@
 namespace Highco\TimelineBundle\Twig\Extension;
 
 use Highco\TimelineBundle\Entity\TimelineAction;
+use Highco\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
 use \Twig_TemplateInterface;
 
 /**
@@ -35,9 +36,14 @@ class TimelineExtension extends \Twig_Extension
     protected $template;
 
     /**
-     * @var array
+     * @var \SplObjectStorage
      */
     protected $blocks;
+
+    /**
+     * @var \SplObjectStorage
+     */
+    protected $themes;
 
     /**
      * @var array
@@ -58,7 +64,8 @@ class TimelineExtension extends \Twig_Extension
         $this->twig    = $twig;
         $this->config  = $config;
         $this->resources = $resources;
-        $this->blocks = array();
+        $this->blocks = new \SplObjectStorage();
+        $this->themes = new \SplObjectStorage();
         $this->varStack = array();
     }
 
@@ -72,6 +79,17 @@ class TimelineExtension extends \Twig_Extension
             'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
             'timeline_component_render' => new \Twig_Function_Method($this, 'renderTimelineActionComponent', array('is_safe' => array('html'))),
             'i18n_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTokenParsers()
+    {
+        return array(
+            // {% timeline_action_theme timeline "Acme::components.html.twig" %}
+            new TimelineActionThemeTokenParser(),
         );
     }
 
@@ -166,15 +184,15 @@ class TimelineExtension extends \Twig_Extension
 
         $componentVariables = $this->getComponentVariables($timelineAction, $component);
         $componentVariables['type'] = $component;
+        $componentVariables['timelineAction'] = $timelineAction;
 
         $custom = false;
         if(!empty($componentVariables['model'])) {
-            $custom = '_'.$componentVariables['normalized_model'].'_'.$component;
+            $custom = '_'.$componentVariables['normalized_model'];
         }
 
-
-        $rendering = $custom.'component';
-        $blocks = $this->getBlocks();
+        $rendering = $custom.'_'.$component.'component';
+        $blocks = $this->getBlocks($timelineAction);
 
         if (isset($this->varStack[$rendering])) {
             $typeIndex = $this->varStack[$rendering]['typeIndex'] - 1;
@@ -183,7 +201,8 @@ class TimelineExtension extends \Twig_Extension
         } else {
             $types = array($component);
             if($custom) {
-                $types[] = $custom;
+                $types[] = $custom.'_default';
+                $types[] = $custom.'_'.$component;
             }
             $typeIndex = count($types) - 1;
             $this->varStack[$rendering] = array (
@@ -221,16 +240,21 @@ class TimelineExtension extends \Twig_Extension
      *
      * Templates are looked for in the configured resources
      *
+     * @param TimelineAction $timelineAction
+     *
      * @return array An array of Twig_TemplateInterface instances
      */
-    protected function getBlocks()
+    protected function getBlocks(TimelineAction $timelineAction)
     {
-        if (empty($this->blocks)) {
+        if (!$this->blocks->contains($timelineAction)) {
 
             $templates = $this->resources;
 
-            $blocks = array();
+            if($this->themes->contains($timelineAction)) {
+                $templates = array_merge($templates, $this->themes[$timelineAction]);
+            }
 
+            $blocks = array();
             foreach ($templates as $template) {
                 if (!$template instanceof \Twig_Template) {
                     $template = $this->twig->loadTemplate($template);
@@ -241,11 +265,10 @@ class TimelineExtension extends \Twig_Extension
                 } while (false !== $template = $template->getParent(array()));
                 $blocks = array_merge($blocks, $templateBlocks);
             }
-
-            $this->blocks = $blocks;
+            $this->blocks->attach($timelineAction, $blocks);
         }
 
-        return $this->blocks;
+        return $this->blocks[$timelineAction];
     }
 
     /**
@@ -376,5 +399,17 @@ class TimelineExtension extends \Twig_Extension
     public function getName()
     {
         return 'timeline_render';
+    }
+
+    /**
+     * Store themes for a given timelineAction
+     *
+     * @param TimelineAction $timelineAction
+     * @param array          $resources
+     */
+    public function setTheme(TimelineAction $timelineAction, array $resources)
+    {
+        $this->themes->attach($timelineAction, $resources);
+        $this->blocks->detach($timelineAction);
     }
 }
