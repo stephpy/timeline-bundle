@@ -99,4 +99,51 @@ highco_timeline:
 	... other configuration ...
 ```
 
+# Step 5: (If you use Doctrine ORM Provider) Define your Timeline class
+
+```php
+<?php
+//Acme/YourBundle/Entity/Timeline
+
+use Highco\TimelineBundle\Entity\Timeline as BaseTimeline;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(
+ *  indexes={
+ *      @ORM\index(name="primary_created_at", columns={"type", "context", "subject_model", "subject_id", "created_at"}),
+ *  }
+ * )
+ */
+class Timeline extends BaseTimeline
+{
+
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="TimelineAction")
+     * @ORM\JoinColumn(name="timeline_action_id", referencedColumnName="id")
+     *
+     * NOTE: This join-column will merge with type, context, subjectModel, and subjectId to form a composite primary
+     * key
+     *
+     * @var TimelineAction
+     */
+    protected $timelineAction;
+
+}
+```
+
+Don't forget to define it on `config.yml`
+
+```
+highco_timeline:
+	... other configuration ...
+    provider:
+        service: highco.timeline.provider.doctrine.orm
+        object_manager: doctrine.orm.entity_manager
+        timeline_class: Acme\YourBundle\Entity\Timeline
+	... other configuration ...
+```
+
 Then, look at full configuration on [index](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)

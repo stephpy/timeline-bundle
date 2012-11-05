@@ -7,16 +7,17 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping\MappingException;
+use Highco\TimelineBundle\Model\TimelineInterface;
 use Highco\TimelineBundle\Model\TimelineActionInterface;
 
 /**
- * TimelineActionListener
+ * EntityListener
  *
  * @uses EventSubscriber
  * @author Francisco Facioni <fran6co@gmail.com>
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineActionListener implements EventSubscriber
+class EntityListener implements EventSubscriber
 {
     /**
      * @param LifecycleEventArgs $eventArgs eventArgs
@@ -25,12 +26,15 @@ class TimelineActionListener implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if ($entity instanceof TimelineActionInterface) {
+        if ($entity instanceof TimelineActionInterface or $entity instanceof TimelineInterface) {
             $em = $eventArgs->getEntityManager();
 
             $this->buildReference($entity, 'Subject', $em);
-            $this->buildReference($entity, 'DirectComplement', $em);
-            $this->buildReference($entity, 'IndirectComplement', $em);
+
+            if($entity instanceof TimelineActionInterface) {
+                $this->buildReference($entity, 'DirectComplement', $em);
+                $this->buildReference($entity, 'IndirectComplement', $em);
+            }
         }
     }
 
