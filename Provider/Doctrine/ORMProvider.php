@@ -248,7 +248,7 @@ class ORMProvider extends AbstractDoctrineProvider
             $manager->getConnection()->commit();
 
             $this->delayedQueries = array();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($manager->getConnection()->isTransactionActive()) {
                 $manager->getConnection()->rollback();
             }
