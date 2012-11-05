@@ -188,4 +188,3 @@ highco_timeline:
     resources:
         - 'AcmeUserBundle:Timeline:components.html.twig'
 ```
-
