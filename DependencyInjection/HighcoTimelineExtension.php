@@ -113,7 +113,7 @@ class HighcoTimelineExtension extends Extension
                 ->replaceArgument(1, '%highco.timeline.provider.timeline_class%');
 
         } elseif (
-            'Highco\TimelineBundle\Provider\Redis' == $reflectionProviderClass->getName()
+            'Highco\TimelineBundle\Provider\Redis' == $reflectionProviderClass->name
             OR $reflectionProviderClass->isSubclassOf('Highco\TimelineBundle\Provider\Redis')
         ) {
             $providerDefinition->replaceArgument(0, new Reference('snc_redis.default_client'));
