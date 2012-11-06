@@ -1,8 +1,7 @@
 HighcoTimelineBundle 1.3.1
 ==========================
 
-Depends on **SncRedisBundle**.
-Works with 2.0.* and 2.1.*
+Supports 2.* Symfony Framework.
 
 [![Build Status](https://secure.travis-ci.org/stephpy/TimelineBundle.png)](http://travis-ci.org/stephpy/TimelineBundle)
 
