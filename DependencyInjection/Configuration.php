@@ -96,7 +96,6 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                             ->arrayNode('resources')
-                                ->addDefaultsIfNotSet()
                                 ->defaultValue(array('HighcoTimelineBundle:Action:components.html.twig'))
                                 ->validate()
                                     ->ifTrue(function($v) { return !in_array('HighcoTimelineBundle:Action:components.html.twig', $v); })
