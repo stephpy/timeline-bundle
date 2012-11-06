@@ -11,7 +11,7 @@ render:
         fallback: en
 ```
 
-```twig
+```jinja
 {{ timeline_render(entry) }}
 # This will try to call "AcmeBundle:Timeline:**verb**.html.twig
 # If exception, it return the fallback defined on config
@@ -31,7 +31,7 @@ Components of the timeline action are rendered, similarly to
 [Symonfy 2's Forms](http://symfony.com/doc/current/cookbook/form/form_customization.html), using template fragements
 via the twig function `timeline_component_render()`
 
-```twig
+```jinja
 {% timeline_component_render(timeline, 'subject') %}
 ```
 
@@ -39,11 +39,11 @@ These fragments are defined as twig blocks within [HighcoTimelineBundle:Action:c
 
 Rendering the subject component will generate html using the __toString() method of the subject model.
 
-```twig
+```jinja
 {% timeline_component_render(timeline, 'subject') %}
 ```
 Renders:
-```twig
+```jinja
 <span class="subject">Subject String</span>
 ```
 
@@ -74,7 +74,7 @@ overrides using the following block naming scheme:
     `_[lowercase-underscored-model-namespace]_[component_name]_component`
 
 For example, create one of the following blocks to customize the rendering of `\Acme\UserBundle\Entity\User`:
-```twig
+```jinja
 {# Customize the subject component rendering for User objects #}
 {% block _acme_userbundle_entity_user_subject_component %}
     {# Show an avatar and link to the user's profile #}
@@ -83,14 +83,14 @@ For example, create one of the following blocks to customize the rendering of `\
 ```
 To customize the rendering when the User is the directComplement or indirectComplement 'subject' to 'direct_complement'
 or 'indirect_complement' respectively,
-```twig
+```jinja
 {% block _acme_userbundle_entity_user_direct_complement_component %}…{% endblock %}
 
 {% block _acme_userbundle_entity_user_indirect_complement_component %}…{% endblock %}
 ```
 
 To provide a generic customization, regardless of component, use 'default' in place of the component:
-```twig
+```jinja
 {# Override for this model in any component #}
 {% block _acme_userbundle_entity_user_default_component %}
     {# Link to the user's profile #}
@@ -100,7 +100,7 @@ To provide a generic customization, regardless of component, use 'default' in pl
 
 Combine both techniques to minize code-reuse:
 
-```twig
+```jinja
 {# Show avatars when the user is the subject of action and not otherwise #}
 
 {% block _acme_userbundle_entity_user_subject_component %}
@@ -124,14 +124,14 @@ See [Form Theming in Twig](http://symfony.com/doc/current/cookbook/form/form_cus
 for pros and cons for where you define your themes.
 
 #### Method 1: Inside the same Template as the TimelineAction
-```twig
+```jinja
 {# AcmeUserBundle:Timeline:added.html.twig #}
 
 {% use "AcmeUserBundle:Timeline:added_content.html.twig" %}
 
 {{ block('timeline_action') }}
 ```
-```twig
+```jinja
 {# AcmeUserBundle:Timeline:added_content.html.twig #}
 
 {% timeline_action_theme timeline _self %}
@@ -159,7 +159,7 @@ overridden component blocks.
 #### Method 2: Inside a Separate Template
 This method allows you to reuse the custom blocks in different template files.
 
-```twig
+```jinja
 {# Acme/UserBundle/Resources/views/Timeline/components.html.twig #}
 
 {% block _acme_userbundle_entity_user_subject_component %}
@@ -172,7 +172,7 @@ This method allows you to reuse the custom blocks in different template files.
 
 As before you can reference this theme resource using the `timeline_action_theme` tag:
 
-```twig
+```jinja
 {% timeline_action_theme timeline 'AcmeUserBundle:Timeline:components.html.twig' %}
 {# … #}
 {{ timeline_component_render(timeline, 'subject') }}
