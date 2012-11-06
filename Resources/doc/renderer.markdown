@@ -35,7 +35,7 @@ via the twig function `timeline_component_render()`
 {% timeline_component_render(timeline, 'subject') %}
 ```
 
-These fragments are defined as twig blocks within [HighcoTimelineBundle:Action:components.html.twig](TimelineBundle/).
+These fragments are defined as twig blocks within [HighcoTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig).
 
 Rendering the subject component will generate html using the __toString() method of the subject model.
 
@@ -55,7 +55,7 @@ To customize your component output you need only override the correct template f
 
 ### Component Blocks
 
-The default theme file, [HighcoTimelineBundle:Action:components.html.twig](TimelineBundle/), defines several
+The default theme file, [HighcoTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig), defines several
 blocks which form the basis for the theme system. In the previous example, rendering the subject component uses the
 `subject_component` block, which in-turn uses the `action_component` block.
 
