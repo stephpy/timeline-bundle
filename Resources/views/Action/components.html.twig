@@ -1,0 +1,50 @@
+{# Widgets #}
+
+{% block subject_component %}
+{% spaceless %}
+    {% set type = type|default('subject') %}
+    {{ block('action_component') }}
+{% endspaceless %}
+{% endblock subject_component %}
+
+{% block direct_complement_component %}
+{% spaceless %}
+    {% set type = type|default('direct_complement') %}
+    {{ block('action_component') }}
+{% endspaceless %}
+{% endblock direct_complement_component %}
+
+{% block indirect_complement_component %}
+{% spaceless %}
+    {% set type = type|default('indirect_complement') %}
+    {{ block('action_component') }}
+{% endspaceless %}
+{% endblock indirect_complement_component %}
+
+{% block verb_component %}
+{% spaceless %}
+    {% set type = type|default('verb') %}
+    {{ block('action_component') }}
+{% endspaceless %}
+{% endblock verb_component %}
+
+{% block action_component %}
+{% spaceless %}
+    {% if text|default(false) %}
+        {% set value = value|default(text) %}
+    {% endif %}
+    <span {{ block('component_attributes') }}>{{ value }}</span>
+{% endspaceless %}
+{% endblock action_component %}
+
+{# Support #}
+
+{% block component_attributes %}
+{% spaceless %}
+    {% if type|default(false) %}
+        {% set attrClass = attr.class|default('') %}
+        {% set attr = (attr|default([]))|merge({ class: (attrClass ~ ' ' ~ type)|trim }) %}
+    {% endif %}
+    {% for attrname,attrvalue in attr %}{{attrname}}="{{attrvalue}}" {% endfor %}
+{% endspaceless %}
+{% endblock component_attributes %}
