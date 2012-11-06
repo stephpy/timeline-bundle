@@ -123,7 +123,13 @@ highco_timeline:
     spread:
         on_me: true                             # Spread each action on subject too
         on_global_context: true                 # Spread automatically on global context
-    provider: highco.timeline.provider.redis    # write your own
+    # Provider short-form:
+    #provider: highco.timeline.provider.redis
+    # Full form:
+    provider:
+        service: highco.timeline.provider.redis    # write your own
+        object_manager: ~
+        timeline_class: ~
     delivery: immediate                         # wait
     render:
         path:     'AcmeBundle:Timeline'
