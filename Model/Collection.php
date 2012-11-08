@@ -48,6 +48,14 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * @return array
+     */
+    public function getColl()
+    {
+        return $this->coll;
+    }
+
+    /**
      * @return \ArrayIterator
      */
     public function getIterator()
