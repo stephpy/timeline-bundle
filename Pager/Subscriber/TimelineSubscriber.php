@@ -40,10 +40,10 @@ class TimelineSubscriber implements EventSubscriberInterface
             $subjectId    = $token->subjectId;
             $context      = $token->context;
 
-            $options = array(
+            $options = array_merge($token->options, array(
                 'offset' => $event->getOffset(),
                 'limit'  => $event->getLimit(),
-            );
+            ));
 
             if ($token->getService() == TimelinePagerToken::SERVICE_TIMELINE) {
                 $event->count = $this->manager->countWallEntries($subjectClass, $subjectId, $context);
@@ -51,6 +51,9 @@ class TimelineSubscriber implements EventSubscriberInterface
             } elseif ($token->getService() == TimelinePagerToken::SERVICE_NOTIFICATION) {
                 $event->count = $this->unreadNotifications->countKeys($subjectClass, $subjectId, $context);
                 $event->items = $this->unreadNotifications->getTimelineActions($subjectClass, $subjectId, $context, $options);
+            } elseif ($token->getService() == TimelinePagerToken::SERVICE_SUBJECT_TIMELINE) {
+                $event->count = $this->manager->countTimeline($subjectClass, $subjectId, $options);
+                $event->items = $this->manager->getTimeline($subjectClass, $subjectId, $options);
             }
             $event->stopPropagation();
         }

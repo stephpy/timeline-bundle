@@ -108,6 +108,22 @@ class Manager
     }
 
     /**
+     * @param string $subjectModel subjectModel
+     * @param string $subjectId    subjectId
+     * @param array  $options      An array of options to give
+     *
+     * @return integer
+     */
+    public function countTimeline($subjectModel, $subjectId, $options)
+    {
+        $params = array(
+            'subjectModel' => $subjectModel,
+            'subjectId'    => $subjectId,
+        );
+        return $this->timelineActionManager->countTimeline($params, $options);
+    }
+
+    /**
      * That's all actions of the subject
      *
      * @param string $subjectModel The class of the subject

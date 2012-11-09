@@ -17,6 +17,7 @@ class Controller
         $page       = $this->get('request')->get('page', 1);
         $maxPerPage = 10;
 
+        // Paginate Notifications
         // \User is the class of User and 1337 is id
         $notifications = $paginator->paginate(
             new TimelinePagerToken(TimelinePagerToken::SERVICE_NOTIFICATION, '\User', 1337),
@@ -24,9 +25,18 @@ class Controller
             $maxPerPage
         );
 
+        // Paginate wall for a subject
         // \User is the class of User and 1337 is id
         $timeline = $paginator->paginate(
             new TimelinePagerToken(TimelinePagerToken::SERVICE_TIMELINE, '\User', 1337),
+            $page,
+            $maxPerPage
+        );
+
+        // Paginate timeline for a subject
+        // \User is the class of User and 1337 is id
+        $timeline = $paginator->paginate(
+            new TimelinePagerToken(TimelinePagerToken::SERVICE_SUBJECT_TIMELINE, '\User', 1337),
             $page,
             $maxPerPage
         );
