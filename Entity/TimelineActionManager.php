@@ -116,4 +116,30 @@ class TimelineActionManager implements TimelineActionManagerInterface
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * {@inheritdoc}
+     * @param array $options
+     */
+    public function countTimeline(array $params, array $options = array())
+    {
+        if (!isset($params['subjectModel']) || !isset($params['subjectId'])) {
+            throw new \InvalidArgumentException('You have to define a "subjectModel" and a "subjectId" to pull data');
+        }
+
+        $status = isset($options['status']) ? $options['status'] : 'published';
+
+        $qb = $this->em->getRepository($this->timelineActionClass)->createQueryBuilder('ta');
+
+        $qb
+            ->select('count(ta)')
+            ->where('ta.subjectModel = :subjectModel')
+            ->andWhere('ta.subjectId = :subjectId')
+            ->andWhere('ta.statusCurrent = :status')
+            ->setParameter('subjectModel', $params['subjectModel'])
+            ->setParameter('subjectId', $params['subjectId'])
+            ->setParameter('status', $status);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
