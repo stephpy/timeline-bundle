@@ -63,11 +63,11 @@ class TimelineSubscriber implements EventSubscriberInterface
                 $items = $results;
             } else {
                 if(false !== $results) {
-                    if($items instanceof Collection) {
-                        $items = $items->getColl();
-                    } elseif ($items instanceof \Traversable) {
+                    if($results instanceof Collection) {
+                        $items = $results->getColl();
+                    } elseif ($results instanceof \Traversable) {
                         $items = array();
-                        foreach($items as $key => $value) {
+                        foreach($results as $key => $value) {
                             $items[$key] = $value;
                         }
                     } else {
