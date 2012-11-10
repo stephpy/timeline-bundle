@@ -100,4 +100,15 @@ class TimelineActionManager implements TimelineActionManagerInterface
     {
         throw new \Exception('This method is not supported for redis db_driver');
     }
+
+    /**
+     * {@inheritDoc}
+     * Not supported on Redis
+     * @throw \Exception
+     */
+    public function countTimeline(array $params, array $options = array())
+    {
+        throw new \Exception('This method is not supported for redis db_driver');
+    }
+
 }

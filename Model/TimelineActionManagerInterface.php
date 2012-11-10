@@ -32,6 +32,16 @@ interface TimelineActionManagerInterface
     public function getTimelineActionsForIds(array $ids);
 
     /**
+     * Get a count of timeline entries for a subject
+     *
+     * @param array $params  (subjectModel, subjectId)
+     * @param array $options (offset, limit, status)
+     *
+     * @return array
+     */
+    public function countTimeline(array $params, array $options = array());
+
+    /**
      * getTimeline of a subject
      *
      * @param array $params  (subjectModel, subjectId)
