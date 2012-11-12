@@ -3,6 +3,7 @@
 namespace Highco\TimelineBundle\Pager\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Highco\TimelineBundle\Model\Collection;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Highco\TimelineBundle\Pager\TimelinePagerToken;
 use Highco\TimelineBundle\Notification\Unread\UnreadNotificationManager;
@@ -45,17 +46,40 @@ class TimelineSubscriber implements EventSubscriberInterface
                 'limit'  => $event->getLimit(),
             ));
 
+            $results = false;
             if ($token->getService() == TimelinePagerToken::SERVICE_TIMELINE) {
                 $event->count = $this->manager->countWallEntries($subjectClass, $subjectId, $context);
-                $event->items = $this->manager->getWall($subjectClass, $subjectId, $context, $options);
+                $results = $this->manager->getWall($subjectClass, $subjectId, $context, $options);
             } elseif ($token->getService() == TimelinePagerToken::SERVICE_NOTIFICATION) {
                 $event->count = $this->unreadNotifications->countKeys($subjectClass, $subjectId, $context);
-                $event->items = $this->unreadNotifications->getTimelineActions($subjectClass, $subjectId, $context, $options);
+                $results = $this->unreadNotifications->getTimelineActions($subjectClass, $subjectId, $context, $options);
             } elseif ($token->getService() == TimelinePagerToken::SERVICE_SUBJECT_TIMELINE) {
                 $event->count = $this->manager->countTimeline($subjectClass, $subjectId, $options);
-                $event->items = $this->manager->getTimeline($subjectClass, $subjectId, $options);
+                $results = $this->manager->getTimeline($subjectClass, $subjectId, $options);
+            }
+
+            $items = false;
+            if (is_array($results)) {
+                $items = $results;
+            } else {
+                if (false !== $results) {
+                    if ($results instanceof Collection) {
+                        $items = $results->getColl();
+                    } elseif ($results instanceof \Traversable) {
+                        $items = array();
+                        foreach ($results as $key => $value) {
+                            $items[$key] = $value;
+                        }
+                    } else {
+                        throw new \Exception('Results must be Collection, array, or implement Traversable to paginate');
+                    }
+                }
+            }
+            if (is_array($items)) {
+                $event->items = $items;
             }
             $event->stopPropagation();
+
         }
     }
 
