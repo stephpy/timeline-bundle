@@ -59,15 +59,15 @@ class TimelineSubscriber implements EventSubscriberInterface
             }
 
             $items = false;
-            if(is_array($results)) {
+            if (is_array($results)) {
                 $items = $results;
             } else {
-                if(false !== $results) {
-                    if($results instanceof Collection) {
+                if (false !== $results) {
+                    if ($results instanceof Collection) {
                         $items = $results->getColl();
                     } elseif ($results instanceof \Traversable) {
                         $items = array();
-                        foreach($results as $key => $value) {
+                        foreach ($results as $key => $value) {
                             $items[$key] = $value;
                         }
                     } else {
@@ -75,7 +75,7 @@ class TimelineSubscriber implements EventSubscriberInterface
                     }
                 }
             }
-            if(is_array($items)) {
+            if (is_array($items)) {
                 $event->items = $items;
             }
             $event->stopPropagation();
