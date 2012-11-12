@@ -108,7 +108,8 @@ class ORMProvider extends AbstractDoctrineProvider
 
         $qb = $this->getBaseQueryBuilder($type, $context, $params['subjectModel'], $params['subjectId']);
 
-        $qb->leftJoin('t.timelineAction', 'ta')
+        $qb->addSelect('ta')
+            ->leftJoin('t.timelineAction', 'ta')
             ->orderBy('ta.createdAt', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
