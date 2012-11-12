@@ -25,14 +25,25 @@ class Entry
     /**
      * @var array
      */
+    private $resolvedReferences = array();
+
+    /**
+     * @var array
+     */
     private $referenceRelatedFields = array();
+
+    /**
+     * @var int
+     */
+    protected $key;
 
     /**
      * @param TimelineAction $timelineAction
      */
-    public function __construct(TimelineAction $timelineAction)
+    public function __construct(TimelineAction $timelineAction, $key)
     {
         $this->timelineAction = $timelineAction;
+        $this->key = $key;
     }
 
     /**
@@ -73,6 +84,7 @@ class Entry
 
         $refKey = $reference->getKey();
         $this->references[$refKey] = $reference;
+        $this->resolvedReferences[$refKey] = false;
 
         if (!isset($this->referenceRelatedFields[$refKey])) {
             $this->referenceRelatedFields[$refKey] = array();
@@ -88,11 +100,21 @@ class Entry
     {
         foreach ($this->referenceRelatedFields as $key => $fields) {
             if (array_key_exists($key, $references) && null !== $references[$key]->object) {
+                $this->resolvedReferences[$key] = true;
                 foreach ($fields as $field) {
                     $this->hydrateField($field, $references[$key]->object);
                 }
             }
         }
+    }
+
+    public function isFullyResolved() {
+        foreach($this->resolvedReferences as $resolved) {
+            if(!$resolved) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -111,5 +133,10 @@ class Entry
     public function getReferences()
     {
         return $this->references;
+    }
+
+    public function getKey()
+    {
+        return $this->key;
     }
 }
