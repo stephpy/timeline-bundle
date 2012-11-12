@@ -52,8 +52,12 @@ class Entry
     public function buildReference($name)
     {
         $getSubjectMethod = sprintf('get%s', Container::camelize($name));
-        // if object is already setted, we have not to continue
-        if (null !== $this->timelineAction->{$getSubjectMethod}()) {
+
+        // if object is already set (and not an non-inited proxy), we don't need to continue
+        $object = $this->timelineAction->{$getSubjectMethod}();
+        if (null !== $object
+            AND (!$object instanceof \Doctrine\Common\Persistence\Proxy OR $object->__isInitialized())
+        ) {
             return;
         }
 
