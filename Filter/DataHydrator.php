@@ -47,6 +47,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     {
         $defaultOptions = array(
             'db_driver' => 'orm',
+            'filter_unresolved' => false,
         );
 
         $this->setOptions(array_merge($defaultOptions, $options));
@@ -58,8 +59,8 @@ class DataHydrator extends AbstractFilter implements FilterInterface
      */
     public function filter($results)
     {
-        foreach ($results as $result) {
-            $entry = new Entry($result);
+        foreach ($results as $key => $result) {
+            $entry = new Entry($result, $key);
             $entry->build();
 
             $this->addReferences($entry->getReferences());
@@ -67,6 +68,10 @@ class DataHydrator extends AbstractFilter implements FilterInterface
         }
 
         $this->hydrateReferences();
+
+        if($this->getOption('filter_unresolved')) {
+            $results = $this->removeUnresolved($results);
+        }
 
         return $results;
     }
@@ -104,6 +109,21 @@ class DataHydrator extends AbstractFilter implements FilterInterface
         foreach ($this->entries as $entry) {
             $entry->hydrate($this->references);
         }
+    }
+
+    /**
+     * Remove any results which have unresolved references
+     * @param $results
+     *
+     * @return mixed
+     */
+    public function removeUnresolved($results) {
+        foreach ($this->entries as $entry) {
+            if(!$entry->isFullyResolved()) {
+                unset($results[$entry->getKey()]);
+            }
+        }
+        return $results;
     }
 
     /**
