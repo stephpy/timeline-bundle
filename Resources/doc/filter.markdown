@@ -58,7 +58,7 @@ highco_timeline:
 		highco.timeline.filter.data_hydrator:
             options:
                 db_driver: orm (only one supported actually)
-
+                filter_unresolved: false
 ```
 
 This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
@@ -96,3 +96,8 @@ An example:
             ->getResult();
     }
 ```
+
+### Removing Actions with Unresolved References
+Use the `filter_unresolved: true` option to remove any actions which have unresolved references after the hydration process.
+This will prevent unexpected `EntityNotFoundException`s when accessing an action component which have been removed
+from the database, but are marked for Lazy-Loading by the entity loading listener.
