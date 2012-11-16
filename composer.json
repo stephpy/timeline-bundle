@@ -15,11 +15,11 @@
     "require": {
         "php": ">=5.3.2",
         "symfony/framework-bundle": "2.*",
-        "symfony/console": "2.*",
+        "symfony/console": "2.*"
     },
     "suggest": {
         "snc/redis-bundle": "Use redis driver",
-        "doctrine/orm": "Use doctrine ORM driver",
+        "doctrine/orm": "Use doctrine ORM driver"
     },
     "minimum-stability": "dev",
     "autoload": {
