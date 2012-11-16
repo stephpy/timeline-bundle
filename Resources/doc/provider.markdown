@@ -33,7 +33,8 @@ Define this as a service, and replace on you config.yml:
 
 ```yaml
     highco_timeline:
-        provider: *your_service*
+        provider:
+            service: *your_service*
 ```
 
 ## Provider "REDIS"
