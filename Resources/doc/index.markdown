@@ -127,9 +127,10 @@ highco_timeline:
     #provider: highco.timeline.provider.redis
     # Full form:
     provider:
-        service: highco.timeline.provider.redis    # write your own
+        type: redis #orm
+        #service: highco.timeline.provider.redis # your own service (override type)
         object_manager: ~
-        timeline_class: ~
+        timeline_class: ~ #ATM useful for orm type
     delivery: immediate                         # wait
     render:
         path:     'AcmeBundle:Timeline'
