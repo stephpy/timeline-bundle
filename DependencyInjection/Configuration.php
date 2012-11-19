@@ -70,7 +70,7 @@ class Configuration implements ConfigurationInterface
                             ->then(function($v) { return array('service' => $v); })
                         ->end()
                         ->validate()
-                            ->ifTrue(function($v){return 'orm' === $v['type'] && empty($v['timeline_class']);})
+                            ->ifTrue(function($v){return isset($v['type']) && 'orm' === $v['type'] && empty($v['timeline_class']);})
                             ->thenInvalid('timeline_class must be configured when using the ORM provider, look at documentation.')
                         ->end()
                         ->addDefaultsIfNotSet()
