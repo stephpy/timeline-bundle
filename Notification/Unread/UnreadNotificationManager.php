@@ -1,10 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Notification\Unread;
+namespace Spy\TimelineBundle\Notification\Unread;
 
-use Highco\TimelineBundle\Notification\Notifier\NotifierInterface;
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Provider\ProviderInterface;
+use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Provider\ProviderInterface;
 
 /**
  * UnreadNotificationManager
@@ -49,7 +49,7 @@ class UnreadNotificationManager implements NotifierInterface
      * getTimelineActions
      *
      * If you want to apply filters to these results,
-     * $actions = $this->get('highco.timeline.manager')->applyFilters($actions);
+     * $actions = $this->get('spy_timeline.manager')->applyFilters($actions);
      *
      * @param string $subjectModel The class of subject
      * @param string $subjectId    The oid of subject

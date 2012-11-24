@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Command;
+namespace Spy\TimelineBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,7 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('highco:timeline-deploy')
+            ->setName('spy_timeline:deploy')
             ->setDescription('Deploy on spreads for waiting timeline action')
             ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'How many actions will be deployed', 200);
     }
@@ -41,12 +41,12 @@ class DeployTimelineActionCommand extends ContainerAwareCommand
 
         $container = $this->getContainer();
 
-        $results = $container->get('highco.timeline_action_manager')
+        $results = $container->get('spy_timeline.timeline_action_manager')
             ->getTimelineWithStatusPublished($limit);
 
         $output->writeln(sprintf('<info>There is %s timeline action(s) to deploy</info>', count($results)));
 
-        $deployer = $container->get('highco.timeline.spread.deployer');
+        $deployer = $container->get('spy_timeline.spread.deployer');
 
         foreach ($results as $timelineAction) {
             try {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Highco\TimelineBundle\Provider\Doctrine;
+namespace Spy\TimelineBundle\Provider\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Entity\Timeline;
-use Highco\TimelineBundle\Provider\AbstractDoctrineProvider;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Entity\Timeline;
+use Spy\TimelineBundle\Provider\AbstractDoctrineProvider;
 
 /**
  * Doctrine ORM Provider

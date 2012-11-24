@@ -1,5 +1,6 @@
 <?php
-namespace Highco\TimelineBundle\Filter;
+
+namespace Spy\TimelineBundle\Filter;
 
 /**
  * AbstractFilter

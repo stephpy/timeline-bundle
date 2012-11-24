@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Filter;
+namespace Spy\TimelineBundle\Tests\Filter;
 
-use Highco\TimelineBundle\Filter\DuplicateKey;
+use Spy\TimelineBundle\Filter\DuplicateKey;
 
-use Highco\TimelineBundle\Model\Collection;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 /**
  * DuplicateKeyTest
@@ -193,12 +193,12 @@ class DuplicateKeyTest extends \PHPUnit_Framework_TestCase
      */
     private function createTimelineAction($id = 1)
     {
-        $subject = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
+        $subject = $this->getMock('Spy\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
         $subject ->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));
 
-        $cod = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
+        $cod = $this->getMock('Spy\TimelineBundle\Tests\Fixtures\TimelineActionEntity');
         $cod->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));

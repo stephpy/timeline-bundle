@@ -7,7 +7,7 @@ Create the class:
 
 ```php
 <?php
-    use Highco\TimelineBundle\Provider\ProviderInterface;
+    use Spy\TimelineBundle\Provider\ProviderInterface;
 
     MyProvider implements ProviderInterface
     {
@@ -32,7 +32,7 @@ Create the class:
 Define this as a service, and replace on you config.yml:
 
 ```yaml
-    highco_timeline:
+    spy_timeline:
         provider:
             service: *your_service*
 ```

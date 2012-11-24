@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Notification;
+namespace Spy\TimelineBundle\Notification;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Notification\Notifier\NotifierInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
 
 /**
  * NotificationManager

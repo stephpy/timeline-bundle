@@ -23,10 +23,10 @@ Create the class:
 
 namespace Acme\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Spread\SpreadInterface;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\SpreadInterface;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 class MySpread implements SpreadInterface
 {
@@ -55,12 +55,12 @@ Add it to services
 
 ```xml
 <service id="my_service" class="MyClass">
-    <tag name="highco.timeline.spread"/>
+    <tag name="spy_timeline.spread"/>
 </service>
 ```
 
 To see which spreads are defined:
 
 ```
-php app:console highco:timeline-spreads
+php app:console spy_timeline:spreads
 ```

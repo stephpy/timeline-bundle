@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Provider;
+namespace Spy\TimelineBundle\Tests\Provider;
 
 /**
  * PRedisTest

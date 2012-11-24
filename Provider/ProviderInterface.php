@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Provider;
+namespace Spy\TimelineBundle\Provider;
 
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 /**
  * How to define a provider

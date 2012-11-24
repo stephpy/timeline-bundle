@@ -1,19 +1,19 @@
 <?php
 
-namespace Highco\TimelineBundle;
+namespace Spy\TimelineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Highco\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
-use Highco\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
 
 /**
- * HighcoTimelineBundle
+ * SpyTimelineBundle
  *
  * @uses Bundle
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class HighcoTimelineBundle extends Bundle
+class SpyTimelineBundle extends Bundle
 {
     /**
      * @param ContainerBuilder $container

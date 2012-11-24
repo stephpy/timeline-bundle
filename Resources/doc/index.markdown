@@ -1,4 +1,4 @@
-HighcoTimelineBundle
+SpyTimelineBundle
 ====================
 
 See for more informations:
@@ -57,7 +57,7 @@ That's why we have a "Global" context, and you can easily add other contexts.
 
 ```php
 <?php
-$manager = $this->get('highco.timeline.manager');
+$manager = $this->get('spy_timeline.manager');
 
 $entry = new TimelineAction();
 $entry->setSubjectModel('\Chuck');
@@ -82,7 +82,7 @@ $entry->setIndirectComplementText('Vic');
 
 $entry = TimelineAction::create($chuckObject, 'Own', $worldObject, $vicMcKeyObject);
 
-$manager = $this->get('highco.timeline.manager');
+$manager = $this->get('spy_timeline.manager');
 $manager->push($entry);
 ```
 
@@ -90,7 +90,7 @@ $manager->push($entry);
 
 ```php
 <?php
-$manager = $this->get('highco.timeline.manager');
+$manager = $this->get('spy_timeline.manager');
 $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
 //GLOBAL is the context wanted (GLOBAL is default)
 ```
@@ -99,7 +99,7 @@ $results = $manager->getWall('\Chuck', 1, 'GLOBAL');
 
 ```php
 <?php
-$manager = $this->get('highco.timeline.manager');
+$manager = $this->get('spy_timeline.manager');
 $results = $manager->getTimeline('\Chuck', 1);
 // There is no context to call here
 ```
@@ -112,23 +112,23 @@ $results = $manager->getTimeline('\Chuck', 1);
 # Full configuration
 
 ```yaml
-highco_timeline:
+spy_timeline:
     db_driver: orm # or redis
 	timeline_action_class: Acme\YourBundle\Entity\TimelineAction #if db_driver = orm
     notifiers:
-        - highco.timeline.unread_notifications
-    timeline_action_manager: highco.timeline_action_manager.default
+        - spy_timeline.unread_notifications
+    timeline_action_manager: spy_timeline_action_manager.default
     filters:
-        highco.timeline.filter.duplicate_key: ~ # Filter duplicate keys
+        spy_timeline.filter.duplicate_key: ~ # Filter duplicate keys
     spread:
         on_me: true                             # Spread each action on subject too
         on_global_context: true                 # Spread automatically on global context
     # Provider short-form:
-    #provider: highco.timeline.provider.redis
+    #provider: spy_timeline.provider.redis
     # Full form:
     provider:
         type: redis #orm
-        #service: highco.timeline.provider.redis # your own service (override type)
+        #service: spy_timeline.provider.redis # your own service (override type)
         object_manager: ~
         timeline_class: ~ #ATM useful for orm type
     delivery: immediate                         # wait

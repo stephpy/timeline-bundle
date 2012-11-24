@@ -1,5 +1,7 @@
-HighcoTimelineBundle 1.3.1
-==========================
+SpyTimelineBundle 2.0
+=====================
+
+**[WIP] DO NOT USE THIS**
 
 Supports 2.* Symfony Framework.
 

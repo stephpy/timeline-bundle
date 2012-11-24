@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Provider;
+namespace Spy\TimelineBundle\Tests\Provider;
 
-use Highco\TimelineBundle\Provider\Redis;
+use Spy\TimelineBundle\Provider\Redis;
 
 /**
  * BaseRedis
@@ -12,7 +12,7 @@ use Highco\TimelineBundle\Provider\Redis;
 abstract class BaseRedis extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @return \Predis\Client|\Snc\RedisBundle\Client\Phpredis\Client|\Highco\TimelineBundle\Model\TimelineActionManagerInterface
+     * @return \Predis\Client|\Snc\RedisBundle\Client\Phpredis\Client|\Spy\TimelineBundle\Model\TimelineActionManagerInterface
      */
     abstract protected function getRedisClientMock();
     abstract protected function getRedisPipelineMock();
@@ -120,7 +120,7 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
             ->method('__call')
             ->with($this->equalTo('zAdd'), $this->equalTo($argumentsExpected));
 
-        $ta      = $this->getMock('Highco\TimelineBundle\Entity\TimelineAction');
+        $ta      = $this->getMock('Spy\TimelineBundle\Entity\TimelineAction');
         $ta->expects($this->once())
             ->method('getSpreadTime')
             ->will($this->returnValue(13371337));
@@ -132,7 +132,7 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
         $redis = new Redis($client, $manager, array('pipeline' => false));
         $redis->persist($ta, 'GLOBAL', 'SubjectModel', 'SubjectId');
 
-        $ta      = $this->getMock('Highco\TimelineBundle\Entity\TimelineAction');
+        $ta      = $this->getMock('Spy\TimelineBundle\Entity\TimelineAction');
         $ta->expects($this->once())
             ->method('getSpreadTime')
             ->will($this->returnValue(1313));
@@ -262,7 +262,7 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
                 ->method('pipeline')
                 ->will($this->returnValue($pipeline));
 
-        } elseif ($pipeline instanceof \Highco\TimelineBundle\Tests\Fixtures\PHPRedisPipeline) {
+        } elseif ($pipeline instanceof \Spy\TimelineBundle\Tests\Fixtures\PHPRedisPipeline) {
             $pipeline->expects($this->once())
                 ->method('exec')
                 ->will($this->returnValue(array('DELOK', 'DELNOTOK')));
@@ -307,6 +307,6 @@ abstract class BaseRedis extends \PHPUnit_Framework_TestCase
      */
     protected function getTimelineActionManagerMock()
     {
-        return $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        return $this->getMock('Spy\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
     }
 }

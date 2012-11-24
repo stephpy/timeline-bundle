@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
 
 /**
  * This interface define how filters must be used

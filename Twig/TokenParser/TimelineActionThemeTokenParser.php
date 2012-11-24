@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Twig\TokenParser;
+namespace Spy\TimelineBundle\Twig\TokenParser;
 
-use Highco\TimelineBundle\Twig\Node\TimelineActionThemeNode;
+use Spy\TimelineBundle\Twig\Node\TimelineActionThemeNode;
 
 /**
  * Provides 'timeline_action_theme' tag

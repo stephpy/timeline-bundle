@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Entity;
+namespace Spy\TimelineBundle\Entity;
 
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Model\TimelineActionInterface;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Model\TimelineActionInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**

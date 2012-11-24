@@ -9,15 +9,15 @@ How to use it ?
 ```yaml
 #config.yml
 
-highco_timeline:
+spy_timeline:
      notifiers:
-		 - highco.timeline.unread_notifications
+		 - spy_timeline.unread_notifications
 ```
 
 ```php
 <?php
 
-$unread = $this->get('highco.timeline.unread_notifications');
+$unread = $this->get('spy_timeline.unread_notifications');
 //count how many unread message for global context
 $count  = $unread->countKeys('MySubject', 'MyId'); // on global context
 $count  = $unread->countKeys('MySubject', 'MyId', 'MyContext');
@@ -43,5 +43,5 @@ $actions = $unread->getTimelineActions('MySubject', 'MyId', 'MyContext', $option
 // in options you can define offset, limit, etc ...
 
 // apply filters ?
-$actions = $this->get('highco.timeline.manager')->applyFilters($actions);
+$actions = $this->get('spy_timeline.manager')->applyFilters($actions);
 ```

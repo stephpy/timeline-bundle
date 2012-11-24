@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread\Entry;
+namespace Spy\TimelineBundle\Spread\Entry;
 
 /**
  * A collection of entry

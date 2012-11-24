@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter\DataHydrator;
+namespace Spy\TimelineBundle\Filter\DataHydrator;
 
 use Symfony\Component\DependencyInjection\Container;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 /**
  * Entry, each timeline actions are an entry

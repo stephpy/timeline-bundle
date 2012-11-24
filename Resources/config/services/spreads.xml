@@ -5,11 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.spread.manager.class">Highco\TimelineBundle\Spread\Manager</parameter>
+        <parameter key="spy_timeline.spread.manager.class">Spy\TimelineBundle\Spread\Manager</parameter>
     </parameters>
 
     <services>
-        <service id="highco.timeline.spread.manager" class="%highco.timeline.spread.manager.class%" />
+        <service id="spy_timeline.spread.manager" class="%spy_timeline.spread.manager.class%" />
     </services>
 
 </container>

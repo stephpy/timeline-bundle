@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Entity;
+namespace Spy\TimelineBundle\Tests\Entity;
 
-use Highco\TimelineBundle\Entity\TimelineAction;
+use Spy\TimelineBundle\Entity\TimelineAction;
 
 /**
  * TimelineActionTest
@@ -15,11 +15,11 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
     {
         $ta = new TimelineAction();
 
-        $class = 'Highco\TimelineBundle\Tests\Fixtures\TimelineActionEntity';
+        $class = 'Spy\TimelineBundle\Tests\Fixtures\TimelineActionEntity';
 
         $this->assertEquals($ta->exceedDoctrineORMProxy($class), $class, "no changements");
 
-        $proxyClass = 'Highco\TimelineBundle\Tests\Fixtures\ProxyTimelineActionEntity';
+        $proxyClass = 'Spy\TimelineBundle\Tests\Fixtures\ProxyTimelineActionEntity';
         $this->assertEquals($ta->exceedDoctrineORMProxy($proxyClass), $class, "not return proxy");
     }
 }

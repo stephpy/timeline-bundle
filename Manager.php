@@ -1,13 +1,13 @@
 <?php
 
-namespace Highco\TimelineBundle;
+namespace Spy\TimelineBundle;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Model\Collection;
-use Highco\TimelineBundle\Provider\ProviderInterface;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Spread\Deployer;
-use Highco\TimelineBundle\Filter\FilterInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Provider\ProviderInterface;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Spread\Deployer;
+use Spy\TimelineBundle\Filter\FilterInterface;
 
 /**
  * Manager timeline

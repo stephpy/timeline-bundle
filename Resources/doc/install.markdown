@@ -9,7 +9,7 @@ Add this to your deps file
 ```
 [TimelineBundle]
     git=git://github.com/stephpy/TimelineBundle
-    target=/bundles/Highco/TimelineBundle
+    target=/bundles/Spy/TimelineBundle
 ```
 
 Then
@@ -35,7 +35,7 @@ php composer.phar update # or install
 ## Via submodule
 
 ```
-git submodule add git://github.com/stephpy/TimelineBundle vendor/bundles/Highco/TimelineBundle
+git submodule add git://github.com/stephpy/TimelineBundle vendor/bundles/Spy/TimelineBundle
 git submodule update --init
 ```
 
@@ -48,7 +48,7 @@ git submodule update --init
 
 $loader->registerNamespaces(array(
     // ...
-    'Highco' => __DIR__.'/../vendor/bundles',
+    'Spy' => __DIR__.'/../vendor/bundles',
 ));
 ```
 
@@ -62,7 +62,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Highco\TimelineBundle\HighcoTimelineBundle(),
+        new Spy\TimelineBundle\SpyTimelineBundle(),
     );
 }
 ```
@@ -72,7 +72,7 @@ public function registerBundles()
 ```php
 <?php
 //Acme/YourBundle/Entity/TimelineAction
-use Highco\TimelineBundle\Entity\TimelineAction as BaseTimelineAction;
+use Spy\TimelineBundle\Entity\TimelineAction as BaseTimelineAction;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -93,7 +93,7 @@ class TimelineAction extends BaseTimelineAction
 Don't forget to define it on `config.yml`
 
 ```
-highco_timeline:
+spy_timeline:
 	... other configuration ...
 	timeline_action_class: Acme\YourBundle\Entity\TimelineAction
 	... other configuration ...
@@ -105,7 +105,7 @@ highco_timeline:
 <?php
 //Acme/YourBundle/Entity/Timeline
 
-use Highco\TimelineBundle\Entity\Timeline as BaseTimeline;
+use Spy\TimelineBundle\Entity\Timeline as BaseTimeline;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -137,10 +137,10 @@ class Timeline extends BaseTimeline
 Don't forget to define it on `config.yml`
 
 ```
-highco_timeline:
+spy_timeline:
 	... other configuration ...
     provider:
-        service: highco.timeline.provider.doctrine.orm
+        service: spy_timeline.provider.doctrine.orm
         object_manager: doctrine.orm.entity_manager
         timeline_class: Acme\YourBundle\Entity\Timeline
 	... other configuration ...

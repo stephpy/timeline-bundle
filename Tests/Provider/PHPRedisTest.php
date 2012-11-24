@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Provider;
+namespace Spy\TimelineBundle\Tests\Provider;
 
-use Highco\TimelineBundle\Provider\Redis;
+use Spy\TimelineBundle\Provider\Redis;
 
 /**
  * PHPRedis
@@ -39,6 +39,6 @@ class PHPRedis extends BaseRedis
      */
     public function getRedisPipelineMock()
     {
-        return $this->getMock('Highco\TimelineBundle\Tests\Fixtures\PHPRedisPipeline', array(), array(), '', false);
+        return $this->getMock('Spy\TimelineBundle\Tests\Fixtures\PHPRedisPipeline', array(), array(), '', false);
     }
 }

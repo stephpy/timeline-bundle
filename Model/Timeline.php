@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Model;
+namespace Spy\TimelineBundle\Model;
 
-use Highco\TimelineBundle\Model\TimelineInterface;
-use Highco\TimelineBundle\Model\TimelineActionInterface;
+use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Model\TimelineActionInterface;
 
 /**
  * Timeline model

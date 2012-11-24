@@ -1,12 +1,12 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Command;
+namespace Spy\TimelineBundle\Tests\Command;
 
-use Highco\TimelineBundle\Entity\TimelineAction;
+use Spy\TimelineBundle\Entity\TimelineAction;
 
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
-use Highco\TimelineBundle\Command\DeployTimelineActionCommand;
+use Spy\TimelineBundle\Command\DeployTimelineActionCommand;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -18,16 +18,16 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function testNoTimeline()
     {
-        $manager = $this->getMock('\Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $manager = $this->getMock('\Spy\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
         $manager->expects($this->once())
             ->method('getTimelineWithStatusPublished')
             ->will($this->returnValue(array()));
 
-        $deployer = $this->getMock('\Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('\Spy\TimelineBundle\Spread\Deployer', array(), array(), '', false);
 
         $container = new Container();
-        $container->set('highco.timeline_action_manager', $manager);
-        $container->set('highco.timeline.spread.deployer', $deployer);
+        $container->set('spy_timeline.timeline_action_manager', $manager);
+        $container->set('spy_timeline.spread.deployer', $deployer);
 
         $command = new DeployTimelineActionCommand();
         $command->setContainer($container);
@@ -35,7 +35,7 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        $command = $application->find('highco:timeline-deploy');
+        $command = $application->find('spy_timeline:deploy');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()), array());
 
@@ -49,21 +49,21 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testOneTimeline()
     {
-        $timelineAction = $this->getMock('\Highco\TimelineBundle\Entity\TimelineAction');
+        $timelineAction = $this->getMock('\Spy\TimelineBundle\Entity\TimelineAction');
         $timelineAction->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(1));
 
-        $manager = $this->getMock('\Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $manager = $this->getMock('\Spy\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
         $manager->expects($this->once())
             ->method('getTimelineWithStatusPublished')
             ->will($this->returnValue(array($timelineAction)));
 
-        $deployer = $this->getMock('\Highco\TimelineBundle\Spread\Deployer', array(), array(), '', false);
+        $deployer = $this->getMock('\Spy\TimelineBundle\Spread\Deployer', array(), array(), '', false);
 
         $container = new Container();
-        $container->set('highco.timeline_action_manager', $manager);
-        $container->set('highco.timeline.spread.deployer', $deployer);
+        $container->set('spy_timeline.timeline_action_manager', $manager);
+        $container->set('spy_timeline.spread.deployer', $deployer);
 
         $command = new DeployTimelineActionCommand();
         $command->setContainer($container);
@@ -71,7 +71,7 @@ class DeployTimelineActionCommandTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add($command);
 
-        $command = $application->find('highco:timeline-deploy');
+        $command = $application->find('spy_timeline:deploy');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()), array());
 

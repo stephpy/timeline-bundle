@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Fixtures;
+namespace Spy\TimelineBundle\Tests\Fixtures;
 
 /**
  * PHPRedisPipeline

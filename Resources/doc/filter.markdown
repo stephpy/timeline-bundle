@@ -7,7 +7,7 @@ Create the class and add it as a service:
 ```php
 <?php
 
-use Highco\TimelineBundle\Filter\FilterInterface;
+use Spy\TimelineBundle\Filter\FilterInterface;
 
 MyOwnFilter implements FilterInterface
 {
@@ -27,9 +27,9 @@ MyOwnFilter implements FilterInterface
 Then, you can add this filter to the list on config.yml
 
 ```yaml
-highco_timeline:
+spy_timeline:
 	filters:
-		highco.timeline.filter.duplicate_key: ~
+		spy_timeline.filter.duplicate_key: ~
 		* your id service *
 ```
 
@@ -53,9 +53,9 @@ It'll set to TRUE the **isDuplicated** field on timeline_action.
 
 ```
 #Options available:
-highco_timeline:
+spy_timeline:
 	filters:
-		highco.timeline.filter.data_hydrator:
+		spy_timeline.filter.data_hydrator:
             options:
                 db_driver: orm (only one supported actually)
                 filter_unresolved: false

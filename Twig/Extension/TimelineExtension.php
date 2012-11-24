@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Twig\Extension;
+namespace Spy\TimelineBundle\Twig\Extension;
 
-use Highco\TimelineBundle\Entity\TimelineAction;
-use Highco\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
+use Spy\TimelineBundle\Entity\TimelineAction;
+use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
 use \Twig_TemplateInterface;
 
 /**

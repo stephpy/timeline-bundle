@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Spread;
+namespace Spy\TimelineBundle\Tests\Spread;
 
-use Highco\TimelineBundle\Spread\Deployer;
+use Spy\TimelineBundle\Spread\Deployer;
 
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
 
 /**
  * DeployerTest
@@ -19,10 +19,10 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeployNotWantToBePublished()
     {
-        $spreadManager         = $this->getMock('Highco\TimelineBundle\Spread\Manager');
-        $timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $provider              = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
-        $notificationManager   = $this->getMock('Highco\TimelineBundle\Notification\NotificationManager');
+        $spreadManager         = $this->getMock('Spy\TimelineBundle\Spread\Manager');
+        $timelineActionManager = $this->getMock('Spy\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $provider              = $this->getMock('Spy\TimelineBundle\Provider\Redis', array(), array(), '', false);
+        $notificationManager   = $this->getMock('Spy\TimelineBundle\Notification\NotificationManager');
 
         $spreadManager->expects($this->never())->method('process');
         $spreadManager->expects($this->never())->method('getResults');
@@ -35,7 +35,7 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
 
         $notificationManager->expects($this->never())->method('notify');
 
-        $ta = $this->getMock('Highco\TimelineBundle\Entity\TimelineAction');
+        $ta = $this->getMock('Spy\TimelineBundle\Entity\TimelineAction');
         $ta->expects($this->once())
             ->method('getStatusWanted')
             ->will($this->returnValue('stollen'));
@@ -68,12 +68,12 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
         $entryCollection->set('GLOBAL', $entry);
         /* ---- end define ---- */
 
-        $spreadManager         = $this->getMock('Highco\TimelineBundle\Spread\Manager');
-        $timelineActionManager = $this->getMock('Highco\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
-        $provider              = $this->getMock('Highco\TimelineBundle\Provider\Redis', array(), array(), '', false);
-        $notificationManager   = $this->getMock('Highco\TimelineBundle\Notification\NotificationManager');
+        $spreadManager         = $this->getMock('Spy\TimelineBundle\Spread\Manager');
+        $timelineActionManager = $this->getMock('Spy\TimelineBundle\Entity\TimelineActionManager', array(), array(), '', false);
+        $provider              = $this->getMock('Spy\TimelineBundle\Provider\Redis', array(), array(), '', false);
+        $notificationManager   = $this->getMock('Spy\TimelineBundle\Notification\NotificationManager');
 
-        $ta = $this->getMock('Highco\TimelineBundle\Entity\TimelineAction');
+        $ta = $this->getMock('Spy\TimelineBundle\Entity\TimelineAction');
         $ta->expects($this->once())
             ->method('getStatusWanted')
             ->will($this->returnValue('published'));
@@ -111,11 +111,11 @@ class DeployerTest extends \PHPUnit_Framework_TestCase
 
         $ta->expects($this->once())
             ->method('setStatusCurrent')
-            ->with($this->equalTo(\Highco\TimelineBundle\Model\TimelineAction::STATUS_PUBLISHED));
+            ->with($this->equalTo(\Spy\TimelineBundle\Model\TimelineAction::STATUS_PUBLISHED));
 
         $ta->expects($this->once())
             ->method('setStatusWanted')
-            ->with($this->equalTo(\Highco\TimelineBundle\Model\TimelineAction::STATUS_FROZEN));
+            ->with($this->equalTo(\Spy\TimelineBundle\Model\TimelineAction::STATUS_FROZEN));
 
         $timelineActionManager->expects($this->once())
             ->method('updateTimelineAction')

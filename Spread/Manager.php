@@ -1,10 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread;
+namespace Spy\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
 
 /**
  * Manager spread, retrieve with tags

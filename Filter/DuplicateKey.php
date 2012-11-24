@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
 
 /**
  * Defined on "Resources/doc/filter.markdown"
@@ -24,7 +24,7 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
 
     /**
      * {@inheritdoc}
-     * @param \Highco\TimelineBundle\Model\Collection $results
+     * @param \Spy\TimelineBundle\Model\Collection $results
      */
     public function filter($results)
     {
