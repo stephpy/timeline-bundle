@@ -14,155 +14,84 @@ class Configuration extends Test
     {
         $this->if($processor = new Processor())
             ->and($configuration = new ConfigurationTested())
-            ->and($config = array())
+            ->and($config = array($this->getDefaultInput()))
             ->array($result = $processor->processConfiguration($configuration, $config))
-                ->isIdenticalTo(array('notifiers' => array(), 'filters' => array()))
+            ->isIdenticalTo($this->getDefaultOutput())
         ;
     }
 
-    public function testORMValidation()
+    /**
+     * @dataProvider getAllDrivers
+     */
+    public function testDriverValidations($driver, $options)
     {
         $this->if($processor = new Processor())
             ->and($configuration = new ConfigurationTested())
-            ->and($config = array(
-                array(
-                    'drivers' => array(
-                        'orm' => array(
-                            'object_manager' => 'doctrine.orm.entity_manager'
-                        )
-                    ),
-                    'timeline_manager' => 'orm',
-                    'action_manager' => 'orm',
-                    'component_manager' => 'orm',
-                )
+            ->and($config = array($this->getDefaultInput()))
+            ->and($config[0]['drivers'] = array(
+                $driver => $options,
             ))
+            ->and($config[0]['timeline_manager'] = $driver)
+            ->and($config[0]['action_manager'] = $driver)
+            ->and($config[0]['component_manager'] = $driver)
             ->array($result = $processor->processConfiguration($configuration, $config))
-            ->isIdenticalTo(array(
-                'drivers' => array(
-                    'orm' => array(
-                        'object_manager' => 'doctrine.orm.entity_manager'
-                    )
-                ),
-                'timeline_manager' => 'spy_timeline.timeline_manager.orm', // alias
-                'action_manager' => 'spy_timeline.action_manager.orm', // alias
-                'component_manager' => 'spy_timeline.component_manager.orm', //alias
-                'notifiers' => array(),
-                'filters' => array(),
-            ))
-        ;
+            ->string($result['timeline_manager'])->isEqualTo('spy_timeline.timeline_manager.'.$driver)
+            ->string($result['action_manager'])->isEqualTo('spy_timeline.action_manager.'.$driver)
+            ->string($result['component_manager'])->isEqualTo('spy_timeline.component_manager.'.$driver);
 
-        // now i try to add add an orm manager without orm driver defined.
-
-        $this->if($config = array(
-            array(
-                'timeline_manager' => 'orm',
-                'action_manager' => 'orm',
-                'component_manager' => 'orm',
-            )
-        ))
-        ->exception(function() use ($processor, $configuration, $config) {
-            $result = $processor->processConfiguration($configuration, $config);
-        })
+        $this->if($config = array($this->getDefaultInput()))
+            ->and($config[0]['timeline_manager'] = $driver)
+            ->and($config[0]['action_manager'] = $driver)
+            ->and($config[0]['component_manager'] = $driver)
+            ->exception(function() use ($processor, $configuration, $config) {
+                $result = $processor->processConfiguration($configuration, $config);
+            })
             ->isInstanceOf('Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
-            ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "orm"')
-        ;
+            ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "'.$driver.'"');
     }
 
-    public function testODMValidation()
+    public function getAllDrivers()
     {
-        $this->if($processor = new Processor())
-            ->and($configuration = new ConfigurationTested())
-            ->and($config = array(
-                array(
-                    'drivers' => array(
-                        'odm' => array(
-                            'object_manager' => 'doctrine.odm.entity_manager'
-                        )
-                    ),
-                    'timeline_manager' => 'odm',
-                    'action_manager' => 'odm',
-                    'component_manager' => 'odm',
-                )
-            ))
-            ->array($result = $processor->processConfiguration($configuration, $config))
-            ->isIdenticalTo(array(
-                'drivers' => array(
-                    'odm' => array(
-                        'object_manager' => 'doctrine.odm.entity_manager'
-                    )
-                ),
-                'timeline_manager' => 'spy_timeline.timeline_manager.odm', // alias
-                'action_manager' => 'spy_timeline.action_manager.odm', // alias
-                'component_manager' => 'spy_timeline.component_manager.odm', //alias
-                'notifiers' => array(),
-                'filters' => array(),
-            ))
-        ;
-
-        // now i try to add add an odm manager without odm driver defined.
-
-        $this->if($config = array(
-            array(
-                'timeline_manager' => 'odm',
-                'action_manager' => 'odm',
-                'component_manager' => 'odm',
-            )
-        ))
-        ->exception(function() use ($processor, $configuration, $config) {
-            $result = $processor->processConfiguration($configuration, $config);
-        })
-            ->isInstanceOf('Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
-            ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "odm"')
-        ;
+        return array(
+            array('orm', array('object_manager' => 'foo')),
+            array('odm', array('object_manager' => 'foo')),
+            array('redis', array('client' => 'foo')),
+        );
     }
 
-    public function testRedisValidation()
+    protected function getDefaultInput()
     {
-        $this->if($processor = new Processor())
-            ->and($configuration = new ConfigurationTested())
-            ->and($config = array(
-                array(
-                    'drivers' => array(
-                        'redis' => array(
-                            'client' => 'my_client'
-                        )
-                    ),
-                    'timeline_manager' => 'redis',
-                    'action_manager' => 'redis',
-                    'component_manager' => 'redis',
-                )
-            ))
-            ->array($result = $processor->processConfiguration($configuration, $config))
-            ->isIdenticalTo(array(
-                'drivers' => array(
-                    'redis' => array(
-                        'client' => 'my_client'
-                    )
-                ),
-                'timeline_manager' => 'spy_timeline.timeline_manager.redis', // alias
-                'action_manager' => 'spy_timeline.action_manager.redis', // alias
-                'component_manager' => 'spy_timeline.component_manager.redis', //alias
-                'notifiers' => array(),
-                'filters' => array(),
-            ))
-        ;
-
-        // now i try to add add an redis manager without redis driver defined.
-
-        $this->if($config = array(
-            array(
-                'timeline_manager' => 'redis',
-                'action_manager' => 'redis',
-                'component_manager' => 'redis',
-            )
-        ))
-        ->exception(function() use ($processor, $configuration, $config) {
-            $result = $processor->processConfiguration($configuration, $config);
-        })
-            ->isInstanceOf('Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
-            ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "redis"')
-        ;
+        return array(
+            'classes' => array(
+                'timeline' => 'foo',
+                'action' => 'foo',
+                'component' => 'foo',
+            ),
+            'timeline_manager' => 'foo',
+            'action_manager' => 'foo',
+            'component_manager' => 'foo',
+        );
     }
 
-
+    protected function getDefaultOutput()
+    {
+        return array(
+            'classes' => array(
+                'timeline' => 'foo',
+                'action' => 'foo',
+                'component' => 'foo',
+            ),
+            'timeline_manager' => 'foo',
+            'action_manager' => 'foo',
+            'component_manager' => 'foo',
+            'notifiers' => array(),
+            'filters' => array(),
+            'spread' => array(
+                'on_subject' => true,
+                'on_global_context' => true,
+                'deployer' => 'spy_timeline.spread.deployer',
+                'delivery' => 'immediate',
+            ),
+        );
+    }
 }
