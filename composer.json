@@ -17,7 +17,7 @@
         "symfony/framework-bundle": ">=2.0,<2.3-dev"
     },
     "require-dev": {
-        "atoum/atoum": "dev-master",
+        "atoum/atoum-bundle": "dev-master",
         "doctrine/orm": "2.*",
         "snc/redis-bundle": ">=1.0.1",
         "symfony/console": "2.*"
@@ -32,6 +32,9 @@
         "psr-0": { "Spy\\TimelineBundle": "" }
     },
     "target-dir": "Spy/TimelineBundle",
+    "config": {
+        "bin-dir": "bin"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
