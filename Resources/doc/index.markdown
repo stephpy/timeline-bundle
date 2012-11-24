@@ -113,28 +113,39 @@ $results = $manager->getTimeline('\Chuck', 1);
 
 ```yaml
 spy_timeline:
-    db_driver: orm # or redis
-	timeline_action_class: Acme\YourBundle\Entity\TimelineAction #if db_driver = orm
-    notifiers:
-        - spy_timeline.unread_notifications
-    timeline_action_manager: spy_timeline_action_manager.default
-    filters:
-        spy_timeline.filter.duplicate_key: ~ # Filter duplicate keys
-    spread:
-        on_me: true                             # Spread each action on subject too
-        on_global_context: true                 # Spread automatically on global context
-    # Provider short-form:
-    #provider: spy_timeline.provider.redis
-    # Full form:
-    provider:
-        type: redis #orm
-        #service: spy_timeline.provider.redis # your own service (override type)
-        object_manager: ~
-        timeline_class: ~ #ATM useful for orm type
-    delivery: immediate                         # wait
-    render:
-        path:     'AcmeBundle:Timeline'
-        fallback: 'AcmeBundle:Timeline:default.html.twig'
-        i18n: #Do you want to use i18n when rendering ? if not, remove this node.
-            fallback: en
+  classes:
+    timeline: 'Acme\YourBundle\Entity\Timeline'
+    action: 'Acme\YourBundle\Entity\Action'
+    component: 'Acme\YourBundle\Entity\Component'
+
+  drivers:
+    orm:
+      object_manager: ~   # doctrine.orm.entity_manager
+    odm:
+      object_manager: ~   # doctrine.odm.entity_manager
+    redis:
+      service: ~          # snc_redis.default_client
+
+  action_manager: orm     # or user provided
+  component_manager: orm  # or user provided
+  timeline_manager: orm   # or user provided
+
+  notifiers: [ highco.timeline.unread_notifications ]
+
+  filters:
+    - highco.timeline.filter.duplicate_key
+    - highco.timeline.filter.data_hydrator
+
+  spread:
+    on_subject: true               # Spread each action on subject too
+    on_global_context: true   # Spread automatically on global context
+    deployer: highco.timeline.spread.deployer
+    delvery: immediate
+
+  render:
+      path:     'AcmeBundle:Timeline'
+      fallback: 'AcmeBundle:Timeline:default.html.twig'
+      i18n: #Do you want to use i18n when rendering ? if not, remove this node.
+          fallback: en
+      resources: []    # Always prepends 'HighcoTimelineBundle:Action:components.html.twig'
 ```
