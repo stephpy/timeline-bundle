@@ -1,10 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Model;
+namespace Spy\TimelineBundle\Tests\Model;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 /**
  * TimelineActionTest
@@ -68,7 +68,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
         }
 
         $object = TimelineAction::create(new TimelineAction(), 'verb', new TimelineAction(), 'no object');
-        $this->assertEquals(get_class($object), 'Highco\TimelineBundle\Model\TimelineAction');
+        $this->assertEquals(get_class($object), 'Spy\TimelineBundle\Model\TimelineAction');
     }
 
     /**
@@ -94,7 +94,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
             $subject = TimelineAction::fromRequest($request);
             $this->assertTrue(false, "This should return an exception");
         } catch (\InvalidArgumentException $e) {
-            $this->assertEquals($e->getMessage(), 'You have to define subject model on "Highco\TimelineBundle\Model\TimelineAction"');
+            $this->assertEquals($e->getMessage(), 'You have to define subject model on "Spy\TimelineBundle\Model\TimelineAction"');
         }
 
         $request->query->set('subject_model', '\My\Model');
@@ -103,7 +103,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
             $subject = TimelineAction::fromRequest($request);
             $this->assertTrue(false, "This should return an exception");
         } catch (\InvalidArgumentException $e) {
-            $this->assertEquals($e->getMessage(), 'You have to define subject id on "Highco\TimelineBundle\Model\TimelineAction"');
+            $this->assertEquals($e->getMessage(), 'You have to define subject id on "Spy\TimelineBundle\Model\TimelineAction"');
         }
     }
 
@@ -142,7 +142,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSubject()
     {
-        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub = $this->getMock('\Spy\TimelineBundle\Model\TimelineAction');
         $stub->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('1337'));
@@ -159,7 +159,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDirectComplement()
     {
-        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub = $this->getMock('\Spy\TimelineBundle\Model\TimelineAction');
         $stub->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('1337'));
@@ -176,7 +176,7 @@ class TimelineActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetIndirectComplement()
     {
-        $stub = $this->getMock('\Highco\TimelineBundle\Model\TimelineAction');
+        $stub = $this->getMock('\Spy\TimelineBundle\Model\TimelineAction');
         $stub->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('1337'));

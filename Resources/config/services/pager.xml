@@ -5,10 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="highco.timeline.pager.subscriber" class="Highco\TimelineBundle\Pager\Subscriber\TimelineSubscriber">
+        <service id="spy_timeline.pager.subscriber" class="Spy\TimelineBundle\Pager\Subscriber\TimelineSubscriber">
 			<tag name="knp_paginator.subscriber" />
-			<argument type="service" id="highco.timeline.manager" />
-			<argument type="service" id="highco.timeline.unread_notifications" />
+			<argument type="service" id="spy_timeline.manager" />
+			<argument type="service" id="spy_timeline.unread_notifications" />
         </service>
     </services>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter\DataHydrator;
+namespace Spy\TimelineBundle\Filter\DataHydrator;
 
 /**
  * This class represent a reference for an entry,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Model;
+namespace Spy\TimelineBundle\Model;
 
 /**
  * Collection of TimelineAction

@@ -5,14 +5,14 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.filter.duplicate_key.class">Highco\TimelineBundle\Filter\DuplicateKey</parameter>
-        <parameter key="highco.timeline.filter.data_hydrator.class">Highco\TimelineBundle\Filter\DataHydrator</parameter>
+        <parameter key="spy_timeline.filter.duplicate_key.class">Spy\TimelineBundle\Filter\DuplicateKey</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.class">Spy\TimelineBundle\Filter\DataHydrator</parameter>
     </parameters>
 
     <services>
-        <service id="highco.timeline.filter.duplicate_key" class="%highco.timeline.filter.duplicate_key.class%" />
+        <service id="spy_timeline.filter.duplicate_key" class="%spy_timeline.filter.duplicate_key.class%" />
 
-        <service id="highco.timeline.filter.data_hydrator" class="%highco.timeline.filter.data_hydrator.class%">
+        <service id="spy_timeline.filter.data_hydrator" class="%spy_timeline.filter.data_hydrator.class%">
             <argument type="service" id="service_container" />
         </service>
     </services>

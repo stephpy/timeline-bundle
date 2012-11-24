@@ -7,7 +7,7 @@ Works with KnpPaginatorBundle
 ```php
 <?php
 
-use Highco\TimelineBundle\Pager\TimelinePagerToken;
+use Spy\TimelineBundle\Pager\TimelinePagerToken;
 
 class Controller
 {

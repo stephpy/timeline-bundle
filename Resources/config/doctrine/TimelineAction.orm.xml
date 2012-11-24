@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Highco\TimelineBundle\Entity\TimelineAction" table="timeline_action">
+    <mapped-superclass name="Spy\TimelineBundle\Entity\TimelineAction" table="timeline_action">
 
         <field name="subjectModel" column="subject_model" type="string" length="255" />
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Entity;
+namespace Spy\TimelineBundle\Entity;
 
-use Highco\TimelineBundle\Model\Timeline as BaseTimeline;
+use Spy\TimelineBundle\Model\Timeline as BaseTimeline;
 
 /**
  * Timeline entity for Doctrine

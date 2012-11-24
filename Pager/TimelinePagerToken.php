@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Pager;
+namespace Spy\TimelineBundle\Pager;
 
 /**
  * TimelinePagerToken

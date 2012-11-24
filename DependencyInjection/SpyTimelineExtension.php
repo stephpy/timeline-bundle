@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\DependencyInjection;
+namespace Spy\TimelineBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\Definition\Processor;
-use Highco\TimelineBundle\Spread\Deployer;
+use Spy\TimelineBundle\Spread\Deployer;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -17,7 +17,7 @@ use Highco\TimelineBundle\Spread\Deployer;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class HighcoTimelineExtension extends Extension
+class SpyTimelineExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -37,8 +37,8 @@ class HighcoTimelineExtension extends Extension
 
         $loader->load(sprintf('%s.xml', $config['db_driver']));
 
-        $container->setAlias('highco.timeline_action_manager', $config['timeline_action_manager']);
-        $container->setParameter('highco.timeline.db_driver', $config['db_driver']);
+        $container->setAlias('spy_timeline_action_manager', $config['timeline_action_manager']);
+        $container->setParameter('spy_timeline.db_driver', $config['db_driver']);
 
         $loader->load('deployer.xml');
         $loader->load('filter.xml');
@@ -49,12 +49,12 @@ class HighcoTimelineExtension extends Extension
         $loader->load('twig.xml');
 
         if (!empty($config['timeline_action_class'])) {
-            $container->setParameter('highco.timeline_action.model.class', $config['timeline_action_class']);
+            $container->setParameter('spy_timeline_action.model.class', $config['timeline_action_class']);
         }
 
         /* --- notifiers --- */
         $notifiers = $config['notifiers'];
-        $definition = $container->getDefinition('highco.timeline.notification_manager');
+        $definition = $container->getDefinition('spy_timeline.notification_manager');
 
         foreach ($notifiers as $notifier) {
             $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
@@ -63,7 +63,7 @@ class HighcoTimelineExtension extends Extension
         /* --- spread --- */
         $spread = isset($config['spread']) ? $config['spread'] : array();
 
-        $definition = $container->getDefinition('highco.timeline.spread.manager');
+        $definition = $container->getDefinition('spy_timeline.spread.manager');
         $definition->addArgument(array(
             'onMe' => isset($spread['on_me']) ? $spread['on_me'] : true,
             'onGlobalContext' => isset($spread['on_global_context']) ? $spread['on_global_context'] : true,
@@ -71,14 +71,14 @@ class HighcoTimelineExtension extends Extension
 
         /* ---- provider ---- */
         if (isset($config['provider']['object_manager'])) {
-            $container->setAlias('highco.timeline.provider.object_manager', $config['provider']['object_manager']);
+            $container->setAlias('spy_timeline.provider.object_manager', $config['provider']['object_manager']);
         }
         if (isset($config['provider']['timeline_class'])) {
-            $container->setParameter('highco.timeline.provider.timeline_class', $config['provider']['timeline_class']);
+            $container->setParameter('spy_timeline.provider.timeline_class', $config['provider']['timeline_class']);
         }
 
         if (isset($config['provider']['service'])) {
-            $container->setAlias('highco.timeline.provider', $config['provider']['service']);
+            $container->setAlias('spy_timeline.provider', $config['provider']['service']);
         } elseif (isset($config['provider']['type'])) {
             $loader->load(sprintf('provider/%s.xml', $config['provider']['type']));
         }
@@ -88,13 +88,13 @@ class HighcoTimelineExtension extends Extension
             throw new \InvalidArgumentException('Delivery wait and db_driver redis cannot work together');
         }
 
-        $container->setParameter('highco.timeline.spread.deployer.delivery', $config['delivery']);
+        $container->setParameter('spy_timeline.spread.deployer.delivery', $config['delivery']);
 
         /* ---- render ---- */
         $render = $config['render'];
-        $container->setParameter('highco.timeline.render.path', $render['path']);
-        $container->setParameter('highco.timeline.render.fallback', $render['fallback']);
-        $container->setParameter('highco.timeline.render.i18n.fallback', isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null );
-        $container->setParameter('highco.timeline.twig.resources', $render['resources']);
+        $container->setParameter('spy_timeline.render.path', $render['path']);
+        $container->setParameter('spy_timeline.render.fallback', $render['fallback']);
+        $container->setParameter('spy_timeline.render.i18n.fallback', isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null );
+        $container->setParameter('spy_timeline.twig.resources', $render['resources']);
     }
 }

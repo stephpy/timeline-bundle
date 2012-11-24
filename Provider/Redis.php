@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Provider;
+namespace Spy\TimelineBundle\Provider;
 
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Redis provider (using SncRedis)

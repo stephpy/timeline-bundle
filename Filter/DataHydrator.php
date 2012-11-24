@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Highco\TimelineBundle\Filter\DataHydrator\Entry;
+use Spy\TimelineBundle\Filter\DataHydrator\Entry;
 
 /**
  * Defined on "Resources/doc/filter.markdown"
@@ -55,7 +55,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
 
     /**
      * {@inheritdoc}
-     * @param \Highco\TimelineBundle\Model\Collection $results
+     * @param \Spy\TimelineBundle\Model\Collection $results
      */
     public function filter($results)
     {
@@ -148,7 +148,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
 
         switch ($dbDriver) {
             case 'orm':
-                $objectManager = $this->container->get('highco.timeline.entity_manager');
+                $objectManager = $this->container->get('spy_timeline.entity_manager');
                 $repository    = $objectManager->getRepository($model);
 
                 if (method_exists($repository, "getTimelineResultsForModelAndOids")) {

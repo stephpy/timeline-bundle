@@ -5,17 +5,17 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.provider.doctrine.orm.class">Highco\TimelineBundle\Provider\Doctrine\ORMProvider</parameter>
+        <parameter key="spy_timeline.provider.doctrine.orm.class">Spy\TimelineBundle\Provider\Doctrine\ORMProvider</parameter>
     </parameters>
 
     <services>
-        <service id="highco.timeline.provider.doctrine.orm" class="%highco.timeline.provider.doctrine.orm.class%">
-            <argument type="service" id="highco.timeline.provider.object_manager"/>
-            <argument>%highco.timeline.provider.timeline_class%</argument>
-            <argument type="service" id="highco.timeline_action_manager" />
+        <service id="spy_timeline.provider.doctrine.orm" class="%spy_timeline.provider.doctrine.orm.class%">
+            <argument type="service" id="spy_timeline.provider.object_manager"/>
+            <argument>%spy_timeline.provider.timeline_class%</argument>
+            <argument type="service" id="spy_timeline.timeline_action_manager" />
         </service>
 
-        <service id="highco.timeline.provider" alias="highco.timeline.provider.doctrine.orm" />
+        <service id="spy_timeline.provider" alias="spy_timeline.provider.doctrine.orm" />
     </services>
 
 </container>

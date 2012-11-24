@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Entity;
+namespace Spy\TimelineBundle\Tests\Entity;
 
 /**
  * TimelineActionManagerTest
@@ -12,7 +12,7 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-        $ta = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $ta = $this->getMock('Spy\TimelineBundle\Model\TimelineAction');
 
         $em->expects($this->once())
             ->method('persist')
@@ -21,7 +21,7 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())
             ->method('flush');
 
-        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
+        $manager = new \Spy\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
         $manager->updateTimelineAction($ta);
     }
 
@@ -31,7 +31,7 @@ class TimelineActionManagerTest extends \PHPUnit_Framework_TestCase
 
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
 
-        $manager = new \Highco\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
+        $manager = new \Spy\TimelineBundle\Entity\TimelineActionManager($em, 'ModelClass');
         $results = $manager->getTimelineActionsForIds($ids);
         $this->assertEquals($ids, array());
     }

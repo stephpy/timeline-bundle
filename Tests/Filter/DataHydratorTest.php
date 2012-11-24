@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Filter;
+namespace Spy\TimelineBundle\Tests\Filter;
 
-use Highco\TimelineBundle\Filter\DataHydrator;
+use Spy\TimelineBundle\Filter\DataHydrator;
 
-use Highco\TimelineBundle\Model\Collection;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 /**
  * DataHydratorTest
@@ -16,7 +16,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilterNoReferences()
     {
-        $timelineAction = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $timelineAction = $this->getMock('Spy\TimelineBundle\Model\TimelineAction');
 
         $coll         = new Collection(array($timelineAction));
 
@@ -42,7 +42,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
         $stdClass = new \stdClass();
         $stdClass->key = "value";
 
-        $timelineAction = $this->getMock('Highco\TimelineBundle\Model\TimelineAction');
+        $timelineAction = $this->getMock('Spy\TimelineBundle\Model\TimelineAction');
 
         $timelineAction->expects($this->any())
             ->method('getSubjectModel')
@@ -64,7 +64,7 @@ class DataHydratorTest extends \PHPUnit_Framework_TestCase
 
         $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
 
-        $repository = $this->getMock('Highco\TimelineBundle\Tests\Fixtures\EntityRepository', array(), array(), '', false);
+        $repository = $this->getMock('Spy\TimelineBundle\Tests\Fixtures\EntityRepository', array(), array(), '', false);
 
         $em->expects($this->once())
             ->method('getRepository')

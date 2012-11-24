@@ -23,7 +23,7 @@ public functio myAction()
     //......
     $entry = TimelineAction::create($chuckNorrisObject, 'control', 'The world');
 
-    $this->get('highco.timeline.manager')->push($entry);
+    $this->get('spy_timeline.manager')->push($entry);
 }
 ```
 
@@ -38,7 +38,7 @@ Look at [documentation](http://symfony.com/doc/current/book/service_container.ht
 
 ```xml
 <service id="my_spread" class="Acme\MyBundle\Spread\MySpread">
-    <tag name="highco.timeline.spread"/>
+    <tag name="spy_timeline.spread"/>
 </service>
 ```
 
@@ -49,10 +49,10 @@ Now, create the class `Acme\MyBundle\Spread\MySpread`
 
 namespace Acme\MyBundle\Spread;
 
-use Highco\TimelineBundle\Spread\SpreadInterface;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\SpreadInterface;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Model\TimelineAction;
 
 class MySpread implements SpreadInterface
 {
@@ -95,11 +95,11 @@ In your controller:
 public function myAction()
 {
     // Get the timeline (an array of TimelineAction) of Steven Seagal
-    $results = $this->get('highco.timeline.manager')
+    $results = $this->get('spy_timeline.manager')
         ->getWall('\User', 1337, 'GLOBAL');
 
     // how many entries are stored in redis.
-    $countEntries = $this->get('highco.timeline.manager')
+    $countEntries = $this->get('spy_timeline.manager')
         ->countWallEntries('\User', 1337, 'GLOBAL');
 
     // this method works with annotations.

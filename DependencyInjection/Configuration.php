@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\DependencyInjection;
+namespace Spy\TimelineBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
     {
         $tb = new TreeBuilder();
 
-        $tb->root('highco_timeline')
+        $tb->root('spy_timeline')
             ->validate()
                 ->ifTrue(function($v){return 'orm' === $v['db_driver'] && empty($v['timeline_action_class']);})
                 ->thenInvalid('The doctrine model class must be defined by using the "timeline_action_class" key.')
@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('timeline_action_class')->end()
                 ->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
-                ->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
+                ->scalarNode('timeline_action_manager')->defaultValue('spy_timeline.timeline_action_manager.default')->end()
                 ->arrayNode('notifiers')
                     ->useAttributeAsKey('options')->prototype('scalar')->end()
                     ->defaultValue(array(
@@ -70,32 +70,17 @@ class Configuration implements ConfigurationInterface
                             ->then(function($v) { return array('service' => $v); })
                         ->end()
                         ->validate()
-                            ->ifTrue(function($v){return isset($v['type']) && 'orm' === $v['type'] && empty($v['timeline_class']);})
-                            ->thenInvalid('timeline_class must be configured when using the ORM provider, look at documentation.')
+                            ->ifTrue(function($v){return 'spy_timeline.provider.doctrine.orm' === $v['service'] && empty($v['object_manager']);})
+                            ->thenInvalid('The object_manager key must be configured when using the spy_timeline.provider.doctrine.orm provider.')
+                        ->end()
+                        ->validate()
+                            ->ifTrue(function($v){return 'spy_timeline.provider.doctrine.orm' === $v['service'] && empty($v['timeline_class']);})
+                            ->thenInvalid('The timeline_class key must be configured when using the spy_timeline.provider.doctrine.orm provider.')
                         ->end()
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('service')
-                                ->validate()
-                                    ->ifTrue(function($v) {
-                                        return empty($v);
-                                    })
-                                    ->thenUnset()
-                                ->end()
-                            ->end()
-                            ->scalarNode('type')
-                                ->validate()
-                                    ->ifNotInArray(array('orm', 'redis'))
-                                    ->thenInvalid('Unknown provider type %s.')
-                                ->end()
-                                ->validate()
-                                    ->ifTrue(function($v) {
-                                        return empty($v);
-                                    })
-                                    ->thenUnset()
-                                ->end()
-                            ->end()
-                            ->scalarNode('object_manager')->defaultValue('doctrine.orm.entity_manager')->end()
+                            ->scalarNode('service')->defaultValue('spy_timeline.provider.redis')->end()
+                            ->scalarNode('object_manager')->end()
                             ->scalarNode('timeline_class')->end()
                         ->end()
                     ->end()
@@ -117,11 +102,11 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                             ->arrayNode('resources')
-                                ->defaultValue(array('HighcoTimelineBundle:Action:components.html.twig'))
+                                ->defaultValue(array('SpyTimelineBundle:Action:components.html.twig'))
                                 ->validate()
-                                    ->ifTrue(function($v) { return !in_array('HighcoTimelineBundle:Action:components.html.twig', $v); })
+                                    ->ifTrue(function($v) { return !in_array('SpyTimelineBundle:Action:components.html.twig', $v); })
                                     ->then(function($v){
-                                        return array_merge(array('HighcoTimelineBundle:Action:components.html.twig'), $v);
+                                        return array_merge(array('SpyTimelineBundle:Action:components.html.twig'), $v);
                                     })
                                 ->end()
                                 ->prototype('scalar')->end()

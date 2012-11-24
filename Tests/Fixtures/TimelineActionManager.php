@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Fixtures;
+namespace Spy\TimelineBundle\Tests\Fixtures;
 
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
-use Highco\TimelineBundle\Model\TimelineActionInterface;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Model\TimelineActionInterface;
 
 /**
  * TimelineActionManager

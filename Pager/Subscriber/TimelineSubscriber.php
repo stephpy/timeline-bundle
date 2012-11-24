@@ -1,13 +1,13 @@
 <?php
 
-namespace Highco\TimelineBundle\Pager\Subscriber;
+namespace Spy\TimelineBundle\Pager\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Highco\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Model\Collection;
 use Knp\Component\Pager\Event\ItemsEvent;
-use Highco\TimelineBundle\Pager\TimelinePagerToken;
-use Highco\TimelineBundle\Notification\Unread\UnreadNotificationManager;
-use Highco\TimelineBundle\Manager;
+use Spy\TimelineBundle\Pager\TimelinePagerToken;
+use Spy\TimelineBundle\Notification\Unread\UnreadNotificationManager;
+use Spy\TimelineBundle\Manager;
 
 /**
  * TimelineSubscriber

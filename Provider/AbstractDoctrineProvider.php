@@ -1,10 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Provider;
+namespace Spy\TimelineBundle\Provider;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Abstract doctrine provider

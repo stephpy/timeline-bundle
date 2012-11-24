@@ -1,14 +1,14 @@
 <?php
 
-namespace Highco\TimelineBundle\Entity;
+namespace Spy\TimelineBundle\Entity;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping\MappingException;
-use Highco\TimelineBundle\Model\TimelineInterface;
-use Highco\TimelineBundle\Model\TimelineActionInterface;
+use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Model\TimelineActionInterface;
 
 /**
  * EntityListener

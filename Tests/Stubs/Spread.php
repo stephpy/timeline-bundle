@@ -1,12 +1,12 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Stubs;
+namespace Spy\TimelineBundle\Tests\Stubs;
 
-use Highco\TimelineBundle\Spread\SpreadInterface;
+use Spy\TimelineBundle\Spread\SpreadInterface;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
 
 /**
  * Spread

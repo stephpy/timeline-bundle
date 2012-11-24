@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Tests\Fixtures;
+namespace Spy\TimelineBundle\Tests\Fixtures;
 
-use Highco\TimelineBundle\Filter\FilterInterface;
+use Spy\TimelineBundle\Filter\FilterInterface;
 
 /**
  * Filter

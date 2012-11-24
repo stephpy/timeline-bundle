@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Model;
+namespace Spy\TimelineBundle\Model;
 
 use Symfony\Component\HttpFoundation\Request;
 

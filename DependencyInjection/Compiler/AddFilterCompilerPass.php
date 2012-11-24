@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\DependencyInjection\Compiler;
+namespace Spy\TimelineBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -22,7 +22,7 @@ class AddFilterCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $config = $container->getExtensionConfig('highco_timeline');
+        $config = $container->getExtensionConfig('spy_timeline');
 
         if (!isset($config[0]) || !isset($config[0]['filters'])) {
             return;
@@ -30,7 +30,7 @@ class AddFilterCompilerPass implements CompilerPassInterface
 
         $filters = $config[0]['filters'];
 
-        $definition = $container->getDefinition('highco.timeline.manager');
+        $definition = $container->getDefinition('spy_timeline.manager');
         foreach ($filters as $filter => $arguments) {
             $filter = $container->getDefinition($filter);
             $filter->addMethodCall('initialize', array((array) $arguments['options']));

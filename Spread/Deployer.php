@@ -1,11 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread;
+namespace Spy\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Provider\ProviderInterface;
-use Highco\TimelineBundle\Notification\NotificationManager;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Provider\ProviderInterface;
+use Spy\TimelineBundle\Notification\NotificationManager;
+use Spy\TimelineBundle\Model\TimelineActionManagerInterface;
 
 /**
  * Deployer class, this class will deploy on spread

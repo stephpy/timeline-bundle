@@ -5,15 +5,15 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.manager.class">Highco\TimelineBundle\Manager</parameter>
-        <parameter key="highco.timeline_action.model.class">Highco\TimelineBundle\Entity\TimelineAction</parameter>
+        <parameter key="spy_timeline.manager.class">Spy\TimelineBundle\Manager</parameter>
+        <parameter key="spy_timeline.timeline_action.model.class">Spy\TimelineBundle\Entity\TimelineAction</parameter>
     </parameters>
 
     <services>
-        <service id="highco.timeline.manager" class="%highco.timeline.manager.class%">
-            <argument type="service" id="highco.timeline_action_manager" />
-            <argument type="service" id="highco.timeline.spread.deployer" />
-            <argument type="service" id="highco.timeline.provider" />
+        <service id="spy_timeline.manager" class="%spy_timeline.manager.class%">
+            <argument type="service" id="spy_timeline.timeline_action_manager" />
+            <argument type="service" id="spy_timeline.spread.deployer" />
+            <argument type="service" id="spy_timeline.provider" />
         </service>
     </services>
 
