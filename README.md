@@ -7,7 +7,7 @@ Roadmap before stable release:
 ==============================
 
 - Configuration #[36](https://github.com/stephpy/TimelineBundle/issues/36)
-- Timeline, Action, Component #[35](https://github.com/stephpy/TimelineBundle/issues/35) & #[34](https://github.com/stephpy/TimelineBundle/issues/34)
+- Timeline, Action, Component #[35](https://github.com/stephpy/TimelineBundle/issues/35)
 - Write tests with Atoum.
 - DataHydrator #[33](https://github.com/stephpy/TimelineBundle/issues/33)
 - MongoDB Support #[28](https://github.com/stephpy/TimelineBundle/issues/28)
@@ -30,7 +30,7 @@ Launch tests:
 
 ```
 composer install
-phpunit
+bin/atoum -d Tests/Units
 ```
 
 ---------------
