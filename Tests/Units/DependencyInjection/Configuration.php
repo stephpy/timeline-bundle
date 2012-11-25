@@ -10,80 +10,258 @@ use Symfony\Component\Config\Definition\Processor;
 
 class Configuration extends Test
 {
+
     public function testNoConfiguration()
     {
-        $this->if($processor = new Processor())
-            ->and($configuration = new ConfigurationTested())
-            ->and($config = array($this->getDefaultInput()))
-            ->array($result = $processor->processConfiguration($configuration, $config))
-            ->isIdenticalTo($this->getDefaultOutput())
-        ;
+        $this->array($this->processConfiguration(array($this->getDefaultInput())))
+            ->isIdenticalTo($this->getDefaultOutput());
     }
 
-    /**
-     * @dataProvider getAllDrivers
-     */
-    public function testDriverValidations($driver, $options)
+    public function testORMValidation()
     {
-        $this->if($processor = new Processor())
-            ->and($configuration = new ConfigurationTested())
-            ->and($config = array($this->getDefaultInput()))
-            ->and($config[0]['drivers'] = array(
-                $driver => $options,
-            ))
-            ->and($config[0]['timeline_manager'] = $driver)
-            ->and($config[0]['action_manager'] = $driver)
-            ->and($config[0]['component_manager'] = $driver)
-            ->array($result = $processor->processConfiguration($configuration, $config))
-            ->string($result['timeline_manager'])->isEqualTo('spy_timeline.timeline_manager.'.$driver)
-            ->string($result['action_manager'])->isEqualTo('spy_timeline.action_manager.'.$driver)
-            ->string($result['component_manager'])->isEqualTo('spy_timeline.component_manager.'.$driver);
-
-        $this->if($config = array($this->getDefaultInput()))
-            ->and($config[0]['timeline_manager'] = $driver)
-            ->and($config[0]['action_manager'] = $driver)
-            ->and($config[0]['component_manager'] = $driver)
-            ->exception(function() use ($processor, $configuration, $config) {
-                $result = $processor->processConfiguration($configuration, $config);
-            })
-            ->isInstanceOf('Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
-            ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "'.$driver.'"');
-    }
-
-    public function getAllDrivers()
-    {
-        return array(
-            array('orm', array('object_manager' => 'foo')),
-            array('odm', array('object_manager' => 'foo')),
-            array('redis', array('client' => 'foo')),
+        // use driver without define it.
+        $config = array(
+            'timeline_manager' => 'orm',
+            'action_manager' => 'foo',
         );
+
+        $self = $this;
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "orm"');
+
+        // same thing for action_manager
+        $config = array(
+            'timeline_manager' => 'foo',
+            'action_manager' => 'orm',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "orm"');
+
+        // now define driver but not have good classes
+        $config = array(
+            'drivers' => array(
+                'orm' => array(
+                    'object_manager' => 'foo',
+                ),
+            ),
+            'timeline_manager' => 'orm',
+            'action_manager' => 'foo',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": Please, define timeline class on "orm" driver.');
+
+        // idem for action_manager
+        $config = array(
+            'drivers' => array(
+                'orm' => array(
+                    'object_manager' => 'foo',
+                ),
+            ),
+            'timeline_manager' => 'foo',
+            'action_manager' => 'orm',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": Please, define action, component, action_comopnent classes on "orm" driver.');
+
+        // now define all.
+        $config = array(
+            'drivers' => array(
+                'orm' => array(
+                    'object_manager' => 'foo',
+                    'classes' => array(
+                        'timeline'         => 'TimelineClass',
+                        'action'           => 'ActionClass',
+                        'component'        => 'ComponentClass',
+                        'action_component' => 'ActionComponentClass'
+                    ),
+                ),
+            ),
+            'timeline_manager' => 'orm',
+            'action_manager' => 'orm',
+        );
+
+        $config = $this->processConfiguration(array($config));
+
+        $this->string($config['timeline_manager'])
+                ->isEqualTo('spy_timeline.timeline_manager.orm')
+            ->string($config['action_manager'])
+                ->isEqualTo('spy_timeline.action_manager.orm');
+
+    }
+
+    public function testODMValidation()
+    {
+        // use driver without define it.
+        $config = array(
+            'timeline_manager' => 'odm',
+            'action_manager' => 'foo',
+        );
+
+        $self = $this;
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "odm"');
+
+        // same thing for action_manager
+        $config = array(
+            'timeline_manager' => 'foo',
+            'action_manager' => 'odm',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "odm"');
+
+        // now define driver but not have good classes
+        $config = array(
+            'drivers' => array(
+                'odm' => array(
+                    'object_manager' => 'foo',
+                ),
+            ),
+            'timeline_manager' => 'odm',
+            'action_manager' => 'foo',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": Please, define timeline class on "odm" driver.');
+
+        // idem for action_manager
+        $config = array(
+            'drivers' => array(
+                'odm' => array(
+                    'object_manager' => 'foo',
+                ),
+            ),
+            'timeline_manager' => 'foo',
+            'action_manager' => 'odm',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": Please, define action, component, action_comopnent classes on "odm" driver.');
+
+        // now define all.
+        $config = array(
+            'drivers' => array(
+                'odm' => array(
+                    'object_manager' => 'foo',
+                    'classes' => array(
+                        'timeline'         => 'TimelineClass',
+                        'action'           => 'ActionClass',
+                        'component'        => 'ComponentClass',
+                        'action_component' => 'ActionComponentClass'
+                    ),
+                ),
+            ),
+            'timeline_manager' => 'odm',
+            'action_manager' => 'odm',
+        );
+
+        $config = $this->processConfiguration(array($config));
+
+        $this->string($config['timeline_manager'])
+                ->isEqualTo('spy_timeline.timeline_manager.odm')
+            ->string($config['action_manager'])
+                ->isEqualTo('spy_timeline.action_manager.odm');
+
+    }
+
+    public function testRedisValidation()
+    {
+        // use driver without define it.
+        $config = array(
+            'timeline_manager' => 'redis',
+            'action_manager' => 'foo',
+        );
+
+        $self = $this;
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "redis"');
+
+        // same thing for action_manager
+        $config = array(
+            'timeline_manager' => 'foo',
+            'action_manager' => 'redis',
+        );
+
+        $this->exception(function() use ($config, $self) {
+            $self->processConfiguration(array($config));
+        })
+        ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
+        ->hasMessage('Invalid configuration for path "spy_timeline": You have to define driver "redis"');
+
+        // now define driver but not have good classes
+        $config = array(
+            'drivers' => array(
+                'redis' => array(
+                    'client' => 'foo',
+                ),
+            ),
+            'timeline_manager' => 'redis',
+            'action_manager' => 'redis',
+        );
+
+        $config = $this->processConfiguration(array($config));
+
+        $this->string($config['timeline_manager'])
+                ->isEqualTo('spy_timeline.timeline_manager.redis')
+            ->string($config['action_manager'])
+                ->isEqualTo('spy_timeline.action_manager.redis');
+
+    }
+
+    public function processConfiguration($config)
+    {
+        $processor     = new Processor();
+        $configuration = new ConfigurationTested();
+
+        return $processor->processConfiguration($configuration, $config);
     }
 
     protected function getDefaultInput()
     {
         return array(
-            'classes' => array(
-                'timeline' => 'foo',
-                'action' => 'foo',
-                'component' => 'foo',
-            ),
             'timeline_manager' => 'foo',
             'action_manager' => 'foo',
-            'component_manager' => 'foo',
         );
     }
 
     protected function getDefaultOutput()
     {
         return array(
-            'classes' => array(
-                'timeline' => 'foo',
-                'action' => 'foo',
-                'component' => 'foo',
-            ),
             'timeline_manager' => 'foo',
             'action_manager' => 'foo',
-            'component_manager' => 'foo',
             'notifiers' => array(),
             'filters' => array(),
             'spread' => array(

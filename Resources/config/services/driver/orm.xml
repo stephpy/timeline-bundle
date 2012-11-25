@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="spy_timeline.timeline_manager.orm.class">Spy\TimelineBundle\Driver\ORM\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.orm.class">Spy\TimelineBundle\Driver\ORM\ActionManager</parameter>
-        <parameter key="spy_timeline.component_manager.orm.class">Spy\TimelineBundle\Driver\ORM\ComponentManager</parameter>
     </parameters>
 
     <services>
@@ -19,10 +18,6 @@
         <service id="spy_timeline.action_manager.orm" class="%spy_timeline.action_manager.orm.class%">
             <argument type="service" id="spy_timeline.driver.orm.object_manager" />
             <argument>%spy_timeline.class.action%</argument>
-        </service>
-
-        <service id="spy_timeline.component_manager.orm" class="%spy_timeline.component_manager.orm.class%">
-            <argument type="service" id="spy_timeline.driver.orm.object_manager" />
             <argument>%spy_timeline.class.component%</argument>
         </service>
     </services>
