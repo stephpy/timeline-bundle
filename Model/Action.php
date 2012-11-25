@@ -2,14 +2,10 @@
 
 namespace Spy\TimelineBundle\Model;
 
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
+use \DateTime;
 
-/**
- * Action
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
-class Action implements ActionInterface
+class Action
 {
     CONST STATUS_PENDING   = 'pending';
     CONST STATUS_PUBLISHED = 'published';
@@ -21,9 +17,9 @@ class Action implements ActionInterface
     protected $id;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $actionComponents = array();
+    protected $verb;
 
     /**
      * @var string
@@ -48,35 +44,25 @@ class Action implements ActionInterface
     /**
      * @var boolean
      */
-    protected $duplicated = false;
+    protected $dupplicated = false;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     protected $createdAt;
 
     /**
-     * Initialize createdAt, statusCurrent and statusWanted property
+     * @var ArrayCollection
+     */
+    protected $actionComponents;
+
+    /**
+     * Constructor
      */
     public function __construct()
     {
-        $this->createdAt     = new \DateTime();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        $this->createdAt        = new DateTime();
+        $this->actionComponents = new ArrayCollection();
     }
 
     /**
@@ -120,19 +106,15 @@ class Action implements ActionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
-    public function setVerb($verb)
+    public function getValidStatus()
     {
-        $this->verb = $verb;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVerb()
-    {
-        return $this->verb;
+        return array(
+            self::STATUS_PENDING,
+            self::STATUS_PUBLISHED,
+            self::STATUS_FROZEN,
+        );
     }
 
     /**
@@ -142,23 +124,49 @@ class Action implements ActionInterface
      */
     public function isValidStatus($status)
     {
-        return in_array((string) $status, array(
-            self::STATUS_PENDING,
-            self::STATUS_PUBLISHED,
-            self::STATUS_FROZEN,
-        ));
+        return in_array((string) $status, $this->getValidStatus());
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $verb
+     * @return Action
+     */
+    public function setVerb($verb)
+    {
+        $this->verb = $verb;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerb()
+    {
+        return $this->verb;
     }
 
     /**
      * @param string $statusCurrent
+     * @return Action
      */
     public function setStatusCurrent($statusCurrent)
     {
         if (!$this->isValidStatus($statusCurrent)) {
-            throw new \InvalidArgumentException('Status "'.$statusCurrent.'" is not valid');
+            throw new \InvalidArgumentException(sprintf('Status "%s" is not valid, (%s)', $statusCurrent, implode(', ', $this->getValidStatus())));
         }
 
         $this->statusCurrent = $statusCurrent;
+
+        return $this;
     }
 
     /**
@@ -171,14 +179,17 @@ class Action implements ActionInterface
 
     /**
      * @param string $statusWanted
+     * @return Action
      */
     public function setStatusWanted($statusWanted)
     {
         if (!$this->isValidStatus($statusWanted)) {
-            throw new \InvalidArgumentException('Status "'.$statusWanted.'" is not valid');
+            throw new \InvalidArgumentException(sprintf('Status "%s" is not valid, (%s)', $statusWanted, implode(', ', $this->getValidStatus())));
         }
 
         $this->statusWanted = $statusWanted;
+
+        return $this;
     }
 
     /**
@@ -191,15 +202,17 @@ class Action implements ActionInterface
 
     /**
      * @param string $duplicateKey
+     * @return Action
      */
     public function setDuplicateKey($duplicateKey)
     {
         $this->duplicateKey = $duplicateKey;
+
+        return $this;
     }
 
     /**
      * @return string
-     * {@inheritdoc}
      */
     public function getDuplicateKey()
     {
@@ -208,15 +221,17 @@ class Action implements ActionInterface
 
     /**
      * @param integer $duplicatePriority
-     * {@inheritdoc}
+     * @return Action
      */
     public function setDuplicatePriority($duplicatePriority)
     {
         $this->duplicatePriority = (int) $duplicatePriority;
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @return integer
      */
     public function getDuplicatePriority()
     {
@@ -224,15 +239,18 @@ class Action implements ActionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param DateTime $createdAt
+     * @return Action
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @return DateTime
      */
     public function getCreatedAt()
     {
@@ -240,18 +258,30 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return array<string>
+     * @param ActionComponent $actionComponents
+     * @return Action
      */
-    public function __sleep()
+    public function addActionComponent(ActionComponent $actionComponents)
     {
-        return array(
-            'id',
-            'verb',
-            'statusCurrent',
-            'statusWanted',
-            'duplicateKey',
-            'duplicatePriority',
-            'createdAt',
-        );
+        $this->actionComponents[] = $actionComponents;
+
+        return $this;
     }
+
+    /**
+     * @param ActionComponent $actionComponents
+     */
+    public function removeActionComponent(ActionComponent $actionComponents)
+    {
+        $this->actionComponents->removeElement($actionComponents);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getActionComponents()
+    {
+        return $this->actionComponents;
+    }
+
 }

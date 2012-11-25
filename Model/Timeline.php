@@ -2,19 +2,18 @@
 
 namespace Spy\TimelineBundle\Model;
 
-use Spy\TimelineBundle\Model\TimelineInterface;
-use Spy\TimelineBundle\Model\TimelineActionInterface;
+use \DateTime;
 
 /**
  * Timeline model
  *
  */
-class Timeline implements TimelineInterface
+class Timeline
 {
     /**
-     * @var Component
+     * @var integer
      */
-    protected $subject;
+    protected $id;
 
     /**
      * @var string
@@ -27,36 +26,28 @@ class Timeline implements TimelineInterface
     protected $createdAt;
 
     /**
-     * constructor
+     * @var Component
+     */
+    protected $subject;
+
+    /**
+     * Constructor
      */
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
+        $this->createdAt = new \DateTime();
     }
 
     /**
-     * @param ComplementInterface $subject subject
-     *
-     * @return Timeline
+     * @return integer
      */
-    public function setSubject(ComplementInterface $subject)
+    public function getId()
     {
-        $this->subject = $subject;
-
-        return $this;
-    }
-
-    /**
-     * @return ComplementInterface
-     */
-    public function getSubject()
-    {
-        return $this->subject;
+        return $this->id;
     }
 
     /**
      * @param string $context
-     *
      * @return Timeline
      */
     public function setContext($context)
@@ -75,8 +66,7 @@ class Timeline implements TimelineInterface
     }
 
     /**
-     * @param \DateTime $createdAt
-     *
+     * @param DateTime $createdAt
      * @return Timeline
      */
     public function setCreatedAt(\DateTime $createdAt)
@@ -87,11 +77,29 @@ class Timeline implements TimelineInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param Component $subject
+     * @return Timeline
+     */
+    public function setSubject(Component $subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * @return Component
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
 }
