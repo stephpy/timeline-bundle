@@ -3,9 +3,6 @@
 namespace Spy\TimelineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
 
 /**
  * SpyTimelineBundle
@@ -15,12 +12,4 @@ use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
  */
 class SpyTimelineBundle extends Bundle
 {
-    /**
-     * @param ContainerBuilder $container
-     */
-    public function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new AddFilterCompilerPass());
-        $container->addCompilerPass(new AddSpreadCompilerPass());
-    }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Spy\TimelineBundle\Entity\Component" table="spy_timeline_component">
+
+        <field name="model" column="model" type="string" length="255" />
+
+        <field name="identifier" column="identifier" type="array" />
+
+        <one-to-many field="actionComponents" target-entity="Spy\TimelineBundle\Entity\ActionComponent" mapped-by="component">
+            <cascade></cascade>
+        </one-to-many>
+
+    </mapped-superclass>
+
+</doctrine-mapping>

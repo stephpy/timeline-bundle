@@ -12,17 +12,7 @@ use Spy\TimelineBundle\Model\TimelineActionInterface;
 class Timeline implements TimelineInterface
 {
     /**
-     * @var string
-     */
-    protected $subjectModel;
-
-    /**
-     * @var mixed
-     */
-    protected $subjectId;
-
-    /**
-     * @var object
+     * @var Component
      */
     protected $subject;
 
@@ -32,46 +22,32 @@ class Timeline implements TimelineInterface
     protected $context;
 
     /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var integer
-     */
-    protected $timelineActionId;
-
-    /**
-     * @var TimelineActionInterface
-     */
-    protected $timelineAction;
-
-    /**
      * @var \DateTime
      */
     protected $createdAt;
 
-    function __construct()
-    {
-        $this->setCreatedAt(new \DateTime);
-    }
-
     /**
-     * @param  object $subject
-     *
-     * @return void
+     * constructor
      */
-    public function setSubject($subject)
+    public function __construct()
     {
-        if (!is_object($subject)) {
-            throw new \InvalidArgumentException('subject must be an object');
-        }
-
-        $this->subject = $subject;
+        $this->setCreatedAt(new \DateTime());
     }
 
     /**
-     * @return object|null
+     * @param ComplementInterface $subject subject
+     *
+     * @return Timeline
+     */
+    public function setSubject(ComplementInterface $subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * @return ComplementInterface
      */
     public function getSubject()
     {
@@ -79,47 +55,15 @@ class Timeline implements TimelineInterface
     }
 
     /**
-     * @param string $model
-     */
-    public function setSubjectModel($model)
-    {
-        $this->subjectModel = $model;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubjectModel()
-    {
-        return $this->subjectModel;
-    }
-
-    /**
-     * @param  integer $subjectId
-     *
-     * @return void
-     */
-    public function setSubjectId($subjectId)
-    {
-        $this->subjectId = $subjectId;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getSubjectId()
-    {
-        return $this->subjectId;
-    }
-
-    /**
      * @param string $context
      *
-     * @return void
+     * @return Timeline
      */
     public function setContext($context)
     {
         $this->context = $context;
+
+        return $this;
     }
 
     /**
@@ -131,69 +75,15 @@ class Timeline implements TimelineInterface
     }
 
     /**
-     * @param string $type
-     *
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-
-
-    /**
-     * @param mixed $id
-     *
-     * @return void
-     */
-    public function setTimelineActionId($id)
-    {
-        $this->timelineActionId = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTimelineActionId()
-    {
-        return $this->timelineActionId;
-    }
-
-    /**
-     * @param TimelineActionInterface $timelineAction
-     *
-     * @return void
-     */
-    public function setTimelineAction(TimelineActionInterface $timelineAction)
-    {
-        $this->timelineAction = $timelineAction;
-        $this->setTimelineActionId($timelineAction->getId());
-    }
-
-    /**
-     * @return TimelineActionInterface|null
-     */
-    public function getTimelineAction()
-    {
-        return $this->timelineAction;
-    }
-
-    /**
      * @param \DateTime $createdAt
      *
-     * @return \DateTime
+     * @return Timeline
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**

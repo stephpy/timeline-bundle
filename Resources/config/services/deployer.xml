@@ -12,7 +12,7 @@
     <services>
         <service id="spy_timeline.spread.deployer" class="%spy_timeline.spread.deployer.class%">
 			<argument type="service" id="spy_timeline.spread.manager" />
-			<argument type="service" id="spy_timeline.timeline_action_manager" />
+			<argument type="service" id="spy_timeline.action_manager" />
             <argument type="service" id="spy_timeline.provider" />
             <argument type="service" id="spy_timeline.notification_manager" />
             <call method="setDelivery">

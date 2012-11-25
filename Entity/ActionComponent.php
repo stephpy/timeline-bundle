@@ -5,11 +5,11 @@ namespace Spy\TimelineBundle\Entity;
 use Spy\TimelineBundle\Model\Timeline as BaseTimeline;
 
 /**
- * Timeline entity for Doctrine ORM.
+ * ActionComponent entity for Doctrine ORM.
  *
- * @uses BaseTimeline
+ * @uses BaseActionComponent
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Timeline extends BaseTimeline
+class ActionComponent extends BaseActionComponent
 {
 }
