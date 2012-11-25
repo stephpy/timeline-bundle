@@ -6,14 +6,6 @@
 
     <mapped-superclass name="Spy\TimelineBundle\Entity\ActionComponent" table="spy_timeline_action_component">
 
-        <many-to-one field="action" target-entity="Spy\TimelineBundle\Entity\Action">
-            <join-column name="action_id" referenced-column-name="id" on-delete="CASCADE" nullable="false" />
-        </many-to-one>
-
-        <many-to-one field="component" target-entity="Spy\TimelineBundle\Entity\Component">
-            <join-column name="component_id" referenced-column-name="id" on-delete="CASCADE" nullable="false" />
-        </many-to-one>
-
         <field name="type" column="type" type="string" length="255" />
 
         <field name="text" column="text" type="string" length="255" nullable="true" />

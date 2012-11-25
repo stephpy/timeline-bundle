@@ -18,10 +18,6 @@
 
         <field name="createdAt" column="created_at" type="datetime" />
 
-        <one-to-many field="actionComponents" target-entity="Spy\TimelineBundle\Entity\ActionComponent" mapped-by="action">
-            <cascade></cascade>
-        </one-to-many>
-
     </mapped-superclass>
 
 </doctrine-mapping>

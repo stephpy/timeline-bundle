@@ -6,16 +6,9 @@
 
     <mapped-superclass name="Spy\TimelineBundle\Entity\Timeline" table="spy_timeline">
 
-        <!-- useful ? imo notification should have his own table.
-        <id name="type" column="type" type="string"  />-->
-
         <field name="context" column="context" type="string" />
 
         <field name="createdAt" column="created_at" type="datetime" />
-
-        <many-to-one field="subject" target-entity="Spy\TimelineBundle\Entity\Component">
-            <join-column name="subject_id" referenced-column-name="id" on-delete="CASCADE" nullable="false" />
-        </many-to-one>
 
     </mapped-superclass>
 

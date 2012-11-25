@@ -10,10 +10,6 @@
 
         <field name="identifier" column="identifier" type="array" />
 
-        <one-to-many field="actionComponents" target-entity="Spy\TimelineBundle\Entity\ActionComponent" mapped-by="component">
-            <cascade></cascade>
-        </one-to-many>
-
     </mapped-superclass>
 
 </doctrine-mapping>

@@ -10,6 +10,6 @@ use Spy\TimelineBundle\Model\Action as BaseAction;
  * @uses BaseAction
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Action extends BaseTimelineAction
+class Action extends BaseAction
 {
 }
