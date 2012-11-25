@@ -40,7 +40,7 @@ git submodule update --init
 ```
 
 
-# Step 2: Configure autoload
+# Step 2: Configure autoload (not needed with composer installation)
 
 ```php
 <?php
