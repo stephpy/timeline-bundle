@@ -4,16 +4,9 @@ php:
     - 5.3
     - 5.4
 
-env:
-    - SYMFONY_VERSION=origin/2.0
-    - SYMFONY_VERSION=origin/master
-
-before_script:
-    - curl -s http://getcomposer.org/installer | php
-    - COMPOSER_ROOT_VERSION=dev-master php composer.phar --dev install
+before_script: composer install --dev
 
 script:
-    - phpunit
     - bin/atoum -d Tests/Units
 
 notifications:
