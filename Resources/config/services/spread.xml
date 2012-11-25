@@ -26,6 +26,7 @@
         </service>
 
         <service id="spy_timeline.spread.entry_collection" class="%spy_timeline.spread.entry_collection.class%">
+            <argument type="service" id="spy_timeline.action_manager" />
             <argument>%spy_timeline.spread.on_global_context%</argument>
         </service>
     </services>

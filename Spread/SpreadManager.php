@@ -53,7 +53,7 @@ class SpreadManager
     public function process(ActionInterface $action)
     {
         if ($this->onSubject) {
-            $this->entryCollection->set(new Entry($action->getSubject()), 'GLOBAL');
+            $this->entryCollection->add(new Entry($action->getSubject()), 'GLOBAL');
         }
 
         foreach ($this->spreads as $spread) {

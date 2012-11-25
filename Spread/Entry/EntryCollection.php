@@ -2,6 +2,8 @@
 
 namespace Spy\TimelineBundle\Spread\Entry;
 
+use Spy\TimelineBundle\Driver\ActionManagerInterface;
+
 /**
  * A collection of entry
  *
@@ -9,14 +11,27 @@ namespace Spy\TimelineBundle\Spread\Entry;
  */
 class EntryCollection implements \IteratorAggregate
 {
+    /**
+     * @var ActionManagerInterface
+     */
+    protected $actionManager;
+
+    /**
+     * @var \ArrayIterator
+     */
     protected $coll;
+
+    /**
+     * @var boolean
+     */
     protected $duplicateOnGlobal = true;
 
     /**
      * @param boolean $duplicateOnGlobal Each timeline action are automatically pushed on Global context
      */
-    public function __construct($duplicateOnGlobal = true)
+    public function __construct(ActionManagerInterface $actionManager, $duplicateOnGlobal = true)
     {
+        $this->actionManager     = $actionManager;
         $this->coll              = new \ArrayIterator();
         $this->duplicateOnGlobal = $duplicateOnGlobal;
     }
@@ -33,7 +48,7 @@ class EntryCollection implements \IteratorAggregate
      * @param EntryInterface $entry   entry you want to push
      * @param string         $context context where you want to push
      */
-    public function set(EntryInterface $entry, $context)
+    public function add(EntryInterface $entry, $context = 'GLOBAL')
     {
         if (!isset($this->coll[$context])) {
             $this->coll[$context] = array();
@@ -42,7 +57,61 @@ class EntryCollection implements \IteratorAggregate
         $this->coll[$context][$entry->getIdent()] = $entry;
 
         if ($this->duplicateOnGlobal && $context !== 'GLOBAL') {
-            $this->set($entry, 'GLOBAL');
+            $this->add($entry);
+        }
+    }
+
+    /**
+     * Load unaware entries, instead of having 1 call by entry to fetch component
+     * you can add unaware entries. Component will be created or exception
+     * will be throwed if unexists
+     *
+     *
+     * @return void
+     */
+    public function loadUnawareEntries()
+    {
+        $unawareEntries = array();
+
+        foreach ($this->coll as $context => $entries) {
+            foreach ($entries as $entry) {
+                if ($entry instanceof EntryUnaware) {
+                    $unawareEntries[$entry->getIdent()] = $entry->getIdent();
+                }
+            }
+        }
+
+        $components = $this->actionManager->findComponents($unawareEntries);
+        $componentsIndexedByIdent = array();
+        foreach ($components as $component) {
+            $componentsIndexedByIdent[$component->getHash()] = $component;
+        }
+
+        unset($components);
+
+        foreach ($this->coll as $context => $entries) {
+            foreach ($entries as $entry) {
+                if ($entry instanceof EntryUnaware) {
+                    $ident = $entry->getIdent();
+                    // component fetched from database.
+                    if (array_key_exists($ident, $componentsIndexedByIdent)) {
+                        $entry->setSubject($componentsIndexedByIdent[$ident]);
+                    } else {
+                        if ($entry->isStrict()) {
+                            throw new \Exception(sprintf('Component with ident "%s" is unknown', $entry->getIdent()));
+                        }
+
+                        $component = $this->actionManager->createComponent($entry->getSubjectModel(), $entry->getSubjectId());
+
+                        if (null === $component) {
+                            throw new \Exception(sprintf('Component with ident "%s" cannot be created', $entry->getIdent()));
+                        }
+
+                        $entry->setSubject($component);
+                        $componentsIndexedByIdent[$component->getHash()] = $component;
+                    }
+                }
+            }
         }
     }
 

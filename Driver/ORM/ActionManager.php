@@ -100,18 +100,7 @@ class ActionManager implements ActionManagerInterface
      */
     public function findOrCreateComponent($model, $identifier = null)
     {
-        if (!is_object($model) && empty($identifier)) {
-            throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
-        }
-
-        if (is_object($model)) {
-            if (!method_exists($model, 'getId')) {
-                throw new \LogicException('Model must have a getId method.');
-            }
-
-            $identifier = $model->getId();
-            $model      = Doctrine::unsetProxyClass($model);
-        }
+        list ($model, $identifier) = $this->clearModelAndIdentifier($model, $identifier);
 
         if (empty($model) || empty($identifier)) {
             return null;
@@ -131,6 +120,20 @@ class ActionManager implements ActionManagerInterface
             return $component;
         }
 
+        return $this->createComponent($model, $identifier);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createComponent($model, $identifier = null)
+    {
+        list ($model, $identifier) = $this->clearModelAndIdentifier($model, $identifier);
+
+        if (empty($model) || empty($identifier)) {
+            return null;
+        }
+
         $component = new $this->componentClass();
         $component->setModel($model);
         $component->setIdentifier($identifier);
@@ -139,6 +142,48 @@ class ActionManager implements ActionManagerInterface
         $this->objectManager->flush();
 
         return $component;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findComponents(array $concatIdents)
+    {
+        $qb = $this->getComponentRepository()
+            ->createQueryBuilder('c');
+
+        return $qb
+            ->where(
+                $qb->expr()->in(
+                    $qb->expr()->concat('c.model', 'c.identifier'), $concatIdents
+                )
+            )
+            ->getQuery()
+            ->getResult();
+    }
+
+    protected function clearModelAndIdentifier($model, $identifier)
+    {
+        if (!is_object($model) && empty($identifier)) {
+            throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
+        }
+
+        if (is_object($model)) {
+            if (!method_exists($model, 'getId')) {
+                throw new \LogicException('Model must have a getId method.');
+            }
+
+            $identifier = $model->getId();
+            $model      = Doctrine::unsetProxyClass($model);
+        }
+
+        if (is_scalar($identifier)) {
+            $identifier = (string) $identifier;
+        } elseif (!is_array($identifier)) {
+            throw new \InvalidArgumentException('Identifier has to be a scalar or an array');
+        }
+
+        return array($model, $identifier);
     }
 
     protected function getComponentRepository()

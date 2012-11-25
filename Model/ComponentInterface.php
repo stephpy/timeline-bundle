@@ -12,6 +12,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface ComponentInterface
 {
     /**
+     * Return unique hash for this component.
+     *
+     * @return string
+     */
+    public function getHash();
+
+    /**
      * @param mixed $id id
      *
      * @return ComponentInterface

@@ -41,6 +41,14 @@ class Component implements ComponentInterface
     }
 
     /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->getModel().serialize($this->getIdentifier());
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setId($id)
@@ -81,6 +89,13 @@ class Component implements ComponentInterface
      */
     public function setIdentifier($identifier)
     {
+        if (is_scalar($identifier)) {
+            // to avoid issue of serialization.
+            $identifier = (string) $identifier;
+        } elseif (!is_array($identifier)) {
+            throw new \InvalidArgumentException('Identifier must be a scalar or an array');
+        }
+
         $this->identifier = $identifier;
 
         return $this;

@@ -35,4 +35,22 @@ interface ActionManagerInterface
      * @return ComponentInterface
      */
     public function findOrCreateComponent($model, $identifier = null);
+
+    /**
+     * create component.
+     *
+     * @param string|object     $model      pass an object and second argument will be ignored.
+     * it'll be replaced by $model->getId();
+     * @param null|string|array $identifier pass an array for composite keys.
+     *
+     * @return ComponentInterface
+     */
+    public function createComponent($model, $identifier = null);
+
+    /**
+     * @param array $concatIdents array<concat(model,identifier)>
+     *
+     * @return array
+     */
+    public function findComponents(array $concatIdents);
 }

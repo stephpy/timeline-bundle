@@ -63,6 +63,7 @@ class Deployer
         }
 
         $results = $this->spreadManager->process($action);
+        $results->loadUnawareEntries();
 
         foreach ($results as $context => $entries) {
             foreach ($entries as $entry) {
