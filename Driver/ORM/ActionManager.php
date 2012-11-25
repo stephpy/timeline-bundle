@@ -2,6 +2,8 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\Component;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -29,15 +31,68 @@ class ActionManager implements ActionManagerInterface
     protected $componentClass;
 
     /**
-     * @param ObjectManager $objectManager  object manager
-     * @param string        $actionClass    action class
-     * @param string        $componentClass component class
+     * @var string
      */
-    public function __construct(ObjectManager $objectManager, $actionClass, $componentClass)
+    protected $actionComponentClass;
+
+    /**
+     * @param ObjectManager $objectManager        objectManager
+     * @param string        $actionClass          actionClass
+     * @param string        $componentClass       componentClass
+     * @param string        $actionComponentClass actionComponentClass
+     */
+    public function __construct(ObjectManager $objectManager, $actionClass, $componentClass, $actionComponentClass)
     {
-        $this->objectManager  = $objectManager;
-        $this->actionClass    = $actionClass;
-        $this->componentClass = $componentClass;
+        $this->objectManager        = $objectManager;
+        $this->actionClass          = $actionClass;
+        $this->componentClass       = $componentClass;
+        $this->actionComponentClass = $actionComponentClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateAction(ActionInterface $action)
+    {
+        $this->objectManager->persist($action);
+        $this->objectManager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($subject, $verb, array $components = array())
+    {
+        $action = new $this->actionClass();
+        $action->addComponent('subject', $subject, $this->actionComponentClass);
+        $action->setVerb($verb);
+
+        // subject is MANDATORY. Cannot pass scalar value.
+        if (!$subject instanceof Component) {
+            if (!is_object($subject)) {
+                $subject = $this->findOrCreateComponent($subject);
+            }
+
+            if (null === $subject) {
+                throw new \Exception('Impossible to create component from subject.');
+            }
+        }
+
+        $action->setSubject($subject);
+
+        foreach ($components as $type => $component) {
+            if (!$component instanceof Component && !is_scalar($component)) {
+                $component = $this->findOrCreateComponent($component);
+
+                if (null === $component) {
+                    throw new \Exception(sprintf('Impossible to create component from %s.', $type));
+                }
+            }
+
+            $action->addComponent($type, $component, $this->actionComponentClass);
+        }
+
+        return $action;
     }
 
     /**
@@ -45,6 +100,10 @@ class ActionManager implements ActionManagerInterface
      */
     public function findOrCreateComponent($model, $identifier = null)
     {
+        if (!is_object($model) && empty($identifier)) {
+            throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
+        }
+
         if (is_object($model)) {
             if (!method_exists($model, 'getId')) {
                 throw new \LogicException('Model must have a getId method.');
@@ -86,5 +145,4 @@ class ActionManager implements ActionManagerInterface
     {
         return $this->objectManager->getRepository($this->componentClass);
     }
-
 }

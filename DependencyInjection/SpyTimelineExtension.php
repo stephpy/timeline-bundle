@@ -30,32 +30,77 @@ class SpyTimelineExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
-
-        /*$container->setParameter('spy_timeline.class.timeline', $config['classes']['timeline']);
-        $container->setParameter('spy_timeline.class.action', $config['classes']['action']);
-        $container->setParameter('spy_timeline.class.component', $config['classes']['component']);
+        $loader->load('spread.xml');
 
         if (isset($config['drivers'])) {
-
             if (isset($config['drivers']['orm'])) {
-                $container->setAlias('spy_timeline.driver.orm.object_manager', $config['drivers']['orm']['object_manager']);
-                $loader->load('driver/orm.xml');
+                $this->loadORMDriver($container, $loader, $config['drivers']['orm']);
             }
-
             if (isset($config['drivers']['odm'])) {
-                exit('not yet supported');
-                $container->setAlias('spy_timeline.driver.odm.object_manager', $config['drivers']['odm']['object_manager']);
-                $loader->load('driver/odm.xml');
+                $this->loadODMDriver($container, $loader, $config['drivers']['odm']);
             }
-
             if (isset($config['drivers']['redis'])) {
-                exit('not yet supported');
-                $container->setAlias('spy_timeline.driver.redis.client', $config['drivers']['redis']['client']);
-                $loader->load('driver/redis.xml');
+                $this->loadRedisDriver($container, $loader, $config['drivers']['redis']);
             }
         }
 
         $container->setAlias('spy_timeline.timeline_manager', $config['timeline_manager']);
-        $container->setAlias('spy_timeline.action_manager', $config['action_manager']);*/
+        $container->setAlias('spy_timeline.action_manager', $config['action_manager']);
+
+        // spreads
+        $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
+        $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
+        $container->setParameter('spy_timeline.spread.on_global_context', $config['spread']['on_global_context']);
+    }
+
+    private function loadORMDriver($container, $loader, $config)
+    {
+        $classes = isset($config['classes']) ? $config['classes'] : array();
+        $parameters = array(
+            'timeline', 'action', 'component', 'action_component',
+        );
+
+        foreach ($parameters as $parameter) {
+            if (isset($classes[$parameter])) {
+                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+            }
+        }
+
+        $container->setAlias('spy_timeline.driver.orm.object_manager', $config['object_manager']);
+
+        $loader->load('driver/orm.xml');
+    }
+
+    private function loadODMDriver($container, $loader, $config)
+    {
+        exit('not yet supported');
+
+        $classes = isset($config['classes']) ? $config['classes'] : array();
+
+        $parameters = array(
+            'timeline', 'action', 'component', 'action_component',
+        );
+
+        foreach ($parameters as $parameter) {
+            if (isset($classes[$parameter])) {
+                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+            }
+        }
+
+        $container->setAlias('spy_timeline.driver.odm.object_manager', $config['object_manager']);
+
+        $loader->load('driver/odm.xml');
+    }
+
+    private function loadRedisDriver($container, $loader, $config)
+    {
+        exit('not yet supported');
+
+        $container->setParameter('spy_timeline.driver.redis.timeline_key_prefix', $config['timeline_key_prefix']);
+        $container->setParameter('spy_timeline.driver.redis.action_key_prefix', $config['action_key_prefix']);
+
+        $container->setAlias('spy_timeline.driver.redis.client', $config['client']);
+
+        $loader->load('driver/redis.xml');
     }
 }

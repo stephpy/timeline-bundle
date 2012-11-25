@@ -2,8 +2,29 @@
 
 namespace Spy\TimelineBundle\Driver;
 
+use Spy\TimelineBundle\Model\ActionInterface;
+
+/**
+ * ActionManagerInterface
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
 interface ActionManagerInterface
 {
+    /**
+     * @param ActionInterface $action action
+     */
+    public function updateAction(ActionInterface $action);
+
+    /**
+     * @param object $subject    Can be a Component or an other one object.
+     * @param string $verb       verb
+     * @param array  $components An array of Component or other objects.
+     *
+     * @return Action
+     */
+    public function create($subject, $verb, array $components = array());
+
     /**
      * Find a component or create it.
      *

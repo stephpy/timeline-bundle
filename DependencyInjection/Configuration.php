@@ -119,8 +119,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('spread')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('on_subject')->defaultValue(true)->end()
-                        ->scalarNode('on_global_context')->defaultValue(true)->end()
+                        ->booleanNode('on_subject')->defaultValue(true)->end()
+                        ->booleanNode('on_global_context')->defaultValue(true)->end()
                         ->scalarNode('deployer')->defaultValue('spy_timeline.spread.deployer')->end()
                         ->scalarNode('delivery')->defaultValue('immediate')->end()
                     ->end()
@@ -233,10 +233,31 @@ class Configuration implements ConfigurationInterface
         };
 
         $treeBuilder->validate()
-                ->ifTrue(function ($v) use ($validateActionClasses) { return !$validateActionClasses($v, 'orm'); })->thenInvalid('Please, define action, component, action_comopnent classes on "orm" driver.')
+                ->ifTrue(function ($v) use ($validateActionClasses) { return !$validateActionClasses($v, 'orm'); })->thenInvalid('Please, define action, component, action_component classes on "orm" driver.')
             ->end()
             ->validate()
-                ->ifTrue(function ($v) use ($validateActionClasses) { return !$validateActionClasses($v, 'odm'); })->thenInvalid('Please, define action, component, action_comopnent classes on "odm" driver.')
+                ->ifTrue(function ($v) use ($validateActionClasses) { return !$validateActionClasses($v, 'odm'); })->thenInvalid('Please, define action, component, action_component classes on "odm" driver.')
+            ->end()
+        ;
+
+        $validateTwiceClass = function($v, $class) {
+            $ormClasses = isset($v['drivers']) && isset($v['drivers']['orm']) && isset($v['drivers']['orm']['classes']) ? $v['drivers']['orm']['classes'] : array();
+            $odmClasses = isset($v['drivers']) && isset($v['drivers']['odm']) && isset($v['drivers']['orm']['classes']) ? $v['drivers']['odm']['classes'] : array();
+
+            return !(isset($ormClasses[$class]) && isset($odmClasses[$class]));
+        };
+
+        $treeBuilder->validate()
+                ->ifTrue(function ($v) use ($validateTwiceClass) { return !$validateTwiceClass($v, 'timeline'); })->thenInvalid('Please, define timeline class one time.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) use ($validateTwiceClass) { return !$validateTwiceClass($v, 'action'); })->thenInvalid('Please, define action class one time.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) use ($validateTwiceClass) { return !$validateTwiceClass($v, 'component'); })->thenInvalid('Please, define component class one time.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) use ($validateTwiceClass) { return !$validateTwiceClass($v, 'action_component'); })->thenInvalid('Please, define action_component class one time.')
             ->end()
         ;
     }

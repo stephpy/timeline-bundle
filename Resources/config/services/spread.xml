@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spy_timeline.spread.deployer.class">Spy\TimelineBundle\Spread\Deployer</parameter>
+        <parameter key="spy_timeline.spread.manager.class">Spy\TimelineBundle\Spread\SpreadManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="spy_timeline.spread.deployer" class="%spy_timeline.spread.deployer.class%">
+            <argument type="service" id="spy_timeline.spread.manager" />
+            <argument type="service" id="spy_timeline.action_manager" />
+            <call method="setDelivery">
+                <argument>%spy_timeline.spread.deployer.delivery%</argument>
+            </call>
+        </service>
+
+        <service id="spy_timeline.spread.manager" class="%spy_timeline.spread.manager.class%">
+            <argument>%spy_timeline.spread.on_subject%</argument>
+            <argument>%spy_timeline.spread.on_global_context%</argument>
+        </service>
+
+    </services>
+
+</container>

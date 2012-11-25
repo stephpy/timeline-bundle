@@ -3,9 +3,16 @@
 namespace Spy\TimelineBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Spy\TimelineBundle\Model\Component;
 use \DateTime;
 
-class Action
+/**
+ * Action
+ *
+ * @uses ActionInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class Action implements ActionInterface
 {
     CONST STATUS_PENDING   = 'pending';
     CONST STATUS_PUBLISHED = 'published';
@@ -63,6 +70,27 @@ class Action
     {
         $this->createdAt        = new DateTime();
         $this->actionComponents = new ArrayCollection();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addComponent($type, $component, $actionComponentClass)
+    {
+        $actionComponent = new $actionComponentClass();
+        $actionComponent->setType($type);
+
+        if ($component instanceof Component) {
+            $actionComponent->setComponent($component);
+        } elseif(is_scalar($component)) {
+            $actionComponent->setText($component);
+        } else {
+            throw new \InvalidArgumentException('Component has to be a Component or a scalar');
+        }
+
+        $this->addActionComponent($actionComponent);
+
+        return $this;
     }
 
     /**
@@ -127,12 +155,43 @@ class Action
         return in_array((string) $status, $this->getValidStatus());
     }
 
+    public function setSubject(Component $component)
+    {
+        $this->addComponent('subject', $component);
+
+        return $this;
+    }
+
     /**
-     * @return integer
+     * @return Component
+     */
+    public function getSubject()
+    {
+        foreach ($this->getActionComponents() as $actionComponent) {
+            if ($actionComponent->getType() == 'subject') {
+                return $actionComponent->getComponent();
+            }
+        }
+    }
+
+    /**
+     * @return mixed
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id id
+     *
+     * @return Action
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -263,6 +322,7 @@ class Action
      */
     public function addActionComponent(ActionComponent $actionComponents)
     {
+        $actionComponents->setAction($this);
         $this->actionComponents[] = $actionComponents;
 
         return $this;

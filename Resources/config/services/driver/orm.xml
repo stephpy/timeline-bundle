@@ -19,6 +19,7 @@
             <argument type="service" id="spy_timeline.driver.orm.object_manager" />
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>
+            <argument>%spy_timeline.class.action_component%</argument>
         </service>
     </services>
 
