@@ -21,7 +21,7 @@ class SpreadManager
     /**
      * @var EntryCollection
      */
-    protected $results;
+    protected $entryCollection;
 
     /**
      * @var boolean
@@ -29,19 +29,14 @@ class SpreadManager
     protected $onSubject;
 
     /**
-     * @var boolean
+     * @param EntryCollection $entryCollection entryCollection
+     * @param boolean         $onSubject       onSubject
      */
-    protected $onGlobalContext;
-
-    /**
-     * @param array $options
-     */
-    public function __construct($onSubject = true, $onGlobalContext = true)
+    public function __construct(EntryCollection $entryCollection, $onSubject = true)
     {
         $this->spreads         = new \ArrayIterator();
         $this->onSubject       = $onSubject;
-        $this->onGlobalContext = $onGlobalContext;
-        $this->results         = new EntryCollection($this->onGlobalContext);
+        $this->entryCollection = $entryCollection;
     }
 
     /**
@@ -53,44 +48,44 @@ class SpreadManager
     }
 
     /**
-     * @return \ArrayIterator of SpreadInterface
-     */
-    public function getSpreads()
-    {
-        return $this->spreads;
-    }
-
-    /**
      * @param ActionInterface $action action
      */
     public function process(ActionInterface $action)
     {
         if ($this->onSubject) {
-            $this->results->set('GLOBAL', new Entry($action->getSubject()));
+            $this->entryCollection->set(new Entry($action->getSubject()), 'GLOBAL');
         }
 
         foreach ($this->spreads as $spread) {
             if ($spread->supports($action)) {
-                $spread->process($action, $this->results);
+                $spread->process($action, $this->entryCollection);
             }
         }
 
-        return $this->getResults();
+        return $this->getEntryCollection();
+    }
+
+    /**
+     * Clears the entryCollection
+     */
+    public function clear()
+    {
+        $this->entryCollection->clear();
     }
 
     /**
      * @return EntryCollection
      */
-    public function getResults()
+    public function getEntryCollection()
     {
-        return $this->results;
+        return $this->entryCollection;
     }
 
     /**
-     * Clears the results of manager.
+     * @return \ArrayIterator of SpreadInterface
      */
-    public function clear()
+    public function getSpreads()
     {
-        $this->results = new EntryCollection($this->onGlobalContext);
+        return $this->spreads;
     }
 }

@@ -2,7 +2,13 @@
 
 namespace Spy\TimelineBundle\Model;
 
-class ActionComponent
+/**
+ * ActionComponent
+ *
+ * @uses ActionComponentInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class ActionComponent implements ActionComponentInterface
 {
     /**
      * @var integer
@@ -20,17 +26,27 @@ class ActionComponent
     protected $text;
 
     /**
-     * @var Action
+     * @var ActionInterface
      */
     protected $action;
 
     /**
-     * @var Component
+     * @var ComponentInterface
      */
     protected $component;
 
     /**
-     * @return integer
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -38,8 +54,7 @@ class ActionComponent
     }
 
     /**
-     * @param string $type
-     * @return ActionComponent
+     * {@inheritdoc}
      */
     public function setType($type)
     {
@@ -49,7 +64,7 @@ class ActionComponent
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -57,8 +72,7 @@ class ActionComponent
     }
 
     /**
-     * @param string $text
-     * @return ActionComponent
+     * {@inheritdoc}
      */
     public function setText($text)
     {
@@ -68,7 +82,7 @@ class ActionComponent
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getText()
     {
@@ -76,10 +90,9 @@ class ActionComponent
     }
 
     /**
-     * @param Action $action
-     * @return ActionComponent
+     * {@inheritdoc}
      */
-    public function setAction(Action $action)
+    public function setAction(ActionInterface $action)
     {
         $this->action = $action;
 
@@ -87,7 +100,7 @@ class ActionComponent
     }
 
     /**
-     * @return Action
+     * {@inheritdoc}
      */
     public function getAction()
     {
@@ -95,10 +108,9 @@ class ActionComponent
     }
 
     /**
-     * @param Component $component
-     * @return ActionComponent
+     * {@inheritdoc}
      */
-    public function setComponent(Component $component)
+    public function setComponent(ComponentInterface $component)
     {
         $this->component = $component;
 
@@ -106,7 +118,7 @@ class ActionComponent
     }
 
     /**
-     * @return Component
+     * {@inheritdoc}
      */
     public function getComponent()
     {

@@ -4,7 +4,13 @@ namespace Spy\TimelineBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Component
+/**
+ * Component
+ *
+ * @uses ComponentInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
+ */
+class Component implements ComponentInterface
 {
     /**
      * @var integer
@@ -35,7 +41,17 @@ class Component
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -43,8 +59,7 @@ class Component
     }
 
     /**
-     * @param string $model
-     * @return Component
+     * {@inheritdoc}
      */
     public function setModel($model)
     {
@@ -54,7 +69,7 @@ class Component
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getModel()
     {
@@ -62,8 +77,7 @@ class Component
     }
 
     /**
-     * @param array $identifier
-     * @return Component
+     * {@inheritdoc}
      */
     public function setIdentifier($identifier)
     {
@@ -73,7 +87,7 @@ class Component
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getIdentifier()
     {
@@ -81,8 +95,7 @@ class Component
     }
 
     /**
-     * @param ActionComponent $actionComponents
-     * @return Component
+     * {@inheritdoc}
      */
     public function addActionComponent(ActionComponent $actionComponents)
     {
@@ -92,7 +105,7 @@ class Component
     }
 
     /**
-     * @param ActionComponent $actionComponents
+     * {@inheritdoc}
      */
     public function removeActionComponent(ActionComponent $actionComponents)
     {
@@ -100,7 +113,7 @@ class Component
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getActionComponents()
     {

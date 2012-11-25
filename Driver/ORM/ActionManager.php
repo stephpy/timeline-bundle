@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Driver\ORM;
 
 use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\Component;
+use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -68,7 +68,7 @@ class ActionManager implements ActionManagerInterface
         $action->setVerb($verb);
 
         // subject is MANDATORY. Cannot pass scalar value.
-        if (!$subject instanceof Component) {
+        if (!$subject instanceof ComponentInterface) {
             if (!is_object($subject)) {
                 $subject = $this->findOrCreateComponent($subject);
             }
@@ -78,10 +78,10 @@ class ActionManager implements ActionManagerInterface
             }
         }
 
-        $action->setSubject($subject);
+        $action->setSubject($subject, $this->actionComponentClass);
 
         foreach ($components as $type => $component) {
-            if (!$component instanceof Component && !is_scalar($component)) {
+            if (!$component instanceof ComponentInterface && !is_scalar($component)) {
                 $component = $this->findOrCreateComponent($component);
 
                 if (null === $component) {

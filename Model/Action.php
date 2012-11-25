@@ -14,10 +14,6 @@ use \DateTime;
  */
 class Action implements ActionInterface
 {
-    CONST STATUS_PENDING   = 'pending';
-    CONST STATUS_PUBLISHED = 'published';
-    CONST STATUS_FROZEN    = 'frozen';
-
     /**
      * @var integer
      */
@@ -80,12 +76,12 @@ class Action implements ActionInterface
         $actionComponent = new $actionComponentClass();
         $actionComponent->setType($type);
 
-        if ($component instanceof Component) {
+        if ($component instanceof ComponentInterface) {
             $actionComponent->setComponent($component);
         } elseif(is_scalar($component)) {
             $actionComponent->setText($component);
         } else {
-            throw new \InvalidArgumentException('Component has to be a Component or a scalar');
+            throw new \InvalidArgumentException('Component has to be a ComponentInterface or a scalar');
         }
 
         $this->addActionComponent($actionComponent);
@@ -134,7 +130,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getValidStatus()
     {
@@ -146,24 +142,25 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param string $status
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValidStatus($status)
     {
         return in_array((string) $status, $this->getValidStatus());
     }
 
-    public function setSubject(Component $component)
+    /**
+     * {@inheritdoc}
+     */
+    public function setSubject(ComponentInterface $component, $actionComponentClass)
     {
-        $this->addComponent('subject', $component);
+        $this->addComponent('subject', $component, $actionComponentClass);
 
         return $this;
     }
 
     /**
-     * @return Component
+     * {@inheritdoc}
      */
     public function getSubject()
     {
@@ -175,7 +172,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -183,9 +180,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param mixed $id id
-     *
-     * @return Action
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -195,8 +190,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param string $verb
-     * @return Action
+     * {@inheritdoc}
      */
     public function setVerb($verb)
     {
@@ -206,7 +200,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getVerb()
     {
@@ -214,8 +208,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param string $statusCurrent
-     * @return Action
+     * {@inheritdoc}
      */
     public function setStatusCurrent($statusCurrent)
     {
@@ -229,7 +222,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getStatusCurrent()
     {
@@ -237,8 +230,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param string $statusWanted
-     * @return Action
+     * {@inheritdoc}
      */
     public function setStatusWanted($statusWanted)
     {
@@ -252,7 +244,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getStatusWanted()
     {
@@ -260,8 +252,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param string $duplicateKey
-     * @return Action
+     * {@inheritdoc}
      */
     public function setDuplicateKey($duplicateKey)
     {
@@ -271,7 +262,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDuplicateKey()
     {
@@ -279,8 +270,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param integer $duplicatePriority
-     * @return Action
+     * {@inheritdoc}
      */
     public function setDuplicatePriority($duplicatePriority)
     {
@@ -290,7 +280,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getDuplicatePriority()
     {
@@ -298,10 +288,9 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param DateTime $createdAt
-     * @return Action
+     * {@inheritdoc}
      */
-    public function setCreatedAt(DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -309,7 +298,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * @return DateTime
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -317,10 +306,10 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param ActionComponent $actionComponents
+     * @param ActionComponentInterface $actionComponents
      * @return Action
      */
-    public function addActionComponent(ActionComponent $actionComponents)
+    public function addActionComponent(ActionComponentInterface $actionComponents)
     {
         $actionComponents->setAction($this);
         $this->actionComponents[] = $actionComponents;
@@ -329,9 +318,9 @@ class Action implements ActionInterface
     }
 
     /**
-     * @param ActionComponent $actionComponents
+     * @param ActionComponentInterface $actionComponents
      */
-    public function removeActionComponent(ActionComponent $actionComponents)
+    public function removeActionComponent(ActionComponentInterface $actionComponents)
     {
         $this->actionComponents->removeElement($actionComponents);
     }

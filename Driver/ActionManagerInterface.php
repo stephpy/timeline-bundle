@@ -17,9 +17,9 @@ interface ActionManagerInterface
     public function updateAction(ActionInterface $action);
 
     /**
-     * @param object $subject    Can be a Component or an other one object.
+     * @param object $subject    Can be a ComponentInterface or an other one object.
      * @param string $verb       verb
-     * @param array  $components An array of Component or other objects.
+     * @param array  $components An array of ComponentInterface or other objects.
      *
      * @return Action
      */
@@ -32,7 +32,7 @@ interface ActionManagerInterface
      * it'll be replaced by $model->getId();
      * @param null|string|array $identifier pass an array for composite keys.
      *
-     * @return Component
+     * @return ComponentInterface
      */
     public function findOrCreateComponent($model, $identifier = null);
 }

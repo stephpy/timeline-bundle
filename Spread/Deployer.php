@@ -2,9 +2,10 @@
 
 namespace Spy\TimelineBundle\Spread;
 
-use Spy\TimelineBundle\Model\Action;
+use Spy\TimelineBundle\Model\TimelineInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\TimelineBundle\Driver\TimelineManagerInterface;
 
 /**
  * Deployer
@@ -27,18 +28,25 @@ class Deployer
     protected $actionManager;
 
     /**
+     * @var TimelineManagerInterface
+     */
+    protected $timelineManager;
+
+    /**
      * @var string
      */
     protected $delivery;
 
     /**
-     * @param SpreadManager          $spreadManager spreadManager
-     * @param ActionManagerInterface $actionManager actionManager
+     * @param SpreadManager            $spreadManager   spreadManager
+     * @param ActionManagerInterface   $actionManager   actionManager
+     * @param TimelineManagerInterface $timelineManager timelineManager
      */
-    public function __construct(SpreadManager $spreadManager, ActionManagerInterface $actionManager)
+    public function __construct(SpreadManager $spreadManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager)
     {
-        $this->spreadManager = $spreadManager;
-        $this->actionManager = $actionManager;
+        $this->spreadManager   = $spreadManager;
+        $this->actionManager   = $actionManager;
+        $this->timelineManager = $timelineManager;
     }
 
     /**
@@ -50,7 +58,7 @@ class Deployer
             $this->actionManager->updateAction($action);
         }
 
-        if ($action->getStatusWanted() !== Action::STATUS_PUBLISHED) {
+        if ($action->getStatusWanted() !== ActionInterface::STATUS_PUBLISHED) {
             return;
         }
 
@@ -58,37 +66,20 @@ class Deployer
 
         foreach ($results as $context => $entries) {
             foreach ($entries as $entry) {
-                print "<pre>";
-                var_dump($context, $entry->getIdent());
-                print "</pre>";
-            }
-        }
-        exit('ici');
-
-        print "<pre>";
-        var_dump($results);
-        print "</pre>";
-        exit('ici');
-
-        /*
-        foreach ($results as $context => $values) {
-            foreach ($values as $entry) {
-                $this->provider->persist($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
-                $this->notificationManager->notify($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
+                $this->timelineManager->persist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
             }
         }
 
-        $this->provider->flush();
+        if (count($results)) {
+            $this->timelineManager->flush();
+        }
 
-        $timelineAction->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
-        $timelineAction->setStatusWanted(TimelineAction::STATUS_FROZEN);
+        $action->setStatusCurrent(ActionInterface::STATUS_PUBLISHED);
+        $action->setStatusWanted(ActionInterface::STATUS_FROZEN);
 
-        $this->timelineActionManager->updateTimelineAction($timelineAction);
+        $this->actionManager->updateAction($action);
 
-        $this->spreadManager->clear();*/
-
-
-        exit('DEPLOY');
+        $this->spreadManager->clear();
     }
 
     /**

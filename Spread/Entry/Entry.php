@@ -2,33 +2,41 @@
 
 namespace Spy\TimelineBundle\Spread\Entry;
 
-use Spy\TimelineBundle\Model\Component;
+use Spy\TimelineBundle\Model\ComponentInterface;
 
 /**
  * Entry
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Entry
+class Entry implements EntryInterface
 {
     /**
-     * @var Component
+     * @var ComponentInterface
      */
-    public $subject;
+    protected $subject;
 
     /**
-     * @param Component $subject subject
+     * @param ComponentInterface $subject subject
      */
-    public function __construct(Component $subject)
+    public function __construct(ComponentInterface $subject)
     {
         $this->subject = $subject;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdent()
     {
         return sprintf('%s:%s', $this->subject->getModel(), serialize($this->subject->getIdentifier()));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 }

@@ -6,7 +6,9 @@
 
     <mapped-superclass name="Spy\TimelineBundle\Entity\Timeline" table="spy_timeline">
 
-        <field name="context" column="context" type="string" />
+        <id name="context" column="context" type="string" />
+
+        <id name="type" column="type" type="string"  />
 
         <field name="createdAt" column="created_at" type="datetime" />
 

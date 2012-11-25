@@ -30,12 +30,10 @@ class EntryCollection implements \IteratorAggregate
     }
 
     /**
-     * set
-     *
-     * @param string $context context where you want to push
-     * @param Entry  $entry   entry you want to push
+     * @param EntryInterface $entry   entry you want to push
+     * @param string         $context context where you want to push
      */
-    public function set($context, Entry $entry)
+    public function set(EntryInterface $entry, $context)
     {
         if (!isset($this->coll[$context])) {
             $this->coll[$context] = array();
@@ -44,7 +42,7 @@ class EntryCollection implements \IteratorAggregate
         $this->coll[$context][$entry->getIdent()] = $entry;
 
         if ($this->duplicateOnGlobal && $context !== 'GLOBAL') {
-            $this->set('GLOBAL', $entry);
+            $this->set($entry, 'GLOBAL');
         }
     }
 
@@ -54,5 +52,13 @@ class EntryCollection implements \IteratorAggregate
     public function getEntries()
     {
         return $this->coll;
+    }
+
+    /**
+     * Clear entries
+     */
+    public function clear()
+    {
+        $this->coll = new \ArrayIterator();
     }
 }

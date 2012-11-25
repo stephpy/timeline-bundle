@@ -2,33 +2,38 @@
 
 namespace Spy\TimelineBundle\Model;
 
-use \DateTime;
-
 /**
- * Timeline model
+ * Timeline
  *
+ * @uses TimelineInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Timeline
+class Timeline implements TimelineInterface
 {
-    /**
-     * @var integer
-     */
-    protected $id;
-
     /**
      * @var string
      */
     protected $context;
 
     /**
-     * @var \DateTime
+     * @var string
      */
-    protected $createdAt;
+    protected $type = self::TYPE_TIMELINE;
 
     /**
      * @var Component
      */
     protected $subject;
+
+    /**
+     * @var Action
+     */
+    protected $action;
+
+    /**
+     * @var \DateTime
+     */
+    protected $createdAt;
 
     /**
      * Constructor
@@ -39,16 +44,7 @@ class Timeline
     }
 
     /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $context
-     * @return Timeline
+     * @{inheritdoc}
      */
     public function setContext($context)
     {
@@ -58,7 +54,7 @@ class Timeline
     }
 
     /**
-     * @return string
+     * @{inheritdoc}
      */
     public function getContext()
     {
@@ -66,8 +62,25 @@ class Timeline
     }
 
     /**
-     * @param DateTime $createdAt
-     * @return Timeline
+     * @{inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @{inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -77,7 +90,7 @@ class Timeline
     }
 
     /**
-     * @return DateTime
+     * @{inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -85,10 +98,9 @@ class Timeline
     }
 
     /**
-     * @param Component $subject
-     * @return Timeline
+     * @{inheritdoc}
      */
-    public function setSubject(Component $subject)
+    public function setSubject(ComponentInterface $subject)
     {
         $this->subject = $subject;
 
@@ -96,10 +108,28 @@ class Timeline
     }
 
     /**
-     * @return Component
+     * @{inheritdoc}
      */
     public function getSubject()
     {
         return $this->subject;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function setAction(ActionInterface $action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function getAction()
+    {
+        return $this->action;
     }
 }
