@@ -158,7 +158,7 @@ class Action implements ActionInterface
     {
         foreach ($this->getActionComponents() as $actionComponent) {
             if ($actionComponent->getType() == $type) {
-                return $actionComponent->getComponent();
+                return $actionComponent->getText() ?: $actionComponent->getComponent();
             }
         }
     }
