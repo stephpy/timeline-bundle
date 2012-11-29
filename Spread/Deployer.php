@@ -67,7 +67,7 @@ class Deployer
 
         foreach ($results as $context => $entries) {
             foreach ($entries as $entry) {
-                $this->timelineManager->persist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
+                $this->timelineManager->createAndPersist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
             }
         }
 

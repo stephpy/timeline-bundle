@@ -2,10 +2,13 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * ActionManager
@@ -52,6 +55,83 @@ class ActionManager implements ActionManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function findActionsForIds(array $ids)
+    {
+        if (empty($ids)) {
+            return array();
+        }
+
+        $qb = $this->objectManager
+            ->getRepository($this->actionClass)
+            ->createQueryBuilder('ta');
+
+        $qb
+            ->add('where', $qb->expr()->in('a.id', '?1'))
+            ->orderBy('a.createdAt', 'DESC')
+            ->setParameter(1, $ids);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findActionsWithStatusWantedPublished($limit = 100)
+    {
+        return $this->objectManager
+            ->getRepository($this->actionClass)
+            ->createQueryBuilder('a')
+            ->where('a.statusWanted = :status')
+            ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countActions(ComponentInterface $subject, $status = ActionInterface::STATUS_PUBLISHED)
+    {
+        if (!$subject->getId()) {
+            throw new \InvalidArgumentException('Subject has to be persisted');
+        }
+
+        return (int) $this->getQueryBuilderForSubject($subject)
+            ->select('count(a)')
+            ->andWhere('a.statusCurrent = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubjectActions(ComponentInterface $subject, array $options = array())
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults(array(
+            'offset'  => 0,
+            'limit'   => 10,
+            'status'  => ActionInterface::STATUS_PUBLISHED,
+        ));
+
+        $options = $resolver->resolve($options);
+
+        return $this->getQueryBuilderForSubject($subject)
+            ->orderBy('a.createdAt', 'DESC')
+            ->andWhere('a.statusCurrent = :status')
+            ->setParameter('status', $options['status'])
+            ->setFirstResult($options['offset'])
+            ->setMaxResults($options['limit'])
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateAction(ActionInterface $action)
     {
         $this->objectManager->persist($action);
@@ -64,7 +144,6 @@ class ActionManager implements ActionManagerInterface
     public function create($subject, $verb, array $components = array())
     {
         $action = new $this->actionClass();
-        $action->addComponent('subject', $subject, $this->actionComponentClass);
         $action->setVerb($verb);
 
         // subject is MANDATORY. Cannot pass scalar value.
@@ -184,6 +263,16 @@ class ActionManager implements ActionManagerInterface
         }
 
         return array($model, $identifier);
+    }
+
+    protected function getQueryBuilderForSubject(ComponentInterface $subject)
+    {
+        return $this->objectManager
+            ->getRepository($this->actionClass)
+            ->createQueryBuilder('a')
+            ->innerJoin('a.actionComponents', 'ac', Expr\Join::WITH, '(ac.action = a AND ac.component = :subject AND ac.type = :type)')
+            ->setParameter('subject', $subject)
+            ->setParameter('type', 'subject');
     }
 
     protected function getComponentRepository()

@@ -3,6 +3,7 @@
 namespace Spy\TimelineBundle\Driver;
 
 use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\ComponentInterface;
 
 /**
  * ActionManagerInterface
@@ -11,6 +12,36 @@ use Spy\TimelineBundle\Model\ActionInterface;
  */
 interface ActionManagerInterface
 {
+    /**
+     * @param array $ids ids
+     *
+     * @return array
+     */
+    public function findActionsForIds(array $ids);
+
+    /**
+     * @param int $limit limit
+     *
+     * @return array
+     */
+    public function findActionsWithStatusWantedPublished($limit = 100);
+
+    /**
+     * @param ComponentInterface $subject subject
+     * @param array              $status  status
+     *
+     * @return integer
+     */
+    public function countActions(ComponentInterface $subject, $status = ActionInterface::STATUS_PUBLISHED);
+
+    /**
+     * @param ComponentInterface $subject subject
+     * @param array              $options offset, limit, status
+     *
+     * @return array
+     */
+    public function getSubjectActions(ComponentInterface $subject, array $options = array());
+
     /**
      * @param ActionInterface $action action
      */
