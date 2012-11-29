@@ -47,7 +47,7 @@ class Action implements ActionInterface
     /**
      * @var boolean
      */
-    protected $dupplicated = false;
+    protected $duplicated = false;
 
     /**
      * @var DateTime

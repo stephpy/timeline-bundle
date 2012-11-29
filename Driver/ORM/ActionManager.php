@@ -248,12 +248,32 @@ class ActionManager implements ActionManagerInterface
         }
 
         if (is_object($model)) {
-            if (!method_exists($model, 'getId')) {
-                throw new \LogicException('Model must have a getId method.');
-            }
+            $modelClass = get_class($model);
+            $metadata   = $this->objectManager->getClassMetadata($modelClass);
 
-            $identifier = $model->getId();
-            $model      = Doctrine::unsetProxyClass($model);
+            // if object is linked to doctrine
+            if (null !== $metadata) {
+                $fields     = $metadata->getIdentifier();
+                $many       = count($fields) > 1;
+
+                $identifier = array();
+                foreach ($fields as $field) {
+                    $identifier[] = (string) $metadata->reflFields[$field]->getValue($model);
+                }
+
+                if (!$many) {
+                    $identifier = current($identifier);
+                }
+
+                $model = $metadata->name;
+            } else {
+                if (!method_exists($model, 'getId')) {
+                    throw new \LogicException('Model must have a getId method.');
+                }
+
+                $identifier = $model->getId();
+                $model      = $modelClass;
+            }
         }
 
         if (is_scalar($identifier)) {
