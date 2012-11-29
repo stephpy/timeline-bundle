@@ -16,32 +16,30 @@ spy_timeline:
 
 ```php
 <?php
+$subject = $actionManager->findOrCreateComponent('some\model', array(1, 2));
 
 $unread = $this->get('spy_timeline.unread_notifications');
 //count how many unread message for global context
-$count  = $unread->countKeys('MySubject', 'MyId'); // on global context
-$count  = $unread->countKeys('MySubject', 'MyId', 'MyContext');
+$count  = $unread->countKeys($subject); // on global context
+$count  = $unread->countKeys($subject, 'MyContext');
 
 // remove ONE unread notification
-$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId'); // on global context
-$unread->markAsReadTimelineAction('MySubject', 'MyId', 'TimelineActionId', 'MyContext');
+$unread->markAsReadTimelineAction($subject, 'TimelineActionId'); // on global context
+$unread->markAsReadTimelineAction($subject, 'TimelineActionId', 'MyContext');
 
 // remove several unread notifications
 $unread->markAsReadTimelineActions(array(
-	array('GLOBAL', 'MySubject', 'MyId', 'TimelineActionId'),
-	array('GLOBAL', 'MySubject', 'MyId', 'TimelineActionId'),
+	array('GLOBAL', $subject, 'TimelineActionId'),
+	array('GLOBAL', $subject, 'TimelineActionId'),
 	...
 ));
 
 // all unread notifications
-$unread->markAllAsRead('MySubject', 'MyId'); // on global context
-$unread->markAllAsRead('MySubject', 'MyId', 'MyContext');
+$unread->markAllAsRead($subject); // on global context
+$unread->markAllAsRead($subject, 'MyContext');
 
 // retrieve timeline actions
-$actions = $unread->getTimelineActions('MySubject', 'MyId'); // on global context, no options
-$actions = $unread->getTimelineActions('MySubject', 'MyId', 'MyContext', $options);
+$actions = $unread->getUnreadNotifications($subject); // on global context, no options
+$actions = $unread->getUnreadNotifications($subject, 'MyContext', $options);
 // in options you can define offset, limit, etc ...
-
-// apply filters ?
-$actions = $this->get('spy_timeline.manager')->applyFilters($actions);
 ```

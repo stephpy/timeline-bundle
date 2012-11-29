@@ -2,10 +2,11 @@
 
 namespace Spy\TimelineBundle\Spread;
 
-use Spy\TimelineBundle\Model\TimelineInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Notification\NotificationManager;
 
 /**
  * Deployer
@@ -23,6 +24,11 @@ class Deployer
     protected $spreadManager;
 
     /**
+     * @var NotificationManager
+     */
+    protected $notificationManager;
+
+    /**
      * @var ActionManagerInterface
      */
     protected $actionManager;
@@ -38,15 +44,17 @@ class Deployer
     protected $delivery;
 
     /**
-     * @param SpreadManager            $spreadManager   spreadManager
-     * @param ActionManagerInterface   $actionManager   actionManager
-     * @param TimelineManagerInterface $timelineManager timelineManager
+     * @param SpreadManager            $spreadManager       spreadManager
+     * @param NotificationManager      $notificationManager notificationManager
+     * @param ActionManagerInterface   $actionManager       actionManager
+     * @param TimelineManagerInterface $timelineManager     timelineManager
      */
-    public function __construct(SpreadManager $spreadManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager)
+    public function __construct(SpreadManager $spreadManager, NotificationManager $notificationManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager)
     {
-        $this->spreadManager   = $spreadManager;
-        $this->actionManager   = $actionManager;
-        $this->timelineManager = $timelineManager;
+        $this->spreadManager       = $spreadManager;
+        $this->notificationManager = $notificationManager;
+        $this->actionManager       = $actionManager;
+        $this->timelineManager     = $timelineManager;
     }
 
     /**
@@ -68,6 +76,7 @@ class Deployer
         foreach ($results as $context => $entries) {
             foreach ($entries as $entry) {
                 $this->timelineManager->createAndPersist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
+                $this->notificationManager->notify($action, $context, $entry->getSubject());
             }
         }
 

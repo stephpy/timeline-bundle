@@ -6,7 +6,6 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
-- Notifiers
 - Filters
 - Redis support
 - Twig (need review)

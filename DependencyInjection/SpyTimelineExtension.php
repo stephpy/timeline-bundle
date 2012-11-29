@@ -30,6 +30,7 @@ class SpyTimelineExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+        $loader->load('notification.xml');
         $loader->load('spread.xml');
         $loader->load('twig.xml');
 
@@ -59,6 +60,14 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.render.fallback', $render['fallback']);
         $container->setParameter('spy_timeline.render.i18n.fallback', isset($render['i18n']) && isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null);
         $container->setParameter('spy_timeline.twig.resources', $render['resources']);
+
+        // notifiers
+        $notifiers  = $config['notifiers'];
+        $definition = $container->getDefinition('spy_timeline.notification_manager');
+
+        foreach ($notifiers as $notifier) {
+            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
+        }
     }
 
     private function loadORMDriver($container, $loader, $config)
