@@ -150,6 +150,20 @@ class Action implements ActionInterface
     }
 
     /**
+     * @param string $type type
+     *
+     * @return ComponentInterface|null
+     */
+    public function getComponent($type)
+    {
+        foreach ($this->getActionComponents() as $actionComponent) {
+            if ($actionComponent->getType() == $type) {
+                return $actionComponent->getComponent();
+            }
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setSubject(ComponentInterface $component, $actionComponentClass)
@@ -164,11 +178,7 @@ class Action implements ActionInterface
      */
     public function getSubject()
     {
-        foreach ($this->getActionComponents() as $actionComponent) {
-            if ($actionComponent->getType() == 'subject') {
-                return $actionComponent->getComponent();
-            }
-        }
+        return $this->getComponent('subject');
     }
 
     /**

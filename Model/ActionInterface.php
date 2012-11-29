@@ -53,6 +53,13 @@ interface ActionInterface
     public function isDuplicated();
 
     /**
+     * @param string $type type
+     *
+     * @return ComponentInterface|null
+     */
+    public function getComponent($type);
+
+    /**
      * @param ComponentInterface  $component            component
      * @param string              $actionComponentClass actionComponentClass
      *
@@ -61,7 +68,7 @@ interface ActionInterface
     public function setSubject(ComponentInterface $component, $actionComponentClass);
 
     /**
-     * @return ComponentInterface
+     * @return ComponentInterface|null
      */
     public function getSubject();
 

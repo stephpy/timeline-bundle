@@ -6,13 +6,14 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
-- Configuration #[36](https://github.com/stephpy/TimelineBundle/issues/36)
-- Timeline, Action, Component #[35](https://github.com/stephpy/TimelineBundle/issues/35)
 - Write tests with Atoum.
 - DataHydrator #[33](https://github.com/stephpy/TimelineBundle/issues/33)
+- Redis support
 - MongoDB Support #[28](https://github.com/stephpy/TimelineBundle/issues/28)
 - Paginator #[37](https://github.com/stephpy/TimelineBundle/issues/37)
+- Documentation
 - Propel support ?
+- Review of filters and notifiers, could we use TreeBuilder on them to easily inject configuration.
 - Any suggestion ?
 
 
