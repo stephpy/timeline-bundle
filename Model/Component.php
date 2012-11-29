@@ -28,6 +28,13 @@ class Component implements ComponentInterface
     protected $identifier;
 
     /**
+     * Data defined on this component.
+     *
+     * @var mixed
+     */
+    protected $data;
+
+    /**
      * @var ArrayCollection
      */
     protected $actionComponents;
@@ -41,11 +48,29 @@ class Component implements ComponentInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getHash()
     {
         return $this->getModel().serialize($this->getIdentifier());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**

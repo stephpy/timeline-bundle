@@ -31,6 +31,7 @@ class SpyTimelineExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('spread.xml');
+        $loader->load('twig.xml');
 
         if (isset($config['drivers'])) {
             if (isset($config['drivers']['orm'])) {
@@ -51,6 +52,13 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
         $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
         $container->setParameter('spy_timeline.spread.on_global_context', $config['spread']['on_global_context']);
+
+        //twig
+        $render = $config['render'];
+        $container->setParameter('spy_timeline.render.path', $render['path']);
+        $container->setParameter('spy_timeline.render.fallback', $render['fallback']);
+        $container->setParameter('spy_timeline.render.i18n.fallback', isset($render['i18n']) && isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null);
+        $container->setParameter('spy_timeline.twig.resources', $render['resources']);
     }
 
     private function loadORMDriver($container, $loader, $config)

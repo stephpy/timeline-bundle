@@ -19,6 +19,18 @@ interface ComponentInterface
     public function getHash();
 
     /**
+     * @param mixed $data data
+     *
+     * @return Component
+     */
+    public function setData($data);
+
+    /**
+     * @return mixed
+     */
+    public function getData();
+
+    /**
      * @param mixed $id id
      *
      * @return ComponentInterface

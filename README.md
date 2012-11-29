@@ -6,10 +6,10 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
-- Twig
-- Filters
 - Notifiers
+- Filters
 - Redis support
+- Twig (need review)
 - Paginator #[37](https://github.com/stephpy/TimelineBundle/issues/37)
 - Documentation
 - Write tests with Atoum.
@@ -36,10 +36,3 @@ Launch tests:
 composer install
 bin/atoum -d Tests/Units
 ```
-
----------------
-
-# Wishlist
-
-- Other providers ( contribute guys !)
-- Propel/Doctrine ODM supports

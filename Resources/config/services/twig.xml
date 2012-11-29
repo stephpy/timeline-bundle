@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="spy_timeline.twig.extension.timeline" class="Spy\TimelineBundle\Twig\Extension\TimelineExtension">
+            <tag name="twig.extension" />
+            <argument type="service" id="twig" />
+            <argument type="collection">
+                <argument key="path">%spy_timeline.render.path%</argument>
+                <argument key="fallback">%spy_timeline.render.fallback%</argument>
+                <argument key="i18n_fallback">%spy_timeline.render.i18n.fallback%</argument>
+            </argument>
+            <argument>%spy_timeline.twig.resources%</argument>
+        </service>
+    </services>
+
+</container>
