@@ -72,7 +72,6 @@ class TimelineManager implements TimelineManagerInterface
             throw new \Exception('Not supported ATM, driver timeline = ORM could have only driver action = ORM');
         }
 
-        // here we should be aware if components are delivered by ORM too.
         $results = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->innerJoin('t.action', 'a')
             ->leftJoin('a.actionComponents', 'ac')
