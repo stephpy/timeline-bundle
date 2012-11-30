@@ -63,8 +63,7 @@ $subject       = $actionManager->findOrCreateComponent('a\model', array(1, 2));
 // cod here is an object. (you can add a component as example of subject)
 // you can add as many components as you want. subject is mandatory !
 $action = $actionManager->create($subject, 'verb', array('directComplement' => $cod));
-
-$this->get('spy_timeline.spread.deployer')->deploy($action);
+$actionManager->updateAction($action);
 
 ```
 

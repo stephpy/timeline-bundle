@@ -11,7 +11,7 @@
     </parameters>
 
     <services>
-        <service id="spy_timeline.spread.deployer" class="%spy_timeline.spread.deployer.class%">
+        <service id="spy_timeline.spread.deployer.default" class="%spy_timeline.spread.deployer.class%">
             <argument type="service" id="spy_timeline.spread.manager" />
             <argument type="service" id="spy_timeline.notification_manager" />
             <argument type="service" id="spy_timeline.action_manager" />

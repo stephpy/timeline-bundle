@@ -172,7 +172,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->booleanNode('on_subject')->defaultValue(true)->end()
                         ->booleanNode('on_global_context')->defaultValue(true)->end()
-                        ->scalarNode('deployer')->defaultValue('spy_timeline.spread.deployer')->end()
+                        ->scalarNode('deployer')->defaultValue('spy_timeline.spread.deployer.default')->end()
                         ->scalarNode('delivery')->defaultValue('immediate')->end()
                     ->end()
                 ->end()

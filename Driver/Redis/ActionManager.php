@@ -6,6 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
+use Spy\TimelineBundle\Driver\AbstractActionManager;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
@@ -13,10 +14,11 @@ use Spy\TimelineBundle\Driver\ActionManagerInterface;
 /**
  * ActionManager
  *
+ * @uses AbstractActionManager
  * @uses ActionManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class ActionManager implements ActionManagerInterface
+class ActionManager extends AbstractActionManager implements ActionManagerInterface
 {
     /**
      * @var PredisClient|PhpredisClient
@@ -113,6 +115,8 @@ class ActionManager implements ActionManagerInterface
         $action->setId($this->getNextId());
 
         $this->client->hset($this->getActionKey(), $action->getId(), serialize($action));
+
+        $this->deployActionDependOnDelivery($action);
     }
 
     /**

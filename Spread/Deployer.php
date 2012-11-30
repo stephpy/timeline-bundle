@@ -39,11 +39,6 @@ class Deployer
     protected $timelineManager;
 
     /**
-     * @var string
-     */
-    protected $delivery;
-
-    /**
      * @param SpreadManager            $spreadManager       spreadManager
      * @param NotificationManager      $notificationManager notificationManager
      * @param ActionManagerInterface   $actionManager       actionManager
@@ -62,10 +57,6 @@ class Deployer
      */
     public function deploy(ActionInterface $action)
     {
-        if (!$action->getId()) {
-            $this->actionManager->updateAction($action);
-        }
-
         if ($action->getStatusWanted() !== ActionInterface::STATUS_PUBLISHED) {
             return;
         }
@@ -104,5 +95,13 @@ class Deployer
         }
 
         $this->delivery = $delivery;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDeliveryImmediate()
+    {
+        return self::DELIVERY_IMMEDIATE === $this->delivery;
     }
 }

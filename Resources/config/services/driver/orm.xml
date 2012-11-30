@@ -14,6 +14,9 @@
             <argument type="service" id="spy_timeline.driver.orm.object_manager" />
             <argument type="service" id="spy_timeline.action_manager" />
             <argument>%spy_timeline.class.timeline%</argument>
+            <call method="setDeployer">
+                <argument type="service" id="spy_timeline.spread.deployer" />
+            </call>
         </service>
 
         <service id="spy_timeline.action_manager.orm" class="%spy_timeline.action_manager.orm.class%">

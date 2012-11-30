@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Config\Definition\Processor;
-use Spy\TimelineBundle\Spread\Deployer;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -64,6 +63,7 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
         $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
         $container->setParameter('spy_timeline.spread.on_global_context', $config['spread']['on_global_context']);
+        $container->setAlias('spy_timeline.spread.deployer', $config['spread']['deployer']);
 
         //twig
         $render = $config['render'];

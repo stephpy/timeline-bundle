@@ -6,6 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\TimelineBundle\Driver\AbstractActionManager;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
@@ -13,10 +14,11 @@ use Doctrine\ORM\Query\Expr;
 /**
  * ActionManager
  *
+ * @uses AbstractActionManager
  * @uses ActionManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class ActionManager implements ActionManagerInterface
+class ActionManager extends AbstractActionManager implements ActionManagerInterface
 {
     /**
      * @var ObjectManager
@@ -115,6 +117,8 @@ class ActionManager implements ActionManagerInterface
     {
         $this->objectManager->persist($action);
         $this->objectManager->flush();
+
+        $this->deployActionDependOnDelivery($action);
     }
 
     /**
