@@ -56,7 +56,7 @@ class EntryUnaware implements EntryInterface
      */
     public function getIdent()
     {
-        return $this->subjectModel.serialize($this->subjectId);
+        return $this->subjectModel.'#'.serialize($this->subjectId);
     }
 
     /**

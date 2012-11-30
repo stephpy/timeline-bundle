@@ -7,7 +7,6 @@ Roadmap before stable release:
 ==============================
 
 - Filters
-- Redis support
 - Twig (need review)
 - Paginator #[37](https://github.com/stephpy/TimelineBundle/issues/37)
 - Documentation

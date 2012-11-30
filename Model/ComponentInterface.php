@@ -65,23 +65,4 @@ interface ComponentInterface
      * @return string
      */
     public function getIdentifier();
-
-    /**
-     * @param ActionComponent $actionComponents actionComponents
-     *
-     * @return ComponentInterface
-     */
-    public function addActionComponent(ActionComponent $actionComponents);
-
-    /**
-     * @param ActionComponent $actionComponents actionComponents
-     *
-     * @return ComponentInterface
-     */
-    public function removeActionComponent(ActionComponent $actionComponents);
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getActionComponents();
 }

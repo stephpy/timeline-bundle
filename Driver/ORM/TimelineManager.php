@@ -66,12 +66,6 @@ class TimelineManager implements TimelineManagerInterface
 
         $options = $resolver->resolve($options);
 
-        // poor, if actionManager is ORM default ActionManager, we'll join tables
-        // instead of doing one more call. @todo improve this part.
-        if (!$this->actionManager instanceof ActionManager) {
-            throw new \Exception('Not supported ATM, driver timeline = ORM could have only driver action = ORM');
-        }
-
         $results = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->innerJoin('t.action', 'a')
             ->leftJoin('a.actionComponents', 'ac')

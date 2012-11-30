@@ -35,24 +35,41 @@ class Component implements ComponentInterface
     protected $data;
 
     /**
-     * @var ArrayCollection
-     */
-    protected $actionComponents;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->actionComponents = new ArrayCollection();
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getHash()
     {
-        return $this->getModel().serialize($this->getIdentifier());
+        return $this->getModel().'#'.serialize($this->getIdentifier());
+    }
+
+    /**
+     * @param string $hash hash
+     *
+     * @return ComponentInterface
+     */
+    public static function createFromHash($hash)
+    {
+        $data = explode('#', $hash);
+        if (count($data) == 1) {
+            throw new \InvalidArgumentException('Invalid hash');
+        }
+
+        $model      = array_shift($data);
+        $identifier = unserialize(implode('', $data));
+
+        $instance   = new static();
+        $instance->setModel($model);
+        $instance->setIdentifier($identifier);
+
+        return $instance;
+    }
+
+    /**
+     * serialization fields
+     */
+    public function __sleep()
+    {
+        return array('id', 'model', 'identifier');
     }
 
     /**
@@ -132,31 +149,5 @@ class Component implements ComponentInterface
     public function getIdentifier()
     {
         return $this->identifier;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addActionComponent(ActionComponent $actionComponents)
-    {
-        $this->actionComponents[] = $actionComponents;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeActionComponent(ActionComponent $actionComponents)
-    {
-        $this->actionComponents->removeElement($actionComponents);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getActionComponents()
-    {
-        return $this->actionComponents;
     }
 }

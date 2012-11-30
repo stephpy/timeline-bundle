@@ -122,9 +122,20 @@ class SpyTimelineExtension extends Extension
 
     private function loadRedisDriver($container, $loader, $config)
     {
+        $classes = isset($config['classes']) ? $config['classes'] : array();
+
+        $parameters = array(
+            'action', 'component', 'action_component',
+        );
+
+        foreach ($parameters as $parameter) {
+            if (isset($classes[$parameter])) {
+                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+            }
+        }
+
         $container->setParameter('spy_timeline.driver.redis.pipeline', $config['pipeline']);
-        $container->setParameter('spy_timeline.driver.redis.timeline_key_prefix', $config['timeline_key_prefix']);
-        $container->setParameter('spy_timeline.driver.redis.action_key_prefix', $config['action_key_prefix']);
+        $container->setParameter('spy_timeline.driver.redis.prefix', $config['prefix']);
 
         $container->setAlias('spy_timeline.driver.redis.client', $config['client']);
 

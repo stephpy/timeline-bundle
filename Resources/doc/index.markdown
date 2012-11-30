@@ -85,10 +85,11 @@ $this->get('spy_timeline.spread.deployer')->deploy($action);
 
 ```yaml
 spy_timeline:
-
-    drivers:
+    drivers: # define only one.
         orm:
             object_manager: ~   # doctrine.orm.entity_manager
+            timeline_manager: ~
+            action_manager: ~
             classes:
                 timeline:         'Acme\YourBundle\Entity\Timeline'
                 action:           'Acme\YourBundle\Entity\Action'
@@ -96,18 +97,26 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         odm:
             object_manager: ~   # doctrine.odm.entity_manager
+            timeline_manager: ~
+            action_manager: ~
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
                 action:           'Acme\YourBundle\Document\Action'
                 component:        'Acme\YourBundle\Document\Component'
                 action_component: 'Acme\YourBundle\Document\ActionComponent'
         redis:
-            client:               ~ # snc_redis.default
-            timeline_key_prefix:  timeline:
-            action_key_prefix:    timeline:action
+            client:           ~ # snc_redis.default
+            pipeline:         true
+            prefix:           vlr_timeline
+            timeline_manager: ~
+            action_manager: ~
+            classes:
+                action:           'Acme\YourBundle\Document\Action'
+                component:        'Acme\YourBundle\Document\Component'
+                action_component: 'Acme\YourBundle\Document\ActionComponent'
 
-    timeline_manager: orm   # orm, odm, redis or user provided
-    action_manager:   orm   # orm, odm, redis or user provided
+    timeline_manager: ~ # use custom or let it.
+    action_manager:   ~ #  use custom or let it.
 
     notifiers:
         - highco.timeline.unread_notifications
