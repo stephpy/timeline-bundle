@@ -179,7 +179,7 @@ class ActionManager implements ActionManagerInterface
      */
     public function findOrCreateComponent($model, $identifier = null)
     {
-        list ($model, $identifier) = $this->clearModelAndIdentifier($model, $identifier);
+        list ($model, $identifier) = $this->resolveModelAndIdentifier($model, $identifier);
 
         if (empty($model) || empty($identifier)) {
             return null;
@@ -207,7 +207,7 @@ class ActionManager implements ActionManagerInterface
      */
     public function createComponent($model, $identifier = null)
     {
-        list ($model, $identifier) = $this->clearModelAndIdentifier($model, $identifier);
+        list ($model, $identifier) = $this->resolveModelAndIdentifier($model, $identifier);
 
         if (empty($model) || empty($identifier)) {
             return null;
@@ -241,7 +241,7 @@ class ActionManager implements ActionManagerInterface
             ->getResult();
     }
 
-    protected function clearModelAndIdentifier($model, $identifier)
+    protected function resolveModelAndIdentifier($model, $identifier)
     {
         if (!is_object($model) && empty($identifier)) {
             throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
