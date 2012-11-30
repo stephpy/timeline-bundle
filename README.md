@@ -8,7 +8,7 @@ Integrate [timeline](https://github.com/stephpy/timeline) on Symfony2.
 
 Supports 2.* Symfony Framework.
 
-[![Build Status](https://secure.travis-ci.org/stephpy/TimelineBundle.png)](http://travis-ci.org/stephpy/TimelineBundle)
+[![Build Status](https://secure.travis-ci.org/stephpy/TimelineBundle.png?branch=master)](http://travis-ci.org/stephpy/TimelineBundle)
 
 Build timeline/wall for an entity easily.
 
