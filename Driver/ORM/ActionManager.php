@@ -55,27 +55,6 @@ class ActionManager implements ActionManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findActionsForIds(array $ids)
-    {
-        if (empty($ids)) {
-            return array();
-        }
-
-        $qb = $this->objectManager
-            ->getRepository($this->actionClass)
-            ->createQueryBuilder('ta');
-
-        $qb
-            ->add('where', $qb->expr()->in('a.id', '?1'))
-            ->orderBy('a.createdAt', 'DESC')
-            ->setParameter(1, $ids);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
         return $this->objectManager

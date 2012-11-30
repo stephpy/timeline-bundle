@@ -13,13 +13,6 @@ use Spy\TimelineBundle\Model\ComponentInterface;
 interface ActionManagerInterface
 {
     /**
-     * @param array $ids ids
-     *
-     * @return array
-     */
-    public function findActionsForIds(array $ids);
-
-    /**
      * @param int $limit limit
      *
      * @return array

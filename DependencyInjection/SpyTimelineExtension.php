@@ -34,20 +34,31 @@ class SpyTimelineExtension extends Extension
         $loader->load('spread.xml');
         $loader->load('twig.xml');
 
+        $driver = null;
+
         if (isset($config['drivers'])) {
             if (isset($config['drivers']['orm'])) {
                 $this->loadORMDriver($container, $loader, $config['drivers']['orm']);
-            }
-            if (isset($config['drivers']['odm'])) {
+                $driver = 'orm';
+            } elseif (isset($config['drivers']['odm'])) {
                 $this->loadODMDriver($container, $loader, $config['drivers']['odm']);
-            }
-            if (isset($config['drivers']['redis'])) {
+                $driver = 'odm';
+            } elseif (isset($config['drivers']['redis'])) {
                 $this->loadRedisDriver($container, $loader, $config['drivers']['redis']);
+                $driver = 'redis';
             }
         }
 
-        $container->setAlias('spy_timeline.timeline_manager', $config['timeline_manager']);
-        $container->setAlias('spy_timeline.action_manager', $config['action_manager']);
+        if (!$driver) {
+            $timelineManager = $config['timeline_manager'];
+            $actionManager   = $config['action_manager'];
+        } else {
+            $timelineManager = isset($config['timeline_manager']) ? $config['timeline_manager'] : sprintf('spy_timeline.timeline_manager.%s', $driver);
+            $actionManager   = isset($config['action_manager'])   ? $config['action_manager'] : sprintf('spy_timeline.action_manager.%s', $driver);
+        }
+
+        $container->setAlias('spy_timeline.timeline_manager', $timelineManager);
+        $container->setAlias('spy_timeline.action_manager', $actionManager);
 
         // spreads
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
@@ -73,6 +84,7 @@ class SpyTimelineExtension extends Extension
     private function loadORMDriver($container, $loader, $config)
     {
         $classes = isset($config['classes']) ? $config['classes'] : array();
+
         $parameters = array(
             'timeline', 'action', 'component', 'action_component',
         );
@@ -91,7 +103,6 @@ class SpyTimelineExtension extends Extension
     private function loadODMDriver($container, $loader, $config)
     {
         exit('not yet supported');
-
         $classes = isset($config['classes']) ? $config['classes'] : array();
 
         $parameters = array(
@@ -111,8 +122,7 @@ class SpyTimelineExtension extends Extension
 
     private function loadRedisDriver($container, $loader, $config)
     {
-        exit('not yet supported');
-
+        $container->setParameter('spy_timeline.driver.redis.pipeline', $config['pipeline']);
         $container->setParameter('spy_timeline.driver.redis.timeline_key_prefix', $config['timeline_key_prefix']);
         $container->setParameter('spy_timeline.driver.redis.action_key_prefix', $config['action_key_prefix']);
 
