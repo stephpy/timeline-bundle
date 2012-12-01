@@ -6,6 +6,7 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
+- Add your own filters
 - Twig (need review)
 - Paginator #[37](https://github.com/stephpy/TimelineBundle/issues/37)
 - Documentation

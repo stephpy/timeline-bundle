@@ -53,7 +53,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->validate()
                 ->ifTrue(function($v) {
-                    if (count($v['drivers']) == 0) {
+                    if (!isset($v['drivers']) || count($v['drivers']) == 0) {
                         return !isset($v['timeline_manager']) || !isset($v['action_manager']);
                     }
 

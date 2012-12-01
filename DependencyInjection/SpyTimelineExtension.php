@@ -61,7 +61,7 @@ class SpyTimelineExtension extends Extension
         $container->setAlias('spy_timeline.action_manager', $actionManager);
 
         // filters
-        $filters       = $config['filters'];
+        $filters       = isset($config['filters']) ? $config['filters'] : array();
         $filterManager = $container->getDefinition('spy_timeline.filter.manager');
 
         if (isset($filters['duplicate_key'])) {
