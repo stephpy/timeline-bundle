@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mongo-mapping xmlns="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping
+                        http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
+
+    <mapped-superclass name="Highco\TimelineBundle\Document\TimelineAction">
+
+        <field name="subjectModel" fieldName="subject_model" type="string" />
+
+        <field name="subjectId" fieldName="subject_id" type="int" />
+
+        <field name="verb" fieldName="verb" type="string" />
+
+        <field name="directComplementText" fieldName="direct_complement_text" type="string" nullable="true" />
+
+        <field name="directComplementModel" fieldName="direct_complement_model" type="string" nullable="true" />
+
+        <field name="directComplementId" fieldName="direct_complement_id" type="int" nullable="true" />
+
+        <field name="indirectComplementText" fieldName="indirect_complement_text" type="string" nullable="true" />
+
+        <field name="indirectComplementModel" fieldName="indirect_complement_model" type="string" nullable="true" />
+
+        <field name="indirectComplementId" fieldName="indirect_complement_id" type="int" nullable="true" />
+
+        <field name="statusCurrent" fieldName="status_current" type="string" />
+
+        <field name="statusWanted" fieldName="status_wanted" type="string" />
+
+        <field name="duplicateKey" fieldName="duplicate_key" type="string" nullable="true" />
+
+        <field name="duplicatePriority" fieldName="duplicate_priority" type="int" nullable="true" />
+
+        <field name="createdAt" fieldName="created_at" type="datetime" />
+
+    </mapped-superclass>
+
+</doctrine-mongo-mapping>

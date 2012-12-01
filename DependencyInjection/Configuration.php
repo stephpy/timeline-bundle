@@ -10,31 +10,36 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * @uses ConfigurationInterface
  * @author Stephane PY <py.stephane1@gmail.com>
+ * @author Chris Jones <leeked@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * Generates the configuration tree builder.
-     *
-     * @return TreeBuilder The tree builder
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
-        $tb = new TreeBuilder();
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('highco_timeline');
 
-        $tb->root('highco_timeline')
-            ->validate()
-                ->ifTrue(function($v){return 'orm' === $v['db_driver'] && empty($v['timeline_action_class']);})
-                ->thenInvalid('The doctrine model class must be defined by using the "timeline_action_class" key.')
-            ->end()
+        $supportedDrivers = array('orm', 'mongodb');
+
+        $rootNode
             ->children()
-                ->scalarNode('timeline_action_class')->end()
-                ->scalarNode('db_driver')->defaultValue('orm')->cannotBeEmpty()->end()
+                ->scalarNode('db_driver')
+                    ->validate()
+                        ->ifNotInArray($supportedDrivers)
+                        ->thenInvalid('The driver %s is not supported. Please choose one of ' . json_encode($supportedDrivers))
+                    ->end()
+                    ->cannotBeOverwritten()
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('timeline_action_class')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('timeline_action_manager')->defaultValue('highco.timeline_action_manager.default')->end()
                 ->arrayNode('notifiers')
                     ->useAttributeAsKey('options')->prototype('scalar')->end()
-                    ->defaultValue(array(
-                    ))
+                    ->defaultValue(array())
                 ->end()
                 ->arrayNode('filters')
                     ->useAttributeAsKey('filters')
@@ -127,8 +132,11 @@ class Configuration implements ConfigurationInterface
                                 ->prototype('scalar')->end()
                             ->end()
                         ->end()
-                ->end();
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
-        return $tb;
+        return $treeBuilder;
     }
 }
