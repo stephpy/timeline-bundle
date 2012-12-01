@@ -12,10 +12,9 @@
     <services>
         <service id="spy_timeline.timeline_manager.orm" class="%spy_timeline.timeline_manager.orm.class%">
             <argument type="service" id="spy_timeline.driver.orm.object_manager" />
-            <argument type="service" id="spy_timeline.action_manager" />
             <argument>%spy_timeline.class.timeline%</argument>
-            <call method="setDeployer">
-                <argument type="service" id="spy_timeline.spread.deployer" />
+            <call method="setFilterManager">
+                <argument type="service" id="spy_timeline.filter.manager" />
             </call>
         </service>
 
@@ -24,6 +23,12 @@
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>
             <argument>%spy_timeline.class.action_component%</argument>
+            <call method="setDeployer">
+                <argument type="service" id="spy_timeline.spread.deployer" />
+            </call>
+            <call method="setFilterManager">
+                <argument type="service" id="spy_timeline.filter.manager" />
+            </call>
         </service>
     </services>
 

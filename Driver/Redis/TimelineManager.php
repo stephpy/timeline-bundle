@@ -6,6 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
+use Spy\TimelineBundle\Driver\AbstractTimelineManager;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
@@ -15,10 +16,11 @@ use Spy\TimelineBundle\Model\TimelineInterface;
 /**
  * TimelineManager
  *
+ * @uses AbstractTimelineManager
  * @uses TimelineManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineManager implements TimelineManagerInterface
+class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {
     /**
      * @var PredisClient|PhpredisClient
@@ -74,6 +76,7 @@ class TimelineManager implements TimelineManagerInterface
             'limit'   => 10,
             'type'    => TimelineInterface::TYPE_TIMELINE,
             'context' => 'GLOBAL',
+            'filter'  => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -84,7 +87,13 @@ class TimelineManager implements TimelineManagerInterface
         $redisKey = $this->getRedisKey($subject, $options['context'], $options['type']);
         $ids      = $this->client->zRevRange($redisKey, $offset, ($offset + $limit));
 
-        return $this->actionManager->findActionsForIds($ids);
+        $actions  = $this->actionManager->findActionsForIds($ids);
+
+        if ($options['filter']) {
+            return $this->filterCollection($actions);
+        }
+
+        return $actions;
     }
 
     /**

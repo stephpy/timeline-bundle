@@ -73,6 +73,11 @@ interface ActionInterface
     public function getSubject();
 
     /**
+     * @return boolean
+     */
+    public function hasComponentHydrated();
+
+    /**
      * @return mixed
      */
     public function getId();

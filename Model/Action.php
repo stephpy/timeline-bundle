@@ -182,6 +182,21 @@ class Action implements ActionInterface
     }
 
     /**
+     * @return boolean
+     */
+    public function hasComponentHydrated()
+    {
+        foreach ($this->getActionComponents() as $actionComponent) {
+            if (!$actionComponent->isText() &&
+                null === $actionComponent->getComponent()->getData()) {
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getId()

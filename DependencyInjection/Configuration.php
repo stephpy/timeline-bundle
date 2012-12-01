@@ -23,6 +23,33 @@ class Configuration implements ConfigurationInterface
         $tb       = new TreeBuilder();
         $rootNode = $tb->root('spy_timeline');
 
+        $this->addDriverSection($rootNode);
+
+        $rootNode
+            ->children()
+                ->scalarNode('timeline_manager')
+                    ->info('Do not define it if you use a core driver.')
+                ->end()
+                ->scalarNode('action_manager')
+                    ->info('Do not define it if you use a core driver.')
+                ->end()
+            ->end()
+            ->children()
+                ->arrayNode('notifiers')
+                    ->prototype('scalar')
+                    ->end()
+                ->end()
+            ->end();
+
+        $this->addFilterSection($rootNode);
+        $this->addSpreadSection($rootNode);
+        $this->addRenderSection($rootNode);
+
+        return $tb;
+    }
+
+    protected function addDriverSection($rootNode)
+    {
         $rootNode
             ->validate()
                 ->ifTrue(function($v) {
@@ -132,40 +159,47 @@ class Configuration implements ConfigurationInterface
                                         ->end()
                                     ->end()
                                 ->end()
-
                             ->end()
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-            ->children()
-                ->scalarNode('timeline_manager')
-                    ->info('Do not define it if you use a core driver.')
-                ->end()
-                ->scalarNode('action_manager')
-                    ->info('Do not define it if you use a core driver.')
-                ->end()
-            ->end()
-            ->children()
-                ->arrayNode('notifiers')
-                    ->prototype('scalar')
-                    ->end()
-                ->end()
-            ->end()
+            ->end();
+    }
+
+    protected function addFilterSection($rootNode)
+    {
+        $rootNode
             ->children()
                 ->arrayNode('filters')
-                    ->useAttributeAsKey('filters')
-                    ->prototype('array')
-                        ->children()
-                            ->arrayNode('options')
-                                ->useAttributeAsKey('options')
-                                ->prototype('scalar')
+                    ->children()
+                        ->arrayNode('duplicate_key')
+                            ->children()
+                                ->scalarNode('service')->defaultValue('spy_timeline.filter.duplicate_key')->end()
+                                ->scalarNode('priority')->defaultValue(10)->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('data_hydrator')
+                            ->children()
+                                ->scalarNode('priority')->defaultValue(20)->end()
+                                ->scalarNode('service')->defaultValue('spy_timeline.filter.data_hydrator')->end()
+                                ->booleanNode('filter_unresolved')->defaultTrue()->end()
+                                ->arrayNode('locators')
+                                    ->example(array(
+                                        'spy_timeline.filter.data_hydrator.locator.doctrine',
+                                    ))
+                                    ->prototype('scalar')
+                                    ->end()
                                 ->end()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
-            ->end()
+            ->end();
+    }
+
+    protected function addSpreadSection($rootNode)
+    {
+        $rootNode
             ->children()
                 ->arrayNode('spread')
                     ->addDefaultsIfNotSet()
@@ -176,7 +210,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('delivery')->defaultValue('immediate')->end()
                     ->end()
                 ->end()
-            ->end()
+            ->end();
+    }
+
+    protected function addRenderSection($rootNode)
+    {
+        $rootNode
             ->children()
                 ->arrayNode('render')
                     ->addDefaultsIfNotSet()
@@ -201,10 +240,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-        ->end();
-
-        return $tb;
+            ->end();
     }
-
 }

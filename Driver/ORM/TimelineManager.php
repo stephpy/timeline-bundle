@@ -3,10 +3,9 @@
 namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Spy\TimelineBundle\Driver\AbstractTimelineManager;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
@@ -14,20 +13,16 @@ use Spy\TimelineBundle\Model\TimelineInterface;
 /**
  * TimelineManager
  *
+ * @uses AbstractTimelineManager
  * @uses TimelineManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineManager implements TimelineManagerInterface
+class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {
     /**
      * @var ObjectManager
      */
     protected $objectManager;
-
-    /**
-     * @var ActionManagerInterface
-     */
-    protected $actionManager;
 
     /**
      * @var string
@@ -40,14 +35,12 @@ class TimelineManager implements TimelineManagerInterface
     protected $delayedQueries = array();
 
     /**
-     * @param ObjectManager          $objectManager objectManager
-     * @param ActionManagerInterface $actionManager actionManager
-     * @param string                 $timelineClass timelineClass
+     * @param ObjectManager $objectManager objectManager
+     * @param string        $timelineClass timelineClass
      */
-    public function __construct(ObjectManager $objectManager, ActionManagerInterface $actionManager, $timelineClass)
+    public function __construct(ObjectManager $objectManager, $timelineClass)
     {
         $this->objectManager = $objectManager;
-        $this->actionManager = $actionManager;
         $this->timelineClass = $timelineClass;
     }
 
@@ -62,6 +55,7 @@ class TimelineManager implements TimelineManagerInterface
             'limit'   => 10,
             'type'    => TimelineInterface::TYPE_TIMELINE,
             'context' => 'GLOBAL',
+            'filter'  => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -80,12 +74,19 @@ class TimelineManager implements TimelineManagerInterface
             return $results;
         }
 
-        return array_map(
+
+        $actions = array_map(
             function ($timeline) {
                 return $timeline->getAction();
             },
             $results
         );
+
+        if ($options['filter']) {
+            return $this->filterCollection($actions);
+        }
+
+        return $actions;
     }
 
     /**

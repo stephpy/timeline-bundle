@@ -29,6 +29,7 @@ class SpyTimelineExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+        $loader->load('filter.xml');
         $loader->load('notification.xml');
         $loader->load('spread.xml');
         $loader->load('twig.xml');
@@ -59,6 +60,40 @@ class SpyTimelineExtension extends Extension
         $container->setAlias('spy_timeline.timeline_manager', $timelineManager);
         $container->setAlias('spy_timeline.action_manager', $actionManager);
 
+        // filters
+        $filters       = $config['filters'];
+        $filterManager = $container->getDefinition('spy_timeline.filter.manager');
+
+        if (isset($filters['duplicate_key'])) {
+            $filter  = $filters['duplicate_key'];
+            $service = $container->getDefinition($filter['service']);
+            $service->addMethodCall('setPriority', array($filter['priority']));
+
+            $filterManager->addMethodCall('add', array($service));
+        }
+
+        if (isset($filters['data_hydrator'])) {
+            $filter  = $filters['data_hydrator'];
+
+            $service = $container->getDefinition($filter['service']);
+            $service->addArgument($filter['filter_unresolved']);
+            $service->addMethodCall('setPriority', array($filter['priority']));
+
+            foreach ($filter['locators'] as $locator) {
+                $service->addMethodCall('addLocator', array($container->getDefinition($locator)));
+            }
+
+            $filterManager->addMethodCall('add', array($service));
+        }
+
+        // notifiers
+        $notifiers  = $config['notifiers'];
+        $definition = $container->getDefinition('spy_timeline.notification_manager');
+
+        foreach ($notifiers as $notifier) {
+            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
+        }
+
         // spreads
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
         $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
@@ -71,14 +106,6 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.render.fallback', $render['fallback']);
         $container->setParameter('spy_timeline.render.i18n.fallback', isset($render['i18n']) && isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null);
         $container->setParameter('spy_timeline.twig.resources', $render['resources']);
-
-        // notifiers
-        $notifiers  = $config['notifiers'];
-        $definition = $container->getDefinition('spy_timeline.notification_manager');
-
-        foreach ($notifiers as $notifier) {
-            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
-        }
     }
 
     private function loadORMDriver($container, $loader, $config)

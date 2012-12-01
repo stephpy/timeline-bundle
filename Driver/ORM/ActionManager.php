@@ -96,11 +96,12 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             'offset'  => 0,
             'limit'   => 10,
             'status'  => ActionInterface::STATUS_PUBLISHED,
+            'filter'  => true,
         ));
 
         $options = $resolver->resolve($options);
 
-        return $this->getQueryBuilderForSubject($subject)
+        $actions = $this->getQueryBuilderForSubject($subject)
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status'])
@@ -108,6 +109,12 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setMaxResults($options['limit'])
             ->getQuery()
             ->getResult();
+
+        if ($options['filter']) {
+            return $this->filterCollection($actions);
+        }
+
+        return $actions;
     }
 
     /**
@@ -217,7 +224,9 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         return $qb
             ->where(
                 $qb->expr()->in(
-                    $qb->expr()->concat('c.model', 'c.identifier'), $concatIdents
+                    $qb->expr()->concat('c.model',
+                        $qb->expr()->concat($qb->expr()->literal('#'), 'c.identifier'))
+                    , $concatIdents
                 )
             )
             ->getQuery()
@@ -241,7 +250,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
                 $identifier = array();
                 foreach ($fields as $field) {
-                    $identifier[] = (string) $metadata->reflFields[$field]->getValue($model);
+                    $identifier[$field] = (string) $metadata->reflFields[$field]->getValue($model);
                 }
 
                 if (!$many) {

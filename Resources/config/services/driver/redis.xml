@@ -15,6 +15,9 @@
             <argument type="service" id="spy_timeline.action_manager" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.driver.redis.pipeline%</argument>
+            <call method="setFilterManager">
+                <argument type="service" id="spy_timeline.filter.manager" />
+            </call>
         </service>
 
         <service id="spy_timeline.action_manager.redis" class="%spy_timeline.action_manager.redis.class%">

@@ -10,6 +10,11 @@ namespace Spy\TimelineBundle\Model;
 interface ActionComponentInterface
 {
     /**
+     * @return boolean
+     */
+    public function isText();
+
+    /**
      * @param string $id id
      * @return ActionComponentInterface
      */

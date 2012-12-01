@@ -38,6 +38,14 @@ class ActionComponent implements ActionComponentInterface
     /**
      * {@inheritdoc}
      */
+    public function isText()
+    {
+        return null !== $this->text;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setId($id)
     {
         $this->id = $id;

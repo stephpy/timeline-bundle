@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spy_timeline.filter.manager.class">Spy\TimelineBundle\Filter\FilterManager</parameter>
+        <parameter key="spy_timeline.filter.duplicate_key.class">Spy\TimelineBundle\Filter\DuplicateKey</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.class">Spy\TimelineBundle\Filter\DataHydrator</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\Doctrine</parameter>
+    </parameters>
+
+    <services>
+        <service id="spy_timeline.filter.manager" class="%spy_timeline.filter.manager.class%" />
+
+        <!-- core filters -->
+        <service id="spy_timeline.filter.duplicate_key" class="%spy_timeline.filter.duplicate_key.class%" />
+
+        <service id="spy_timeline.filter.data_hydrator" class="%spy_timeline.filter.data_hydrator.class%" />
+
+        <!--- locators -->
+        <service id="spy_timeline.filter.data_hydrator.locator.doctrine" class="%spy_timeline.filter.data_hydrator.locator.doctrine.class%">
+            <argument type="service" id="doctrine" />
+        </service>
+    </services>
+
+</container>
