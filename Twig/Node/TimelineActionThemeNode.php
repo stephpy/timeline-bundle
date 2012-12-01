@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Twig\Node;
+namespace Spy\TimelineBundle\Twig\Node;
 
 class TimelineActionThemeNode extends \Twig_Node
 {
