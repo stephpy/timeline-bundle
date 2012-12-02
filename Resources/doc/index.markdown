@@ -7,7 +7,6 @@ See for more informations:
 - [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
 - [notification](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/notification.markdown)
 - [pagination](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/pagination.markdown)
-- [provider](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/provider.markdown)
 - [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
 - [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
 - [basic_example](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/basic_example.markdown)
@@ -18,7 +17,7 @@ To have a timeline you have:
 
 - **Subject**
 - **Verb**
-- **Components** (directComplement, indirectComplement)
+- **Components** (directComplement, indirectComplement, etc...)
 
 Example:
 
@@ -27,36 +26,32 @@ Example:
 
 There is two type of action list to retrieve:
 
-##Timelines
-
-Timeline of a subject is all his actions, as you can see when you look at the subject page.
-
-## Walls
+## Timeline
 
 Wall of a subject is all his actions + all actions of his **SPREADS** (cf spread.markdown)
 
+## SubjectAction
+
 ## Context
 
-Imagine Chucknorris, he has 233 friends and follow 20 companies.
+Imagine Chuck Norris, he has 233 friends and follow 20 companies.
 
 If we have one context, like facebook, his wall will return each actions of his friends and companies.
 
-You can too use **Contexts** to filter timelines.
-For example, we can have 3 contexts:
+You can too use **Contexts** to filter timelines, for example, we can have 3 contexts:
 
 * GLOBAL: actions of his friends and companies
 * FRIEND: actions of his friends
 * COMPANIES: actions of his companies
 
 You can define as many context as you want.
-If you have only one context, you'll get each actions without can easily filter them to return only "OWN" actions or have only actions of friends of ChuckNorris
+If you have only one context, you'll get each actions without being able to easily filter them to return only "OWN" actions or have only actions of friends of ChuckNorris
 
-That's why we have a "Global" context, and you can easily add other contexts.
+That's why we have a "GLOBAL" context, and you can easily add other contexts.
 
 # Adding a timeline action
 
 ```php
-<?php
 $actionManager = $this->get('spy_timeline.action_manager');
 $subject       = $actionManager->findOrCreateComponent('a\model', array(1, 2));
 
@@ -64,16 +59,26 @@ $subject       = $actionManager->findOrCreateComponent('a\model', array(1, 2));
 // you can add as many components as you want. subject is mandatory !
 $action = $actionManager->create($subject, 'verb', array('directComplement' => $cod));
 $actionManager->updateAction($action);
-
 ```
-
-# Pull Wall of Subject
-
-@todo
 
 # Pull Timeline of Subject
 
-@todo
+```php
+$actionManager   = $this->get('spy_timeline.action_manager');
+$timelineManager = $this->get('spy_timeline.action_manager');
+$subject         = $actionManager->findOrCreateComponent('a\model', array(1, 2));
+
+$timeline = $timelineManager->getTimeline($subject);
+```
+
+# Pull Subject actions
+
+```php
+$actionManager   = $this->get('spy_timeline.action_manager');
+$subject         = $actionManager->findOrCreateComponent('a\model', array(1, 2));
+
+$timeline = $actionManager->getSubjectActions($subject);
+```
 
 # Delivery
 
@@ -87,8 +92,6 @@ spy_timeline:
     drivers: # define only one.
         orm:
             object_manager: ~   # doctrine.orm.entity_manager
-            timeline_manager: ~
-            action_manager: ~
             classes:
                 timeline:         'Acme\YourBundle\Entity\Timeline'
                 action:           'Acme\YourBundle\Entity\Action'
@@ -96,8 +99,6 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         odm:
             object_manager: ~   # doctrine.odm.entity_manager
-            timeline_manager: ~
-            action_manager: ~
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
                 action:           'Acme\YourBundle\Document\Action'
@@ -107,12 +108,10 @@ spy_timeline:
             client:           ~ # snc_redis.default
             pipeline:         true
             prefix:           vlr_timeline
-            timeline_manager: ~
-            action_manager: ~
             classes:
-                action:           'Acme\YourBundle\Document\Action'
-                component:        'Acme\YourBundle\Document\Component'
-                action_component: 'Acme\YourBundle\Document\ActionComponent'
+                action:           'Spy\TimelineBundle\Model\Action'
+                component:        'Spy\TimelineBundle\Model\Component'
+                action_component: 'Spy\TimelineBundle\Model\ActionComponent'
 
     timeline_manager: ~ # use custom or let it.
     action_manager:   ~ #  use custom or let it.
@@ -121,9 +120,15 @@ spy_timeline:
         - highco.timeline.unread_notifications
 
     filters:
-        - highco.timeline.filter.duplicate_key
-        - highco.timeline.filter.data_hydrator
-
+        duplicate_key:
+            service:              spy_timeline.filter.duplicate_key
+            priority:             10
+        data_hydrator:
+            priority:             20
+            service:              spy_timeline.filter.data_hydrator
+            filter_unresolved:    true
+            locators:
+                - spy_timeline.filter.data_hydrator.locator.doctrine
     spread:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context

@@ -37,7 +37,7 @@ via the twig function `timeline_component_render()`
 
 These fragments are defined as twig blocks within [SpyTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig).
 
-Rendering the subject component will generate html using the __toString() method of the subject model.
+Rendering the subject component will generate html using the `__toString()` method of the subject model.
 
 ```jinja
 {% timeline_component_render(timeline, 'subject') %}
@@ -153,7 +153,7 @@ for pros and cons for where you define your themes.
 {% endblock timeline_action %}
 ```
 
-By using the special {% timeline_action_theme timeline _self %} tag, Twig looks inside the same template for any
+By using the special `{% timeline_action_theme timeline _self %}` tag, Twig looks inside the same template for any
 overridden component blocks.
 
 #### Method 2: Inside a Separate Template

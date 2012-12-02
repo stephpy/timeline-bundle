@@ -1,8 +1,8 @@
 # Notification
 
-During the deployment of a timeline action, you can define some notifiers, they must implements **NotifierInterface**
+During the deployment of an action, you can define some notifiers, they must implements **NotifierInterface**
 
-**UnreadNotification** is already on bundle.
+**UnreadNotification** is already provided on this bundle.
 
 How to use it ?
 

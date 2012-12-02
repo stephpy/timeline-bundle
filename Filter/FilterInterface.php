@@ -12,11 +12,6 @@ use Spy\TimelineBundle\Model\Collection;
 interface FilterInterface
 {
     /**
-     * @param integer $priority priority
-     */
-    public function setPriority($priority);
-
-    /**
      * @return integer
      */
     public function getPriority();

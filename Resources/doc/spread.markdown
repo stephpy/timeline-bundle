@@ -24,28 +24,23 @@ Create the class:
 namespace Acme\TimelineBundle\Spread;
 
 use Spy\TimelineBundle\Spread\SpreadInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Spread\Entry\EntryCollection;
-use Spy\TimelineBundle\Spread\Entry\Entry;
-use Spy\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\Entry\EntryUnaware;
 
 class MySpread implements SpreadInterface
 {
-    public function supports(TimelineAction $timelineAction)
+    public function supports(ActionInterface $action)
     {
         return true; //or false, you can look at timeline action to make your decision
     }
 
-    public function process(TimelineAction $timelineAction, EntryCollection $coll)
+    public function process(ActionInterface $action, EntryCollection $coll)
     {
-        $entry = new Entry();
-        $entry->subjectModel = "\MySubject";
-        $entry->subjectId = 1;
-
-        //OR
-
-        $entry = Entry::create('\MySubject', 1);
-
-        $coll->set('mytimeline', $entry);
+        // composite key
+        $coll->add(new EntryUnaware('model', array('1', '2')));
+        $coll->add(new EntryUnaware('some\othermodel', 1));
+        $coll->add(new EntryUnaware('othermodel', 'aodadoa'), 'CUSTOM_CONTEXT');
     }
 }
 ```
