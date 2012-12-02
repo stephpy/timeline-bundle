@@ -72,8 +72,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults(array(
-            'offset'  => 0,
-            'limit'   => 10,
+            'page'         => 1,
+            'max_per_page' => 10,
             'type'    => TimelineInterface::TYPE_TIMELINE,
             'context' => 'GLOBAL',
             'filter'  => true,
@@ -81,8 +81,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        $offset  = $options['offset'];
-        $limit   = $options['limit'] - 1; // due to redis
+        $offset  = ($options['page'] - 1) * $options['max_per_page'];
+        $limit   = $options['max_per_page'] - 1; // due to redis
 
         $redisKey = $this->getRedisKey($subject, $options['context'], $options['type']);
         $ids      = $this->client->zRevRange($redisKey, $offset, ($offset + $limit));

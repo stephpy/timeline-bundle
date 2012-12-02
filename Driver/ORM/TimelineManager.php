@@ -51,8 +51,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults(array(
-            'offset'  => 0,
-            'limit'   => 10,
+            'page'         => 1,
+            'max_per_page' => 10,
             'type'    => TimelineInterface::TYPE_TIMELINE,
             'context' => 'GLOBAL',
             'filter'  => true,
@@ -65,8 +65,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->leftJoin('a.actionComponents', 'ac')
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC')
-            ->setFirstResult($options['offset'])
-            ->setMaxResults($options['limit'])
+            ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
+            ->setMaxResults($options['max_per_page'])
             ->getQuery()
             ->getResult();
 

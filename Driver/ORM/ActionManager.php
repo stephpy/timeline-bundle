@@ -93,10 +93,10 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults(array(
-            'offset'  => 0,
-            'limit'   => 10,
-            'status'  => ActionInterface::STATUS_PUBLISHED,
-            'filter'  => true,
+            'page'         => 1,
+            'max_per_page' => 10,
+            'status'       => ActionInterface::STATUS_PUBLISHED,
+            'filter'       => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -105,8 +105,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status'])
-            ->setFirstResult($options['offset'])
-            ->setMaxResults($options['limit'])
+            ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
+            ->setMaxResults($options['max_per_page'])
             ->getQuery()
             ->getResult();
 
