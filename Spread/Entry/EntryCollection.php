@@ -29,11 +29,18 @@ class EntryCollection implements \IteratorAggregate
     /**
      * @param boolean $duplicateOnGlobal Each timeline action are automatically pushed on Global context
      */
-    public function __construct(ActionManagerInterface $actionManager, $duplicateOnGlobal = true)
+    public function __construct($duplicateOnGlobal = true)
     {
-        $this->actionManager     = $actionManager;
         $this->coll              = new \ArrayIterator();
         $this->duplicateOnGlobal = $duplicateOnGlobal;
+    }
+
+    /**
+     * @param ActionManagerInterface $actionManager actionManager
+     */
+    public function setActionManager(ActionManagerInterface $actionManager)
+    {
+        $this->actionManager = $actionManager;
     }
 
     /**
@@ -71,6 +78,10 @@ class EntryCollection implements \IteratorAggregate
      */
     public function loadUnawareEntries()
     {
+        if (!$this->actionManager) {
+            return;
+        }
+
         $unawareEntries = array();
 
         foreach ($this->coll as $context => $entries) {

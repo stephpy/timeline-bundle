@@ -18,9 +18,11 @@ class AddSpreadCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $spreadManager = $container->getDefinition('spy_timeline.spread.manager');
+        $alias          = $container->getAlias('spy_timeline.spread.deployer');
+        $spreadDeployer = $container->getDefinition((string) $alias);
+
         foreach ($container->findTaggedServiceIds('spy_timeline.spread') as $id => $tags) {
-            $spreadManager->addMethodCall('add', array($container->getDefinition($id)));
+            $spreadDeployer->addMethodCall('addSpread', array($container->getDefinition($id)));
         }
     }
 }

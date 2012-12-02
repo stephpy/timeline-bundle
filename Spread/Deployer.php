@@ -7,6 +7,7 @@ use Spy\TimelineBundle\Driver\TimelineManagerInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Notification\NotificationManager;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**
  * Deployer
@@ -19,9 +20,19 @@ class Deployer
     CONST DELIVERY_WAIT      = 'wait';
 
     /**
-     * @var SpreadManager
+     * @var \ArrayIterator
      */
-    protected $spreadManager;
+    protected $spreads;
+
+    /**
+     * @var EntryCollection
+     */
+    protected $entryCollection;
+
+    /**
+     * @var boolean
+     */
+    protected $onSubject;
 
     /**
      * @var NotificationManager
@@ -39,17 +50,22 @@ class Deployer
     protected $timelineManager;
 
     /**
-     * @param SpreadManager            $spreadManager       spreadManager
      * @param NotificationManager      $notificationManager notificationManager
      * @param ActionManagerInterface   $actionManager       actionManager
      * @param TimelineManagerInterface $timelineManager     timelineManager
+     * @param EntryCollection          $entryCollection     entryCollection
+     * @param boolean                  $onSubject           onSubject
      */
-    public function __construct(SpreadManager $spreadManager, NotificationManager $notificationManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager)
+    public function __construct(NotificationManager $notificationManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true)
     {
-        $this->spreadManager       = $spreadManager;
         $this->notificationManager = $notificationManager;
         $this->actionManager       = $actionManager;
         $this->timelineManager     = $timelineManager;
+        $this->entryCollection     = $entryCollection;
+        $this->spreads             = new \ArrayIterator();
+        $this->onSubject           = $onSubject;
+
+        $this->entryCollection->setActionManager($actionManager);
     }
 
     /**
@@ -61,7 +77,7 @@ class Deployer
             return;
         }
 
-        $results = $this->spreadManager->process($action);
+        $results = $this->processSpreads($action);
         $results->loadUnawareEntries();
 
         foreach ($results as $context => $entries) {
@@ -80,7 +96,7 @@ class Deployer
 
         $this->actionManager->updateAction($action);
 
-        $this->spreadManager->clear();
+        $this->clear();
     }
 
     /**
@@ -103,5 +119,57 @@ class Deployer
     public function isDeliveryImmediate()
     {
         return self::DELIVERY_IMMEDIATE === $this->delivery;
+    }
+
+    /**
+     * @param SpreadInterface $spread spread
+     */
+    public function addSpread(SpreadInterface $spread)
+    {
+        $this->spreads[] = $spread;
+    }
+
+    /**
+     * @param ActionInterface $action action
+     *
+     * @return \ArrayIterator
+     */
+    public function processSpreads(ActionInterface $action)
+    {
+        if ($this->onSubject) {
+            $this->entryCollection->add(new Entry($action->getSubject()), 'GLOBAL');
+        }
+
+        foreach ($this->spreads as $spread) {
+            if ($spread->supports($action)) {
+                $spread->process($action, $this->entryCollection);
+            }
+        }
+
+        return $this->getEntryCollection();
+    }
+
+    /**
+     * Clears the entryCollection
+     */
+    public function clear()
+    {
+        $this->entryCollection->clear();
+    }
+
+    /**
+     * @return EntryCollection
+     */
+    public function getEntryCollection()
+    {
+        return $this->entryCollection;
+    }
+
+    /**
+     * @return \ArrayIterator of SpreadInterface
+     */
+    public function getSpreads()
+    {
+        return $this->spreads;
     }
 }

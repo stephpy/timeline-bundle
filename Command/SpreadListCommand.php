@@ -31,7 +31,7 @@ class SpreadListCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $spreads = $this->getContainer()
-            ->get('spy_timeline.spread.manager')
+            ->get('spy_timeline.spread.deployer')
             ->getSpreads();
 
         $output->writeln(sprintf('<info>There is %s timeline spread(s) defined</info>', count($spreads)));
