@@ -122,42 +122,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function create($subject, $verb, array $components = array())
-    {
-        $action = new $this->actionClass();
-        $action->setVerb($verb);
-
-        // subject is MANDATORY. Cannot pass scalar value.
-        if (!$subject instanceof ComponentInterface) {
-            if (!is_object($subject)) {
-                $subject = $this->findOrCreateComponent($subject);
-            }
-
-            if (null === $subject) {
-                throw new \Exception('Impossible to create component from subject.');
-            }
-        }
-
-        $action->setSubject($subject, $this->actionComponentClass);
-
-        foreach ($components as $type => $component) {
-            if (!$component instanceof ComponentInterface && !is_scalar($component)) {
-                $component = $this->findOrCreateComponent($component);
-
-                if (null === $component) {
-                    throw new \Exception(sprintf('Impossible to create component from %s.', $type));
-                }
-            }
-
-            $action->addComponent($type, $component, $this->actionComponentClass);
-        }
-
-        return $action;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findOrCreateComponent($model, $identifier = null)
     {
         return $this->createComponent($model, $identifier);
@@ -168,7 +132,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function createComponent($model, $identifier = null)
     {
-        list ($model, $identifier) = $this->resolveModelAndIdentifier($model, $identifier);
+        list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
         if (empty($model) || empty($identifier)) {
             return null;
@@ -178,6 +142,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $component = new $this->componentClass();
         $component->setModel($model);
         $component->setIdentifier($identifier);
+        $component->setData($data);
 
         return $component;
     }
@@ -224,7 +189,9 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
         }
 
+        $data = null;
         if (is_object($model)) {
+            $data       = $model;
             $modelClass = get_class($model);
 
             if (!method_exists($model, 'getId')) {
@@ -241,6 +208,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             throw new \InvalidArgumentException('Identifier has to be a scalar or an array');
         }
 
-        return array($model, $identifier);
+        return array($model, $identifier, $data);
     }
 }

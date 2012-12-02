@@ -25,6 +25,42 @@ class AbstractActionManager
     protected $filterManager;
 
     /**
+     * {@inheritdoc}
+     */
+    public function create($subject, $verb, array $components = array())
+    {
+        $action = new $this->actionClass();
+        $action->setVerb($verb);
+
+        // subject is MANDATORY. Cannot pass scalar value.
+        if (!$subject instanceof ComponentInterface) {
+            if (is_object($subject)) {
+                $subject = $this->findOrCreateComponent($subject);
+            }
+
+            if (null === $subject) {
+                throw new \Exception('Impossible to create component from subject.');
+            }
+        }
+
+        $action->setSubject($subject, $this->actionComponentClass);
+
+        foreach ($components as $type => $component) {
+            if (!$component instanceof ComponentInterface && !is_scalar($component)) {
+                $component = $this->findOrCreateComponent($component);
+
+                if (null === $component) {
+                    throw new \Exception(sprintf('Impossible to create component from %s.', $type));
+                }
+            }
+
+            $action->addComponent($type, $component, $this->actionComponentClass);
+        }
+
+        return $action;
+    }
+
+    /**
      * @param ActionInterface $action action
      *
      * @return void
