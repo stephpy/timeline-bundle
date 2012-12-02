@@ -3,6 +3,7 @@
 namespace Spy\TimelineBundle\Driver;
 
 use Spy\TimelineBundle\Spread\Deployer;
+use Spy\TimelineBundle\Pager\PagerInterface;
 use Spy\TimelineBundle\Filter\FilterManager;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\Collection;
@@ -18,6 +19,11 @@ class AbstractActionManager
      * @var Deployer
      */
     protected $deployer;
+
+    /**
+     * @var PagerInterface
+     */
+    protected $pager;
 
     /**
      * @var FilterManager
@@ -86,6 +92,14 @@ class AbstractActionManager
     public function setFilterManager(FilterManager $filterManager)
     {
         $this->filterManager = $filterManager;
+    }
+
+    /**
+     * @param PagerInterface $pager pager
+     */
+    public function setPager(PagerInterface $pager)
+    {
+        $this->pager = $pager;
     }
 
     /**

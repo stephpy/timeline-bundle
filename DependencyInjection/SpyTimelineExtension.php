@@ -31,6 +31,7 @@ class SpyTimelineExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('filter.xml');
         $loader->load('notification.xml');
+        $loader->load('paginator.xml');
         $loader->load('spread.xml');
         $loader->load('twig.xml');
 
@@ -59,6 +60,18 @@ class SpyTimelineExtension extends Extension
 
         $container->setAlias('spy_timeline.timeline_manager', $timelineManager);
         $container->setAlias('spy_timeline.action_manager', $actionManager);
+
+        // pager
+
+        if (isset($config['paginator'])) {
+            $paginator = $container->getDefinition($config['paginator']);
+
+            $container->getDefinition($timelineManager)
+                ->addMethodCall('setPager', array($paginator));
+
+            $container->getDefinition($actionManager)
+                ->addMethodCall('setPager', array($paginator));
+        }
 
         // filters
         $filters       = isset($config['filters']) ? $config['filters'] : array();

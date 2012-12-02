@@ -11,6 +11,11 @@ namespace Spy\TimelineBundle\Model;
 class Timeline implements TimelineInterface
 {
     /**
+     * @var integer
+     */
+    protected $id;
+
+    /**
      * @var string
      */
     protected $context;
@@ -41,6 +46,24 @@ class Timeline implements TimelineInterface
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

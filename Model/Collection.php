@@ -108,4 +108,12 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         return isset($this->datas[$key]) ? $this->datas[$key] : $default;
     }
+
+    /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
 }

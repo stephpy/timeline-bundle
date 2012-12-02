@@ -101,17 +101,32 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         $options = $resolver->resolve($options);
 
-        $actions = $this->getQueryBuilderForSubject($subject)
+        $qb = $this->getQueryBuilderForSubject($subject)
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
-            ->setParameter('status', $options['status'])
-            ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
-            ->setMaxResults($options['max_per_page'])
-            ->getQuery()
-            ->getResult();
+            ->setParameter('status', $options['status']);
+
+        if ($this->pager) {
+            $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
+            $actions = $pager->getItems();
+        } else {
+            $actions = $qb
+                ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
+                ->setMaxResults($options['max_per_page'])
+                ->getQuery()
+                ->getResult();
+        }
 
         if ($options['filter']) {
-            return $this->filterCollection($actions);
+            $actions = $this->filterCollection($actions);
+        }
+
+        if ($this->pager) {
+            if (!is_array($actions)) {
+                $actions = $actions->getActions();
+            }
+            $pager->setItems($actions);
+            return $pager;
         }
 
         return $actions;

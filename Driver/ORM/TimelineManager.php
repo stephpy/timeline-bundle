@@ -60,20 +60,24 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        $results = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
+        $qb = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->innerJoin('t.action', 'a')
             ->leftJoin('a.actionComponents', 'ac')
             ->leftJoin('ac.component', 'c')
-            ->orderBy('t.createdAt', 'DESC')
-            ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
-            ->setMaxResults($options['max_per_page'])
-            ->getQuery()
-            ->getResult();
+            ->orderBy('t.createdAt', 'DESC');
 
-        if (empty($results)) {
-            return $results;
+        if ($this->pager) {
+            $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
+            $results = $pager->getItems();
+        } else {
+            // really deprecated, it'll not return number of result expected.
+            // doctrine use sql rows for count, it makes some troubles with joins.
+            $results = $qb
+                ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
+                ->setMaxResults($options['max_per_page'])
+                ->getQuery()
+                ->getResult();
         }
-
 
         $actions = array_map(
             function ($timeline) {
@@ -83,7 +87,15 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         );
 
         if ($options['filter']) {
-            return $this->filterCollection($actions);
+            $actions = $this->filterCollection($actions);
+        }
+
+        if ($this->pager) {
+            if (!is_array($actions)) {
+                $actions = $actions->getActions();
+            }
+            $pager->setItems($actions);
+            return $pager;
         }
 
         return $actions;

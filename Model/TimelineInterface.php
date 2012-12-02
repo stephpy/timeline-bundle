@@ -12,6 +12,16 @@ interface TimelineInterface
     CONST TYPE_TIMELINE = 'timeline';
 
     /**
+     * {@inheritdoc}
+     */
+    public function setId($id);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId();
+
+    /**
      * @param string $context
      * @return Timeline
      */

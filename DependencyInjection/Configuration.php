@@ -27,6 +27,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('paginator')
+                    ->example('spy_timeline.paginator.knp')
+                ->end()
+            ->end()
+            ->children()
                 ->scalarNode('timeline_manager')
                     ->info('Do not define it if you use a core driver.')
                 ->end()
