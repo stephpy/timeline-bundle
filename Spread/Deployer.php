@@ -7,6 +7,7 @@ use Spy\TimelineBundle\Driver\TimelineManagerInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Notification\NotificationManager;
+use Spy\TimelineBundle\Spread\Entry\Entry;
 use Spy\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**

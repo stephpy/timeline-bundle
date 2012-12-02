@@ -138,7 +138,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         // subject is MANDATORY. Cannot pass scalar value.
         if (!$subject instanceof ComponentInterface) {
-            if (!is_object($subject)) {
+            if (is_object($subject)) {
                 $subject = $this->findOrCreateComponent($subject);
             }
 

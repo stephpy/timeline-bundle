@@ -92,6 +92,10 @@ class EntryCollection implements \IteratorAggregate
             }
         }
 
+        if (empty($unawareEntries)) {
+            return;
+        }
+
         $components = $this->actionManager->findComponents($unawareEntries);
         $componentsIndexedByIdent = array();
         foreach ($components as $component) {
