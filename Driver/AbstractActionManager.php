@@ -32,7 +32,7 @@ class AbstractActionManager
     protected function deployActionDependOnDelivery(ActionInterface $action)
     {
         if ($this->deployer && $this->deployer->isDeliveryImmediate()) {
-            $this->deployer->deploy($action);
+            $this->deployer->deploy($action, $this);
         }
     }
 

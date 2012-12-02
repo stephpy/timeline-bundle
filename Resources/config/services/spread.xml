@@ -12,7 +12,6 @@
     <services>
         <service id="spy_timeline.spread.deployer.default" class="%spy_timeline.spread.deployer.class%">
             <argument type="service" id="spy_timeline.notification_manager" />
-            <argument type="service" id="spy_timeline.action_manager" />
             <argument type="service" id="spy_timeline.timeline_manager" />
             <argument type="service" id="spy_timeline.spread.entry_collection" />
             <argument>%spy_timeline.spread.on_subject%</argument>

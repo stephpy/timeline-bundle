@@ -40,42 +40,36 @@ class Deployer
     protected $notificationManager;
 
     /**
-     * @var ActionManagerInterface
-     */
-    protected $actionManager;
-
-    /**
      * @var TimelineManagerInterface
      */
     protected $timelineManager;
 
     /**
      * @param NotificationManager      $notificationManager notificationManager
-     * @param ActionManagerInterface   $actionManager       actionManager
      * @param TimelineManagerInterface $timelineManager     timelineManager
      * @param EntryCollection          $entryCollection     entryCollection
      * @param boolean                  $onSubject           onSubject
      */
-    public function __construct(NotificationManager $notificationManager, ActionManagerInterface $actionManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true)
+    public function __construct(NotificationManager $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true)
     {
         $this->notificationManager = $notificationManager;
-        $this->actionManager       = $actionManager;
         $this->timelineManager     = $timelineManager;
         $this->entryCollection     = $entryCollection;
         $this->spreads             = new \ArrayIterator();
         $this->onSubject           = $onSubject;
-
-        $this->entryCollection->setActionManager($actionManager);
     }
 
     /**
-     * @param ActionInterface $action action
+     * @param ActionInterface        $action        action
+     * @param ActionManagerInterface $actionManager actionManager
      */
-    public function deploy(ActionInterface $action)
+    public function deploy(ActionInterface $action, ActionManagerInterface $actionManager)
     {
         if ($action->getStatusWanted() !== ActionInterface::STATUS_PUBLISHED) {
             return;
         }
+
+        $this->entryCollection->setActionManager($actionManager);
 
         $results = $this->processSpreads($action);
         $results->loadUnawareEntries();
@@ -94,9 +88,9 @@ class Deployer
         $action->setStatusCurrent(ActionInterface::STATUS_PUBLISHED);
         $action->setStatusWanted(ActionInterface::STATUS_FROZEN);
 
-        $this->actionManager->updateAction($action);
+        $actionManager->updateAction($action);
 
-        $this->clear();
+        $this->entryCollection->clear();
     }
 
     /**
@@ -147,14 +141,6 @@ class Deployer
         }
 
         return $this->getEntryCollection();
-    }
-
-    /**
-     * Clears the entryCollection
-     */
-    public function clear()
-    {
-        $this->entryCollection->clear();
     }
 
     /**
