@@ -13,7 +13,7 @@ use Spy\TimelineBundle\Model\Collection;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class AbstractActionManager
+abstract class AbstractActionManager
 {
     /**
      * @var Deployer
@@ -38,32 +38,35 @@ class AbstractActionManager
         $action = new $this->actionClass();
         $action->setVerb($verb);
 
-        // subject is MANDATORY. Cannot pass scalar value.
-        if (!$subject instanceof ComponentInterface) {
-            if (is_object($subject)) {
-                $subject = $this->findOrCreateComponent($subject);
-            }
-
-            if (null === $subject) {
-                throw new \Exception('Impossible to create component from subject.');
-            }
+        if(!$subject instanceof ComponentInterface AND !is_object($subject)) {
+            throw new \Exception('Subject must be a ComponentInterface or an object');
         }
 
-        $action->setSubject($subject, $this->actionComponentClass);
+        $components['subject'] = $subject;
 
         foreach ($components as $type => $component) {
-            if (!$component instanceof ComponentInterface && !is_scalar($component)) {
-                $component = $this->findOrCreateComponent($component);
-
-                if (null === $component) {
-                    throw new \Exception(sprintf('Impossible to create component from %s.', $type));
-                }
-            }
-
-            $action->addComponent($type, $component, $this->actionComponentClass);
+            $this->addComponent($action, $type, $component);
         }
 
         return $action;
+    }
+
+    /**
+     * @param ActionInterface $action    action
+     * @param string          $type      type
+     * @param mixed           $component component
+     */
+    public function addComponent($action, $type, $component)
+    {
+        if (!$component instanceof ComponentInterface && !is_scalar($component)) {
+            $component = $this->findOrCreateComponent($component);
+
+            if (null === $component) {
+                throw new \Exception(sprintf('Impossible to create component from %s.', $type));
+            }
+        }
+
+        $action->addComponent($type, $component, $this->actionComponentClass);
     }
 
     /**

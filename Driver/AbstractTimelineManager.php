@@ -11,7 +11,7 @@ use Spy\TimelineBundle\Model\Collection;
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class AbstractTimelineManager
+abstract class AbstractTimelineManager
 {
     /**
      * @var FilterManager

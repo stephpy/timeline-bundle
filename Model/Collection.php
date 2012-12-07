@@ -112,7 +112,7 @@ class Collection implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * @return array
      */
-    public function getActions()
+    public function toArray()
     {
         return $this->actions;
     }

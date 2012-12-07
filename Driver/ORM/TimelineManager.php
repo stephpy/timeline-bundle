@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Spy\TimelineBundle\Driver\AbstractTimelineManager;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\Collection;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
 
@@ -53,9 +54,10 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         $resolver->setDefaults(array(
             'page'         => 1,
             'max_per_page' => 10,
-            'type'    => TimelineInterface::TYPE_TIMELINE,
-            'context' => 'GLOBAL',
-            'filter'  => true,
+            'type'         => TimelineInterface::TYPE_TIMELINE,
+            'context'      => 'GLOBAL',
+            'filter'       => true,
+            'paginate'     => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -66,16 +68,23 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC');
 
-        if ($this->pager) {
-            $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
+        if ($options['paginate']) {
+            if (!$this->pager) {
+                throw new \LogicException('You have to define pager on configuration');
+            }
+
+            $pager   = $this->pager->paginate($qb, $options['page'], (int) $options['max_per_page']);
             $results = $pager->getItems();
         } else {
             // really deprecated, it'll not return number of result expected.
             // doctrine use sql rows for count, it makes some troubles with joins.
-            $results = $qb
-                ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
-                ->setMaxResults($options['max_per_page'])
-                ->getQuery()
+            $qb->setFirstResult(($options['page'] - 1) * $options['max_per_page']);
+
+            if ($options['max_per_page']) {
+                $qb->setMaxResults($options['max_per_page']);
+            }
+
+            $results = $qb->getQuery()
                 ->getResult();
         }
 
@@ -90,9 +99,12 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             $actions = $this->filterCollection($actions);
         }
 
-        if ($this->pager) {
+        if ($options['paginate'] && $this->pager) {
             if (!is_array($actions)) {
-                $actions = $actions->getActions();
+                if (!$actions instanceof Collection) {
+                    throw new \LogicException('Actions must be an array or a Collection');
+                }
+                $actions = $actions->toArray();
             }
             $pager->setItems($actions);
             return $pager;

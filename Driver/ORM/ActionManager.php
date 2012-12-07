@@ -97,6 +97,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             'max_per_page' => 10,
             'status'       => ActionInterface::STATUS_PUBLISHED,
             'filter'       => true,
+            'paginate'     => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -106,14 +107,21 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status']);
 
-        if ($this->pager) {
+        if ($options['paginate']) {
+            if (!$this->pager) {
+                throw new \LogicException('You have to define pager on configuration');
+            }
+
             $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
             $actions = $pager->getItems();
         } else {
-            $actions = $qb
-                ->setFirstResult(($options['page'] - 1) * $options['max_per_page'])
-                ->setMaxResults($options['max_per_page'])
-                ->getQuery()
+            $qb->setFirstResult(($options['page'] - 1) * (int) $options['max_per_page']);
+
+            if ($options['max_per_page']) {
+                $qb->setMaxResults($options['max_per_page']);
+            }
+
+            $actions = $qb->getQuery()
                 ->getResult();
         }
 
@@ -121,9 +129,12 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             $actions = $this->filterCollection($actions);
         }
 
-        if ($this->pager) {
+        if ($options['paginate'] && $this->pager) {
             if (!is_array($actions)) {
-                $actions = $actions->getActions();
+                if (!$actions instanceof Collection) {
+                    throw new \LogicException('Actions must be an array or a Collection');
+                }
+                $actions = $actions->toArray();
             }
             $pager->setItems($actions);
             return $pager;
