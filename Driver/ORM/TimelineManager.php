@@ -68,11 +68,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC');
 
-        if ($options['paginate']) {
-            if (!$this->pager) {
-                throw new \LogicException('You have to define pager on configuration');
-            }
-
+        if ($options['paginate'] && $this->pager) {
             $pager   = $this->pager->paginate($qb, $options['page'], (int) $options['max_per_page']);
             $results = $pager->getItems();
         } else {

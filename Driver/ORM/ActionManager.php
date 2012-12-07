@@ -107,11 +107,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status']);
 
-        if ($options['paginate']) {
-            if (!$this->pager) {
-                throw new \LogicException('You have to define pager on configuration');
-            }
-
+        if ($options['paginate'] && $this->pager) {
             $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
             $actions = $pager->getItems();
         } else {
