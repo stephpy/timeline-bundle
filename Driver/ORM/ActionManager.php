@@ -234,7 +234,11 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
                 $identifier = array();
                 foreach ($fields as $field) {
-                    $value = (string) $metadata->reflFields[$field]->getValue($model);
+                    $getMethod = sprintf('get%s', ucfirst($field));
+                    $value     = (string) $model->{$getMethod}();
+
+                    //Do not use it: https://github.com/stephpy/TimelineBundle/issues/59
+                    //$value = (string) $metadata->reflFields[$field]->getValue($model);
 
                     if (empty($value)) {
                         throw new \Exception(sprintf('Field "%s" of model "%s" return an empty result, model has to be persisted.', $field, $modelClass));
