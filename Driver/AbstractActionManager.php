@@ -5,7 +5,7 @@ namespace Spy\TimelineBundle\Driver;
 use Spy\TimelineBundle\Spread\Deployer;
 use Spy\TimelineBundle\Filter\FilterManager;
 use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Model\ComponentInterface;
 
 /**
  * AbstractActionManager
