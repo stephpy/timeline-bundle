@@ -57,7 +57,7 @@ class Timeline extends BaseTimeline
 }
 ```
 
-# 2) Create Action entity
+# 3) Create Action entity
 
 ```php
 <?php
@@ -87,7 +87,7 @@ class Action extends BaseAction
 }
 ```
 
-# 2) Create Component entity
+# 4) Create Component entity
 
 ```php
 <?php
@@ -112,7 +112,7 @@ class Component extends BaseComponent
 }
 ```
 
-# 2) Create ActionComponent entity
+# 5) Create ActionComponent entity
 
 ```php
 <?php
@@ -147,6 +147,20 @@ class ActionComponent extends BaseActionComponent
      */
     protected $component;
 }
+```
+
+# 6) Define driver section on configuration:
+
+```yaml
+spy_timeline:
+    drivers: # define only one.
+        orm:
+            object_manager: ~   # doctrine.orm.entity_manager
+            classes:
+                timeline:         'Acme\YourBundle\Entity\Timeline'
+                action:           'Acme\YourBundle\Entity\Action'
+                component:        'Acme\YourBundle\Entity\Component'
+                action_component: 'Acme\YourBundle\Entity\ActionComponent'
 ```
 
 That's all

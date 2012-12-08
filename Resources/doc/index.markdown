@@ -65,7 +65,7 @@ $actionManager->updateAction($action);
 
 ```php
 $actionManager   = $this->get('spy_timeline.action_manager');
-$timelineManager = $this->get('spy_timeline.action_manager');
+$timelineManager = $this->get('spy_timeline.timeline_manager');
 $subject         = $actionManager->findOrCreateComponent('a\model', array(1, 2));
 
 $timeline = $timelineManager->getTimeline($subject);
@@ -97,6 +97,7 @@ spy_timeline:
                 action:           'Acme\YourBundle\Entity\Action'
                 component:        'Acme\YourBundle\Entity\Component'
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
+        # OR
         odm:
             object_manager: ~   # doctrine.odm.entity_manager
             classes:
@@ -104,6 +105,7 @@ spy_timeline:
                 action:           'Acme\YourBundle\Document\Action'
                 component:        'Acme\YourBundle\Document\Component'
                 action_component: 'Acme\YourBundle\Document\ActionComponent'
+        # OR
         redis:
             client:           ~ # snc_redis.default
             pipeline:         true
@@ -118,6 +120,10 @@ spy_timeline:
 
     notifiers:
         - highco.timeline.unread_notifications
+
+    # let empty if you want to use default paginator
+    # or use your own.
+    paginator: spy_timeline.paginator.knp
 
     filters:
         duplicate_key:

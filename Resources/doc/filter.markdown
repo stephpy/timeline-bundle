@@ -52,15 +52,69 @@ It will execute 2 sql queries !
 * \Entity\User    -> whereIn 1 and 2
 * \Entity\Article -> whereIn 2 and 7
 
-This actually work with doctrine ORM/ODM, **composite keys** are supported.
-
-You can add your own locator, for example if you store yours components on a filesystem or an other storage.
-BTW, you'll have to implements LocatorInterface.
-
 ### Removing Actions with Unresolved References
 Use the `filter_unresolved: true` option to remove any actions which have unresolved references after the hydration process.
 This will prevent unexpected `EntityNotFoundException`s when accessing an action component which have been removed
 from the database, but are marked for Lazy-Loading by the entity loading listener.
+
+### Locators
+
+Locators will seach data to attribute to components. A Doctrine locator is provided in this bundle:
+
+```
+spy_timeline:
+    filter:
+        data_hydrator:
+            #.....
+            locators:
+                - spy_timeline.filter.data_hydrator.locator.doctrine
+```
+
+This locator supports Doctrine `ORM` and `ODM` entities with composite keys or not.
+
+#### Add your own locator
+
+You can add your own locator, for example if you store yours components on a filesystem or an other storage.
+
+Imagine you have a component which represent a file:
+
+```php
+$component = $actionManager->findOrCreateComponent('file', '/path/to/file.txt');
+```
+
+You want to retrieve the content of this file when fetch `timeline` or `subjectActions`:
+
+Define the locator:
+
+```php
+namespace Acme\Demo;
+
+use Spy\TimelineBundle\Filter\DataHydrator\Locator\LocatorInterface;
+
+class FileSystem implements LocatorInterface
+{
+    public function supports($model)
+    {
+        return $model === 'file';
+    }
+
+    public function locate($model, array $components)
+    {
+        foreach ($components as $component) {
+            $component->setData(file_get_contents($component->getIdentifier()));
+        }
+    }
+}
+```
+
+Define this class as service:
+
+```
+<service id="my_locator_service_name" class="Acme\Demo\FileSystem">
+</service>
+```
+
+And add `my_locator_service_name` to locators list.
 
 ## Adding a filter
 
@@ -75,7 +129,7 @@ use Spy\TimelineBundle\Model\Collection;
 
 class MyOwnFilter implements FilterInterface
 {
-	public function filter(Collection $collection)
+	public function filter($collection)
 	{
 		// have fun
 		return $results;
@@ -89,3 +143,9 @@ class MyOwnFilter implements FilterInterface
 ```
 
 Define this class as service and use tag `spy_timeline.filter`.
+
+```xml
+<service id="my_service" class="MyClass">
+    <tag name="spy_timeline.filter" />
+</service>
+```xml

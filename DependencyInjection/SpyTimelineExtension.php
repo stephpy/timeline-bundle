@@ -63,7 +63,7 @@ class SpyTimelineExtension extends Extension
 
         // pager
 
-        if (isset($config['paginator'])) {
+        if (isset($config['paginator']) && !empty($config['paginator'])) {
             $paginator = $config['paginator'];
         } else {
             $paginator = sprintf('spy_timeline.pager.%s', $driver);

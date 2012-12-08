@@ -10,7 +10,7 @@ Some features are not implemented on redis:
 - subjectActions
 - delivery wait
 
-# 1) Define configuration
+# 1) Define driver section on configuration
 
 ```yml
 #config.yml

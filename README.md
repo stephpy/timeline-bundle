@@ -6,8 +6,7 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
-- Documentation
-- Write tests with Atoum.
+- Write tests with atoum.
 - MongoDB Support #[28](https://github.com/stephpy/TimelineBundle/issues/28)
 - Propel support ?
 - Any suggestion ?
