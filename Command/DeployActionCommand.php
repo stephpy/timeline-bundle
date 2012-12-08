@@ -39,10 +39,9 @@ class DeployActionCommand extends ContainerAwareCommand
             throw new \InvalidArgumentException('Limit defined should be biggest than 0 ...');
         }
 
-        $container = $this->getContainer();
-
-        $results = $container->get('spy_timeline.action_manager')
-            ->findActionsWithStatusWantedPublished($limit);
+        $container     = $this->getContainer();
+        $actionManager = $container->get('spy_timeline.action_manager');
+        $results       = $actionManager->findActionsWithStatusWantedPublished($limit);
 
         $output->writeln(sprintf('<info>There is %s action(s) to deploy</info>', count($results)));
 
@@ -50,7 +49,7 @@ class DeployActionCommand extends ContainerAwareCommand
 
         foreach ($results as $action) {
             try {
-                $deployer->deploy($action);
+                $deployer->deploy($action, $actionManager);
                 $output->writeln(sprintf('<comment>Deploy action %s</comment>', $action->getId()));
             } catch (\Exception $e) {
                 $message = sprintf('[TIMELINE] Error during deploy action %s', $action->getId());
