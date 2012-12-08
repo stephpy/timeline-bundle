@@ -14,8 +14,6 @@ spy_timeline:
     paginator: ~
 ```
 
-It's highly not recommended to use default paginator for `orm` driver due to joins proceed which will fudge number of results returned. see [#60](https://github.com/stephpy/TimelineBundle/issues/60)
-
 ## 2) Using [KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle)
 
 ```yml

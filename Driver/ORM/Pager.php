@@ -1,9 +1,10 @@
 <?php
 
-namespace Spy\TimelineBundle\Driver\Doctrine;
+namespace Spy\TimelineBundle\Driver\ORM;
 
 use Spy\TimelineBundle\Pager\PagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spy\TimelineBundle\Filter\FilterManager;
 
 /**
@@ -38,14 +39,16 @@ class Pager implements PagerInterface
             throw new \Exception('Not supported yet');
         }
 
-        $target->setFirstResult(($page - 1) * (int) $limit);
-
         if ($limit) {
-            $target->setMaxResults($limit);
+            $offset = ($page - 1) * (int) $limit;
+
+            $target
+                ->setFirstResult($offset)
+                ->setMaxResults($limit);
         }
 
-        $this->items = $target->getQuery()
-            ->getResult();
+        $paginator   = new Paginator($target, true);
+        $this->items = (array) $paginator->getIterator();
 
         return $this;
     }
