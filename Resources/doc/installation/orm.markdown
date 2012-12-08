@@ -38,14 +38,19 @@ class Timeline extends BaseTimeline
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Action")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Yo\UrlBundle\Entity\Action")
      * @ORM\JoinColumn(name="action_id", referencedColumnName="id")
      */
     protected $action;
 
     /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Yo\UrBundle\Entity\Component")
+     * @ORM\ManyToOne(targetEntity="Yo\UrlBundle\Entity\Component")
      * @ORM\JoinColumn(name="subject_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $subject;
@@ -131,7 +136,7 @@ class ActionComponent extends BaseActionComponent
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Yo\UrBundle\Entity\Action")
+     * @ORM\ManyToOne(targetEntity="Yo\UrBundle\Entity\Action", inversedBy="actionComponents")
      * @ORM\JoinColumn(name="action_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $action;
