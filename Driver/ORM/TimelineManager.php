@@ -69,6 +69,7 @@ class TimelineManager implements TimelineManagerInterface
         $options = $resolver->resolve($options);
 
         $qb = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
+            ->select('t, a, ac, c')
             ->innerJoin('t.action', 'a')
             ->leftJoin('a.actionComponents', 'ac')
             ->leftJoin('ac.component', 'c')

@@ -110,6 +110,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $options = $resolver->resolve($options);
 
         $qb = $this->getQueryBuilderForSubject($subject)
+            ->select('a, ac, c')
+            ->leftJoin('ac.component', 'c')
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status']);
