@@ -234,7 +234,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
                 $identifier = array();
                 foreach ($fields as $field) {
-                    $identifier[$field] = (string) $metadata->reflFields[$field]->getValue($model);
+                    $data = (string) $metadata->reflFields[$field]->getValue($model);
+
+                    if (empty($data)) {
+                        throw new \Exception(sprintf('Field "%s" of model "%s" return an empty result, model has to be persisted.', $field, $modelClass));
+                    }
+
+                    $identifier[$field] = $data;
                 }
 
                 if (!$many) {
