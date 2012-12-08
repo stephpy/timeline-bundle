@@ -10,20 +10,25 @@ use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\Collection;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Pager\PagerInterface;
 
 /**
  * TimelineManager
  *
- * @uses AbstractTimelineManager
  * @uses TimelineManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
+class TimelineManager implements TimelineManagerInterface
 {
     /**
      * @var ObjectManager
      */
     protected $objectManager;
+
+    /**
+     * @var PagerInterface
+     */
+    protected $pager;
 
     /**
      * @var string
@@ -36,12 +41,14 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     protected $delayedQueries = array();
 
     /**
-     * @param ObjectManager $objectManager objectManager
-     * @param string        $timelineClass timelineClass
+     * @param ObjectManager  $objectManager objectManager
+     * @param PagerInterface $pager         pager
+     * @param string         $timelineClass timelineClass
      */
-    public function __construct(ObjectManager $objectManager, $timelineClass)
+    public function __construct(ObjectManager $objectManager, PagerInterface $pager, $timelineClass)
     {
         $this->objectManager = $objectManager;
+        $this->pager         = $pager;
         $this->timelineClass = $timelineClass;
     }
 
@@ -57,7 +64,6 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             'type'         => TimelineInterface::TYPE_TIMELINE,
             'context'      => 'GLOBAL',
             'filter'       => true,
-            'paginate'     => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -68,21 +74,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC');
 
-        if ($options['paginate'] && $this->pager) {
-            $pager   = $this->pager->paginate($qb, $options['page'], (int) $options['max_per_page']);
-            $results = $pager->getItems();
-        } else {
-            // really deprecated, it'll not return number of result expected.
-            // doctrine use sql rows for count, it makes some troubles with joins.
-            $qb->setFirstResult(($options['page'] - 1) * $options['max_per_page']);
-
-            if ($options['max_per_page']) {
-                $qb->setMaxResults($options['max_per_page']);
-            }
-
-            $results = $qb->getQuery()
-                ->getResult();
-        }
+        $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
+        $results = $pager->getItems();
 
         $actions = array_map(
             function ($timeline) {
@@ -91,22 +84,13 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             $results
         );
 
+        $pager->setItems($actions);
+
         if ($options['filter']) {
-            $actions = $this->filterCollection($actions);
+            return $this->pager->filter($pager);
         }
 
-        if ($options['paginate'] && $this->pager) {
-            if (!is_array($actions)) {
-                if (!$actions instanceof Collection) {
-                    throw new \LogicException('Actions must be an array or a Collection');
-                }
-                $actions = $actions->toArray();
-            }
-            $pager->setItems($actions);
-            return $pager;
-        }
-
-        return $actions;
+        return $pager;
     }
 
     /**

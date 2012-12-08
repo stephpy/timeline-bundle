@@ -3,24 +3,21 @@
 namespace Spy\TimelineBundle\Driver\Redis;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
-use Spy\TimelineBundle\Driver\AbstractTimelineManager;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Pager\PagerInterface;
 
 /**
  * TimelineManager
  *
- * @uses AbstractTimelineManager
  * @uses TimelineManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
+class TimelineManager implements TimelineManagerInterface
 {
     /**
      * @var PredisClient|PhpredisClient
@@ -28,9 +25,9 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     protected $client;
 
     /**
-     * @var ActionManagerInterface
+     * @var PagerInterface
      */
-    protected $actionManager;
+    protected $pager;
 
     /**
      * @var string
@@ -49,18 +46,18 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
     /**
      * @param PredisClient|PhpredisClient $client        client
-     * @param ActionManagerInterface      $actionManager action manager
+     * @param PagerInterface              $pager         pager
      * @param string                      $prefix        prefix
      * @param boolean                     $pipeline      pipeline
      */
-    public function __construct($client, ActionManagerInterface $actionManager, $prefix, $pipeline = true)
+    public function __construct($client, PagerInterface $pager, $prefix, $pipeline = true)
     {
         if (!$client instanceof PredisClient && !$client instanceof PhpredisClient) {
             throw new \InvalidArgumentException('You have to give a PhpRedisClient or a PredisClient');
         }
 
         $this->client        = $client;
-        $this->actionManager = $actionManager;
+        $this->pager         = $pager;
         $this->prefix        = $prefix;
         $this->pipeline      = $pipeline;
     }
@@ -81,19 +78,14 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        $offset  = ($options['page'] - 1) * $options['max_per_page'];
-        $limit   = $options['max_per_page'] - 1; // due to redis
-
-        $redisKey = $this->getRedisKey($subject, $options['context'], $options['type']);
-        $ids      = $this->client->zRevRange($redisKey, $offset, ($offset + $limit));
-
-        $actions  = $this->actionManager->findActionsForIds($ids);
+        $token   = new Pager\PagerToken($this->getRedisKey($subject, $options['context'], $options['type']));
+        $pager   = $this->pager->paginate($token, $options['page'], $options['max_per_page']);
 
         if ($options['filter']) {
-            return $this->filterCollection($actions);
+            return $this->pager->filter($pager);
         }
 
-        return $actions;
+        return $pager;
     }
 
     /**

@@ -41,8 +41,8 @@ class FilterManager
             $this->sortFilters();
         }
 
-        if (!$collection instanceof Collection) {
-            $collection = new Collection($collection);
+        if (!is_array($collection) && !$collection instanceof \Traversable) {
+            throw new \Exception('Collection must be an array or traversable');
         }
 
         foreach ($this->filters as $filter) {

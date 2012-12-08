@@ -55,7 +55,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function filter(Collection $collection)
+    public function filter($collection)
     {
         if (empty($this->locators)) {
             return $collection;
@@ -68,17 +68,7 @@ class DataHydrator extends AbstractFilter implements FilterInterface
             $this->addComponents($entry->getComponents());
         }
 
-        $this->hydrateComponents();
-
-        if ($this->filterUnresolved) {
-            foreach ($collection as $key => $action) {
-                if (!$action->hasComponentHydrated()) {
-                    unset($collection[$key]);
-                }
-            }
-        }
-
-        return $collection;
+        return $this->hydrateComponents($collection);
     }
 
     /**
@@ -99,15 +89,41 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     /**
      * Use locators to hydrate components.
      */
-    public function hydrateComponents()
+    public function hydrateComponents($collection)
     {
+        $componentsLocated = array();
+
         foreach ($this->components as $model => $components) {
             foreach ($this->locators as $locator) {
                 if ($locator->supports($model)) {
                     $locator->locate($model, $components);
+
+                    foreach ($components as $key => $component) {
+                        $componentsLocated[$key] = $component;
+                    }
+
                     break;
                 }
             }
         }
+
+        foreach ($collection as $key => $action) {
+            foreach ($action->getActionComponents() as $actionComponent) {
+                if (!$actionComponent->isText() && null === $actionComponent->getComponent()->getData()) {
+                    $hash = $actionComponent->getComponent()->getHash();
+
+                    if (array_key_exists($hash, $componentsLocated) && !empty($componentsLocated[$hash])) {
+                        $actionComponent->setComponent($componentsLocated[$hash]);
+                    } else {
+                        if ($this->filterUnresolved) {
+                            unset($collection[$key]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $collection;
     }
 }

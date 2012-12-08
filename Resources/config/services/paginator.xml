@@ -9,6 +9,7 @@
     <services>
 		<service id="spy_timeline.paginator.knp" class="%spy_timeline.paginator.knp.class%">
             <argument type="service" id="knp_paginator" on-invalid="null" />
+            <argument type="service" id="spy_timeline.filter.manager" />
         </service>
     </services>
 </container>

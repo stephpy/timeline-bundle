@@ -18,10 +18,8 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function filter(Collection $collection)
+    public function filter($collection)
     {
-        $collection->setData('initial_count', count($collection));
-
         $duplicateKeys = array();
 
         foreach ($collection as $key => $action) {

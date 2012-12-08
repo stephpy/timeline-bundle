@@ -18,4 +18,9 @@ interface PagerInterface
      * @return mixed
      */
     public function paginate($target, $page = 1, $limit = 10, $options = array());
+
+    /**
+     * filter items
+     */
+    public function filter($pager);
 }

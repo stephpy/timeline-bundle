@@ -69,56 +69,10 @@ class Entry
     }
 
     /**
-     * @param array $references
-     */
-    public function hydrate($references)
-    {
-        exit('HYDRATE entry');
-        foreach ($this->referenceRelatedFields as $key => $fields) {
-            if (array_key_exists($key, $references) && null !== $references[$key]->data) {
-                $this->resolvedReferences[$key] = true;
-                foreach ($fields as $field) {
-                    $this->hydrateField($field, $references[$key]->data);
-                }
-            }
-        }
-    }
-
-    public function isFullyResolved()
-    {
-        exit('IS FULLY RESOLVED');
-        foreach ($this->resolvedReferences as $resolved) {
-            if (!$resolved) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param string $name The name of field to hydrate
-     * @param object $data The object which is the value
-     */
-    protected function hydrateField($name, $data)
-    {
-        exit('HYDRATE FIELD');
-        $setSubjectMethod = sprintf('set%s', Container::camelize($name));
-        $this->timelineAction->{$setSubjectMethod}($object);
-    }
-
-    /**
      * @return array<*,Reference>
      */
     public function getComponents()
     {
         return $this->components;
-    }
-
-    /**
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->key;
     }
 }

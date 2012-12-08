@@ -7,17 +7,15 @@
     <parameters>
         <parameter key="spy_timeline.timeline_manager.redis.class">Spy\TimelineBundle\Driver\Redis\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.redis.class">Spy\TimelineBundle\Driver\Redis\ActionManager</parameter>
+        <parameter key="spy_timeline.pager.redis.class">Spy\TimelineBundle\Driver\Redis\Pager\Pager</parameter>
     </parameters>
 
     <services>
         <service id="spy_timeline.timeline_manager.redis" class="%spy_timeline.timeline_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.action_manager" />
+            <argument type="service" id="spy_timeline.pager" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.driver.redis.pipeline%</argument>
-            <call method="setFilterManager">
-                <argument type="service" id="spy_timeline.filter.manager" />
-            </call>
         </service>
 
         <service id="spy_timeline.action_manager.redis" class="%spy_timeline.action_manager.redis.class%">
@@ -29,6 +27,18 @@
             <call method="setDeployer">
                 <argument type="service" id="spy_timeline.spread.deployer" />
             </call>
+        </service>
+
+        <service id="spy_timeline.pager.redis" class="%spy_timeline.pager.redis.class%">
+            <argument type="service" id="spy_timeline.filter.manager" />
+            <argument type="service" id="spy_timeline.driver.redis.client" />
+            <argument type="service" id="spy_timeline.action_manager" />
+        </service>
+
+        <service id="spy_timeline.pager.redis.knp_subscriber" class="Spy\TimelineBundle\Driver\Redis\Pager\KnpSubscriber">
+            <tag name="knp_paginator.subscriber" />
+            <argument type="service" id="spy_timeline.driver.redis.client" />
+            <argument type="service" id="spy_timeline.action_manager" />
         </service>
     </services>
 

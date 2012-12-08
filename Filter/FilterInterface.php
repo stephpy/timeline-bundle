@@ -20,9 +20,9 @@ interface FilterInterface
      * This action will filters each results given in parameters
      * You have to return results
      *
-     * @param Collection $collection
+     * @param array|\Traversable $collection
      *
      * @return array
      */
-    public function filter(Collection $collection);
+    public function filter($collection);
 }

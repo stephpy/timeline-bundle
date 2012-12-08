@@ -64,14 +64,12 @@ class SpyTimelineExtension extends Extension
         // pager
 
         if (isset($config['paginator'])) {
-            $paginator = $container->getDefinition($config['paginator']);
-
-            $container->getDefinition($timelineManager)
-                ->addMethodCall('setPager', array($paginator));
-
-            $container->getDefinition($actionManager)
-                ->addMethodCall('setPager', array($paginator));
+            $paginator = $config['paginator'];
+        } else {
+            $paginator = sprintf('spy_timeline.pager.%s', $driver);
         }
+
+        $container->setAlias('spy_timeline.pager', $paginator);
 
         // filters
         $filters       = isset($config['filters']) ? $config['filters'] : array();

@@ -8,6 +8,7 @@ use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Model\ComponentInterface;
 use Spy\TimelineBundle\Driver\AbstractActionManager;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\TimelineBundle\Pager\PagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
 
@@ -26,6 +27,11 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected $objectManager;
 
     /**
+     * @var PagerInterface
+     */
+    protected $pager;
+
+    /**
      * @var string
      */
     protected $actionClass;
@@ -41,14 +47,16 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected $actionComponentClass;
 
     /**
-     * @param ObjectManager $objectManager        objectManager
-     * @param string        $actionClass          actionClass
-     * @param string        $componentClass       componentClass
-     * @param string        $actionComponentClass actionComponentClass
+     * @param ObjectManager  $objectManager        objectManager
+     * @param PagerInterface $pager                pager
+     * @param string         $actionClass          actionClass
+     * @param string         $componentClass       componentClass
+     * @param string         $actionComponentClass actionComponentClass
      */
-    public function __construct(ObjectManager $objectManager, $actionClass, $componentClass, $actionComponentClass)
+    public function __construct(ObjectManager $objectManager, PagerInterface $pager, $actionClass, $componentClass, $actionComponentClass)
     {
         $this->objectManager        = $objectManager;
+        $this->pager                = $pager;
         $this->actionClass          = $actionClass;
         $this->componentClass       = $componentClass;
         $this->actionComponentClass = $actionComponentClass;
@@ -97,7 +105,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             'max_per_page' => 10,
             'status'       => ActionInterface::STATUS_PUBLISHED,
             'filter'       => true,
-            'paginate'     => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -107,36 +114,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $options['status']);
 
-        if ($options['paginate'] && $this->pager) {
-            $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
-            $actions = $pager->getItems();
-        } else {
-            $qb->setFirstResult(($options['page'] - 1) * (int) $options['max_per_page']);
-
-            if ($options['max_per_page']) {
-                $qb->setMaxResults($options['max_per_page']);
-            }
-
-            $actions = $qb->getQuery()
-                ->getResult();
-        }
+        $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
 
         if ($options['filter']) {
-            $actions = $this->filterCollection($actions);
+            return $this->pager->filter($pager);
         }
 
-        if ($options['paginate'] && $this->pager) {
-            if (!is_array($actions)) {
-                if (!$actions instanceof Collection) {
-                    throw new \LogicException('Actions must be an array or a Collection');
-                }
-                $actions = $actions->toArray();
-            }
-            $pager->setItems($actions);
-            return $pager;
-        }
-
-        return $actions;
+        return $pager;
     }
 
     /**

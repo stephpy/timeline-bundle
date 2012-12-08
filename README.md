@@ -6,7 +6,6 @@ SpyTimelineBundle 2.0
 Roadmap before stable release:
 ==============================
 
-- Paginator #[37](https://github.com/stephpy/TimelineBundle/issues/37)
 - Documentation
 - Write tests with Atoum.
 - MongoDB Support #[28](https://github.com/stephpy/TimelineBundle/issues/28)
