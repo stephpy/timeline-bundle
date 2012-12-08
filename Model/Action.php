@@ -64,6 +64,8 @@ class Action implements ActionInterface
      */
     public function __construct()
     {
+        $this->statusCurrent    = self::STATUS_PENDING;
+        $this->statusWanted     = self::STATUS_PUBLISHED;
         $this->createdAt        = new DateTime();
         $this->actionComponents = new ArrayCollection();
     }

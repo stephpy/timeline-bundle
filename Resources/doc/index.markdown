@@ -134,7 +134,8 @@ spy_timeline:
             service:              spy_timeline.filter.data_hydrator
             filter_unresolved:    true
             locators:
-                - spy_timeline.filter.data_hydrator.locator.doctrine
+                - spy_timeline.filter.data_hydrator.locator.doctrine_orm
+                - spy_timeline.filter.data_hydrator.locator.doctrine_odm
     spread:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context
