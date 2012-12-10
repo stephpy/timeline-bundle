@@ -67,15 +67,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
-        exit('WIP');
         return $this->objectManager
             ->getRepository($this->actionClass)
             ->createQueryBuilder('a')
-            ->where('a.statusWanted = :status')
-            ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
-            ->setMaxResults($limit)
+            ->field('statusWanted')->equals(ActionInterface::STATUS_PUBLISHED)
+            ->limit($limit)
             ->getQuery()
-            ->getResult();
+            ->execute();
     }
 
     /**
@@ -83,17 +81,15 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function countActions(ComponentInterface $subject, $status = ActionInterface::STATUS_PUBLISHED)
     {
-        exit('WIP');
         if (!$subject->getId()) {
             throw new \InvalidArgumentException('Subject has to be persisted');
         }
 
         return (int) $this->getQueryBuilderForSubject($subject)
-            ->select('count(a)')
-            ->andWhere('a.statusCurrent = :status')
+            ->field('statusCurrent')->equals($status)
             ->setParameter('status', $status)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->count();
     }
 
     /**
@@ -101,7 +97,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function getSubjectActions(ComponentInterface $subject, array $options = array())
     {
-        exit('WIP');
         $resolver = new OptionsResolver();
         $resolver->setDefaults(array(
             'page'         => 1,
@@ -201,8 +196,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findComponents(array $concatIdents)
     {
-        return array();
-        exit('WIP');
+        // see #63
+        exit('todo.');
         $qb = $this->getComponentRepository()
             ->createQueryBuilder('c');
 
@@ -280,6 +275,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
     {
+        // IMO we should store Subject on action (for ODM).
         exit('todo.');
         return $this->objectManager
             ->getRepository($this->actionClass)

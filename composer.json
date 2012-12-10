@@ -1,7 +1,7 @@
 {
     "name": "stephpy/TimelineBundle",
     "description": "Symfony2 bundle to make timeline",
-    "keywords": ["timeline", "notification", "symfony"],
+    "keywords": ["timeline", "notification", "symfony", "bundle"],
     "type": "symfony-bundle",
     "homepage": "https://github.com/stephpy/TimelineBundle",
     "license": "MIT",
@@ -26,7 +26,8 @@
     "suggest": {
         "symfony/console": "List spreads and deploy timelines via a command",
         "snc/redis-bundle": "Use redis driver",
-        "doctrine/orm": "Use doctrine ORM driver"
+        "doctrine/orm": "Use doctrine ORM driver",
+        "doctrine/mongodb-odm-bundle": "Use doctrine ODM driver"
     },
     "minimum-stability": "dev",
     "autoload": {
@@ -41,5 +42,4 @@
             "dev-master": "2.0.x-dev"
         }
     }
-
 }
