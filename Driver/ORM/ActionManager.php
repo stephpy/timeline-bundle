@@ -210,14 +210,14 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findComponents(array $concatIdents)
+    public function findComponents(array $hashes)
     {
         $qb = $this->getComponentRepository()
             ->createQueryBuilder('c');
 
         return $qb
             ->where(
-                $qb->expr()->in('c.hash', $concatIdents)
+                $qb->expr()->in('c.hash', $hashes)
             )
             ->getQuery()
             ->getResult();
