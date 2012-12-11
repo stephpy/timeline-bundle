@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\Redis\Pager;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Knp\Component\Pager\Event\ItemsEvent;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
 
 /**
  * KnpSubscriber

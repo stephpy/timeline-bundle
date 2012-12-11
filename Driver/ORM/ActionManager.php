@@ -4,11 +4,11 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Driver\AbstractActionManager;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\AbstractActionManager;
+use Spy\Timeline\Pager\PagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
 

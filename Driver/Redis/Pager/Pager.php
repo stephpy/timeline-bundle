@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver\Redis\Pager;
 
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Filter\FilterManager;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
+use Spy\Timeline\Filter\FilterManagerInterface;
+use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * Pager
@@ -15,7 +15,7 @@ use Spy\TimelineBundle\Pager\PagerInterface;
 class Pager implements PagerInterface
 {
     /**
-     * @var FilterManager
+     * @var FilterManagerInterface
      */
     protected $filterManager;
 
@@ -30,11 +30,11 @@ class Pager implements PagerInterface
     protected $actionManager;
 
     /**
-     * @param FilterManager               $filterManager filterManager
+     * @param FilterManagerInterface      $filterManager filterManager
      * @param PredisClient|PhpredisClient $client        client
      * @param ActionManagerInterface      $actionManager actionManager
      */
-    public function __construct(FilterManager $filterManager, $client, ActionManagerInterface $actionManager)
+    public function __construct(FilterManagerInterface $filterManager, $client, ActionManagerInterface $actionManager)
     {
         $this->filterManager = $filterManager;
         $this->client        = $client;

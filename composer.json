@@ -15,6 +15,7 @@
     }],
     "require": {
         "php": ">=5.3.2",
+        "stephpy/timeline": "1.0.*",
         "symfony/framework-bundle": ">=2.0,<2.3-dev",
         "symfony/options-resolver": "*"
     },
@@ -42,5 +43,4 @@
             "dev-master": "2.0.x-dev"
         }
     }
-
 }

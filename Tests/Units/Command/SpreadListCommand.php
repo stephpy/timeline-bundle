@@ -15,7 +15,7 @@ class SpreadListCommand extends Test
     {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
-        $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');
+        $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
 
         $deployer      = new \Mock\Deployer();
         $deployer->getMockController()->getSpreads = array();
