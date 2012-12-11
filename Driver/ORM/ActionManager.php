@@ -4,11 +4,11 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Driver\AbstractActionManager;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\AbstractActionManager;
+use Spy\Timeline\Pager\PagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
 
@@ -139,7 +139,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findOrCreateComponent($model, $identifier = null)
+    public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
         list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -167,13 +167,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return $component;
         }
 
-        return $this->createComponent($model, $identifier);
+        return $this->createComponent($model, $identifier, $flush);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createComponent($model, $identifier = null)
+    public function createComponent($model, $identifier = null, $flush = true)
     {
         list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -191,7 +191,10 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $component->setIdentifier($identifier);
 
         $this->objectManager->persist($component);
-        $this->objectManager->flush();
+
+        if ($flush) {
+            $this->flushComponents();
+        }
 
         return $component;
     }
@@ -199,18 +202,22 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findComponents(array $concatIdents)
+    public function flushComponents()
+    {
+        $this->objectManager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findComponents(array $hashes)
     {
         $qb = $this->getComponentRepository()
             ->createQueryBuilder('c');
 
         return $qb
             ->where(
-                $qb->expr()->in(
-                    $qb->expr()->concat('c.model',
-                        $qb->expr()->concat($qb->expr()->literal('#'), 'c.identifier'))
-                    , $concatIdents
-                )
+                $qb->expr()->in('c.hash', $hashes)
             )
             ->getQuery()
             ->getResult();

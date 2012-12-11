@@ -23,7 +23,7 @@ spy_timeline:
 
 ## 3) Using your own paginator
 
-Define a service, which implements `Spy\TimelineBundle\Pager\PagerInterface`
+Define a service, which implements `Spy\Timeline\Pager\PagerInterface`
 
 ```yml
 spy_timeline:

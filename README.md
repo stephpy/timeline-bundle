@@ -1,14 +1,10 @@
 SpyTimelineBundle 2.0
 =====================
 
-**[WIP] DO NOT USE THIS**
+Integrate [timeline](https://github.com/stephpy/timeline) on Symfony2.
 
-Roadmap before stable release:
+[Milestone for release](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
 ==============================
-
-- Write tests with atoum.
-- MongoDB Support #[28](https://github.com/stephpy/TimelineBundle/issues/28)
-- Propel support ?
 
 Supports 2.* Symfony Framework.
 

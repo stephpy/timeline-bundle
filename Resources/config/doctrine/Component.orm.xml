@@ -10,6 +10,8 @@
 
         <field name="identifier" column="identifier" type="array" />
 
+        <field name="hash" column="hash" type="string" unique="true" />
+
     </mapped-superclass>
 
 </doctrine-mapping>

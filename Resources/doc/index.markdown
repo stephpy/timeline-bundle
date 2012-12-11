@@ -111,9 +111,9 @@ spy_timeline:
             pipeline:         true
             prefix:           vlr_timeline
             classes:
-                action:           'Spy\TimelineBundle\Model\Action'
-                component:        'Spy\TimelineBundle\Model\Component'
-                action_component: 'Spy\TimelineBundle\Model\ActionComponent'
+                action:           'Spy\Timeline\Model\Action'
+                component:        'Spy\Timeline\Model\Component'
+                action_component: 'Spy\Timeline\Model\ActionComponent'
 
     timeline_manager: ~ # use custom or let it.
     action_manager:   ~ #  use custom or let it.
@@ -140,8 +140,8 @@ spy_timeline:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context
         deployer: highco.timeline.spread.deployer
+        batch_size: 50 # How many persist before flush operation.
         delivery: immediate
-
     render:
         path:     'AcmeBundle:Timeline'
         fallback: 'AcmeBundle:Timeline:default.html.twig'

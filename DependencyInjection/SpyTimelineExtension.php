@@ -110,6 +110,7 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
         $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
         $container->setParameter('spy_timeline.spread.on_global_context', $config['spread']['on_global_context']);
+        $container->setParameter('spy_timeline.spread.deployer.batch_size', $config['spread']['batch_size']);
 
         //twig
         $render = $config['render'];

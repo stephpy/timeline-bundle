@@ -2,10 +2,10 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
-use Spy\TimelineBundle\Pager\PagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Spy\TimelineBundle\Filter\FilterManager;
+use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\Filter\FilterManagerInterface;
 
 /**
  * Pager
@@ -18,14 +18,14 @@ class Pager implements PagerInterface
     protected $items = array();
 
     /**
-     * @var FilterManager
+     * @var FilterManagerInterface
      */
     protected $filterManager;
 
     /**
-     * @param FilterManager $filterManager filterManager
+     * @param FilterManagerInterface $filterManager filterManager
      */
-    public function __construct(FilterManager $filterManager)
+    public function __construct(FilterManagerInterface $filterManager)
     {
         $this->filterManager = $filterManager;
     }

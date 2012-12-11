@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Entity;
 
-use Spy\TimelineBundle\Model\Component as BaseComponent;
+use Spy\Timeline\Model\Component as BaseComponent;
 
 /**
  * Component entity for Doctrine ORM.

@@ -21,9 +21,9 @@ spy_timeline:
             pipeline:         true
             prefix:           vlr_timeline
             classes:
-                action:           'Spy\TimelineBundle\Model\Action'
-                component:        'Spy\TimelineBundle\Model\Component'
-                action_component: 'Spy\TimelineBundle\Model\ActionComponent'
+                action:           'Spy\Timeline\Model\Action'
+                component:        'Spy\Timeline\Model\Component'
+                action_component: 'Spy\Timeline\Model\ActionComponent'
 ```
 
 That's all

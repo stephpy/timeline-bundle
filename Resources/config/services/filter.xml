@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="spy_timeline.filter.manager.class">Spy\TimelineBundle\Filter\FilterManager</parameter>
-        <parameter key="spy_timeline.filter.duplicate_key.class">Spy\TimelineBundle\Filter\DuplicateKey</parameter>
-        <parameter key="spy_timeline.filter.data_hydrator.class">Spy\TimelineBundle\Filter\DataHydrator</parameter>
+        <parameter key="spy_timeline.filter.manager.class">Spy\Timeline\Filter\FilterManager</parameter>
+        <parameter key="spy_timeline.filter.duplicate_key.class">Spy\Timeline\Filter\DuplicateKey</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.class">Spy\Timeline\Filter\DataHydrator</parameter>
         <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine_orm.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\DoctrineORM</parameter>
         <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine_odm.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\DoctrineODM</parameter>
     </parameters>
