@@ -16,7 +16,7 @@ class DeployActionCommand extends Test
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
         $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
-        $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');
+        $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
 
         $actionManager = new \Mock\ActionManagerInterface();
         $deployer      = new \Mock\Deployer();
@@ -57,7 +57,7 @@ class DeployActionCommand extends Test
         $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
         $this->mockClass('Spy\Timeline\Model\ActionInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
-        $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');
+        $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
 
         $action        = new \Mock\ActionInterface();
         $actionManager = new \Mock\ActionManagerInterface();
