@@ -91,7 +91,8 @@ $timeline = $actionManager->getSubjectActions($subject);
 spy_timeline:
     drivers: # define only one.
         orm:
-            object_manager: ~   # doctrine.orm.entity_manager
+            object_manager: ~     # doctrine.orm.entity_manager
+            post_load_listener:   true # Hydrate component data via postLoad listener
             classes:
                 timeline:         'Acme\YourBundle\Entity\Timeline'
                 action:           'Acme\YourBundle\Entity\Action'
@@ -99,7 +100,8 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         # OR
         odm:
-            object_manager: ~    # doctrine.odm.mongodb.document_manager
+            object_manager: ~     # doctrine.odm.mongodb.document_manager
+            post_load_listener:   true # Hydrate component data via postLoad listener
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
                 action:           'Acme\YourBundle\Document\Action'

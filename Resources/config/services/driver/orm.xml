@@ -12,13 +12,13 @@
 
     <services>
         <service id="spy_timeline.timeline_manager.orm" class="%spy_timeline.timeline_manager.orm.class%">
-            <argument type="service" id="spy_timeline.driver.orm.object_manager" />
+            <argument type="service" id="spy_timeline.driver.object_manager" />
             <argument type="service" id="spy_timeline.pager" />
             <argument>%spy_timeline.class.timeline%</argument>
         </service>
 
         <service id="spy_timeline.action_manager.orm" class="%spy_timeline.action_manager.orm.class%">
-            <argument type="service" id="spy_timeline.driver.orm.object_manager" />
+            <argument type="service" id="spy_timeline.driver.object_manager" />
             <argument type="service" id="spy_timeline.pager" />
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>

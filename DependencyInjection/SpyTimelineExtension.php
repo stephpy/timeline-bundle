@@ -134,9 +134,13 @@ class SpyTimelineExtension extends Extension
             }
         }
 
-        $container->setAlias('spy_timeline.driver.orm.object_manager', $config['object_manager']);
+        $container->setAlias('spy_timeline.driver.object_manager', $config['object_manager']);
 
         $loader->load('driver/orm.xml');
+
+        if ($config['post_load_listener']) {
+            $loader->load('driver/doctrine_listener.xml');
+        }
     }
 
     private function loadODMDriver($container, $loader, $config)
@@ -153,9 +157,13 @@ class SpyTimelineExtension extends Extension
             }
         }
 
-        $container->setAlias('spy_timeline.driver.odm.object_manager', $config['object_manager']);
+        $container->setAlias('spy_timeline.driver.object_manager', $config['object_manager']);
 
         $loader->load('driver/odm.xml');
+
+        if ($config['post_load_listener']) {
+            $loader->load('driver/doctrine_listener.xml');
+        }
     }
 
     private function loadRedisDriver($container, $loader, $config)
