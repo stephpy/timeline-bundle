@@ -14,7 +14,7 @@ class DeployActionCommand extends Test
     public function testNoTimeline()
     {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
-        $this->mockClass('Spy\TimelineBundle\Driver\ActionManagerInterface', '\Mock');
+        $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
         $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');
 
@@ -54,7 +54,7 @@ class DeployActionCommand extends Test
     public function testOneTimeline()
     {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
-        $this->mockClass('Spy\TimelineBundle\Driver\ActionManagerInterface', '\Mock');
+        $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
         $this->mockClass('Spy\Timeline\Model\ActionInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
         $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');

@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Driver\Redis\Pager;
 
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Filter\FilterManager;
 use Spy\TimelineBundle\Pager\PagerInterface;
 

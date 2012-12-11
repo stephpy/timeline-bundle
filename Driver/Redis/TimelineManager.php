@@ -5,7 +5,7 @@ namespace Spy\TimelineBundle\Driver\Redis;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
-use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;

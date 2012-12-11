@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Spread\Entry;
 
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\ActionManagerInterface;
 
 /**
  * A collection of entry

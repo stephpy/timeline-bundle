@@ -5,7 +5,7 @@ namespace Spy\TimelineBundle\Driver\ORM;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
 use Spy\TimelineBundle\Driver\AbstractTimelineManager;
-use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;

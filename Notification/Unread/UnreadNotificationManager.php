@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Notification\Unread;
 
-use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
