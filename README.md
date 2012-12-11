@@ -1,9 +1,7 @@
 SpyTimelineBundle 2.0
 =====================
 
-**[WIP] DO NOT USE THIS FOR PRODUCTION**
-
-[Milestone for 2.0](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
+[Milestone for release](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
 ==============================
 
 Supports 2.* Symfony Framework.
