@@ -8,12 +8,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Doctrine
+ * DoctrineORM
  *
  * @uses LocatorInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Doctrine implements LocatorInterface
+class DoctrineORM implements LocatorInterface
 {
     /**
      * @var ManagerRegistry
@@ -23,7 +23,7 @@ class Doctrine implements LocatorInterface
     /**
      * @param ManagerRegistry $registry registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry = null)
     {
         $this->registry = $registry;
     }
@@ -33,10 +33,14 @@ class Doctrine implements LocatorInterface
      */
     public function supports($model)
     {
+        if (null === $this->registry) {
+            return false;
+        }
+
         try {
             $objectManager = $this->registry->getManagerForClass($model);
 
-            return null !== $objectManager;
+            return $objectManager instanceof \Doctrine\ORM\EntityManager;
         } catch (\Exception $e) {
             return false;
         }

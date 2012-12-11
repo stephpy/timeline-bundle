@@ -8,7 +8,8 @@
         <parameter key="spy_timeline.filter.manager.class">Spy\Timeline\Filter\FilterManager</parameter>
         <parameter key="spy_timeline.filter.duplicate_key.class">Spy\Timeline\Filter\DuplicateKey</parameter>
         <parameter key="spy_timeline.filter.data_hydrator.class">Spy\Timeline\Filter\DataHydrator</parameter>
-        <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\Doctrine</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine_orm.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\DoctrineORM</parameter>
+        <parameter key="spy_timeline.filter.data_hydrator.locator.doctrine_odm.class">Spy\TimelineBundle\Filter\DataHydrator\Locator\DoctrineODM</parameter>
     </parameters>
 
     <services>
@@ -20,8 +21,12 @@
         <service id="spy_timeline.filter.data_hydrator" class="%spy_timeline.filter.data_hydrator.class%" />
 
         <!--- locators -->
-        <service id="spy_timeline.filter.data_hydrator.locator.doctrine" class="%spy_timeline.filter.data_hydrator.locator.doctrine.class%">
-            <argument type="service" id="doctrine" />
+        <service id="spy_timeline.filter.data_hydrator.locator.doctrine_orm" class="%spy_timeline.filter.data_hydrator.locator.doctrine_orm.class%">
+            <argument type="service" id="doctrine" on-invalid="null"/>
+        </service>
+
+        <service id="spy_timeline.filter.data_hydrator.locator.doctrine_odm" class="%spy_timeline.filter.data_hydrator.locator.doctrine_odm.class%">
+            <argument type="service" id="doctrine_mongodb" on-invalid="null" />
         </service>
     </services>
 

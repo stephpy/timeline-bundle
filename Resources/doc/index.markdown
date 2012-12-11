@@ -99,7 +99,7 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         # OR
         odm:
-            object_manager: ~   # doctrine.odm.entity_manager
+            object_manager: ~    # doctrine.odm.mongodb.document_manager
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
                 action:           'Acme\YourBundle\Document\Action'
@@ -134,7 +134,8 @@ spy_timeline:
             service:              spy_timeline.filter.data_hydrator
             filter_unresolved:    true
             locators:
-                - spy_timeline.filter.data_hydrator.locator.doctrine
+                - spy_timeline.filter.data_hydrator.locator.doctrine_orm
+                - spy_timeline.filter.data_hydrator.locator.doctrine_odm
     spread:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context

@@ -67,7 +67,8 @@ spy_timeline:
         data_hydrator:
             #.....
             locators:
-                - spy_timeline.filter.data_hydrator.locator.doctrine
+                - spy_timeline.filter.data_hydrator.locator.doctrine_orm
+                - spy_timeline.filter.data_hydrator.locator.doctrine_odm
 ```
 
 This locator supports Doctrine `ORM` and `ODM` entities with composite keys or not.

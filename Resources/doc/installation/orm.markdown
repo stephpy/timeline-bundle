@@ -149,20 +149,6 @@ class ActionComponent extends BaseActionComponent
 }
 ```
 
-# 6) Define driver section on configuration:
-
-```yaml
-spy_timeline:
-    drivers: # define only one.
-        orm:
-            object_manager: ~   # doctrine.orm.entity_manager
-            classes:
-                timeline:         'Acme\YourBundle\Entity\Timeline'
-                action:           'Acme\YourBundle\Entity\Action'
-                component:        'Acme\YourBundle\Entity\Component'
-                action_component: 'Acme\YourBundle\Entity\ActionComponent'
-```
-
 That's all
 
 [index](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)

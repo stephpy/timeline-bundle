@@ -34,4 +34,5 @@ public function registerBundles()
 # Step 3: Choose your driver
 
 - [orm](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/installation/orm.markdown)
+- [odm](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/installation/odm.markdown)
 - [redis](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/installation/redis.markdown)
