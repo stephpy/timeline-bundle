@@ -139,7 +139,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findOrCreateComponent($model, $identifier = null)
+    public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
         list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -167,13 +167,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return $component;
         }
 
-        return $this->createComponent($model, $identifier);
+        return $this->createComponent($model, $identifier, $flush);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createComponent($model, $identifier = null)
+    public function createComponent($model, $identifier = null, $flush = true)
     {
         list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -191,9 +191,20 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $component->setIdentifier($identifier);
 
         $this->objectManager->persist($component);
-        $this->objectManager->flush();
+
+        if ($flush) {
+            $this->flushComponents();
+        }
 
         return $component;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function flushComponents()
+    {
+        $this->objectManager->flush();
     }
 
     /**

@@ -50,7 +50,6 @@ class Deployer
      */
     protected $timelineManager;
 
-
     /**
      * @param NotificationManager      $notificationManager notificationManager
      * @param TimelineManagerInterface $timelineManager     timelineManager

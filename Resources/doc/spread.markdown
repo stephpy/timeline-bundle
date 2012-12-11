@@ -26,6 +26,7 @@ namespace Acme\TimelineBundle\Spread;
 use Spy\TimelineBundle\Spread\SpreadInterface;
 use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\Entry;
 use Spy\TimelineBundle\Spread\Entry\EntryUnaware;
 
 class MySpread implements SpreadInterface
@@ -37,6 +38,12 @@ class MySpread implements SpreadInterface
 
     public function process(ActionInterface $action, EntryCollection $coll)
     {
+        // can define an Entry with a ComponentInterface as argument
+        $coll->add(new Entry($action->getComponent('subject')));
+
+        // or an EntryUnware, on these examples, we are not aware about components and
+        // we don't want to retrieve them, let bundle do that for us.
+
         // composite key
         $coll->add(new EntryUnaware('model', array('1', '2')));
         $coll->add(new EntryUnaware('some\othermodel', 1));

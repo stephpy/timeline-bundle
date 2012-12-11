@@ -55,10 +55,11 @@ interface ActionManagerInterface
      * @param string|object     $model      pass an object and second argument will be ignored.
      * it'll be replaced by $model->getId();
      * @param null|string|array $identifier pass an array for composite keys.
+     * @param boolean           $flush      is component flushed with this method ?
      *
      * @return ComponentInterface
      */
-    public function findOrCreateComponent($model, $identifier = null);
+    public function findOrCreateComponent($model, $identifier = null, $flush = true);
 
     /**
      * create component.
@@ -66,10 +67,16 @@ interface ActionManagerInterface
      * @param string|object     $model      pass an object and second argument will be ignored.
      * it'll be replaced by $model->getId();
      * @param null|string|array $identifier pass an array for composite keys.
+     * @param boolean           $flush      is component flushed with this method ?
      *
      * @return ComponentInterface
      */
-    public function createComponent($model, $identifier = null);
+    public function createComponent($model, $identifier = null, $flush = true);
+
+    /**
+     * flushComponents
+     */
+    public function flushComponents();
 
     /**
      * @param array $concatIdents array<concat(model,identifier)>

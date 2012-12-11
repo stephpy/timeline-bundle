@@ -27,12 +27,19 @@ class EntryCollection implements \IteratorAggregate
     protected $duplicateOnGlobal = true;
 
     /**
-     * @param boolean $duplicateOnGlobal Each timeline action are automatically pushed on Global context
+     * @var integer
      */
-    public function __construct($duplicateOnGlobal = true)
+    protected $batchSize;
+
+    /**
+     * @param boolean $duplicateOnGlobal Each timeline action are automatically pushed on Global context
+     * @param integer $batchSize         batch size
+     */
+    public function __construct($duplicateOnGlobal = true, $batchSize = 50)
     {
         $this->coll              = new \ArrayIterator();
         $this->duplicateOnGlobal = $duplicateOnGlobal;
+        $this->batchSize         = (int) $batchSize;
     }
 
     /**
@@ -104,6 +111,7 @@ class EntryCollection implements \IteratorAggregate
 
         unset($components);
 
+        $nbComponentCreated = 0;
         foreach ($this->coll as $context => $entries) {
             foreach ($entries as $entry) {
                 if ($entry instanceof EntryUnaware) {
@@ -116,7 +124,14 @@ class EntryCollection implements \IteratorAggregate
                             throw new \Exception(sprintf('Component with ident "%s" is unknown', $entry->getIdent()));
                         }
 
-                        $component = $this->actionManager->createComponent($entry->getSubjectModel(), $entry->getSubjectId());
+                        // thrid argument make component not flushed directly.
+                        $component = $this->actionManager->createComponent($entry->getSubjectModel(), $entry->getSubjectId(), false);
+
+                        $nbComponentCreated++;
+
+                        if (($nbComponentCreated % $this->batchSize) == 0) {
+                            $this->actionManager->flushComponents();
+                        }
 
                         if (null === $component) {
                             throw new \Exception(sprintf('Component with ident "%s" cannot be created', $entry->getIdent()));
@@ -127,6 +142,10 @@ class EntryCollection implements \IteratorAggregate
                     }
                 }
             }
+        }
+
+        if ($nbComponentCreated > 0) {
+            $this->actionManager->flushComponents();
         }
     }
 
