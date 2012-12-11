@@ -1,5 +1,6 @@
 {
-    "name": "stephpy/TimelineBundle",
+    "name": "stephpy/timeline-bundle",
+    "replace": {"stephpy/TimelineBundle": "self.version"},
     "description": "Symfony2 bundle to make timeline",
     "keywords": ["timeline", "notification", "symfony"],
     "type": "symfony-bundle",
