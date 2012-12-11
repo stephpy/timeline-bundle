@@ -141,7 +141,6 @@ class SpyTimelineExtension extends Extension
 
     private function loadODMDriver($container, $loader, $config)
     {
-        exit('not yet supported');
         $classes = isset($config['classes']) ? $config['classes'] : array();
 
         $parameters = array(
