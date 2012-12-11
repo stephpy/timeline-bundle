@@ -8,7 +8,7 @@ use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Spread\DeployerInterface;
 use Spy\Timeline\Spread\SpreadInterface;
-use Spy\TimelineBundle\Notification\NotificationManager;
+use Spy\Timeline\Notification\NotificationManagerInterface;
 use Spy\Timeline\Spread\Entry\Entry;
 use Spy\Timeline\Spread\Entry\EntryCollection;
 
@@ -40,7 +40,7 @@ class Deployer implements DeployerInterface
     protected $onSubject;
 
     /**
-     * @var NotificationManager
+     * @var NotificationManagerInterface
      */
     protected $notificationManager;
 
@@ -50,13 +50,13 @@ class Deployer implements DeployerInterface
     protected $timelineManager;
 
     /**
-     * @param NotificationManager      $notificationManager notificationManager
-     * @param TimelineManagerInterface $timelineManager     timelineManager
-     * @param EntryCollection          $entryCollection     entryCollection
-     * @param boolean                  $onSubject           onSubject
-     * @param integer                  $batchSize           batch size
+     * @param NotificationManagerInterface $notificationManager notificationManager
+     * @param TimelineManagerInterface     $timelineManager     timelineManager
+     * @param EntryCollection              $entryCollection     entryCollection
+     * @param boolean                      $onSubject           onSubject
+     * @param integer                      $batchSize           batch size
      */
-    public function __construct(NotificationManager $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true, $batchSize = 50)
+    public function __construct(NotificationManagerInterface $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true, $batchSize = 50)
     {
         $this->notificationManager = $notificationManager;
         $this->timelineManager     = $timelineManager;
