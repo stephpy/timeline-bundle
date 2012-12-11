@@ -34,7 +34,9 @@ class Configuration extends Test
             $self->processConfiguration(array(array(
                 'drivers' => array(
                     'orm' => array(),
-                    'odm' => array(),
+                    'odm' => array(
+                        'object_manager' => 'foo',
+                    ),
                 )
             )));
         })
@@ -70,6 +72,7 @@ class Configuration extends Test
                 'on_subject' => true,
                 'on_global_context' => true,
                 'deployer' => 'spy_timeline.spread.deployer.default',
+                'batch_size' => '50',
                 'delivery' => 'immediate',
             ),
             'render' => array(
