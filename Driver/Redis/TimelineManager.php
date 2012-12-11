@@ -9,7 +9,7 @@ use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * TimelineManager

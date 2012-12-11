@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
-use Spy\TimelineBundle\Pager\PagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Spy\Timeline\Pager\PagerInterface;
 use Spy\TimelineBundle\Filter\FilterManager;
 
 /**

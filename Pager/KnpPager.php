@@ -4,6 +4,7 @@ namespace Spy\TimelineBundle\Pager;
 
 use Knp\Component\Pager\Paginator;
 use Spy\TimelineBundle\Filter\FilterManager;
+use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * KnpPager

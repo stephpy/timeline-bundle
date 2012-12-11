@@ -8,7 +8,7 @@ use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\AbstractActionManager;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Pager\PagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
 
