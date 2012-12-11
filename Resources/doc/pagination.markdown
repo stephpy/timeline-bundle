@@ -1,49 +1,31 @@
 # Pagination
 
-Works with KnpPaginatorBundle
-
-## Working with pager
+A pagination is used when call:
 
 ```php
-<?php
-
-use Highco\TimelineBundle\Pager\TimelinePagerToken;
-
-class Controller
-{
-    public function myAction()
-    {
-        $paginator  = $this->get('knp_paginator');
-        $page       = $this->get('request')->get('page', 1);
-        $maxPerPage = 10;
-
-        // Paginate Notifications
-        // \User is the class of User and 1337 is id
-        $notifications = $paginator->paginate(
-            new TimelinePagerToken(TimelinePagerToken::SERVICE_NOTIFICATION, '\User', 1337),
-            $page,
-            $maxPerPage
-        );
-
-        // Paginate wall for a subject
-        // \User is the class of User and 1337 is id
-        $timeline = $paginator->paginate(
-            new TimelinePagerToken(TimelinePagerToken::SERVICE_TIMELINE, '\User', 1337),
-            $page,
-            $maxPerPage
-        );
-
-        // Paginate timeline for a subject
-        // \User is the class of User and 1337 is id
-        $timeline = $paginator->paginate(
-            new TimelinePagerToken(TimelinePagerToken::SERVICE_SUBJECT_TIMELINE, '\User', 1337),
-            $page,
-            $maxPerPage
-        );
-
-        // ... look at knp paginator bundle to see how it works
-    }
-
-}
+$timelineManager->getTimeline($subject, array('page' => 1, 'max_per_page' => '10'));
+$actionManager->getSubjectActions($subject, array('page' => 1, 'max_per_page' => '10'));
 ```
 
+## 1) Using Default paginator provided with driver
+
+```yml
+spy_timeline:
+    paginator: ~
+```
+
+## 2) Using [KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle)
+
+```yml
+spy_timeline:
+    paginator: spy_timeline.paginator.knp
+```
+
+## 3) Using your own paginator
+
+Define a service, which implements `Spy\TimelineBundle\Pager\PagerInterface`
+
+```yml
+spy_timeline:
+    paginator: your_service
+```

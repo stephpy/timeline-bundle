@@ -1,9 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter\DataHydrator;
+namespace Spy\TimelineBundle\Filter\DataHydrator;
 
 use Symfony\Component\DependencyInjection\Container;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\ActionComponentInterface;
 
 /**
  * Entry, each timeline actions are an entry
@@ -13,24 +14,14 @@ use Highco\TimelineBundle\Model\TimelineAction;
 class Entry
 {
     /**
-     * @var TimelineAction
+     * @var ActionInterface
      */
-    private $timelineAction;
+    private $action;
 
     /**
      * @var array
      */
-    private $references = array();
-
-    /**
-     * @var array
-     */
-    private $resolvedReferences = array();
-
-    /**
-     * @var array
-     */
-    private $referenceRelatedFields = array();
+    private $components = array();
 
     /**
      * @var int
@@ -38,12 +29,13 @@ class Entry
     protected $key;
 
     /**
-     * @param TimelineAction $timelineAction
+     * @param ActionInterface $action action
+     * @param string          $key    key
      */
-    public function __construct(TimelineAction $timelineAction, $key)
+    public function __construct(ActionInterface $action, $key)
     {
-        $this->timelineAction = $timelineAction;
-        $this->key = $key;
+        $this->action = $action;
+        $this->key    = $key;
     }
 
     /**
@@ -52,95 +44,35 @@ class Entry
      */
     public function build()
     {
-        $this->buildReference('subject');
-        $this->buildReference('directComplement');
-        $this->buildReference('indirectComplement');
+        foreach ($this->action->getActionComponents() as $actionComponent) {
+            if (!$actionComponent->isText()) {
+                $this->buildComponent($actionComponent);
+            }
+        }
     }
 
     /**
-     * @param string $name
+     * @param ActionComponentInterface $actionComponent actionComponent
      */
-    public function buildReference($name)
+    public function buildComponent(ActionComponentInterface $actionComponent)
     {
-        $getSubjectMethod = sprintf('get%s', Container::camelize($name));
+        $component = $actionComponent->getComponent();
+        $data      = $component->getData();
 
-        // if object is already set (and not an non-inited proxy), we don't need to continue
-        $object = $this->timelineAction->{$getSubjectMethod}();
-        if (null !== $object
-            AND (!$object instanceof \Doctrine\Common\Persistence\Proxy OR $object->__isInitialized())
+        if (null !== $data
+            && (!$data instanceof \Doctrine\Common\Persistence\Proxy || $data->__isInitialized())
         ) {
             return;
         }
 
-        $getModelMethod = sprintf('%sModel', $getSubjectMethod);
-        $getIdMethod    = sprintf('%sId', $getSubjectMethod);
-
-        // if model and is are not define, we cannot build reference
-        if (null === $this->timelineAction->{$getModelMethod}()
-            || null === $this->timelineAction->{$getIdMethod}()) {
-            return;
-        }
-
-        $reference = new Reference(
-            $this->timelineAction->{$getModelMethod}(),
-            $this->timelineAction->{$getIdMethod}()
-        );
-
-        $refKey = $reference->getKey();
-        $this->references[$refKey] = $reference;
-        $this->resolvedReferences[$refKey] = false;
-
-        if (!isset($this->referenceRelatedFields[$refKey])) {
-            $this->referenceRelatedFields[$refKey] = array();
-        }
-
-        $this->referenceRelatedFields[$refKey][] = $name;
-    }
-
-    /**
-     * @param array $references
-     */
-    public function hydrate($references)
-    {
-        foreach ($this->referenceRelatedFields as $key => $fields) {
-            if (array_key_exists($key, $references) && null !== $references[$key]->object) {
-                $this->resolvedReferences[$key] = true;
-                foreach ($fields as $field) {
-                    $this->hydrateField($field, $references[$key]->object);
-                }
-            }
-        }
-    }
-
-    public function isFullyResolved() {
-        foreach($this->resolvedReferences as $resolved) {
-            if(!$resolved) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param string $name   The name of field to hydrate
-     * @param object $object The object which is the value
-     */
-    protected function hydrateField($name, $object)
-    {
-        $setSubjectMethod = sprintf('set%s', Container::camelize($name));
-        $this->timelineAction->{$setSubjectMethod}($object);
+        $this->components[$component->getHash()] = $component;
     }
 
     /**
      * @return array<*,Reference>
      */
-    public function getReferences()
+    public function getComponents()
     {
-        return $this->references;
-    }
-
-    public function getKey()
-    {
-        return $this->key;
+        return $this->components;
     }
 }

@@ -1,25 +1,10 @@
 {# Widgets #}
-
 {% block subject_component %}
 {% spaceless %}
     {% set type = type|default('subject') %}
     {{ block('action_component') }}
 {% endspaceless %}
 {% endblock subject_component %}
-
-{% block direct_complement_component %}
-{% spaceless %}
-    {% set type = type|default('direct_complement') %}
-    {{ block('action_component') }}
-{% endspaceless %}
-{% endblock direct_complement_component %}
-
-{% block indirect_complement_component %}
-{% spaceless %}
-    {% set type = type|default('indirect_complement') %}
-    {{ block('action_component') }}
-{% endspaceless %}
-{% endblock indirect_complement_component %}
 
 {% block verb_component %}
 {% spaceless %}

@@ -1,5 +1,6 @@
 <?php
-namespace Highco\TimelineBundle\Filter;
+
+namespace Spy\TimelineBundle\Filter;
 
 /**
  * AbstractFilter
@@ -8,32 +9,24 @@ namespace Highco\TimelineBundle\Filter;
  */
 abstract class AbstractFilter
 {
-    protected $options;
+    /**
+     * @var integer
+     */
+    protected $priority;
 
     /**
      * @param array $options options
      */
-    public function setOptions(array $options)
+    public function setPriority($priority)
     {
-        $this->options = $options;
+        $this->priority = $priority;
     }
 
     /**
-     * @return array
+     * @return integer
      */
-    public function getOptions()
+    public function getPriority()
     {
-        return $this->options;
-    }
-
-    /**
-     * @param string $key     key
-     * @param mixed  $default default
-     *
-     * @return mixed
-     */
-    public function getOption($key, $default = null)
-    {
-        return isset($this->options[$key]) ?  $this->options[$key]:  $default;
+        return $this->priority;
     }
 }

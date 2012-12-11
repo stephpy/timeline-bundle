@@ -1,5 +1,10 @@
-HighcoTimelineBundle 1.3.1
-==========================
+SpyTimelineBundle 2.0
+=====================
+
+**[WIP] DO NOT USE THIS FOR PRODUCTION**
+
+[Milestone for 2.0](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
+==============================
 
 Supports 2.* Symfony Framework.
 
@@ -7,20 +12,13 @@ Supports 2.* Symfony Framework.
 
 Build timeline/wall for an entity easily.
 
-There is too a notification system, you can easily know how many unread notifications you have, mark as read one/all, etc ... You can too add your notifier easily ...
+There is too a notification system, you can easily know how many unread notifications you have, mark as read one/all, etc ...
 
 [Read the Documentation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)
 
 Launch tests:
 
 ```
-composer install
-phpunit
+composer install --dev
+bin/atoum -d Tests/Units
 ```
-
----------------
-
-# Wishlist
-
-- Other providers ( contribute guys !)
-- Propel/Doctrine ODM supports

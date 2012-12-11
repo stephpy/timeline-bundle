@@ -1,12 +1,12 @@
 <?php
 
-namespace Highco\TimelineBundle\Twig\Node;
+namespace Spy\TimelineBundle\Twig\Node;
 
 class TimelineActionThemeNode extends \Twig_Node
 {
-    public function __construct(\Twig_NodeInterface $timelineAction, \Twig_NodeInterface $resources, array $attributes = array(), $lineno = 0, $tag = null)
+    public function __construct(\Twig_NodeInterface $action, \Twig_NodeInterface $resources, array $attributes = array(), $lineno = 0, $tag = null)
     {
-        parent::__construct(array('timelineAction' => $timelineAction, 'resources' => $resources), $attributes, $lineno, $tag);
+        parent::__construct(array('action' => $action, 'resources' => $resources), $attributes, $lineno, $tag);
     }
 
     /**
@@ -17,7 +17,7 @@ class TimelineActionThemeNode extends \Twig_Node
         $compiler
             ->addDebugInfo($this)
             ->write('echo $this->env->getExtension(\'timeline_render\')->setTheme(')
-            ->subcompile($this->getNode('timelineAction'))
+            ->subcompile($this->getNode('action'))
             ->raw(', array(')
         ;
 

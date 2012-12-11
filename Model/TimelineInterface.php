@@ -1,50 +1,29 @@
 <?php
 
-namespace Highco\TimelineBundle\Model;
+namespace Spy\TimelineBundle\Model;
 
 /**
- * TimelineActionManagerInterface
+ * TimelineInterface
+ *
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 interface TimelineInterface
 {
-    /**
-     * @param  object $subject
-     *
-     * @return void
-     */
-    public function setSubject($subject);
+    CONST TYPE_TIMELINE = 'timeline';
 
     /**
-     * @return object|null
+     * {@inheritdoc}
      */
-    public function getSubject();
+    public function setId($id);
 
     /**
-     * @param string $model
+     * {@inheritdoc}
      */
-    public function setSubjectModel($model);
-
-    /**
-     * @return string
-     */
-    public function getSubjectModel();
-
-    /**
-     * @param  integer $subjectId
-     *
-     * @return void
-     */
-    public function setSubjectId($subjectId);
-
-    /**
-     * @return integer
-     */
-    public function getSubjectId();
+    public function getId();
 
     /**
      * @param string $context
-     *
-     * @return void
+     * @return Timeline
      */
     public function setContext($context);
 
@@ -54,38 +33,46 @@ interface TimelineInterface
     public function getContext();
 
     /**
-     * @param mixed $id
-     *
-     * @return void
+     * @param string $type
+     * @return Timeline
      */
-    public function setTimelineActionId($id);
+    public function setType($type);
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTimelineActionId();
+    public function getType();
 
     /**
-     * @param TimelineActionInterface $timelineAction
-     *
-     * @return void
+     * @param \DateTime $createdAt
+     * @return Timeline
      */
-    public function setTimelineAction(TimelineActionInterface $timelineAction);
-
-    /**
-     * @return TimelineActionInterface|null
-     */
-    public function getTimelineAction();
-
-    /**
-     * @param  \DateTime $createdAt
-     * @return void
-     */
-    public function setCreatedAt($createdAt);
+    public function setCreatedAt(\DateTime $createdAt);
 
     /**
      * @return \DateTime
      */
     public function getCreatedAt();
 
+    /**
+     * @param Component $subject
+     * @return Timeline
+     */
+    public function setSubject(ComponentInterface $subject);
+
+    /**
+     * @return ComponentInterface
+     */
+    public function getSubject();
+
+    /**
+     * @param ActionInterface $action
+     * @return Timeline
+     */
+    public function setAction(ActionInterface $action);
+
+    /**
+     * @return ActionInterface
+     */
+    public function getAction();
 }

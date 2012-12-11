@@ -3,16 +3,15 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="highco.timeline.notification_manager.class">Highco\TimelineBundle\Notification\NotificationManager</parameter>
-        <parameter key="highco.timeline.unread_notifications.class">Highco\TimelineBundle\Notification\Unread\UnreadNotificationManager</parameter>
+        <parameter key="spy_timeline.notification_manager.class">Spy\TimelineBundle\Notification\NotificationManager</parameter>
+        <parameter key="spy_timeline.unread_notifications.class">Spy\TimelineBundle\Notification\Unread\UnreadNotificationManager</parameter>
     </parameters>
 
     <services>
-        <service id="highco.timeline.notification_manager" class="%highco.timeline.notification_manager.class%">
-        </service>
+        <service id="spy_timeline.notification_manager" class="%spy_timeline.notification_manager.class%" />
 
-		<service id="highco.timeline.unread_notifications" class="%highco.timeline.unread_notifications.class%">
-            <argument type="service" id="highco.timeline.provider" />
+		<service id="spy_timeline.unread_notifications" class="%spy_timeline.unread_notifications.class%">
+            <argument type="service" id="spy_timeline.timeline_manager" />
         </service>
 
     </services>

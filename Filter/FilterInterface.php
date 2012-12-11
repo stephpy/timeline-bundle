@@ -1,6 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
+
+use Spy\TimelineBundle\Model\Collection;
 
 /**
  * This interface define how filters must be used
@@ -10,18 +12,17 @@ namespace Highco\TimelineBundle\Filter;
 interface FilterInterface
 {
     /**
-     * @param  array $options options
-     * @return void
+     * @return integer
      */
-    public function initialize(array $options = array());
+    public function getPriority();
 
     /**
      * This action will filters each results given in parameters
      * You have to return results
      *
-     * @param array $results
+     * @param array|\Traversable $collection
      *
      * @return array
      */
-    public function filter($results);
+    public function filter($collection);
 }

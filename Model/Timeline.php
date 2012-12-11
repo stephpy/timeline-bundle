@@ -1,30 +1,19 @@
 <?php
 
-namespace Highco\TimelineBundle\Model;
-
-use Highco\TimelineBundle\Model\TimelineInterface;
-use Highco\TimelineBundle\Model\TimelineActionInterface;
+namespace Spy\TimelineBundle\Model;
 
 /**
- * Timeline model
+ * Timeline
  *
+ * @uses TimelineInterface
+ * @author Stephane PY <py.stephane1@gmail.com>
  */
 class Timeline implements TimelineInterface
 {
     /**
-     * @var string
+     * @var integer
      */
-    protected $subjectModel;
-
-    /**
-     * @var mixed
-     */
-    protected $subjectId;
-
-    /**
-     * @var object
-     */
-    protected $subject;
+    protected $id;
 
     /**
      * @var string
@@ -34,96 +23,61 @@ class Timeline implements TimelineInterface
     /**
      * @var string
      */
-    protected $type;
+    protected $type = self::TYPE_TIMELINE;
 
     /**
-     * @var integer
+     * @var Component
      */
-    protected $timelineActionId;
+    protected $subject;
 
     /**
-     * @var TimelineActionInterface
+     * @var Action
      */
-    protected $timelineAction;
+    protected $action;
 
     /**
      * @var \DateTime
      */
     protected $createdAt;
 
-    function __construct()
-    {
-        $this->setCreatedAt(new \DateTime);
-    }
-
     /**
-     * @param  object $subject
-     *
-     * @return void
+     * Constructor
      */
-    public function setSubject($subject)
+    public function __construct()
     {
-        if (!is_object($subject)) {
-            throw new \InvalidArgumentException('subject must be an object');
-        }
-
-        $this->subject = $subject;
+        $this->createdAt = new \DateTime();
     }
 
     /**
-     * @return object|null
+     * {@inheritdoc}
      */
-    public function getSubject()
+    public function setId($id)
     {
-        return $this->subject;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @param string $model
+     * {@inheritdoc}
      */
-    public function setSubjectModel($model)
+    public function getId()
     {
-        $this->subjectModel = $model;
+        return $this->id;
     }
 
     /**
-     * @return string
-     */
-    public function getSubjectModel()
-    {
-        return $this->subjectModel;
-    }
-
-    /**
-     * @param  integer $subjectId
-     *
-     * @return void
-     */
-    public function setSubjectId($subjectId)
-    {
-        $this->subjectId = $subjectId;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getSubjectId()
-    {
-        return $this->subjectId;
-    }
-
-    /**
-     * @param string $context
-     *
-     * @return void
+     * @{inheritdoc}
      */
     public function setContext($context)
     {
         $this->context = $context;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @{inheritdoc}
      */
     public function getContext()
     {
@@ -131,77 +85,74 @@ class Timeline implements TimelineInterface
     }
 
     /**
-     * @param string $type
-     *
+     * @{inheritdoc}
      */
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @{inheritdoc}
      */
     public function getType()
     {
         return $this->type;
     }
 
-
-
     /**
-     * @param mixed $id
-     *
-     * @return void
+     * @{inheritdoc}
      */
-    public function setTimelineActionId($id)
-    {
-        $this->timelineActionId = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTimelineActionId()
-    {
-        return $this->timelineActionId;
-    }
-
-    /**
-     * @param TimelineActionInterface $timelineAction
-     *
-     * @return void
-     */
-    public function setTimelineAction(TimelineActionInterface $timelineAction)
-    {
-        $this->timelineAction = $timelineAction;
-        $this->setTimelineActionId($timelineAction->getId());
-    }
-
-    /**
-     * @return TimelineActionInterface|null
-     */
-    public function getTimelineAction()
-    {
-        return $this->timelineAction;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     *
-     * @return \DateTime
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
-     * @return \DateTime
+     * @{inheritdoc}
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    /**
+     * @{inheritdoc}
+     */
+    public function setSubject(ComponentInterface $subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function setAction(ActionInterface $action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
 }

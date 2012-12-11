@@ -35,9 +35,9 @@ via the twig function `timeline_component_render()`
 {% timeline_component_render(timeline, 'subject') %}
 ```
 
-These fragments are defined as twig blocks within [HighcoTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig).
+These fragments are defined as twig blocks within [SpyTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig).
 
-Rendering the subject component will generate html using the __toString() method of the subject model.
+Rendering the subject component will generate html using the `__toString()` method of the subject model.
 
 ```jinja
 {% timeline_component_render(timeline, 'subject') %}
@@ -55,7 +55,7 @@ To customize your component output you need only override the correct template f
 
 ### Component Blocks
 
-The default theme file, [HighcoTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig), defines several
+The default theme file, [SpyTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig), defines several
 blocks which form the basis for the theme system. In the previous example, rendering the subject component uses the
 `subject_component` block, which in-turn uses the `action_component` block.
 
@@ -153,7 +153,7 @@ for pros and cons for where you define your themes.
 {% endblock timeline_action %}
 ```
 
-By using the special {% timeline_action_theme timeline _self %} tag, Twig looks inside the same template for any
+By using the special `{% timeline_action_theme timeline _self %}` tag, Twig looks inside the same template for any
 overridden component blocks.
 
 #### Method 2: Inside a Separate Template
@@ -183,7 +183,7 @@ As before you can reference this theme resource using the `timeline_action_theme
 
 To configure an application-wide theme, specify your custom theme file in `config.yml`
 ```yaml
-highco_timeline:
+spy_timeline:
   render:
     resources:
         - 'AcmeUserBundle:Timeline:components.html.twig'

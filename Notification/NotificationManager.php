@@ -1,9 +1,10 @@
 <?php
 
-namespace Highco\TimelineBundle\Notification;
+namespace Spy\TimelineBundle\Notification;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Notification\Notifier\NotifierInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
 
 /**
  * NotificationManager
@@ -12,6 +13,9 @@ use Highco\TimelineBundle\Notification\Notifier\NotifierInterface;
  */
 class NotificationManager
 {
+    /**
+     * @var array
+     */
     private $notifiers = array();
 
     /**
@@ -23,15 +27,14 @@ class NotificationManager
     }
 
     /**
-     * @param TimelineAction $timelineAction timeline action to notify
-     * @param string         $context        Context where we want to notify
-     * @param string         $subjectModel   Subject model where we have to notify
-     * @param string         $subjectId      Subject id where we have to notify
+     * @param ActionInterface    $action  action notified
+     * @param string             $context Context notified
+     * @param ComponentInterface $subject Subject notified
      */
-    public function notify(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    public function notify(ActionInterface $action, $context, ComponentInterface $subject)
     {
         foreach ($this->notifiers as $notifier) {
-            $notifier->notify($timelineAction, $context, $subjectModel, $subjectId);
+            $notifier->notify($action, $context, $subject);
         }
     }
 }
