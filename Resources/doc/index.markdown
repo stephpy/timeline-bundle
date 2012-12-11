@@ -139,8 +139,8 @@ spy_timeline:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context
         deployer: highco.timeline.spread.deployer
+        batch_size: 50 # How many persist before flush operation.
         delivery: immediate
-
     render:
         path:     'AcmeBundle:Timeline'
         fallback: 'AcmeBundle:Timeline:default.html.twig'

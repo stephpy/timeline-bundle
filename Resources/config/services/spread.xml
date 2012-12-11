@@ -15,6 +15,7 @@
             <argument type="service" id="spy_timeline.timeline_manager" />
             <argument type="service" id="spy_timeline.spread.entry_collection" />
             <argument>%spy_timeline.spread.on_subject%</argument>
+            <argument>%spy_timeline.spread.deployer.batch_size%</argument>
             <call method="setDelivery">
                 <argument>%spy_timeline.spread.deployer.delivery%</argument>
             </call>

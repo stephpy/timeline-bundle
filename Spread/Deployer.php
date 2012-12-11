@@ -26,6 +26,11 @@ class Deployer
     protected $spreads;
 
     /**
+     * @var integer
+     */
+    protected $batchSize;
+
+    /**
      * @var EntryCollection
      */
     protected $entryCollection;
@@ -45,19 +50,22 @@ class Deployer
      */
     protected $timelineManager;
 
+
     /**
      * @param NotificationManager      $notificationManager notificationManager
      * @param TimelineManagerInterface $timelineManager     timelineManager
      * @param EntryCollection          $entryCollection     entryCollection
      * @param boolean                  $onSubject           onSubject
+     * @param integer                  $batchSize           batch size
      */
-    public function __construct(NotificationManager $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true)
+    public function __construct(NotificationManager $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true, $batchSize = 50)
     {
         $this->notificationManager = $notificationManager;
         $this->timelineManager     = $timelineManager;
         $this->entryCollection     = $entryCollection;
         $this->spreads             = new \ArrayIterator();
         $this->onSubject           = $onSubject;
+        $this->batchSize           = (int) $batchSize;
     }
 
     /**
@@ -75,10 +83,16 @@ class Deployer
         $results = $this->processSpreads($action);
         $results->loadUnawareEntries();
 
+        $i = 1;
         foreach ($results as $context => $entries) {
             foreach ($entries as $entry) {
                 $this->timelineManager->createAndPersist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
                 $this->notificationManager->notify($action, $context, $entry->getSubject());
+
+                if (($i % $this->batchSize) == 0) {
+                    $this->timelineManager->flush();
+                }
+                $i++;
             }
         }
 

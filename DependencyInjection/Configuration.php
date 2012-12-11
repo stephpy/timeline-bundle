@@ -212,6 +212,8 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('on_subject')->defaultValue(true)->end()
                         ->booleanNode('on_global_context')->defaultValue(true)->end()
                         ->scalarNode('deployer')->defaultValue('spy_timeline.spread.deployer.default')->end()
+                        // scalarNode because integerNode introduced on 2.2 only.
+                        ->scalarNode('batch_size')->defaultValue('50')->end()
                         ->scalarNode('delivery')->defaultValue('immediate')->end()
                     ->end()
                 ->end()
