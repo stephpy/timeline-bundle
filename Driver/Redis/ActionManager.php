@@ -6,10 +6,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
-use Spy\TimelineBundle\Driver\AbstractActionManager;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\Timeline\Driver\AbstractActionManager;
+use Spy\Timeline\Driver\ActionManagerInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
 
 /**
  * ActionManager

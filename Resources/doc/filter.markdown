@@ -124,8 +124,7 @@ Create the class and add it as a service:
 <?php
 namespace Acme\DemoBundle\Filter;
 
-use Spy\TimelineBundle\Filter\FilterInterface;
-use Spy\TimelineBundle\Model\Collection;
+use Spy\Timeline\Filter\FilterInterface;
 
 class MyOwnFilter implements FilterInterface
 {

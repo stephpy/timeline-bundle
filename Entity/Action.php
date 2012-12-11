@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Entity;
 
-use Spy\TimelineBundle\Model\Action as BaseAction;
+use Spy\Timeline\Model\Action as BaseAction;
 
 /**
  * Action entity for Doctrine ORM.
