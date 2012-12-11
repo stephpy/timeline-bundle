@@ -99,7 +99,7 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         # OR
         odm:
-            object_manager: ~   # doctrine.odm.entity_manager
+            object_manager: ~    # doctrine.odm.mongodb.document_manager
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
                 action:           'Acme\YourBundle\Document\Action'

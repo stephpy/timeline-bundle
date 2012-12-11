@@ -1,8 +1,6 @@
 ODM Driver
 ==========
 
-**WIP**
-
 You'll have to define entities on a bundle, you can add it to anyone bundle, in this example will use `Yo\UrBundle`.
 
 # 1) Define configuration
@@ -90,14 +88,9 @@ class Action extends BaseAction
     protected $actionComponents;
 
     /**
-     * Get id
-     *
-     * @return id $id
+     * @ODM\ReferenceOne(targetDocument="Component")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $subject;
 }
 ```
 
@@ -120,16 +113,6 @@ class Component extends BaseComponent
      * @ODM\Id
      */
     protected $id;
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 ```
 
@@ -162,16 +145,6 @@ class ActionComponent extends BaseActionComponent
      * @ODM\ReferenceOne(targetDocument="Component")
      */
     protected $component;
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
 ```
 
