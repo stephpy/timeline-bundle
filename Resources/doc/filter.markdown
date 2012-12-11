@@ -38,7 +38,8 @@ spy_timeline:
             service:              spy_timeline.filter.data_hydrator
             filter_unresolved:    true
             locators:
-                - spy_timeline.filter.data_hydrator.locator.doctrine
+                - spy_timeline.filter.data_hydrator.locator.doctrine_orm
+                - spy_timeline.filter.data_hydrator.locator.doctrine_odm
 ```
 
 This filter will hydrate yours related object, this will regrouping the queries to avoid X queries call by action.
