@@ -56,7 +56,6 @@ class DoctrineODM implements LocatorInterface
 
         $oids = array();
         foreach ($components as $component) {
-            // @todo why getIdentifier is an array ?
             $oids[] = current($component->getIdentifier());
         }
 
@@ -81,8 +80,7 @@ class DoctrineODM implements LocatorInterface
         $identifiers[$field] = (string) $metadata->reflFields[$field]->getValue($result);
 
         if (count($identifiers) == 1) {
-            // @todo why having to set as array.
-            $identifiers = array((string) current($identifiers));
+            $identifiers = (string) current($identifiers);
         }
 
         return sprintf('%s#%s', $model, serialize($identifiers));
