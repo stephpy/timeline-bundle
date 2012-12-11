@@ -1,5 +1,6 @@
 {
-    "name": "stephpy/TimelineBundle",
+    "name": "stephpy/timeline-bundle",
+    "replace": {"stephpy/TimelineBundle": "self.version"},
     "description": "Build timeline/wall for an entity easily.",
     "keywords": ["timeline", "notification", "redis", "symfony"],
     "type": "symfony-bundle",
