@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Pager;
 
 use Knp\Component\Pager\Paginator;
-use Spy\TimelineBundle\Filter\FilterManager;
+use Spy\Timeline\Filter\FilterManagerInterface;
 use Spy\Timeline\Pager\PagerInterface;
 
 /**
@@ -20,14 +20,15 @@ class KnpPager implements PagerInterface
     protected $paginator;
 
     /**
-     * @var FilterManager
+     * @var FilterManagerInterface
      */
     protected $filterManager;
 
     /**
-     * @param Paginator $paginator paginator
+     * @param Paginator              $paginator     paginator
+     * @param FilterManagerInterface $filterManager filterManager
      */
-    public function __construct(Paginator $paginator = null, FilterManager $filterManager)
+    public function __construct(Paginator $paginator = null, FilterManagerInterface $filterManager = null)
     {
         if (null === $paginator) {
             throw new \LogicException('Please install KnpPagerBundle or disable paginator');

@@ -5,6 +5,7 @@ namespace Spy\TimelineBundle\Filter;
 use Spy\TimelineBundle\Filter\DataHydrator\Locator\LocatorInterface;
 use Spy\TimelineBundle\Filter\DataHydrator\Entry;
 use Spy\TimelineBundle\Filter\DataHydrator\Reference;
+use Spy\Timeline\Filter\FilterInterface;
 
 /**
  * DataHydrator

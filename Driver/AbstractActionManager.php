@@ -3,7 +3,6 @@
 namespace Spy\TimelineBundle\Driver;
 
 use Spy\TimelineBundle\Spread\Deployer;
-use Spy\TimelineBundle\Filter\FilterManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 

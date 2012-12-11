@@ -2,12 +2,15 @@
 
 namespace Spy\TimelineBundle\Filter;
 
+use Spy\Timeline\Filter\FilterInterface;
+use Spy\Timeline\Filter\FilterManagerInterface;
+
 /**
  * FilterManager
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class FilterManager
+class FilterManager implements FilterManagerInterface
 {
     /**
      * @var array<FilterInterface>
