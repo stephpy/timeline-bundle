@@ -8,15 +8,15 @@
 
         <field name="verb" fieldName="verb" type="string" />
 
-        <field name="statusCurrent" fieldName="status_current" type="string" />
+        <field name="statusCurrent" fieldName="statusCurrent" type="string" />
 
-        <field name="statusWanted" fieldName="status_wanted" type="string" />
+        <field name="statusWanted" fieldName="statusWanted" type="string" />
 
-        <field name="duplicateKey" fieldName="duplicate_key" type="string" />
+        <field name="duplicateKey" fieldName="duplicateKey" type="string" />
 
-        <field name="duplicatePriority" fieldName="duplicate_priority" type="int" />
+        <field name="duplicatePriority" fieldName="duplicatePriority" type="int" />
 
-        <field name="createdAt" fieldName="created_at" type="date" />
+        <field name="createdAt" fieldName="createdAt" type="date" />
 
     </mapped-superclass>
 

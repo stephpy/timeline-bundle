@@ -2,10 +2,10 @@
 
 namespace Spy\TimelineBundle\Driver\ODM;
 
-use Spy\TimelineBundle\Pager\PagerInterface;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Spy\TimelineBundle\Filter\FilterManager;
+use Spy\Timeline\Filter\FilterManager;
+use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * Pager

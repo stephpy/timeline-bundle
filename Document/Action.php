@@ -2,7 +2,8 @@
 
 namespace Spy\TimelineBundle\Document;
 
-use Spy\TimelineBundle\Model\Action as BaseAction;
+use Spy\Timeline\Model\Action as BaseAction;
+use Spy\Timeline\Model\ComponentInterface;
 
 /**
  * Action entity for Doctrine ODM.
@@ -12,4 +13,22 @@ use Spy\TimelineBundle\Model\Action as BaseAction;
  */
 class Action extends BaseAction
 {
+    protected $subject;
+
+    /**
+     * @param string $type                 type
+     * @param string $component            component
+     * @param string $actionComponentClass actionComponentClass
+     *
+     * @return void
+     */
+    public function addComponent($type, $component, $actionComponentClass)
+    {
+        parent::addComponent($type, $component, $actionComponentClass);
+
+        if ('subject' === $type && $component instanceof ComponentInterface) {
+            // useful for actionManager->getSubjectActions()
+            $this->subject = $this->getComponent('subject');
+        }
+    }
 }

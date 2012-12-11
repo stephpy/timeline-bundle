@@ -10,7 +10,7 @@
 
         <field name="type" fieldName="type" type="string"  />
 
-        <field name="createdAt" fieldName="created_at" type="date" />
+        <field name="createdAt" fieldName="createdAt" type="date" />
 
     </mapped-superclass>
 

@@ -2,15 +2,15 @@
 
 namespace Spy\TimelineBundle\Driver\ODM;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
-use Spy\TimelineBundle\Driver\AbstractTimelineManager;
-use Spy\TimelineBundle\Driver\TimelineManagerInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\Collection;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Model\TimelineInterface;
-use Spy\TimelineBundle\Pager\PagerInterface;
+use Spy\Timeline\Driver\AbstractTimelineManager;
+use Spy\Timeline\Driver\TimelineManagerInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\Collection;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Model\TimelineInterface;
+use Spy\Timeline\Pager\PagerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * TimelineManager

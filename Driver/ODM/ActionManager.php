@@ -2,15 +2,14 @@
 
 namespace Spy\TimelineBundle\Driver\ODM;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Driver\AbstractActionManager;
+use Spy\Timeline\Driver\ActionManagerInterface;
+use Spy\Timeline\Pager\PagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Driver\AbstractActionManager;
-use Spy\TimelineBundle\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Pager\PagerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\Query\Expr;
 
 /**
  * ActionManager
@@ -68,8 +67,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
         return $this->objectManager
-            ->getRepository($this->actionClass)
-            ->createQueryBuilder('a')
+            ->createQueryBuilder($this->actionClass)
             ->field('statusWanted')->equals(ActionInterface::STATUS_PUBLISHED)
             ->limit($limit)
             ->getQuery()
@@ -87,7 +85,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         return (int) $this->getQueryBuilderForSubject($subject)
             ->field('statusCurrent')->equals($status)
-            ->setParameter('status', $status)
+            ->eagerCursor(true)
             ->getQuery()
             ->count();
     }
@@ -109,10 +107,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         $qb = $this->getQueryBuilderForSubject($subject)
             ->sort('createdAt', 'desc')
-            ->field('status')->equals($options['status']);
-
-        $results = $qb->getQuery()
-            ->execute();
+            ->field('statusCurrent')->equals($options['status'])
+            ;
 
         $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
 
@@ -137,7 +133,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findOrCreateComponent($model, $identifier = null)
+    public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
         list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -162,13 +158,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return $component;
         }
 
-        return $this->createComponent($model, $identifier);
+        return $this->createComponent($model, $identifier, $flush);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createComponent($model, $identifier = null)
+    public function createComponent($model, $identifier = null, $flush = true)
     {
         list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
@@ -186,7 +182,10 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $component->setIdentifier($identifier);
 
         $this->objectManager->persist($component);
-        $this->objectManager->flush();
+
+        if ($flush) {
+            $this->flushComponents();
+        }
 
         return $component;
     }
@@ -194,23 +193,22 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function findComponents(array $concatIdents)
+    public function flushComponents()
     {
-        // see #63
-        exit('todo.');
-        $qb = $this->getComponentRepository()
-            ->createQueryBuilder('c');
+        $this->objectManager->flush();
+    }
 
-        return $qb
-            ->where(
-                $qb->expr()->in(
-                    $qb->expr()->concat('c.model',
-                        $qb->expr()->concat($qb->expr()->literal('#'), 'c.identifier'))
-                    , $concatIdents
-                )
-            )
+    /**
+     * {@inheritdoc}
+     */
+    public function findComponents(array $hashes)
+    {
+        return $this->objectManager
+            ->getRepository($this->componentClass)
+            ->createQueryBuilder('c')
+            ->field('hash')->in($hashes)
             ->getQuery()
-            ->getResult();
+            ->execute();
     }
 
     protected function resolveModelAndIdentifier($model, $identifier)
@@ -275,13 +273,10 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
     {
-        // IMO we should store Subject on action (for ODM).
-        exit('todo.');
         return $this->objectManager
             ->getRepository($this->actionClass)
             ->createQueryBuilder('a')
-            ->field('actionComponents.Component.id')->equals($subject->getId())
-            ->field('actionComponents.Component.type')->equals('subject');
+            ->field('subject.id')->equals($subject->getId())
             ;
     }
 

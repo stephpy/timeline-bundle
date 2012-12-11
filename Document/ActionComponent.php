@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Document;
 
-use Spy\TimelineBundle\Model\ActionComponent as BaseActionComponent;
+use Spy\Timeline\Model\ActionComponent as BaseActionComponent;
 
 /**
  * ActionComponent Document for Doctrine ODM.

@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Document;
 
-use Spy\TimelineBundle\Model\Timeline as BaseTimeline;
+use Spy\Timeline\Model\Timeline as BaseTimeline;
 
 /**
  * Timeline Document for Doctrine ODM.
