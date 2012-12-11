@@ -3,7 +3,6 @@
 namespace Spy\TimelineBundle\Driver\Redis;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Predis\Client as PredisClient;
 use Snc\RedisBundle\Client\Phpredis\Client as PhpredisClient;
 use Spy\Timeline\Driver\AbstractActionManager;

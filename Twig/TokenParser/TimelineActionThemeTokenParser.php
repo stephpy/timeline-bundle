@@ -16,7 +16,7 @@ class TimelineActionThemeTokenParser extends \Twig_TokenParser
      *
      * @return \Twig_NodeInterface A Twig_NodeInterface instance
      */
-    function parse(\Twig_Token $token)
+    public function parse(\Twig_Token $token)
     {
         $stream = $this->parser->getStream();
 
@@ -43,7 +43,7 @@ class TimelineActionThemeTokenParser extends \Twig_TokenParser
      *
      * @return string The tag name
      */
-    function getTag()
+    public function getTag()
     {
         return 'timeline_action_theme';
     }

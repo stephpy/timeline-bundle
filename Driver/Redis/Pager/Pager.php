@@ -41,7 +41,6 @@ class Pager implements PagerInterface
         $this->actionManager = $actionManager;
     }
 
-
     /**
      * {@inheritdoc}
      */

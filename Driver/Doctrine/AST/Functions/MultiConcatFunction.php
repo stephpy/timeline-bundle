@@ -39,7 +39,7 @@ class MultiConcatFunction extends FunctionNode
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
         $exception = false;
-        while(!$exception) {
+        while (!$exception) {
             try {
                 $this->strings[] = $parser->StringPrimary();
                 $parser->match(Lexer::T_COMMA);

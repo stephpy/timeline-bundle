@@ -14,7 +14,7 @@ class PagerToken
     public $maxPerPage;
 
     /**
-     * @param string $key        key
+     * @param string $key key
      */
     public function __construct($key)
     {

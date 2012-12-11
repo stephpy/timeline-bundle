@@ -21,7 +21,7 @@ class TimelineActionThemeNode extends \Twig_Node
             ->raw(', array(')
         ;
 
-        foreach($this->getNode('resources') as $resource) {
+        foreach ($this->getNode('resources') as $resource) {
             $compiler->subcompile($resource)->raw(', ');
         }
 

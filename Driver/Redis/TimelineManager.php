@@ -45,10 +45,10 @@ class TimelineManager implements TimelineManagerInterface
     protected $persistedDatas = array();
 
     /**
-     * @param PredisClient|PhpredisClient $client        client
-     * @param PagerInterface              $pager         pager
-     * @param string                      $prefix        prefix
-     * @param boolean                     $pipeline      pipeline
+     * @param PredisClient|PhpredisClient $client   client
+     * @param PagerInterface              $pager    pager
+     * @param string                      $prefix   prefix
+     * @param boolean                     $pipeline pipeline
      */
     public function __construct($client, PagerInterface $pager, $prefix, $pipeline = true)
     {

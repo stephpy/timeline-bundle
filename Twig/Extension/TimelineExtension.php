@@ -148,9 +148,9 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Render an action component
      *
-     * @param ActionInterface $action    action
-     * @param string          $component Component to render (subject, verb, etc ...)
-     * @param array           $variables Additional variables to pass to templates
+     * @param  ActionInterface $action    action
+     * @param  string          $component Component to render (subject, verb, etc ...)
+     * @param  array           $variables Additional variables to pass to templates
      * @return string
      */
     public function renderActionComponent(ActionInterface $action, $component, array $variables = array())
@@ -167,7 +167,7 @@ class TimelineExtension extends \Twig_Extension
         $componentVariables['action'] = $action;
 
         $custom = false;
-        if(!empty($componentVariables['model'])) {
+        if (!empty($componentVariables['model'])) {
             $custom = '_'.$componentVariables['normalized_model'];
         }
 
@@ -180,7 +180,7 @@ class TimelineExtension extends \Twig_Extension
             $this->varStack[$rendering]['variables'] = array_replace_recursive($componentVariables, $variables);
         } else {
             $types = array($component);
-            if($custom) {
+            if ($custom) {
                 $types[] = $custom.'_default';
                 $types[] = $custom.'_'.$component;
             }
@@ -230,7 +230,7 @@ class TimelineExtension extends \Twig_Extension
 
             $templates = $this->resources;
 
-            if($this->themes->contains($action)) {
+            if ($this->themes->contains($action)) {
                 $templates = array_merge($templates, $this->themes[$action]);
             }
 
