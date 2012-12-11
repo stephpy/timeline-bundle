@@ -6,20 +6,19 @@ use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\Timeline\Driver\TimelineManagerInterface;
+use Spy\Timeline\Spread\DeployerInterface;
+use Spy\Timeline\Spread\SpreadInterface;
 use Spy\TimelineBundle\Notification\NotificationManager;
-use Spy\TimelineBundle\Spread\Entry\Entry;
-use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\Timeline\Spread\Entry\Entry;
+use Spy\Timeline\Spread\Entry\EntryCollection;
 
 /**
  * Deployer
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Deployer
+class Deployer implements DeployerInterface
 {
-    CONST DELIVERY_IMMEDIATE = 'immediate';
-    CONST DELIVERY_WAIT      = 'wait';
-
     /**
      * @var \ArrayIterator
      */
@@ -68,8 +67,7 @@ class Deployer
     }
 
     /**
-     * @param ActionInterface        $action        action
-     * @param ActionManagerInterface $actionManager actionManager
+     * {@inheritdoc}
      */
     public function deploy(ActionInterface $action, ActionManagerInterface $actionManager)
     {
@@ -108,7 +106,7 @@ class Deployer
     }
 
     /**
-     * @param string $delivery delivery
+     * {@inheritdoc}
      */
     public function setDelivery($delivery)
     {
@@ -122,7 +120,7 @@ class Deployer
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isDeliveryImmediate()
     {
@@ -130,7 +128,7 @@ class Deployer
     }
 
     /**
-     * @param SpreadInterface $spread spread
+     * {@inheritdoc}
      */
     public function addSpread(SpreadInterface $spread)
     {
@@ -166,7 +164,7 @@ class Deployer
     }
 
     /**
-     * @return \ArrayIterator of SpreadInterface
+     * {@inheritdoc}
      */
     public function getSpreads()
     {

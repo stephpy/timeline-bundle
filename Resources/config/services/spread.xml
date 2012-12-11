@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="spy_timeline.spread.deployer.class">Spy\TimelineBundle\Spread\Deployer</parameter>
-        <parameter key="spy_timeline.spread.entry_collection.class">Spy\TimelineBundle\Spread\Entry\EntryCollection</parameter>
+        <parameter key="spy_timeline.spread.entry_collection.class">Spy\Timeline\Spread\Entry\EntryCollection</parameter>
     </parameters>
 
     <services>

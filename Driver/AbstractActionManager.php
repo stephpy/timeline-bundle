@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Driver;
 
-use Spy\TimelineBundle\Spread\Deployer;
+use Spy\Timeline\Spread\DeployerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 
@@ -14,7 +14,7 @@ use Spy\Timeline\Model\ComponentInterface;
 abstract class AbstractActionManager
 {
     /**
-     * @var Deployer
+     * @var DeployerInterface
      */
     protected $deployer;
 
@@ -70,9 +70,9 @@ abstract class AbstractActionManager
     }
 
     /**
-     * @param Deployer $deployer deployer
+     * @param DeployerInterface $deployer deployer
      */
-    public function setDeployer(Deployer $deployer)
+    public function setDeployer(DeployerInterface $deployer)
     {
         $this->deployer = $deployer;
     }
