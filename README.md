@@ -1,7 +1,7 @@
 SpyTimelineBundle 2.0
 =====================
 
-Integrate[timeline](https://github.com/stephpy/timeline) on Symfony2.
+Integrate [timeline](https://github.com/stephpy/timeline) on Symfony2.
 
 [Milestone for release](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
 ==============================
