@@ -4,52 +4,24 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
-use Spy\TimelineBundle\Driver\AbstractTimelineManager;
+use Spy\TimelineBundle\Driver\Doctrine\AbstractTimelineManager;
 use Spy\Timeline\Driver\TimelineManagerInterface;
-use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
-use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * TimelineManager
  *
+ * @uses AbstractTimelineManager
  * @uses TimelineManagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class TimelineManager implements TimelineManagerInterface
+class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var PagerInterface
-     */
-    protected $pager;
-
-    /**
-     * @var string
-     */
-    protected $timelineClass;
-
     /**
      * @var array
      */
     protected $delayedQueries = array();
-
-    /**
-     * @param ObjectManager  $objectManager objectManager
-     * @param PagerInterface $pager         pager
-     * @param string         $timelineClass timelineClass
-     */
-    public function __construct(ObjectManager $objectManager, PagerInterface $pager, $timelineClass)
-    {
-        $this->objectManager = $objectManager;
-        $this->pager         = $pager;
-        $this->timelineClass = $timelineClass;
-    }
 
     /**
      * {@inheritdoc}
@@ -153,21 +125,6 @@ class TimelineManager implements TimelineManagerInterface
 
         // Delay query until flush() is called.
         $this->delayedQueries[] = $qb->getQuery();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createAndPersist(ActionInterface $action, ComponentInterface $subject, $context = 'GLOBAL', $type = TimelineInterface::TYPE_TIMELINE)
-    {
-        $timeline = new $this->timelineClass();
-
-        $timeline->setType($type);
-        $timeline->setAction($action);
-        $timeline->setContext($context);
-        $timeline->setSubject($subject);
-
-        $this->objectManager->persist($timeline);
     }
 
     /**

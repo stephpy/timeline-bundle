@@ -7,7 +7,6 @@ use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * ActionManager
