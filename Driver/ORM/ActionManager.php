@@ -217,11 +217,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         return $qb
             ->where(
-                $qb->expr()->in(
-                    $qb->expr()->concat('c.model',
-                        $qb->expr()->concat($qb->expr()->literal('#'), 'c.identifier'))
-                    , $concatIdents
-                )
+                $qb->expr()->in('c.hash', $concatIdents)
             )
             ->getQuery()
             ->getResult();

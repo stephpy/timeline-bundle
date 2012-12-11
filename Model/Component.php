@@ -28,6 +28,11 @@ class Component implements ComponentInterface
     protected $identifier;
 
     /**
+     * @var string
+     */
+    protected $hash;
+
+    /**
      * Data defined on this component.
      *
      * @var mixed
@@ -37,9 +42,17 @@ class Component implements ComponentInterface
     /**
      * {@inheritdoc}
      */
+    public function buildHash()
+    {
+        $this->hash = $this->getModel().'#'.serialize($this->getIdentifier());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getHash()
     {
-        return $this->getModel().'#'.serialize($this->getIdentifier());
+        return $this->hash;
     }
 
     /**
@@ -115,6 +128,10 @@ class Component implements ComponentInterface
     {
         $this->model = $model;
 
+        if (null !== $this->getIdentifier()) {
+            $this->buildHash();
+        }
+
         return $this;
     }
 
@@ -139,6 +156,10 @@ class Component implements ComponentInterface
         }
 
         $this->identifier = $identifier;
+
+        if (null !== $this->getModel()) {
+            $this->buildHash();
+        }
 
         return $this;
     }
