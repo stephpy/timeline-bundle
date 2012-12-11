@@ -4,7 +4,7 @@ This example explain how to have a simple Timeline with `GLOBAL` context.
 
 ##Context:
 
-`Chuck norris` just control `the world`. All world redisent have to be informed about that !!!!!!!!!
+`Chuck norris` just control `the world`. All world resident have to be informed about that !!!!!!!!!
 
 
 ## First step
@@ -21,13 +21,14 @@ use Acme\YourBundle\Entity\TimelineAction
 public functio myAction()
 {
     //......
-    $entry = TimelineAction::create($chuckNorrisObject, 'control', 'The world');
-
-    $this->get('highco.timeline.manager')->push($entry);
+    $actionManager = $this->get('spy_timeline.action_manager');
+    $subject       = $actionManager->findOrCreateComponent('\User', 'chucknorris');
+    $action        = $actionManager->create($subject, 'control', array('directComplement' => 'the world));
+    $actionManager->updateAction($action);
 }
 ```
 
-But actually there is no spread for this action, the timeline action will be stored on your db_driver but nobody will be informed about this.
+But at this moment there is no spread for this action, the timeline action will be stored on your `driver` but nobody will be informed about this.
 
 ## Second step
 
@@ -38,7 +39,7 @@ Look at [documentation](http://symfony.com/doc/current/book/service_container.ht
 
 ```xml
 <service id="my_spread" class="Acme\MyBundle\Spread\MySpread">
-    <tag name="highco.timeline.spread"/>
+    <tag name="spy_timeline.spread"/>
 </service>
 ```
 
@@ -49,36 +50,34 @@ Now, create the class `Acme\MyBundle\Spread\MySpread`
 
 namespace Acme\MyBundle\Spread;
 
-use Highco\TimelineBundle\Spread\SpreadInterface;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
-use Highco\TimelineBundle\Spread\Entry\Entry;
-use Highco\TimelineBundle\Model\TimelineAction;
+use Spy\TimelineBundle\Spread\SpreadInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Spread\Entry\EntryUnaware;
 
 class MySpread implements SpreadInterface
 {
-    public function supports(TimelineAction $timelineAction)
+    public function supports(ActionInterface $action)
     {
         // here you define what actions you want to support, you have to return a boolean.
-        if ($timelineAction->getSubject()->getName() == "ChuckNorris") {
+        if ($action->getSubject()->getName() == "ChuckNorris") {
             return true;
         } else {
             return false;
         }
     }
 
-    public function process(TimelineAction $timelineAction, EntryCollection $coll)
+    public function process(ActionInterface $action, EntryCollection $coll)
     {
         // adding steven seagal to be informed
-        // 1337 is the id of user steven seagal
-        // here GLOBAL is the context
 
-        $coll->set('GLOBAL', Entry::create('\User', 1337));
+        $coll->add(new EntryUnaware('\User', 'steven seagal'));
 
         // get all other users
         $users = MyBestClass::MyBestMethodToGetNerds();
 
         foreach ($users as $user) {
-            $coll->set('GLOBAL', Entry::create(get_class($user), $user->getId()));
+            $coll->add(new EntryUnaware(get_class($user), $user->getId()));
         }
     }
 }
@@ -94,25 +93,23 @@ In your controller:
 <?php
 public function myAction()
 {
-    // Get the timeline (an array of TimelineAction) of Steven Seagal
-    $results = $this->get('highco.timeline.manager')
-        ->getWall('\User', 1337, 'GLOBAL');
+    $actionManager   = $this->get('spy_timeline.action_manager');
+    $timelineManager = $this->get('spy_timeline.timeline_manager');
+    $subject         = $actionManager->findOrCreateComponent('\User', 'steven seagal');
 
-    // how many entries are stored in redis.
-    $countEntries = $this->get('highco.timeline.manager')
-        ->countWallEntries('\User', 1337, 'GLOBAL');
+    $timeline = $timelineManager->getTimeline($subject);
 
-    // this method works with annotations.
-    return array('coll' => $results);
+    $countEntries = $timelineManager->countEntries($subject);
+
+    return array('coll' => $timeline);
 }
-
 ```
 
 In your template .twig:
 
 ```twig
-{% for timeline in coll %}
-    {{ timeline_render(timeline) }}
+{% for action in coll %}
+    {{ timeline_render(action) }}
     {# i18n ? #}
     {{ i18n_timeline_render(timeline, 'en') }}
 
@@ -121,4 +118,4 @@ In your template .twig:
 
 Look at [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
 
-If you have any question, feel free to ask me
+If you have any question, feel free to create an issue or contact us.

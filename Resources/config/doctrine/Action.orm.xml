@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Spy\TimelineBundle\Entity\Action" table="spy_timeline_action">
+
+        <field name="verb" column="verb" type="string" length="255" />
+
+        <field name="statusCurrent" column="status_current" type="string" />
+
+        <field name="statusWanted" column="status_wanted" type="string" />
+
+        <field name="duplicateKey" column="duplicate_key" type="string" nullable="true" />
+
+        <field name="duplicatePriority" column="duplicate_priority" type="integer" nullable="true" />
+
+        <field name="createdAt" column="created_at" type="datetime" />
+
+    </mapped-superclass>
+
+</doctrine-mapping>

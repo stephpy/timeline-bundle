@@ -1,8 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Twig\TokenParser;
+namespace Spy\TimelineBundle\Twig\TokenParser;
 
-use Highco\TimelineBundle\Twig\Node\TimelineActionThemeNode;
+use Spy\TimelineBundle\Twig\Node\TimelineActionThemeNode;
 
 /**
  * Provides 'timeline_action_theme' tag
@@ -20,7 +20,7 @@ class TimelineActionThemeTokenParser extends \Twig_TokenParser
     {
         $stream = $this->parser->getStream();
 
-        $timelineAction = $this->parser->getExpressionParser()->parseExpression();
+        $action = $this->parser->getExpressionParser()->parseExpression();
 
         $resources = array();
         do {
@@ -30,7 +30,7 @@ class TimelineActionThemeTokenParser extends \Twig_TokenParser
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
         return new TimelineActionThemeNode(
-            $timelineAction,
+            $action,
             new \Twig_Node($resources),
             array(),
             $token->getLine(),

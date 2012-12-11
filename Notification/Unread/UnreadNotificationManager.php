@@ -1,10 +1,11 @@
 <?php
 
-namespace Highco\TimelineBundle\Notification\Unread;
+namespace Spy\TimelineBundle\Notification\Unread;
 
-use Highco\TimelineBundle\Notification\Notifier\NotifierInterface;
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Provider\ProviderInterface;
+use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
 
 /**
  * UnreadNotificationManager
@@ -15,135 +16,115 @@ use Highco\TimelineBundle\Provider\ProviderInterface;
 class UnreadNotificationManager implements NotifierInterface
 {
     /**
-     * @var ProviderInterface
+     * @var TimelineManager
      */
-    private $provider;
+    private $timelineManager;
 
     /**
-     * @var string
+     * @param TimelineManagerInterface $timelineManager timelineManager
      */
-    private static $unreadNotificationKey = "TimelineUnreadNotification:%s:%s:%s";
-
-    /**
-     * @param ProviderInterface $provider
-     */
-    public function __construct(ProviderInterface $provider)
+    public function __construct(TimelineManagerInterface $timelineManager)
     {
-        $this->provider = $provider;
+        $this->timelineManager = $timelineManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function notify(TimelineAction $timelineAction, $context, $subjectModel, $subjectId)
+    public function notify(ActionInterface $action, $context, ComponentInterface $subject)
     {
-        $options = array(
-            'key' => self::$unreadNotificationKey,
-        );
-
-        $this->provider->persist($timelineAction, $context, $subjectModel, $subjectId, $options);
-        $this->provider->flush();
+        $this->timelineManager->createAndPersist($action, $subject, $context, 'notification');
+        $this->timelineManager->flush();
     }
 
     /**
-     * getTimelineActions
-     *
-     * If you want to apply filters to these results,
-     * $actions = $this->get('highco.timeline.manager')->applyFilters($actions);
-     *
-     * @param string $subjectModel The class of subject
-     * @param string $subjectId    The oid of subject
-     * @param string $context      The context
-     * @param array  $options      An array of options (offset, limit), see your provider
+     * @param ComponentInterface $subject The subject
+     * @param string             $context The context
+     * @param array              $options An array of options (offset, limit), see your timelineManager
      *
      * @return array
      */
-    public function getTimelineActions($subjectModel, $subjectId, $context = "GLOBAL", array $options = array())
+    public function getUnreadNotifications(ComponentInterface $subject, $context = "GLOBAL", array $options = array())
     {
-        $params = array(
-            'subjectModel' => $subjectModel,
-            'subjectId'    => $subjectId,
-            'context'      => $context,
-        );
+        $topions['context'] = $context;
+        $options['type']    = 'notification';
 
-        $options['key'] = self::$unreadNotificationKey;
-
-        return $this->provider->getWall($params, $options);
+        return $this->timelineManager->getTimeline($subject, $options);
     }
 
     /**
      * count how many timeline had not be read
      *
-     * @param string $subjectModel The class of subject
-     * @param string $subjectId    The oid of subject
-     * @param string $context      The context
+     * @param ComponentInterface $subject The subject
+     * @param string             $context      The context
      *
      * @return integer
      */
-    public function countKeys($subjectModel, $subjectId, $context = "GLOBAL")
+    public function countKeys(ComponentInterface $subject, $context = "GLOBAL")
     {
         $options = array(
-            'key' => self::$unreadNotificationKey,
+            'context' => $context,
+            'type'    => 'notification',
         );
 
-        return $this->provider->countKeys($context, $subjectModel, $subjectId, $options);
+        return $this->timelineManager->countKeys($subject, $options);
     }
 
     /**
-     * @param string $subjectModel     The class of subject
-     * @param string $subjectId        The oid of subject
-     * @param string $timelineActionId The timelineActionId
-     * @param string $context          The context
+     * @param ComponentInterface $subject  The subject
+     * @param string             $actionId The actionId
+     * @param string             $context  The context
      */
-    public function markAsReadTimelineAction($subjectModel, $subjectId, $timelineActionId, $context = "GLOBAL")
+    public function markAsReadAction(ComponentInterface $subject, $timelineActionId, $context = "GLOBAL")
     {
-        $this->markAsReadTimelineActions(array(
-            array($context, $subjectModel, $subjectId, $timelineActionId)
+        $this->markAsReadActions(array(
+            array($context, $subject, $timelineActionId)
         ));
     }
 
     /**
      * Give an array like this
      * array(
-     *   array( *CONTEXT*, *SUBJECT_MODEL*, *SUBJECT_ID*, *KEY* )
-     *   array( *CONTEXT*, *SUBJECT_MODEL*, *SUBJECT_ID*, *KEY* )
+     *   array( *CONTEXT*, *SUBJECT*, *KEY* )
+     *   array( *CONTEXT*, *SUBJECT*, *KEY* )
      *   ....
      * )
      *
-     * @param array $timelineActions
+     * @param array $actions
      */
-    public function markAsReadTimelineActions(array $timelineActions)
+    public function markAsReadActions(array $actions)
     {
         $options = array(
-            'key' => self::$unreadNotificationKey,
+            'type' => 'notification',
         );
 
-        foreach ($timelineActions as $timelineAction) {
-            $context          = $timelineAction[0];
-            $subjectModel     = $timelineAction[1];
-            $subjectId        = $timelineAction[2];
-            $timelineActionId = $timelineAction[3];
+        foreach ($actions as $action) {
+            $context  = $timelineAction[0];
+            $subject  = $timelineAction[1];
+            $actionId = $timelineAction[2];
 
-            $this->provider->remove($context, $subjectModel, $subjectId, $timelineActionId, $options);
+            $options['context'] = $context;
+
+            $this->timelineManager->remove($subject, $actionId, $options);
         }
 
-        $this->provider->flush();
+        $this->timelineManager->flush();
     }
 
     /**
      * markAllAsRead
      *
-     * @param string $subjectModel The class of subject
-     * @param string $subjectId    The oid of subject
-     * @param string $context      The context
+     * @param ComponentInterface $subject subject
+     * @param string             $context The context
      */
-    public function markAllAsRead($subjectModel, $subjectId, $context = "GLOBAL")
+    public function markAllAsRead(ComponentInterface $subject, $context = "GLOBAL")
     {
         $options = array(
-            'key' => self::$unreadNotificationKey,
+            'context' => $context,
+            'type'    => 'notification',
         );
 
-        $this->provider->removeAll($context, $subjectModel, $subjectId, $options);
-        $this->provider->flush();
+        $this->timelineManager->removeAll($subject, $options);
+        $this->timelineManager->flush();
     }
 }

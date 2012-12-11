@@ -1,39 +1,42 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread\Entry;
+namespace Spy\TimelineBundle\Spread\Entry;
+
+use Spy\TimelineBundle\Model\ComponentInterface;
 
 /**
  * Entry
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Entry
+class Entry implements EntryInterface
 {
-    public $subjectModel;
-    public $subjectId;
+    /**
+     * @var ComponentInterface
+     */
+    protected $subject;
 
     /**
-     * @return string
+     * @param ComponentInterface $subject subject
      */
-    public function getIdent()
+    public function __construct(ComponentInterface $subject)
     {
-        return sprintf('%s:%s', $this->subjectModel, $this->subjectId);
+        $this->subject = $subject;
     }
 
     /**
-     * create
-     *
-     * @param string $subjectModel The subject model
-     * @param string $subjectId    The subject identifier
-     *
-     * @return Entry
+     * {@inheritdoc}
      */
-    public static function create($subjectModel, $subjectId)
+    public function getIdent()
     {
-        $entry               = new self();
-        $entry->subjectModel = $subjectModel;
-        $entry->subjectId    = $subjectId;
+        return sprintf('%s:%s', $this->subject->getModel(), serialize($this->subject->getIdentifier()));
+    }
 
-        return $entry;
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 }

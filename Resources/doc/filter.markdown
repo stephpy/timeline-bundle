@@ -1,41 +1,10 @@
 # Filters
 
-## Adding a filter
+Filters will apply modificaiton to collection of actions.
 
-Create the class and add it as a service:
+This bundle is provided with 2 filters, **DuplicateKey** and **DataHydrator**
 
-```php
-<?php
-
-use Highco\TimelineBundle\Filter\FilterInterface;
-
-MyOwnFilter implements FilterInterface
-{
-    public function initialize(array $options = array())
-    {
-        $this->setOptions($options);
-    }
-
-	public function filter($results)
-	{
-		// have fun
-		return $results;
-	}
-}
-```
-
-Then, you can add this filter to the list on config.yml
-
-```yaml
-highco_timeline:
-	filters:
-		highco.timeline.filter.duplicate_key: ~
-		* your id service *
-```
-
-The order on filters on config.yml is important, filters will be executed on this order.
-
-## Filter "Duplicate Key"
+## DuplicateKey
 
 Imagine this use case:
 
@@ -49,55 +18,134 @@ When you'll create these two TimelineActions, define a same DuplicateKey .
 After filtering with DuplicateKey filter, this will delete one of the two actions (the biggest duplicatePriority field, if you not define it, it will delete second entry).
 It'll set to TRUE the **isDuplicated** field on timeline_action.
 
-## Filter "Data hydrator"
+To use:
+
+```yml
+spy_timeline:
+    #....
+    filters:
+        duplicate_key: ~
+```
+
+## DataHydrator
 
 ```
 #Options available:
-highco_timeline:
+spy_timeline:
 	filters:
-		highco.timeline.filter.data_hydrator:
-            options:
-                db_driver: orm (only one supported actually)
-                filter_unresolved: false
+		data_hydrator:
+            priority:             20
+            service:              spy_timeline.filter.data_hydrator
+            filter_unresolved:    true
+            locators:
+                - spy_timeline.filter.data_hydrator.locator.doctrine
 ```
 
-This filter will hydrate yours related object, this will regrouping the queries to avoid 3 queries call by timeline action.
+This filter will hydrate yours related object, this will regrouping the queries to avoid X queries call by action.
 By this way, if you have two timelines:
 
-    \Entity\User | 1 | comment | \Entity\Article | 2 | of | \Entity\User | 2
-    \Entity\User | 2 | comment | \Entity\Article | 7 | of | \Entity\User | 1
+    \Entity\User:1 | comment | \Entity\Article:2 | of | \Entity\User:2
+    \Entity\User:2 | comment | \Entity\Article:7 | of | \Entity\User:1
 
 It will execute 2 sql queries !
 
 * \Entity\User    -> whereIn 1 and 2
 * \Entity\Article -> whereIn 2 and 7
 
-This actually work with doctrine ORM, and the oid field should be an **id** field
-
-** Data hydrator actuality works only for Doctrine 2 orm **
-
-You can override query for each models by add a method **getTimelineActionsForOIds** on repository related to model and then return entities in an array, ** INDEXED BY theirs oid !**
-
-An example:
-
-```php
-<?php
-    public function getTimelineActionsForOIds($ids)
-    {
-        $qb = $this->_em->createQueryBuilder()
-            ->select('u')
-            ->from($this->_entityName, 'u INDEX BY u.id')
-            //.......
-            ;
-
-        return $qb
-            ->where($qb->expr()->in('u.id', $ids))
-            ->getQuery()
-            ->getResult();
-    }
-```
-
 ### Removing Actions with Unresolved References
 Use the `filter_unresolved: true` option to remove any actions which have unresolved references after the hydration process.
 This will prevent unexpected `EntityNotFoundException`s when accessing an action component which have been removed
 from the database, but are marked for Lazy-Loading by the entity loading listener.
+
+### Locators
+
+Locators will seach data to attribute to components. A Doctrine locator is provided in this bundle:
+
+```
+spy_timeline:
+    filter:
+        data_hydrator:
+            #.....
+            locators:
+                - spy_timeline.filter.data_hydrator.locator.doctrine
+```
+
+This locator supports Doctrine `ORM` and `ODM` entities with composite keys or not.
+
+#### Add your own locator
+
+You can add your own locator, for example if you store yours components on a filesystem or an other storage.
+
+Imagine you have a component which represent a file:
+
+```php
+$component = $actionManager->findOrCreateComponent('file', '/path/to/file.txt');
+```
+
+You want to retrieve the content of this file when fetch `timeline` or `subjectActions`:
+
+Define the locator:
+
+```php
+namespace Acme\Demo;
+
+use Spy\TimelineBundle\Filter\DataHydrator\Locator\LocatorInterface;
+
+class FileSystem implements LocatorInterface
+{
+    public function supports($model)
+    {
+        return $model === 'file';
+    }
+
+    public function locate($model, array $components)
+    {
+        foreach ($components as $component) {
+            $component->setData(file_get_contents($component->getIdentifier()));
+        }
+    }
+}
+```
+
+Define this class as service:
+
+```
+<service id="my_locator_service_name" class="Acme\Demo\FileSystem">
+</service>
+```
+
+And add `my_locator_service_name` to locators list.
+
+## Adding a filter
+
+Create the class and add it as a service:
+
+```php
+<?php
+namespace Acme\DemoBundle\Filter;
+
+use Spy\TimelineBundle\Filter\FilterInterface;
+use Spy\TimelineBundle\Model\Collection;
+
+class MyOwnFilter implements FilterInterface
+{
+	public function filter($collection)
+	{
+		// have fun
+		return $results;
+	}
+
+    public function getPriority()
+    {
+        return 1337;
+    }
+}
+```
+
+Define this class as service and use tag `spy_timeline.filter`.
+
+```xml
+<service id="my_service" class="MyClass">
+    <tag name="spy_timeline.filter" />
+</service>
+```xml

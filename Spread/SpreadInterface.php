@@ -1,9 +1,9 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread;
+namespace Spy\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Spread\Entry\EntryCollection;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**
  * How to define a spread
@@ -13,18 +13,18 @@ use Highco\TimelineBundle\Spread\Entry\EntryCollection;
 interface SpreadInterface
 {
     /**
-     * You spread class is support the timeline action ?
+     * You spread class is support the action ?
      *
-     * @param TimelineAction $timelineAction
+     * @param ActionInterface $action
      *
      * @return boolean
      */
-    public function supports(TimelineAction $timelineAction);
+    public function supports(ActionInterface $action);
 
     /**
-     * @param  TimelineAction  $timelineAction TimelineAction we look for spreads
-     * @param  EntryCollection $coll           Spreads defined on an EntryCollection
+     * @param  ActionInterface $action action we look for spreads
+     * @param  EntryCollection $coll   Spreads defined on an EntryCollection
      * @return void
      */
-    public function process(TimelineAction $timelineAction, EntryCollection $coll);
+    public function process(ActionInterface $action, EntryCollection $coll);
 }

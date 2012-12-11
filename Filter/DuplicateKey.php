@@ -1,6 +1,8 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
+
+use Spy\TimelineBundle\Model\Collection;
 
 /**
  * Defined on "Resources/doc/filter.markdown"
@@ -15,47 +17,33 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
 {
     /**
      * {@inheritdoc}
-     * @param array $options
      */
-    public function initialize(array $options = array())
+    public function filter($collection)
     {
-        $this->setOptions($options);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @param \Highco\TimelineBundle\Model\Collection $results
-     */
-    public function filter($results)
-    {
-        if (!$results instanceof \Traversable AND !is_array($results)) {
-            return;
-        }
-
         $duplicateKeys = array();
 
-        foreach ($results as $key => $result) {
-            if ($result->hasDuplicateKey()) {
-                $currentKey      = $result->getDuplicateKey();
-                $currentPriority = $result->getDuplicatePriority();
+        foreach ($collection as $key => $action) {
+            if ($action->hasDuplicateKey()) {
+                $currentKey      = $action->getDuplicateKey();
+                $currentPriority = $action->getDuplicatePriority();
 
                 if (array_key_exists($currentKey, $duplicateKeys)) {
                     //actual entry has bigger priority
                     if ($currentPriority > $duplicateKeys[$currentKey]['priority']) {
                         $keyToDelete = $duplicateKeys[$currentKey]['key'];
 
-                        $duplicateKeys[$currentKey]['key'] = $key;
+                        $duplicateKeys[$currentKey]['key']      = $key;
                         $duplicateKeys[$currentKey]['priority'] = $currentPriority;
                     } else {
                         $keyToDelete = $key;
                     }
 
                     $duplicateKeys[$currentKey]['duplicated'] = true;
-                    unset($results[$keyToDelete]);
+                    unset($actions[$keyToDelete]);
                 } else {
                     $duplicateKeys[$currentKey] = array(
-                        'key' => $key,
-                        'priority' => $currentPriority,
+                        'key'        => $key,
+                        'priority'   => $currentPriority,
                         'duplicated' => false,
                     );
                 }
@@ -64,10 +52,10 @@ class DuplicateKey extends AbstractFilter implements FilterInterface
 
         foreach ($duplicateKeys as $key => $values) {
             if ($values['duplicated']) {
-                $results[$values['key']]->setIsDuplicated(true);
+                $collection[$values['key']]->setIsDuplicated(true);
             }
         }
 
-        return $results;
+        return $collection;
     }
 }

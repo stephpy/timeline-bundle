@@ -1,14 +1,17 @@
 <?php
 
-namespace Highco\TimelineBundle\Spread;
+namespace Spy\TimelineBundle\Spread;
 
-use Highco\TimelineBundle\Model\TimelineAction;
-use Highco\TimelineBundle\Provider\ProviderInterface;
-use Highco\TimelineBundle\Notification\NotificationManager;
-use Highco\TimelineBundle\Model\TimelineActionManagerInterface;
+use Spy\TimelineBundle\Driver\ActionManagerInterface;
+use Spy\TimelineBundle\Driver\TimelineManagerInterface;
+use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\TimelineBundle\Notification\NotificationManager;
+use Spy\TimelineBundle\Spread\Entry\Entry;
+use Spy\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**
- * Deployer class, this class will deploy on spread
+ * Deployer
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
@@ -18,86 +21,155 @@ class Deployer
     CONST DELIVERY_WAIT      = 'wait';
 
     /**
-     * @var string
+     * @var \ArrayIterator
      */
-    private $delivery = 'immediate';
+    protected $spreads;
 
     /**
-     * @var Manager
+     * @var integer
      */
-    private $spreadManager;
+    protected $batchSize;
 
     /**
-     * @var ProviderInterface
+     * @var EntryCollection
      */
-    private $provider;
+    protected $entryCollection;
 
     /**
-     * @var TimelineActionManagerInterface
+     * @var boolean
      */
-    private $timelineActionManager;
+    protected $onSubject;
 
     /**
      * @var NotificationManager
      */
-    private $notificationManager;
+    protected $notificationManager;
 
     /**
-     * @param Manager                        $spreadManager         Spread manager to retrieve entries where to deploy
-     * @param TimelineActionManagerInterface $timelineActionManager ObjectManager to notify Action is published
-     * @param ProviderInterface              $provider              Provider to deploy
-     * @param NotificationManager            $notificationManager   Notificaiton manager
+     * @var TimelineManagerInterface
      */
-    public function __construct(Manager $spreadManager, TimelineActionManagerInterface $timelineActionManager, ProviderInterface $provider, NotificationManager $notificationManager)
+    protected $timelineManager;
+
+    /**
+     * @param NotificationManager      $notificationManager notificationManager
+     * @param TimelineManagerInterface $timelineManager     timelineManager
+     * @param EntryCollection          $entryCollection     entryCollection
+     * @param boolean                  $onSubject           onSubject
+     * @param integer                  $batchSize           batch size
+     */
+    public function __construct(NotificationManager $notificationManager, TimelineManagerInterface $timelineManager, EntryCollection $entryCollection, $onSubject = true, $batchSize = 50)
     {
-        $this->spreadManager         = $spreadManager;
-        $this->timelineActionManager = $timelineActionManager;
-        $this->provider              = $provider;
-        $this->notificationManager   = $notificationManager;
+        $this->notificationManager = $notificationManager;
+        $this->timelineManager     = $timelineManager;
+        $this->entryCollection     = $entryCollection;
+        $this->spreads             = new \ArrayIterator();
+        $this->onSubject           = $onSubject;
+        $this->batchSize           = (int) $batchSize;
     }
 
     /**
-     * @param TimelineAction $timelineAction
+     * @param ActionInterface        $action        action
+     * @param ActionManagerInterface $actionManager actionManager
      */
-    public function deploy(TimelineAction $timelineAction)
+    public function deploy(ActionInterface $action, ActionManagerInterface $actionManager)
     {
-        if ($timelineAction->getStatusWanted() !== TimelineAction::STATUS_PUBLISHED) {
+        if ($action->getStatusWanted() !== ActionInterface::STATUS_PUBLISHED) {
             return;
         }
 
-        $this->spreadManager->process($timelineAction);
-        $results = $this->spreadManager->getResults();
+        $this->entryCollection->setActionManager($actionManager);
 
-        foreach ($results as $context => $values) {
-            foreach ($values as $entry) {
-                $this->provider->persist($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
-                $this->notificationManager->notify($timelineAction, $context, $entry->subjectModel, $entry->subjectId);
+        $results = $this->processSpreads($action);
+        $results->loadUnawareEntries();
+
+        $i = 1;
+        foreach ($results as $context => $entries) {
+            foreach ($entries as $entry) {
+                $this->timelineManager->createAndPersist($action, $entry->getSubject(), $context, TimelineInterface::TYPE_TIMELINE);
+                $this->notificationManager->notify($action, $context, $entry->getSubject());
+
+                if (($i % $this->batchSize) == 0) {
+                    $this->timelineManager->flush();
+                }
+                $i++;
             }
         }
 
-        $this->provider->flush();
+        if (count($results)) {
+            $this->timelineManager->flush();
+        }
 
-        $timelineAction->setStatusCurrent(TimelineAction::STATUS_PUBLISHED);
-        $timelineAction->setStatusWanted(TimelineAction::STATUS_FROZEN);
+        $action->setStatusCurrent(ActionInterface::STATUS_PUBLISHED);
+        $action->setStatusWanted(ActionInterface::STATUS_FROZEN);
 
-        $this->timelineActionManager->updateTimelineAction($timelineAction);
+        $actionManager->updateAction($action);
 
-        $this->spreadManager->clear();
+        $this->entryCollection->clear();
     }
 
     /**
-     * @param string $delivery
+     * @param string $delivery delivery
      */
     public function setDelivery($delivery)
     {
+        $availableDelivery = array(self::DELIVERY_IMMEDIATE, self::DELIVERY_WAIT);
+
+        if (!in_array($delivery, $availableDelivery)) {
+            throw new \InvalidArgumentException(sprintf('Delivery "%s" is not supported, (%s)', $delivery, implode(', ', $availableDelivery)));
+        }
+
         $this->delivery = $delivery;
     }
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getDelivery()
+    public function isDeliveryImmediate()
     {
-        return $this->delivery;
+        return self::DELIVERY_IMMEDIATE === $this->delivery;
+    }
+
+    /**
+     * @param SpreadInterface $spread spread
+     */
+    public function addSpread(SpreadInterface $spread)
+    {
+        $this->spreads[] = $spread;
+    }
+
+    /**
+     * @param ActionInterface $action action
+     *
+     * @return \ArrayIterator
+     */
+    public function processSpreads(ActionInterface $action)
+    {
+        if ($this->onSubject) {
+            $this->entryCollection->add(new Entry($action->getSubject()), 'GLOBAL');
+        }
+
+        foreach ($this->spreads as $spread) {
+            if ($spread->supports($action)) {
+                $spread->process($action, $this->entryCollection);
+            }
+        }
+
+        return $this->getEntryCollection();
+    }
+
+    /**
+     * @return EntryCollection
+     */
+    public function getEntryCollection()
+    {
+        return $this->entryCollection;
+    }
+
+    /**
+     * @return \ArrayIterator of SpreadInterface
+     */
+    public function getSpreads()
+    {
+        return $this->spreads;
     }
 }

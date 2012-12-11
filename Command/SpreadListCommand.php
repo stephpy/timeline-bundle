@@ -1,6 +1,6 @@
 <?php
 
-namespace Highco\TimelineBundle\Command;
+namespace Spy\TimelineBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +20,7 @@ class SpreadListCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('highco:timeline-spreads')
+            ->setName('spy_timeline:spreads')
             ->setDescription('Show list of spreads');
     }
 
@@ -31,7 +31,7 @@ class SpreadListCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $spreads = $this->getContainer()
-            ->get('highco.timeline.spread.manager')
+            ->get('spy_timeline.spread.deployer')
             ->getSpreads();
 
         $output->writeln(sprintf('<info>There is %s timeline spread(s) defined</info>', count($spreads)));

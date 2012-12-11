@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spy_timeline.spread.deployer.class">Spy\TimelineBundle\Spread\Deployer</parameter>
+        <parameter key="spy_timeline.spread.entry_collection.class">Spy\TimelineBundle\Spread\Entry\EntryCollection</parameter>
+    </parameters>
+
+    <services>
+        <service id="spy_timeline.spread.deployer.default" class="%spy_timeline.spread.deployer.class%">
+            <argument type="service" id="spy_timeline.notification_manager" />
+            <argument type="service" id="spy_timeline.timeline_manager" />
+            <argument type="service" id="spy_timeline.spread.entry_collection" />
+            <argument>%spy_timeline.spread.on_subject%</argument>
+            <argument>%spy_timeline.spread.deployer.batch_size%</argument>
+            <call method="setDelivery">
+                <argument>%spy_timeline.spread.deployer.delivery%</argument>
+            </call>
+        </service>
+
+        <service id="spy_timeline.spread.entry_collection" class="%spy_timeline.spread.entry_collection.class%">
+            <argument>%spy_timeline.spread.on_global_context%</argument>
+            <argument>%spy_timeline.spread.deployer.batch_size%</argument>
+        </service>
+    </services>
+
+</container>

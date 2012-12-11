@@ -1,17 +1,17 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
+    - 5.3
+    - 5.4
 
-env:
-  - SYMFONY_VERSION=origin/2.0
-  - SYMFONY_VERSION=origin/master
+before_script: composer install --dev
 
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - COMPOSER_ROOT_VERSION=dev-master php composer.phar --dev install
+script:
+    - bin/atoum -d Tests/Units
 
 notifications:
-  email:
-    - py.stephane1@gmail.com
+    email:
+        recipients:
+            - py.stephane1@gmail.com
+        on_success: change
+        on_failure: change

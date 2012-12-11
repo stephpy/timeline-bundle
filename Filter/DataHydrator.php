@@ -1,14 +1,14 @@
 <?php
 
-namespace Highco\TimelineBundle\Filter;
+namespace Spy\TimelineBundle\Filter;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Highco\TimelineBundle\Filter\DataHydrator\Entry;
+use Spy\TimelineBundle\Model\Collection;
+use Spy\TimelineBundle\Filter\DataHydrator\Locator\LocatorInterface;
+use Spy\TimelineBundle\Filter\DataHydrator\Entry;
+use Spy\TimelineBundle\Filter\DataHydrator\Reference;
 
 /**
- * Defined on "Resources/doc/filter.markdown"
- * This filter will hydrate TimelineActions by getting references
- * from Doctrine
+ * DataHydrator
  *
  * @uses AbstractFilter
  * @uses FilterInterface
@@ -19,155 +19,111 @@ class DataHydrator extends AbstractFilter implements FilterInterface
     /**
      * @var array
      */
-    protected $references = array();
+    protected $locators = array();
 
     /**
      * @var array
      */
-    protected $entries    = array();
+    protected $components = array();
 
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    protected $container;
+    protected $entries = array();
 
     /**
-     * @param ContainerInterface $container
+     * @var boolean
      */
-    public function __construct(ContainerInterface $container)
+    protected $filterUnresolved;
+
+    /**
+     * @param boolean $filterUnresolved filterUnresolved
+     */
+    public function __construct($filterUnresolved = false)
     {
-        $this->container = $container;
+        $this->filterUnresolved = $filterUnresolved;
+    }
+
+    /**
+     * @param LocatorInterface $locator locator
+     */
+    public function addLocator(LocatorInterface $locator)
+    {
+        $this->locators[] = $locator;
     }
 
     /**
      * {@inheritdoc}
-     * @param array $options
      */
-    public function initialize(array $options = array())
+    public function filter($collection)
     {
-        $defaultOptions = array(
-            'db_driver' => 'orm',
-            'filter_unresolved' => false,
-        );
+        if (empty($this->locators)) {
+            return $collection;
+        }
 
-        $this->setOptions(array_merge($defaultOptions, $options));
-    }
-
-    /**
-     * {@inheritdoc}
-     * @param \Highco\TimelineBundle\Model\Collection $results
-     */
-    public function filter($results)
-    {
-        foreach ($results as $key => $result) {
+        foreach ($collection as $key => $result) {
             $entry = new Entry($result, $key);
             $entry->build();
 
-            $this->addReferences($entry->getReferences());
-            $this->entries[] = $entry;
+            $this->addComponents($entry->getComponents());
         }
 
-        $this->hydrateReferences();
-
-        if($this->getOption('filter_unresolved')) {
-            $results = $this->removeUnresolved($results);
-        }
-
-        return $results;
+        return $this->hydrateComponents($collection);
     }
 
     /**
-     * Will retrieve references from Doctrine and hydrate entries
+     * @param array $components
      */
-    protected function hydrateReferences()
+    public function addComponents(array $components)
     {
-        /* --- Regroup by model --- */
-        $referencesByModel = array();
-        foreach ($this->references as $reference) {
-            if (!array_key_exists($reference->model, $referencesByModel)) {
-                $referencesByModel[$reference->model] = array();
+        foreach ($components as $component) {
+            $model = $component->getModel();
+            if (!array_key_exists($model, $this->components)) {
+                $this->components[$model] = array();
             }
 
-            $referencesByModel[$reference->model][$reference->id] = $reference->id;
-        }
-
-        /* ---- fetch results from database --- */
-
-        $resultsByModel = array();
-        foreach ($referencesByModel as $model => $ids) {
-            $resultsByModel[$model] = $this->_getTimelineResultsForModelAndOids($model, (array) $ids);
-        }
-
-        /* ---- hydrate references ---- */
-        foreach ($this->references as $reference) {
-            if (isset($resultsByModel[$reference->model][$reference->id])) {
-                $reference->object = $resultsByModel[$reference->model][$reference->id];
-            }
-        }
-
-        /* ---- hydrate entries ---- */
-        foreach ($this->entries as $entry) {
-            $entry->hydrate($this->references);
+            $this->components[$model][$component->getHash()] = $component;
         }
     }
 
     /**
-     * Remove any results which have unresolved references
-     * @param $results
-     *
-     * @return mixed
+     * Use locators to hydrate components.
      */
-    public function removeUnresolved($results) {
-        foreach ($this->entries as $entry) {
-            if(!$entry->isFullyResolved()) {
-                unset($results[$entry->getKey()]);
-            }
-        }
-        return $results;
-    }
-
-    /**
-     * @param array $references
-     */
-    public function addReferences(array $references)
+    public function hydrateComponents($collection)
     {
-        $this->references = array_merge($references, $this->references);
-    }
+        $componentsLocated = array();
 
-    /**
-     * Return timeline results from storage (actually only 'orm')
-     *
-     * @param string $model Model to retrieve
-     * @param array  $oids  An array of oids
-     *
-     * @return array
-     */
-    protected function _getTimelineResultsForModelAndOids($model, array $oids)
-    {
-        $dbDriver = $this->getOption('db_driver', 'orm');
+        foreach ($this->components as $model => $components) {
+            foreach ($this->locators as $locator) {
+                if ($locator->supports($model)) {
+                    $locator->locate($model, $components);
 
-        switch ($dbDriver) {
-            case 'orm':
-                $objectManager = $this->container->get('highco.timeline.entity_manager');
-                $repository    = $objectManager->getRepository($model);
+                    foreach ($components as $key => $component) {
+                        $componentsLocated[$key] = $component;
+                    }
 
-                if (method_exists($repository, "getTimelineResultsForModelAndOids")) {
-                    return $repository->getTimelineResultsForModelAndOids($oids);
-                } else {
-                    $qb = $objectManager->createQueryBuilder();
-
-                    $qb
-                        ->select('r')
-                        ->from($model, 'r INDEX BY r.id')
-                        ->where($qb->expr()->in('r.id', $oids));
-
-                    return $qb->getQuery()->getResult();
+                    break;
                 }
-
-                break;
-            default;
-                throw new \OutOfRangeException(sprintf('%s is not accepted by DataHydrator', $dbDriver));
-                break;
+            }
         }
+
+        foreach ($collection as $key => $action) {
+            foreach ($action->getActionComponents() as $actionComponent) {
+                if (!$actionComponent->isText() && null === $actionComponent->getComponent()->getData()) {
+                    $hash = $actionComponent->getComponent()->getHash();
+
+                    if (array_key_exists($hash, $componentsLocated) && !empty($componentsLocated[$hash])) {
+                        $actionComponent->setComponent($componentsLocated[$hash]);
+                    } else {
+                        if ($this->filterUnresolved) {
+                            unset($collection[$key]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $collection;
     }
 }
