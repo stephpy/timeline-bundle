@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ComponentInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 

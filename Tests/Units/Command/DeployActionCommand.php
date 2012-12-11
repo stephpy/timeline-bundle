@@ -55,7 +55,7 @@ class DeployActionCommand extends Test
     {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
         $this->mockClass('Spy\TimelineBundle\Driver\ActionManagerInterface', '\Mock');
-        $this->mockClass('Spy\TimelineBundle\Model\ActionInterface', '\Mock');
+        $this->mockClass('Spy\Timeline\Model\ActionInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
         $this->mockClass('Spy\TimelineBundle\Spread\Deployer', '\Mock');
 

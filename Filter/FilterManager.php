@@ -2,8 +2,6 @@
 
 namespace Spy\TimelineBundle\Filter;
 
-use Spy\TimelineBundle\Model\Collection;
-
 /**
  * FilterManager
  *
@@ -31,7 +29,7 @@ class FilterManager
     }
 
     /**
-     * @param array|Collection $collection collection
+     * @param array $collection collection
      *
      * @return array
      */

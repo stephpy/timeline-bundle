@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Notification;
 
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
 use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
 
 /**

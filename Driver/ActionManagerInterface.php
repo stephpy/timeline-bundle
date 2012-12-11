@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Driver;
 
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
 
 /**
  * ActionManagerInterface

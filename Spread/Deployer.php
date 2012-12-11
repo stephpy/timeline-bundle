@@ -2,10 +2,10 @@
 
 namespace Spy\TimelineBundle\Spread;
 
+use Spy\Timeline\Model\TimelineInterface;
+use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
-use Spy\TimelineBundle\Model\TimelineInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
 use Spy\TimelineBundle\Notification\NotificationManager;
 use Spy\TimelineBundle\Spread\Entry\Entry;
 use Spy\TimelineBundle\Spread\Entry\EntryCollection;

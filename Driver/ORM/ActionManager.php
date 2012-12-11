@@ -4,8 +4,8 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
 use Spy\TimelineBundle\Driver\AbstractActionManager;
 use Spy\TimelineBundle\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Pager\PagerInterface;

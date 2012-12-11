@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Spread\Entry;
 
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ComponentInterface;
 
 /**
  * EntryUnaware

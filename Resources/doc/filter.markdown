@@ -125,7 +125,6 @@ Create the class and add it as a service:
 namespace Acme\DemoBundle\Filter;
 
 use Spy\TimelineBundle\Filter\FilterInterface;
-use Spy\TimelineBundle\Model\Collection;
 
 class MyOwnFilter implements FilterInterface
 {

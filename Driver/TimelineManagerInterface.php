@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver;
 
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
-use Spy\TimelineBundle\Model\TimelineInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Model\TimelineInterface;
 
 interface TimelineManagerInterface
 {

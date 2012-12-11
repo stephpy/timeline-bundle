@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Spread;
 
-use Spy\TimelineBundle\Model\ActionInterface;
+use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Spread\Entry\EntryCollection;
 
 /**

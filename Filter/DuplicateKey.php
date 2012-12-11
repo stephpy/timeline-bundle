@@ -2,8 +2,6 @@
 
 namespace Spy\TimelineBundle\Filter;
 
-use Spy\TimelineBundle\Model\Collection;
-
 /**
  * Defined on "Resources/doc/filter.markdown"
  * This filter will unset from collection timeline_actions which

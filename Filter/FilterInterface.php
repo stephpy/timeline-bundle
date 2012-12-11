@@ -2,8 +2,6 @@
 
 namespace Spy\TimelineBundle\Filter;
 
-use Spy\TimelineBundle\Model\Collection;
-
 /**
  * This interface define how filters must be used
  *

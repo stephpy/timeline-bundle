@@ -3,8 +3,8 @@
 namespace Spy\TimelineBundle\Notification\Unread;
 
 use Spy\TimelineBundle\Driver\TimelineManagerInterface;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ComponentInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ComponentInterface;
 use Spy\TimelineBundle\Notification\Notifier\NotifierInterface;
 
 /**

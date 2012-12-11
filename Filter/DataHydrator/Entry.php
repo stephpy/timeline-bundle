@@ -3,8 +3,8 @@
 namespace Spy\TimelineBundle\Filter\DataHydrator;
 
 use Symfony\Component\DependencyInjection\Container;
-use Spy\TimelineBundle\Model\ActionInterface;
-use Spy\TimelineBundle\Model\ActionComponentInterface;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\ActionComponentInterface;
 
 /**
  * Entry, each timeline actions are an entry
