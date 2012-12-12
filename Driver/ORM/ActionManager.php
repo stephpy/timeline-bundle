@@ -137,9 +137,11 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         return $this->objectManager
             ->getRepository($this->actionClass)
             ->createQueryBuilder('a')
-            ->innerJoin('a.actionComponents', 'ac', Expr\Join::WITH, '(ac.action = a AND ac.component = :subject AND ac.type = :type)')
+            ->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :subject AND ac2.type = :type)')
+            ->leftJoin('a.actionComponents', 'ac')
             ->setParameter('subject', $subject)
-            ->setParameter('type', 'subject');
+            ->setParameter('type', 'subject')
+            ;
     }
 
     protected function getComponentRepository()
