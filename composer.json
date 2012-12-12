@@ -22,7 +22,6 @@
     "require-dev": {
         "atoum/atoum-bundle": "dev-master",
         "doctrine/orm": "2.*",
-        "snc/redis-bundle": ">=1.0.1",
         "symfony/console": "2.*"
     },
     "suggest": {
