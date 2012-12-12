@@ -5,10 +5,7 @@ At this moment, this driver works with [SncRedisBundle](https://github.com/snc/S
 
 /!\ WARNING /!\
 
-Some features are not implemented on redis:
-
-- subjectActions
-- delivery wait
+Redis driver have to work with immediate delivery.
 
 # 1) Define driver section on configuration
 

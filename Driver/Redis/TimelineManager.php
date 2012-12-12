@@ -119,7 +119,7 @@ class TimelineManager implements TimelineManagerInterface
 
         $options = $resolver->resolve($options);
 
-        $redisKey = $this->getRedisKey($subject, $options['context'], $options['type']);
+        $redisKey = $this->getSubjectRedisKey($subject);
 
         $this->persistedDatas[] = array(
             'zRem',
@@ -162,6 +162,18 @@ class TimelineManager implements TimelineManagerInterface
             $action->getSpreadTime(),
             $action->getId()
         );
+
+        // we want to deploy on a subject action list to enable ->getSubjectActions feature..
+        if ('timeline' === $type) {
+            $redisKey = $this->getSubjectRedisKey($action->getSubject());
+
+            $this->persistedDatas[] = array(
+                'zAdd',
+                $redisKey,
+                $action->getSpreadTime(),
+                $action->getId()
+            );
+        }
     }
 
     /**
@@ -219,4 +231,15 @@ class TimelineManager implements TimelineManagerInterface
     {
         return sprintf('%s:%s:%s:%s', $this->prefix, $subject->getHash(), $type, $context);
     }
+
+    /**
+     * @param ComponentInterface $subject subject
+     *
+     * @return string
+     */
+    protected function getSubjectRedisKey(ComponentInterface $subject)
+    {
+        return sprintf('%s:%s', $this->prefix, $subject->getHash());
+    }
+
 }

@@ -65,6 +65,10 @@ class Configuration implements ConfigurationInterface
                     return false;
                 })
                 ->thenInvalid("Please define a driver or timeline_manager, action_manager")
+                ->ifTrue(function($v) {
+                    return isset($v['drivers']) && isset($v['drivers']['redis']) && $v['spread']['delivery'] != 'immediate';
+                })
+                ->thenInvalid("Redis driver accepts only spread delivery immediate.")
             ->end()
             ->children()
                 ->arrayNode('drivers')

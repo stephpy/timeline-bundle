@@ -9,6 +9,7 @@ use Spy\Timeline\Driver\AbstractActionManager;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
+use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * ActionManager
@@ -23,6 +24,11 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      * @var PredisClient|PhpredisClient
      */
     protected $client;
+
+    /**
+     * @var PagerInterface
+     */
+    protected $pager;
 
     /**
      * @var string
@@ -46,18 +52,20 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
     /**
      * @param PredisClient|PhpredisClient $client               client
+     * @param PagerInterface              $pager                pager
      * @param string                      $prefix               prefix
      * @param string                      $actionClass          actionClass
      * @param string                      $componentClass       componentClass
      * @param string                      $actionComponentClass actionComponentClass
      */
-    public function __construct($client, $prefix, $actionClass, $componentClass, $actionComponentClass)
+    public function __construct($client, PagerInterface $pager, $prefix, $actionClass, $componentClass, $actionComponentClass)
     {
         if (!$client instanceof PredisClient && !$client instanceof PhpredisClient) {
             throw new \InvalidArgumentException('You have to give a PhpRedisClient or a PredisClient');
         }
 
         $this->client               = $client;
+        $this->pager                = $pager;
         $this->prefix               = $prefix;
         $this->actionClass          = $actionClass;
         $this->componentClass       = $componentClass;
@@ -95,7 +103,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function countActions(ComponentInterface $subject, $status = ActionInterface::STATUS_PUBLISHED)
     {
-        throw new \Exception('Method '.__METHOD__.' is currently not supported by redis driver');
+        if ($status != ActionInterface::STATUS_PUBLISHED) {
+            throw new \Exception('Method '.__METHOD__.' can only retrieve action published');
+        }
+
+        $redisKey = $this->getSubjectRedisKey($subject);
+
+        return $this->client->zCard($redisKey);
     }
 
     /**
@@ -103,7 +117,23 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function getSubjectActions(ComponentInterface $subject, array $options = array())
     {
-        throw new \Exception('Method '.__METHOD__.' is currently not supported by redis driver');
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults(array(
+            'page'         => 1,
+            'max_per_page' => 10,
+            'filter'       => true,
+        ));
+
+        $options = $resolver->resolve($options);
+
+        $token   = new Pager\PagerToken($this->getSubjectRedisKey($subject));
+        $pager   = $this->pager->paginate($token, $options['page'], $options['max_per_page']);
+
+        if ($options['filter']) {
+            return $this->pager->filter($pager);
+        }
+
+        return $pager;
     }
 
     /**
@@ -181,6 +211,16 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected function getActionKey()
     {
         return sprintf('%s:action', $this->prefix);
+    }
+
+    /**
+     * @param ComponentInterface $subject subject
+     *
+     * @return string
+     */
+    protected function getSubjectRedisKey(ComponentInterface $subject)
+    {
+        return sprintf('%s:%s', $this->prefix, $subject->getHash());
     }
 
     /**
