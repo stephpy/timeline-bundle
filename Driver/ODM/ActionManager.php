@@ -109,6 +109,19 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     /**
      * {@inheritdoc}
      */
+    public function findComponentWithHash($hash)
+    {
+        return $this->objectManager
+            ->getRepository($this->componentClass)
+            ->createQueryBuilder('c')
+            ->field('hash')->equals($hash)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findComponents(array $hashes)
     {
         return $this->objectManager
