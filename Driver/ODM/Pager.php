@@ -12,7 +12,7 @@ use Spy\Timeline\Pager\PagerInterface;
  * @uses PagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Pager implements PagerInterface
+class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
     protected $items = array();
 
@@ -71,5 +71,21 @@ class Pager implements PagerInterface
     public function setItems(array $items)
     {
         $this->items = $items;
+    }
+
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
+    }
+
+    /**
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->items);
     }
 }

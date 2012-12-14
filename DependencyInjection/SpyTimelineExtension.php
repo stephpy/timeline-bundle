@@ -118,6 +118,12 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.render.fallback', $render['fallback']);
         $container->setParameter('spy_timeline.render.i18n.fallback', isset($render['i18n']) && isset($render['i18n']['fallback']) ? $render['i18n']['fallback'] : null);
         $container->setParameter('spy_timeline.twig.resources', $render['resources']);
+
+        // query_builder
+        $queryBuilder = $config['query_builder'];
+        $container->setParameter('spy_timeline.query_builder.factory.class', $queryBuilder['classes']['factory']);
+        $container->setParameter('spy_timeline.query_builder.asserter.class', $queryBuilder['classes']['asserter']);
+        $container->setParameter('spy_timeline.query_builder.operator.class', $queryBuilder['classes']['operator']);
     }
 
     private function loadORMDriver($container, $loader, $config)
@@ -141,6 +147,11 @@ class SpyTimelineExtension extends Extension
         if ($config['post_load_listener']) {
             $loader->load('driver/doctrine_listener.xml');
         }
+
+        $container->setParameter('spy_timeline.query_builder.class', $classes['query_builder']);
+
+        $loader->load('query_builder.xml');
+        $container->setAlias('spy_timeline.query_builder', 'spy_timeline.query_builder.orm');
     }
 
     private function loadODMDriver($container, $loader, $config)

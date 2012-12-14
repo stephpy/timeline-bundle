@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spy\Timeline\Pager\PagerInterface;
 use Spy\Timeline\Filter\FilterManagerInterface;
@@ -13,7 +13,7 @@ use Spy\Timeline\Filter\FilterManagerInterface;
  * @uses PagerInterface
  * @author Stephane PY <py.stephane1@gmail.com>
  */
-class Pager implements PagerInterface
+class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
     protected $items = array();
 
@@ -35,7 +35,7 @@ class Pager implements PagerInterface
      */
     public function paginate($target, $page = 1, $limit = 10, $options = array())
     {
-        if (!$target instanceof QueryBuilder) {
+        if (!$target instanceof DoctrineQueryBuilder) {
             throw new \Exception('Not supported yet');
         }
 
@@ -59,7 +59,7 @@ class Pager implements PagerInterface
     }
 
     /**
-     * @return rray
+     * @return array
      */
     public function getItems()
     {
@@ -72,5 +72,21 @@ class Pager implements PagerInterface
     public function setItems(array $items)
     {
         $this->items = $items;
+    }
+
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
+    }
+
+    /**
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->items);
     }
 }

@@ -1,0 +1,14 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="spy_timeline.query_builder.factory" class="%spy_timeline.query_builder.factory.class%">
+            <argument type="collection">
+                <argument key="query_builder">%spy_timeline.query_builder.class%</argument>
+                <argument key="asserter">%spy_timeline.query_builder.asserter.class%</argument>
+                <argument key="operator">%spy_timeline.query_builder.operator.class%</argument>
+            </argument>
+        </service>
+    </services>
+</container>

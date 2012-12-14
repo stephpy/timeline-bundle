@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $tb->root('spy_timeline');
 
         $this->addDriverSection($rootNode);
+        $this->addQueryBuilderSection($rootNode);
 
         $rootNode
             ->children()
@@ -89,6 +90,9 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                                 ->arrayNode('classes')
                                     ->children()
+                                        ->scalarNode('query_builder')
+                                            ->defaultValue('Spy\TimelineBundle\Driver\ORM\QueryBuilder')
+                                        ->end()
                                         ->scalarNode('timeline')
                                             ->isRequired()
                                             ->cannotBeEmpty()
@@ -182,6 +186,33 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
     }
+
+    protected function addQueryBuilderSection($rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('query_builder')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('classes')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('factory')
+                                    ->defaultValue('Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory')
+                                ->end()
+                                ->scalarNode('asserter')
+                                    ->defaultValue('Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter')
+                                ->end()
+                                ->scalarNode('operator')
+                                    ->defaultValue('Spy\Timeline\Driver\QueryBuilder\Criteria\Operator')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
 
     protected function addFilterSection($rootNode)
     {
