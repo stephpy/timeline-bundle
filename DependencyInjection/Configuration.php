@@ -66,6 +66,8 @@ class Configuration implements ConfigurationInterface
                     return false;
                 })
                 ->thenInvalid("Please define a driver or timeline_manager, action_manager")
+            ->end()
+            ->validate()
                 ->ifTrue(function($v) {
                     return isset($v['drivers']) && isset($v['drivers']['redis']) && $v['spread']['delivery'] != 'immediate';
                 })
