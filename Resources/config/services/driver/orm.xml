@@ -48,9 +48,6 @@
             <argument type="service" id="spy_timeline.driver.object_manager" />
             <argument type="service" id="spy_timeline.pager" />
             <argument>%spy_timeline.class.timeline%</argument>
-            <argument>%spy_timeline.class.action%</argument>
-            <argument>%spy_timeline.class.component%</argument>
-            <argument>%spy_timeline.class.action_component%</argument>
         </service>
     </services>
 </container>

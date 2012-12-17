@@ -34,40 +34,22 @@ class QueryBuilder extends BaseQueryBuilder
      */
     protected $timelineClass;
 
-    /**
-     * @var string
-     */
-    protected $actionClass;
-
-    /**
-     * @var string
-     */
-    protected $componentClass;
-
-    /**
-     * @var string
-     */
-    protected $actionComponentClass;
+    CONST APPLY_FILTER     = true;
+    CONST NOT_APPLY_FILTER = false;
 
     /**
      * @param QueryBuilderFactory $factory              factory
      * @param ObjectManager       $objectManager        objectManager
      * @param PagerInterface      $pager                pager
      * @param string              $timelineClass        timelineClass
-     * @param string              $actionClass          actionClass
-     * @param string              $componentClass       componentClass
-     * @param string              $actionComponentClass actionComponentClass
      */
-    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, PagerInterface $pager, $timelineClass, $actionClass, $componentClass, $actionComponentClass)
+    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, PagerInterface $pager, $timelineClass)
     {
         parent::__construct($factory);
 
         $this->objectManager        = $objectManager;
         $this->pager                = $pager;
         $this->timelineClass        = $timelineClass;
-        $this->actionClass          = $actionClass;
-        $this->componentClass       = $componentClass;
-        $this->actionComponentClass = $actionComponentClass;
     }
 
     /**
@@ -111,20 +93,16 @@ class QueryBuilder extends BaseQueryBuilder
      *
      * @return PagerInterface
      */
-    public function execute($filter = true)
+    public function execute($filter = self::APPLY_FILTER)
     {
         $qb      = $this->createQueryBuilder();
-
-        $results = $qb->getQuery()->getResult();
-
         $pager   = $this->pager->paginate($qb, $this->page, $this->maxPerPage);
-        $results = $pager->getItems();
 
         $actions = array_map(
             function ($timeline) {
                 return $timeline->getAction();
             },
-            $results
+            $pager->getItems()
         );
 
         $pager->setItems($actions);
