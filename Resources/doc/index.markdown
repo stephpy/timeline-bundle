@@ -95,6 +95,7 @@ spy_timeline:
             object_manager: ~     # doctrine.orm.entity_manager
             post_load_listener:   true # Hydrate component data via postLoad listener
             classes:
+                query_builder:    ~ # Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder
                 timeline:         'Acme\YourBundle\Entity\Timeline'
                 action:           'Acme\YourBundle\Entity\Action'
                 component:        'Acme\YourBundle\Entity\Component'
@@ -123,6 +124,12 @@ spy_timeline:
 
     notifiers:
         - highco.timeline.unread_notifications
+
+    query_builder:
+        classes:
+            factory:   Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory
+            asserter:  Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter
+            operator:  Spy\Timeline\Driver\QueryBuilder\Criteria\Operator
 
     # let empty if you want to use default paginator
     # or use your own.

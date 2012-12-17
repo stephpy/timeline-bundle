@@ -12,6 +12,7 @@ spy_timeline:
         orm:
             object_manager: doctrine.orm.entity_manager
             classes:
+                query_builder: ~ # Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder
                 timeline:  Yo\UrBundle\Entity\Timeline
                 action:    Yo\UrBundle\Entity\Action
                 component: Yo\UrBundle\Entity\Component
