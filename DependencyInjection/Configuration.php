@@ -91,7 +91,7 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('classes')
                                     ->children()
                                         ->scalarNode('query_builder')
-                                            ->defaultValue('Spy\TimelineBundle\Driver\ORM\QueryBuilder')
+                                            ->defaultValue('Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder')
                                         ->end()
                                         ->scalarNode('timeline')
                                             ->isRequired()
