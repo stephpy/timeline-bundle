@@ -19,6 +19,7 @@ class Configuration extends Test
     public function testNoDriversAndNoManagers()
     {
         $self = $this;
+
         $this->exception(function () use ($self) {
             $self->processConfiguration(array(array()));
         })
@@ -80,6 +81,13 @@ class Configuration extends Test
                 'fallback' => 'SpyTimelineBundle:Timeline:default.html.twig',
                 'resources' => array(
                     'SpyTimelineBundle:Action:components.html.twig'
+                ),
+            ),
+            'query_builder' => array(
+                'classes' => array(
+                    'factory'  => 'Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory',
+                    'asserter' => 'Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter',
+                    'operator' => 'Spy\Timeline\Driver\QueryBuilder\Criteria\Operator',
                 ),
             ),
         );
