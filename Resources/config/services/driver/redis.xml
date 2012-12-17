@@ -33,7 +33,9 @@
         <service id="spy_timeline.pager.redis" class="%spy_timeline.pager.redis.class%">
             <argument type="service" id="spy_timeline.filter.manager" />
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.action_manager" />
+            <call method="setActionManager">
+                <argument type="service" id="spy_timeline.action_manager" />
+            </call>
         </service>
 
         <service id="spy_timeline.pager.redis.knp_subscriber" class="Spy\Timeline\Driver\Redis\Pager\KnpSubscriber">
