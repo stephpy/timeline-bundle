@@ -113,7 +113,7 @@ You can asking for each field listed above.
 Fields methods:
 
 ```php
-$value = 'foo'; // you can provide a DateTime, 
+$value = 'foo'; // you can provide a DateTime,
 // for identifier, do not send a serialized data
 
 $qb->field('createdAt')->equals($value);
@@ -126,4 +126,16 @@ $qb->field('createdAt')->lt($value); // lower than
 $qb->field('createdAt')->lte($value); // lower than equals
 $qb->field('createdAt')->gt($value); // greather than
 $qb->field('createdAt')->gte($value); // greather than equals
+```
+
+## Fetch results
+
+```php
+
+$qb = $this->get('spy_timeline.query_builder');
+$qb->setCriterias('....');
+
+$results = $qb->execute(Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder::APPLY_FILTER); // apply filters
+$results = $qb->execute(Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder::NOT_APPLY_FILTER); // not apply filters
+// return a pager of Actions.
 ```
