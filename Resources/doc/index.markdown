@@ -4,6 +4,7 @@ SpyTimelineBundle
 See for more informations:
 
 - [installation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/install.markdown)
+- [query_builder](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/query_builder.markdown)
 - [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
 - [notification](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/notification.markdown)
 - [pagination](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/pagination.markdown)

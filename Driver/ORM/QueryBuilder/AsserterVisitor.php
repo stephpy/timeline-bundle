@@ -46,7 +46,21 @@ class AsserterVisitor implements VisitorInterface
     {
         $field                  = $this->getFieldDqlKey();
         $key                    = str_replace('.', '_', $field).uniqid();
-        $this->parameters[$key] = $this->asserter->getValue();
+        $value                  = $this->asserter->getValue();
+
+        if ($value instanceof \DateTime) {
+            $value = $value->format('Y-m-d H:i:s');
+        }
+
+        if ('identifier' === $this->asserter->getField()) {
+            if (is_scalar($value)) {
+                $value = (string) $value;
+            }
+
+            $value = serialize($value); // identifier is a serialized field.
+        }
+
+        $this->parameters[$key] = $value;
         $operator               = $this->asserter->getOperator();
 
         switch ($operator) {
