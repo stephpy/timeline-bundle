@@ -34,7 +34,9 @@ class Configuration extends Test
         $this->exception(function () use ($self) {
             $self->processConfiguration(array(array(
                 'drivers' => array(
-                    'orm' => array(),
+                    'orm' => array(
+                        'object_manager' => 'foo',
+                    ),
                     'odm' => array(
                         'object_manager' => 'foo',
                     ),
