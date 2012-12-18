@@ -8,6 +8,7 @@
         <parameter key="spy_timeline.timeline_manager.orm.class">Spy\TimelineBundle\Driver\ORM\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.orm.class">Spy\TimelineBundle\Driver\ORM\ActionManager</parameter>
         <parameter key="spy_timeline.pager.orm.class">Spy\TimelineBundle\Driver\ORM\Pager</parameter>
+        <parameter key="spy_timeline.query_builder.class">Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder</parameter>
     </parameters>
 
     <services>

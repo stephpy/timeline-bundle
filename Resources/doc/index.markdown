@@ -92,7 +92,7 @@ $timeline = $actionManager->getSubjectActions($subject);
 spy_timeline:
     drivers: # define only one.
         orm:
-            object_manager: ~     # doctrine.orm.entity_manager
+            object_manager: doctrine.orm.entity_manager
             post_load_listener:   true # Hydrate component data via postLoad listener
             classes:
                 query_builder:    ~ # Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder
@@ -102,7 +102,7 @@ spy_timeline:
                 action_component: 'Acme\YourBundle\Entity\ActionComponent'
         # OR
         odm:
-            object_manager: ~     # doctrine.odm.mongodb.document_manager
+            object_manager: doctrine.odm.mongodb.document_manager
             post_load_listener:   true # Hydrate component data via postLoad listener
             classes:
                 timeline:         'Acme\YourBundle\Document\Timeline'
@@ -149,7 +149,7 @@ spy_timeline:
     spread:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context
-        deployer: spy_timeline.spread.deployer
+        deployer: highco.timeline.spread.deployer.default
         batch_size: 50 # How many persist before flush operation.
         delivery: immediate
     render:

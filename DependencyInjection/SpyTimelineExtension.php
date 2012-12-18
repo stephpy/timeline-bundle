@@ -148,7 +148,9 @@ class SpyTimelineExtension extends Extension
             $loader->load('driver/doctrine_listener.xml');
         }
 
-        $container->setParameter('spy_timeline.query_builder.class', $classes['query_builder']);
+        if ($classes['query_builder']) {
+            $container->setParameter('spy_timeline.query_builder.class', $classes['query_builder']);
+        }
 
         $loader->load('query_builder.xml');
         $container->setAlias('spy_timeline.query_builder', 'spy_timeline.query_builder.orm');
