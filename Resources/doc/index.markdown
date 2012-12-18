@@ -123,7 +123,7 @@ spy_timeline:
     action_manager:   ~ #  use custom or let it.
 
     notifiers:
-        - highco.timeline.unread_notifications
+        - spy_timeline.unread_notifications
 
     query_builder:
         classes:
@@ -149,7 +149,7 @@ spy_timeline:
     spread:
         on_subject: true          # Spread each action on subject too
         on_global_context: true   # Spread automatically on global context
-        deployer: highco.timeline.spread.deployer
+        deployer: spy_timeline.spread.deployer
         batch_size: 50 # How many persist before flush operation.
         delivery: immediate
     render:
