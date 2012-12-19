@@ -8,19 +8,20 @@
         <parameter key="spy_timeline.timeline_manager.orm.class">Spy\TimelineBundle\Driver\ORM\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.orm.class">Spy\TimelineBundle\Driver\ORM\ActionManager</parameter>
         <parameter key="spy_timeline.pager.orm.class">Spy\TimelineBundle\Driver\ORM\Pager</parameter>
+        <parameter key="spy_timeline.query_executor.orm.class">Spy\TimelineBundle\Driver\ORM\QueryExecutor</parameter>
         <parameter key="spy_timeline.query_builder.class">Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder</parameter>
     </parameters>
 
     <services>
         <service id="spy_timeline.timeline_manager.orm" class="%spy_timeline.timeline_manager.orm.class%">
             <argument type="service" id="spy_timeline.driver.object_manager" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.class.timeline%</argument>
         </service>
 
         <service id="spy_timeline.action_manager.orm" class="%spy_timeline.action_manager.orm.class%">
             <argument type="service" id="spy_timeline.driver.object_manager" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>
             <argument>%spy_timeline.class.action_component%</argument>
@@ -29,25 +30,13 @@
             </call>
         </service>
 
-        <service id="spy_timeline.action_manager.orm" class="%spy_timeline.action_manager.orm.class%">
-            <argument type="service" id="spy_timeline.driver.object_manager" />
-            <argument type="service" id="spy_timeline.pager" />
-            <argument>%spy_timeline.class.action%</argument>
-            <argument>%spy_timeline.class.component%</argument>
-            <argument>%spy_timeline.class.action_component%</argument>
-            <call method="setDeployer">
-                <argument type="service" id="spy_timeline.spread.deployer" />
-            </call>
-        </service>
-
-        <service id="spy_timeline.pager.orm" class="%spy_timeline.pager.orm.class%">
-            <argument type="service" id="spy_timeline.filter.manager" />
-        </service>
+        <service id="spy_timeline.pager.orm" class="%spy_timeline.pager.orm.class%" />
+        <service id="spy_timeline.query_executor.orm" class="%spy_timeline.query_executor.orm.class%" />
 
         <service id="spy_timeline.query_builder.orm" class="%spy_timeline.query_builder.class%">
             <argument type="service" id="spy_timeline.query_builder.factory" />
             <argument type="service" id="spy_timeline.driver.object_manager" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.class.timeline%</argument>
         </service>
     </services>

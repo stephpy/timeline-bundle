@@ -8,8 +8,8 @@ use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\CriteriaInterface;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 use Doctrine\Common\Persistence\ObjectManager;
+use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Model\ActionInterface;
-use Spy\Timeline\Pager\PagerInterface;
 
 /**
  * QueryBuilder
@@ -25,9 +25,9 @@ class QueryBuilder extends BaseQueryBuilder
     protected $objectManager;
 
     /**
-     * @var PagerInterface
+     * @var ResultBuilderInterface
      */
-    protected $pager;
+    protected $resultBuilder;
 
     /**
      * @var string
@@ -38,18 +38,18 @@ class QueryBuilder extends BaseQueryBuilder
     CONST NOT_APPLY_FILTER = false;
 
     /**
-     * @param QueryBuilderFactory $factory              factory
-     * @param ObjectManager       $objectManager        objectManager
-     * @param PagerInterface      $pager                pager
-     * @param string              $timelineClass        timelineClass
+     * @param QueryBuilderFactory    $factory       factory
+     * @param ObjectManager          $objectManager objectManager
+     * @param ResultBuilderInterface $resultBuilder resultBuilder
+     * @param string                 $timelineClass timelineClass
      */
-    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, PagerInterface $pager, $timelineClass)
+    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
     {
         parent::__construct($factory);
 
-        $this->objectManager        = $objectManager;
-        $this->pager                = $pager;
-        $this->timelineClass        = $timelineClass;
+        $this->objectManager = $objectManager;
+        $this->resultBuilder = $resultBuilder;
+        $this->timelineClass = $timelineClass;
     }
 
     /**
@@ -96,22 +96,8 @@ class QueryBuilder extends BaseQueryBuilder
     public function execute($filter = self::APPLY_FILTER)
     {
         $qb      = $this->createQueryBuilder();
-        $pager   = $this->pager->paginate($qb, $this->page, $this->maxPerPage);
 
-        $actions = array_map(
-            function ($timeline) {
-                return $timeline->getAction();
-            },
-            $pager->getItems()
-        );
-
-        $pager->setItems($actions);
-
-        if ($filter) {
-            return $pager->filter($pager);
-        }
-
-        return $pager;
+        return $this->resultBuilder->fetchResults($qb, $this->page, $this->maxPerPage, $filter, true);
     }
 
     /**

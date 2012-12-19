@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 use Spy\Timeline\Filter\FilterManagerInterface;
 
 /**
@@ -16,19 +16,6 @@ use Spy\Timeline\Filter\FilterManagerInterface;
 class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
     protected $items = array();
-
-    /**
-     * @var FilterManagerInterface
-     */
-    protected $filterManager;
-
-    /**
-     * @param FilterManagerInterface $filterManager filterManager
-     */
-    public function __construct(FilterManagerInterface $filterManager)
-    {
-        $this->filterManager = $filterManager;
-    }
 
     /**
      * {@inheritdoc}

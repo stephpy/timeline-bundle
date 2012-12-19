@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\ODM;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Spy\Timeline\Filter\FilterManager;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
 /**
  * Pager

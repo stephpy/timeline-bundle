@@ -13,14 +13,14 @@
     <services>
         <service id="spy_timeline.timeline_manager.redis" class="%spy_timeline.timeline_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.driver.redis.pipeline%</argument>
         </service>
 
         <service id="spy_timeline.action_manager.redis" class="%spy_timeline.action_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>
