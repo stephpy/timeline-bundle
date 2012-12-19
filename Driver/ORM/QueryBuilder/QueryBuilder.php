@@ -3,6 +3,7 @@
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\CriteriaInterface;
@@ -33,12 +34,6 @@ class QueryBuilder extends BaseQueryBuilder
      * @var string
      */
     protected $timelineClass;
-
-    CONST APPLY_FILTER     = true;
-    CONST NOT_APPLY_FILTER = false;
-
-    CONST PAGINATE         = true;
-    CONST NOT_PAGINATE     = false;
 
     /**
      * @param QueryBuilderFactory    $factory       factory
@@ -92,15 +87,23 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @param boolean $filter filter
+     * @param array $options pager, filter
      *
-     * @return PagerInterface
+     * @return array|object
      */
-    public function execute($filter = self::APPLY_FILTER, $paginate = self::PAGINATE)
+    public function execute(array $options = array())
     {
         $qb      = $this->createQueryBuilder();
 
-        return $this->resultBuilder->fetchResults($qb, $this->page, $this->maxPerPage, $filter, $paginate);
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults(array(
+            'filter'       => true,
+            'paginate'     => false,
+        ));
+
+        $options = $resolver->resolve($options);
+
+        return $this->resultBuilder->fetchResults($qb, $this->page, $this->maxPerPage, $options['filter'], $options['paginate']);
     }
 
     /**
