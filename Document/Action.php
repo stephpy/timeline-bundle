@@ -16,6 +16,16 @@ class Action extends BaseAction
     protected $subject;
 
     /**
+     * actionComponents has to be a doctrine common collection.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->actionComponents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * @param string $type                 type
      * @param string $component            component
      * @param string $actionComponentClass actionComponentClass
