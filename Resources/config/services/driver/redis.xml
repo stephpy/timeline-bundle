@@ -8,19 +8,20 @@
         <parameter key="spy_timeline.timeline_manager.redis.class">Spy\Timeline\Driver\Redis\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.redis.class">Spy\Timeline\Driver\Redis\ActionManager</parameter>
         <parameter key="spy_timeline.pager.redis.class">Spy\Timeline\Driver\Redis\Pager\Pager</parameter>
+        <parameter key="spy_timeline.query_executor.redis.class">Spy\Timeline\Driver\Redis\QueryExecutor</parameter>
     </parameters>
 
     <services>
         <service id="spy_timeline.timeline_manager.redis" class="%spy_timeline.timeline_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.driver.redis.pipeline%</argument>
         </service>
 
         <service id="spy_timeline.action_manager.redis" class="%spy_timeline.action_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.pager" />
+            <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.class.action%</argument>
             <argument>%spy_timeline.class.component%</argument>
@@ -30,18 +31,20 @@
             </call>
         </service>
 
-        <service id="spy_timeline.pager.redis" class="%spy_timeline.pager.redis.class%">
-            <argument type="service" id="spy_timeline.filter.manager" />
+        <service id="spy_timeline.pager.redis" class="%spy_timeline.pager.redis.class%" public="false">
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <call method="setActionManager">
-                <argument type="service" id="spy_timeline.action_manager" />
-            </call>
+            <argument>%spy_timeline.driver.redis.prefix%</argument>
         </service>
 
         <service id="spy_timeline.pager.redis.knp_subscriber" class="Spy\Timeline\Driver\Redis\Pager\KnpSubscriber">
             <tag name="knp_paginator.subscriber" />
             <argument type="service" id="spy_timeline.driver.redis.client" />
-            <argument type="service" id="spy_timeline.action_manager" />
+            <argument>%spy_timeline.driver.redis.prefix%</argument>
+        </service>
+
+        <service id="spy_timeline.query_executor.redis" class="%spy_timeline.query_executor.redis.class%" public="false">
+            <argument type="service" id="spy_timeline.driver.redis.client" />
+            <argument>%spy_timeline.driver.redis.prefix%</argument>
         </service>
     </services>
 

@@ -8,6 +8,7 @@ use Spy\TimelineBundle\Driver\Doctrine\AbstractTimelineManager;
 use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
 /**
  * TimelineManager
@@ -30,11 +31,13 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults(array(
-            'page'         => 1,
-            'max_per_page' => 10,
-            'type'         => TimelineInterface::TYPE_TIMELINE,
-            'context'      => 'GLOBAL',
-            'filter'       => true,
+            'page'            => 1,
+            'max_per_page'    => 10,
+            'type'            => TimelineInterface::TYPE_TIMELINE,
+            'context'         => 'GLOBAL',
+            'filter'          => true,
+            'group_by_action' => true,
+            'paginate'        => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -46,23 +49,22 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC');
 
-        $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
-        $results = $pager->getItems();
+        $results = $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
 
-        $actions = array_map(
-            function ($timeline) {
-                return $timeline->getAction();
-            },
-            $results
-        );
+        if ($options['group_by_action']) {
+            $actions = array();
+            foreach ($results as $result) {
+                $actions[] = $result->getAction();
+            }
 
-        $pager->setItems($actions);
-
-        if ($options['filter']) {
-            return $this->pager->filter($pager);
+            if ($results instanceof PagerInterface) {
+                $results->setItems($actions);
+            } else {
+                $results = $actions;
+            }
         }
 
-        return $pager;
+        return $results;
     }
 
     /**

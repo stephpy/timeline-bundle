@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\ODM;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Spy\Timeline\Filter\FilterManager;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
 /**
  * Pager
@@ -14,30 +14,31 @@ use Spy\Timeline\Pager\PagerInterface;
  */
 class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
+    /**
+     * @var array
+     */
     protected $items = array();
 
     /**
-     * @var FilterManager
+     * @var integer
      */
-    protected $filterManager;
+    protected $lastPage;
 
     /**
-     * @param FilterManager $filterManager filterManager
+     * @var integer
      */
-    public function __construct(FilterManager $filterManager)
-    {
-        $this->filterManager = $filterManager;
-    }
+    protected $nbResults;
 
     /**
      * {@inheritdoc}
      */
-    public function paginate($target, $page = 1, $limit = 10, $options = array())
+    public function paginate($target, $page = 1, $limit = 10)
     {
         if (!$target instanceof Builder) {
             throw new \Exception('Not supported yet');
         }
 
+        $clone = clone $target;
         if ($limit) {
             $skip = $limit * ($page - 1);
 
@@ -46,23 +47,35 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
                 ->limit($limit);
         }
 
-        $this->items = $target->getQuery()
-            ->toArray();
+        $this->items     = $target->getQuery()->execute();
+        $this->nbResults = $clone->count();
+        $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
         return $this;
     }
 
-    public function filter($pager)
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastPage()
     {
-        return $this->filterManager->filter($pager->getItems());
+        return $this->lastPage;
     }
 
     /**
-     * @return rray
+     * {@inheritdoc}
      */
-    public function getItems()
+    public function haveToPaginate()
     {
-        return $this->items;
+        return $this->getLastPage() > 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNbResults()
+    {
+        return $this->nbResults;
     }
 
     /**

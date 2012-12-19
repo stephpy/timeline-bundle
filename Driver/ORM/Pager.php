@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 use Spy\Timeline\Filter\FilterManagerInterface;
 
 /**
@@ -15,25 +15,25 @@ use Spy\Timeline\Filter\FilterManagerInterface;
  */
 class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
+    /**
+     * @var array
+     */
     protected $items = array();
 
     /**
-     * @var FilterManagerInterface
+     * @var integer
      */
-    protected $filterManager;
+    protected $lastPage;
 
     /**
-     * @param FilterManagerInterface $filterManager filterManager
+     * @var integer
      */
-    public function __construct(FilterManagerInterface $filterManager)
-    {
-        $this->filterManager = $filterManager;
-    }
+    protected $nbResults;
 
     /**
      * {@inheritdoc}
      */
-    public function paginate($target, $page = 1, $limit = 10, $options = array())
+    public function paginate($target, $page = 1, $limit = 10)
     {
         if (!$target instanceof DoctrineQueryBuilder) {
             throw new \Exception('Not supported yet');
@@ -47,23 +47,36 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
                 ->setMaxResults($limit);
         }
 
-        $paginator   = new Paginator($target, true);
-        $this->items = (array) $paginator->getIterator();
+        $paginator       = new Paginator($target, true);
+        $this->items     = (array) $paginator->getIterator();
+        $this->nbResults = count($paginator);
+        $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
         return $this;
     }
 
-    public function filter($pager)
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastPage()
     {
-        return $this->filterManager->filter($pager->getItems());
+        return $this->lastPage;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getItems()
+    public function haveToPaginate()
     {
-        return $this->items;
+        return $this->getLastPage() > 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNbResults()
+    {
+        return $this->nbResults;
     }
 
     /**

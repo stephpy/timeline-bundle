@@ -4,7 +4,7 @@ namespace Spy\TimelineBundle\Driver\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\Model\ActionInterface;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
 
 /**
@@ -20,9 +20,9 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $objectManager;
 
     /**
-     * @var PagerInterface
+     * @var ResultBuilderInterface
      */
-    protected $pager;
+    protected $resultBuilder;
 
     /**
      * @var string
@@ -40,16 +40,16 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $actionComponentClass;
 
     /**
-     * @param ObjectManager  $objectManager        objectManager
-     * @param PagerInterface $pager                pager
-     * @param string         $actionClass          actionClass
-     * @param string         $componentClass       componentClass
-     * @param string         $actionComponentClass actionComponentClass
+     * @param ObjectManager          $objectManager        objectManager
+     * @param ResultBuilderInterface $resultBuilder        resultBuilder
+     * @param string                 $actionClass          actionClass
+     * @param string                 $componentClass       componentClass
+     * @param string                 $actionComponentClass actionComponentClass
      */
-    public function __construct(ObjectManager $objectManager, PagerInterface $pager, $actionClass, $componentClass, $actionComponentClass)
+    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $actionClass, $componentClass, $actionComponentClass)
     {
         $this->objectManager        = $objectManager;
-        $this->pager                = $pager;
+        $this->resultBuilder        = $resultBuilder;
         $this->actionClass          = $actionClass;
         $this->componentClass       = $componentClass;
         $this->actionComponentClass = $actionComponentClass;

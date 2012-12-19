@@ -32,6 +32,7 @@ class SpyTimelineExtension extends Extension
         $loader->load('filter.xml');
         $loader->load('notification.xml');
         $loader->load('paginator.xml');
+        $loader->load('result_builder.xml');
         $loader->load('spread.xml');
         $loader->load('twig.xml');
 
@@ -69,7 +70,6 @@ class SpyTimelineExtension extends Extension
             $paginator = sprintf('spy_timeline.pager.%s', $driver);
         }
 
-        $container->setAlias('spy_timeline.pager', $paginator);
 
         // filters
         $filters       = isset($config['filters']) ? $config['filters'] : array();
@@ -95,6 +95,16 @@ class SpyTimelineExtension extends Extension
             }
 
             $filterManager->addMethodCall('add', array($service));
+        }
+
+        // result builder
+
+        $definition = $container->getDefinition('spy_timeline.result_builder');
+        $definition->addArgument($container->getDefinition(sprintf('spy_timeline.query_executor.%s', $driver)));
+        $definition->addArgument($filterManager);
+
+        if ($paginator) {
+            $definition->addMethodCall('setPager', array($container->getDefinition($paginator)));
         }
 
         // notifiers
