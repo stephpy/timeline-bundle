@@ -48,6 +48,7 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
         }
 
         $this->items     = $target->getQuery()->execute();
+        $this->page      = $page;
         $this->nbResults = $clone->count();
         $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
@@ -60,6 +61,14 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
     public function getLastPage()
     {
         return $this->lastPage;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 
     /**

@@ -28,6 +28,11 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
     /**
      * @var integer
      */
+    protected $page;
+
+    /**
+     * @var integer
+     */
     protected $nbResults;
 
     /**
@@ -48,6 +53,7 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
         }
 
         $paginator       = new Paginator($target, true);
+        $this->page      = $page;
         $this->items     = (array) $paginator->getIterator();
         $this->nbResults = count($paginator);
         $this->lastPage  = intval(ceil($this->nbResults / $limit));
@@ -61,6 +67,14 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
     public function getLastPage()
     {
         return $this->lastPage;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 
     /**
