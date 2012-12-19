@@ -3,11 +3,11 @@
 A pagination is used when call:
 
 ```php
-$timelineManager->getTimeline($subject, array('page' => 1, 'max_per_page' => '10'));
-$actionManager->getSubjectActions($subject, array('page' => 1, 'max_per_page' => '10'));
+$timelineManager->getTimeline($subject, array('page' => 1, 'max_per_page' => '10', 'paginate' => true));
+$actionManager->getSubjectActions($subject, array('page' => 1, 'max_per_page' => '10', 'paginate' => false));
 ```
 
-## 1) Using Default paginator provided with driver
+## 1) Using default paginator provided with driver
 
 ```yml
 spy_timeline:
@@ -23,7 +23,7 @@ spy_timeline:
 
 ## 3) Using your own paginator
 
-Define a service, which implements `Spy\Timeline\Pager\PagerInterface`
+Define a service, which implements `Spy\Timeline\ResultBuilder\Pager\PagerInterface`
 
 ```yml
 spy_timeline:
