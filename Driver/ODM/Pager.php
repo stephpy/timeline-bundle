@@ -14,20 +14,20 @@ use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
  */
 class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
+    /**
+     * @var array
+     */
     protected $items = array();
 
     /**
-     * @var FilterManager
+     * @var integer
      */
-    protected $filterManager;
+    protected $lastPage;
 
     /**
-     * @param FilterManager $filterManager filterManager
+     * @var integer
      */
-    public function __construct(FilterManager $filterManager)
-    {
-        $this->filterManager = $filterManager;
-    }
+    protected $nbResults;
 
     /**
      * {@inheritdoc}
@@ -38,6 +38,7 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
             throw new \Exception('Not supported yet');
         }
 
+        $clone = clone $target;
         if ($limit) {
             $skip = $limit * ($page - 1);
 
@@ -46,23 +47,35 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
                 ->limit($limit);
         }
 
-        $this->items = $target->getQuery()
-            ->toArray();
+        $this->items     = $target->getQuery()->execute();
+        $this->nbResults = $clone->count();
+        $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
         return $this;
     }
 
-    public function filter($pager)
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastPage()
     {
-        return $this->filterManager->filter($pager->getItems());
+        return $this->lastPage;
     }
 
     /**
-     * @return rray
+     * {@inheritdoc}
      */
-    public function getItems()
+    public function haveToPaginate()
     {
-        return $this->items;
+        return $this->getLastPage() > 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNbResults()
+    {
+        return $this->nbResults;
     }
 
     /**

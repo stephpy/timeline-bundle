@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
-use Spy\Timeline\Pager\PagerInterface;
+use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 
 /**
  * AbstractTimelineManager
@@ -21,9 +21,9 @@ class AbstractTimelineManager
     protected $objectManager;
 
     /**
-     * @var PagerInterface
+     * @var ResultBuilderInterface
      */
-    protected $pager;
+    protected $resultBuilder;
 
     /**
      * @var string
@@ -31,14 +31,14 @@ class AbstractTimelineManager
     protected $timelineClass;
 
     /**
-     * @param ObjectManager  $objectManager objectManager
-     * @param PagerInterface $pager         pager
-     * @param string         $timelineClass timelineClass
+     * @param ObjectManager          $objectManager objectManager
+     * @param ResultBuilderInterface $resultBuilder resultBuilder
+     * @param string                 $timelineClass timelineClass
      */
-    public function __construct(ObjectManager $objectManager, PagerInterface $pager, $timelineClass)
+    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
     {
         $this->objectManager = $objectManager;
-        $this->pager         = $pager;
+        $this->resultBuilder = $resultBuilder;
         $this->timelineClass = $timelineClass;
     }
 

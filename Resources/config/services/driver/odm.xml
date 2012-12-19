@@ -8,6 +8,7 @@
         <parameter key="spy_timeline.timeline_manager.odm.class">Spy\TimelineBundle\Driver\ODM\TimelineManager</parameter>
         <parameter key="spy_timeline.action_manager.odm.class">Spy\TimelineBundle\Driver\ODM\ActionManager</parameter>
         <parameter key="spy_timeline.pager.odm.class">Spy\TimelineBundle\Driver\ODM\Pager</parameter>
+        <parameter key="spy_timeline.query_executor.odm.class">Spy\TimelineBundle\Driver\ODM\QueryExecutor</parameter>
     </parameters>
 
     <services>
@@ -28,9 +29,8 @@
             </call>
         </service>
 
-        <service id="spy_timeline.pager.odm" class="%spy_timeline.pager.odm.class%">
-            <argument type="service" id="spy_timeline.filter.manager" />
-        </service>
+        <service id="spy_timeline.pager.odm" class="%spy_timeline.pager.odm.class%" public="false" />
+        <service id="spy_timeline.query_executor.odm" class="%spy_timeline.query_executor.odm.class%" public="false" />
     </services>
 
 </container>

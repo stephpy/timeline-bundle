@@ -15,7 +15,20 @@ use Spy\Timeline\Filter\FilterManagerInterface;
  */
 class Pager implements PagerInterface, \IteratorAggregate, \Countable
 {
+    /**
+     * @var array
+     */
     protected $items = array();
+
+    /**
+     * @var integer
+     */
+    protected $lastPage;
+
+    /**
+     * @var integer
+     */
+    protected $nbResults;
 
     /**
      * {@inheritdoc}
@@ -34,23 +47,36 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
                 ->setMaxResults($limit);
         }
 
-        $paginator   = new Paginator($target, true);
-        $this->items = (array) $paginator->getIterator();
+        $paginator       = new Paginator($target, true);
+        $this->items     = (array) $paginator->getIterator();
+        $this->nbResults = count($paginator);
+        $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
         return $this;
     }
 
-    public function filter($pager)
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastPage()
     {
-        return $this->filterManager->filter($pager->getItems());
+        return $this->lastPage;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getItems()
+    public function haveToPaginate()
     {
-        return $this->items;
+        return $this->getLastPage() > 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNbResults()
+    {
+        return $this->nbResults;
     }
 
     /**
