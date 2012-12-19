@@ -37,6 +37,9 @@ class QueryBuilder extends BaseQueryBuilder
     CONST APPLY_FILTER     = true;
     CONST NOT_APPLY_FILTER = false;
 
+    CONST PAGINATE         = true;
+    CONST NOT_PAGINATE     = false;
+
     /**
      * @param QueryBuilderFactory    $factory       factory
      * @param ObjectManager          $objectManager objectManager
@@ -93,11 +96,11 @@ class QueryBuilder extends BaseQueryBuilder
      *
      * @return PagerInterface
      */
-    public function execute($filter = self::APPLY_FILTER)
+    public function execute($filter = self::APPLY_FILTER, $paginate = self::PAGINATE)
     {
         $qb      = $this->createQueryBuilder();
 
-        return $this->resultBuilder->fetchResults($qb, $this->page, $this->maxPerPage, $filter, true);
+        return $this->resultBuilder->fetchResults($qb, $this->page, $this->maxPerPage, $filter, $paginate);
     }
 
     /**
