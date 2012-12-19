@@ -33,7 +33,7 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
     /**
      * {@inheritdoc}
      */
-    public function paginate($target, $page = 1, $limit = 10, $options = array())
+    public function paginate($target, $page = 1, $limit = 10)
     {
         if (!$target instanceof DoctrineQueryBuilder) {
             throw new \Exception('Not supported yet');
