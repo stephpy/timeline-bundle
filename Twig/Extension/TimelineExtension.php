@@ -2,6 +2,7 @@
 
 namespace Spy\TimelineBundle\Twig\Extension;
 
+use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
 use \Twig_TemplateInterface;
@@ -94,13 +95,32 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * @param ActionInterface $action   What Action to render
-     * @param string|null     $template Force template path
+     * @param object $entity entity
+     * @param string $method method
      *
      * @return string
      */
-    public function renderTimeline(ActionInterface $action, $template = null)
+    protected function resolveAction($entity, $method)
     {
+        if ($entity instanceof ActionInterface) {
+            return $entity ;
+        } elseif ($entity instanceof TimelineInterface) {
+            return $entity->getAction();
+        } else {
+            throw new \InvalidArgumentException('Method "%s" accepts only a ActionInterface or a TimelineInterface', $method);
+        }
+    }
+
+    /**
+     * @param object      $action   What Action to render
+     * @param string|null $template Force template path
+     *
+     * @return string
+     */
+    public function renderTimeline($action, $template = null)
+    {
+        $action = $this->resolveAction($action, __METHOD__);
+
         if (null === $template) {
             $template = $this->getDefaultTemplate($action);
         }
@@ -122,14 +142,15 @@ class TimelineExtension extends \Twig_Extension
 
     /**
      * Return an array of variables from a timeline component
-     * @param ActionInterface $action
-     * @param string          $component
+     * @param object $action
+     * @param string $component
      *
      * @return array
      */
-    public function getComponentVariables(ActionInterface $action, $component)
+    public function getComponentVariables($action, $component)
     {
         $values      = array();
+        $action      = $this->resolveAction($action, __METHOD__);
         $component   = $action->getComponent($component);
         $isComponent = is_object($component);
 
@@ -148,13 +169,15 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Render an action component
      *
-     * @param  ActionInterface $action    action
-     * @param  string          $component Component to render (subject, verb, etc ...)
-     * @param  array           $variables Additional variables to pass to templates
+     * @param  object  $action    action
+     * @param  string  $component Component to render (subject, verb, etc ...)
+     * @param  array   $variables Additional variables to pass to templates
      * @return string
      */
-    public function renderActionComponent(ActionInterface $action, $component, array $variables = array())
+    public function renderActionComponent($action, $component, array $variables = array())
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         if (null === $this->template) {
             $this->template = reset($this->resources);
             if (!$this->template instanceof \Twig_Template) {
@@ -228,12 +251,14 @@ class TimelineExtension extends \Twig_Extension
      *
      * Templates are looked for in the configured resources
      *
-     * @param ActionInterface $action
+     * @param object $action
      *
      * @return array An array of Twig_TemplateInterface instances
      */
-    protected function getBlocks(ActionInterface $action)
+    protected function getBlocks($action)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         if (!$this->blocks->contains($action)) {
 
             $templates = $this->resources;
@@ -262,12 +287,14 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Returns the default template name.
      *
-     * @param ActionInterface $action
+     * @param object $action
      *
      * @return string
      */
-    public function getDefaultTemplate(ActionInterface $action)
+    public function getDefaultTemplate($action)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         return vsprintf('%s:%s.html.twig', array(
                     $this->config['path'],
                     strtolower($action->getVerb())
@@ -275,14 +302,16 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * @param ActionInterface $action  What Action to render
-     * @param string|null     $context Template context path
-     * @param string          $format  Template format
+     * @param object      $action  What Action to render
+     * @param string|null $context Template context path
+     * @param string      $format  Template format
      *
      * @return string
      */
-    public function renderContextualTimeline(ActionInterface $action, $context = null, $format = 'html')
+    public function renderContextualTimeline($action, $context = null, $format = 'html')
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         if (null === $context) {
             $template = $this->getDefaultTemplate($action);
         } else {
@@ -307,14 +336,16 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Returns the contextualized template name.
      *
-     * @param ActionInterface $action
-     * @param string          $context
-     * @param string          $format
+     * @param object $action
+     * @param string $context
+     * @param string $format
      *
      * @return string
      */
-    public function getContextualTemplate(ActionInterface $action, $context, $format)
+    public function getContextualTemplate($action, $context, $format)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         return vsprintf('%s:%s/%s.%s.twig', array(
                     $this->config['path'],
                     $context,
@@ -324,13 +355,15 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * @param ActionInterface $action What Action to render
-     * @param string|null     $locale Locale of the template
+     * @param object      $action What Action to render
+     * @param string|null $locale Locale of the template
      *
      * @return string
      */
-    public function renderLocalizedTimeline(ActionInterface $action, $locale = null)
+    public function renderLocalizedTimeline($action, $locale = null)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         if ($locale === null) {
             $locale = $this->config['i18n_fallback'];
         }
@@ -365,13 +398,15 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Returns the default template name using locale.
      *
-     * @param ActionInterface $action action object
-     * @param string          $locale which locale
+     * @param object $action action object
+     * @param string $locale which locale
      *
      * @return string
      */
-    public function getDefaultLocalizedTemplate(ActionInterface $action, $locale)
+    public function getDefaultLocalizedTemplate($action, $locale)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         return vsprintf('%s:%s.%s.html.twig', array(
             $this->config['path'],
             strtolower($action->getVerb()),
@@ -392,11 +427,13 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Store themes for a given Action
      *
-     * @param ActionInterface $action
-     * @param array           $resources
+     * @param object $action
+     * @param array  $resources
      */
-    public function setTheme(ActionInterface $action, array $resources)
+    public function setTheme($action, array $resources)
     {
+        $action = $this->resolveAction($action, __METHOD__);
+
         $this->themes->attach($action, $resources);
         $this->blocks->detach($action);
     }
