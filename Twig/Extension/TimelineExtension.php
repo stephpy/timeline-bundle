@@ -179,7 +179,13 @@ class TimelineExtension extends \Twig_Extension
             $types = $this->varStack[$rendering]['types'];
             $this->varStack[$rendering]['variables'] = array_replace_recursive($componentVariables, $variables);
         } else {
-            $types = array($component);
+
+            if ($component == 'action') {
+                $types = array($component);
+            } else {
+                $types = array('action', $component);
+            }
+
             if ($custom) {
                 $types[] = $custom.'_default';
                 $types[] = $custom.'_'.$component;
