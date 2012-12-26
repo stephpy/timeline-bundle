@@ -131,15 +131,22 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findComponents(array $hashes)
     {
+        $result = array();
+
         $qb = $this->getComponentRepository()
             ->createQueryBuilder('c');
 
-        return $qb
-            ->where(
-                $qb->expr()->in('c.hash', $hashes)
-            )
-            ->getQuery()
-            ->getResult();
+        if (count($hashes) > 0)
+        {
+            $result = $qb
+                ->where(
+                    $qb->expr()->in('c.hash', $hashes)
+                )
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $result;
     }
 
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
