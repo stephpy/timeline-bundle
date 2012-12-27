@@ -73,7 +73,7 @@ abstract class AbstractActionManager extends BaseActionManager
     {
         list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
-        if (empty($model) || empty($identifier)) {
+        if (empty($model) || null === $identifier || '' === $identifier) {
             if (is_array($identifier)) {
                 $identifier = implode(', ', $identifier);
             }
@@ -113,7 +113,7 @@ abstract class AbstractActionManager extends BaseActionManager
      */
     protected function resolveModelAndIdentifier($model, $identifier)
     {
-        if (!is_object($model) && empty($identifier)) {
+        if (!is_object($model) && (null === $identifier || '' === $identifier)) {
             throw new \LogicException('Model has to be an object or a scalar + an identifier in 2nd argument');
         }
 

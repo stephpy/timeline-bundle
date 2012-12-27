@@ -82,7 +82,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     {
         list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
-        if (empty($modelResolved) || empty($identifierResolved)) {
+        if (empty($modelResolved) || null === $identifierResolved || '' === $identifierResolved) {
             if (is_array($identifierResolved)) {
                 $identifierResolved = implode(', ', $identifierResolved);
             }
