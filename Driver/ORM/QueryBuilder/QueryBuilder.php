@@ -2,8 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
-use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
+use Doctrine\ORM\Query\Expr;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\CriteriaInterface;
@@ -11,6 +12,7 @@ use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Model\ActionInterface;
+use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
 /**
  * QueryBuilder
@@ -33,21 +35,21 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @var string
      */
-    protected $timelineClass;
+    protected $actionClass;
 
     /**
      * @param QueryBuilderFactory    $factory       factory
      * @param ObjectManager          $objectManager objectManager
      * @param ResultBuilderInterface $resultBuilder resultBuilder
-     * @param string                 $timelineClass timelineClass
+     * @param string                 $actionClass   actionClass
      */
-    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
+    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $actionClass)
     {
         parent::__construct($factory);
 
         $this->objectManager = $objectManager;
         $this->resultBuilder = $resultBuilder;
-        $this->timelineClass = $timelineClass;
+        $this->actionClass   = $actionClass;
     }
 
     /**
@@ -58,10 +60,9 @@ class QueryBuilder extends BaseQueryBuilder
     public function createQueryBuilder()
     {
         $qb = $this->objectManager
-            ->getRepository($this->timelineClass)
-            ->createQueryBuilder('timeline')
-            ->select('timeline, action, actionComponent, component')
-            ->innerJoin('timeline.action', 'action')
+            ->getRepository($this->actionClass)
+            ->createQueryBuilder('action')
+            ->select('action, actionComponent, component')
             ->innerJoin('action.actionComponents', 'actionComponent')
             ->leftJoin('actionComponent.component', 'component')
             ;
@@ -77,10 +78,6 @@ class QueryBuilder extends BaseQueryBuilder
         if (null != $this->sort) {
             list ($field, $order) = $this->sort;
             $qb->orderBy($this->getFieldKey($field), $order);
-        }
-
-        if ($this->groupByAction) {
-            $qb->groupBy('action.id, actionComponent.id, component.id');
         }
 
         return $qb;
@@ -121,7 +118,9 @@ class QueryBuilder extends BaseQueryBuilder
             $ids[] = $id;
         }
 
-        $qb->andWhere('timeline.subject IN (:subjectIds)')
+        $qb
+            ->innerJoin('action.timelines', 'timeline')
+            ->andWhere('timeline.subject IN (:subjectIds)')
             ->setParameter('subjectIds', $ids)
             ;
     }
@@ -137,22 +136,44 @@ class QueryBuilder extends BaseQueryBuilder
             $visitor = new AsserterVisitor();
         }
 
-        $visitor->visit($this->criterias);
+        $criteriaCollection = new CriteriaCollection();
+        $visitor->visit($this->criterias, $criteriaCollection);
 
-        for ($i = 1; $i < ($visitor->getNbJoinsNeeded() + 1); $i++) {
+        $parameters = array();
 
-            $actionComponentKey = sprintf('actionComponent%s', $i);
-            $componentKey       = sprintf('component%s', $i);
+        foreach ($criteriaCollection as $criteria) {
+            $parameters  = array_merge($criteria->getParameters(), $parameters);
+            $aliasNumber = $criteria->getAliasNumber();
 
-            $qb
-                ->leftJoin('action.actionComponents', $actionComponentKey)
-                ->leftJoin(sprintf('%s.component', $actionComponentKey), $componentKey)
-                ;
+            switch ($criteria->getLocation()) {
+                case 'timeline':
+
+                    $timelineKey        = sprintf('timeline%s', $aliasNumber);
+                    $qb->leftJoin('action.timelines', $timelineKey, Expr\Join::WITH, $criteria->getDql());
+
+                    break;
+                case 'action_component':
+
+                    $actionComponentKey = sprintf('actionComponent%s', $aliasNumber);
+                    $qb->leftJoin('action.actionComponents', $actionComponentKey, Expr\Join::WITH, $criteria->getDql());
+
+                    break;
+                case 'component':
+
+                    $actionComponentKey = sprintf('actionComponent%s', $aliasNumber);
+                    $componentKey       = sprintf('component%s', $aliasNumber);
+                    $qb
+                        ->leftJoin('action.actionComponents', $actionComponentKey)
+                        ->leftJoin(sprintf('%s.component', $actionComponentKey), $componentKey, Expr\Join::WITH, $criteria->getDql())
+                        ;
+
+                    break;
+            }
         }
 
         $qb->andWhere($visitor->getDql());
 
-        foreach ($visitor->getParameters() as $key => $value) {
+        foreach ($parameters as $key => $value) {
             $qb->setParameter($key, $value);
         }
     }
