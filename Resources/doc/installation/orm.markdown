@@ -82,9 +82,14 @@ class Action extends BaseAction
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Yo\UrBundle\Entity\ActionComponent", mappedBy="action", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ActionComponent", mappedBy="action", cascade={"persist"})
      */
     protected $actionComponents;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Timeline", mappedBy="action")
+     */
+    protected $timelines;
 }
 ```
 

@@ -37,7 +37,7 @@
             <argument type="service" id="spy_timeline.query_builder.factory" />
             <argument type="service" id="spy_timeline.driver.object_manager" />
             <argument type="service" id="spy_timeline.result_builder" />
-            <argument>%spy_timeline.class.timeline%</argument>
+            <argument>%spy_timeline.class.action%</argument>
         </service>
     </services>
 </container>

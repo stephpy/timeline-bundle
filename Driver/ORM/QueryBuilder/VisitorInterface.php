@@ -2,6 +2,8 @@
 
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
+use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
+
 /**
  * VisitorInterface
  *
@@ -10,22 +12,13 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 interface VisitorInterface
 {
     /**
-     * @param object $object object
+     * @param object             $object             object
+     * @param CriteriaCollection $criteriaCollection criteria collection
      */
-    public function visit($object);
+    public function visit($object, CriteriaCollection $criteriaCollection);
 
     /**
      * @return string
      */
     public function getDql();
-
-    /**
-     * @return itneger
-     */
-    public function getNbJoinsNeeded();
-
-    /**
-     * @return array
-     */
-    public function getParameters();
 }
