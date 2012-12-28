@@ -62,10 +62,7 @@ class QueryBuilder extends BaseQueryBuilder
         $qb = $this->objectManager
             ->getRepository($this->actionClass)
             ->createQueryBuilder('action')
-            ->select('action, actionComponent, component')
-            ->innerJoin('action.actionComponents', 'actionComponent')
-            ->leftJoin('actionComponent.component', 'component')
-            ;
+            ->select('action');
 
         if ($this->getSubjects()) {
             $this->filterSubjects($qb);
