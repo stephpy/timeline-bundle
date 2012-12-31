@@ -74,8 +74,14 @@ class QueryBuilder extends BaseQueryBuilder
 
         if (null != $this->sort) {
             list ($field, $order) = $this->sort;
-            $qb->orderBy($this->getFieldKey($field), $order);
+        } else {
+            $field = 'createdAt';
+            $order = 'DESC';
         }
+
+        $qb->orderBy(
+            sprintf('%s.%s', $this->getFieldLocation($field), $field), $order
+        );
 
         return $qb;
     }
