@@ -4,6 +4,7 @@ namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\QueryBuilder;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractTimelineManager;
 use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ComponentInterface;
@@ -36,35 +37,18 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             'type'            => TimelineInterface::TYPE_TIMELINE,
             'context'         => 'GLOBAL',
             'filter'          => true,
-            'group_by_action' => true,
             'paginate'        => true,
         ));
 
         $options = $resolver->resolve($options);
 
-        $qb = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
-            ->select('t, a, ac, c')
-            ->innerJoin('t.action', 'a')
+        $qb = $this->getActionBaseQueryBuilder($options['type'], $options['context'], $subject)
+            ->select('a, ac, c')
             ->leftJoin('a.actionComponents', 'ac')
             ->leftJoin('ac.component', 'c')
             ->orderBy('t.createdAt', 'DESC');
 
-        $results = $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
-
-        if ($options['group_by_action']) {
-            $actions = array();
-            foreach ($results as $result) {
-                $actions[] = $result->getAction();
-            }
-
-            if ($results instanceof PagerInterface) {
-                $results->setItems($actions);
-            } else {
-                $results = $actions;
-            }
-        }
-
-        return $results;
+        return $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
     }
 
     /**
@@ -80,7 +64,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        return (int) $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
+        return (int) $this->getTimelineBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->select('COUNT(t)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -99,7 +83,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        $timeline  = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
+        $timeline  = $this->getTimelineBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->andWhere('t.action = :action')
             ->setParameter('action', $actionId)
             ->getQuery()
@@ -122,7 +106,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         $options = $resolver->resolve($options);
 
-        $qb = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject);
+        $qb = $this->getTimelineBaseQueryBuilder($options['type'], $options['context'], $subject);
         $qb->delete();
 
         // Delay query until flush() is called.
@@ -161,21 +145,54 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
     }
 
     /**
-     * @param string             $type
-     * @param string             $context
-     * @param ComponentInterface $subject
+     * @param string             $type    type
+     * @param string             $context context
+     * @param ComponentInterface $subject subject
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    protected function getBaseQueryBuilder($type, $context, ComponentInterface $subject)
+    protected function getTimelineBaseQueryBuilder($type, $context, ComponentInterface $subject)
+    {
+        $qb = $this->objectManager
+            ->getRepository($this->metadata->getClass('timeline'))
+            ->createQueryBuilder('t')
+            ->innerJoin('t.action', 'a');
+
+        return $this->getBaseQueryBuilder($qb, $type, $context, $subject);
+    }
+
+    /**
+     * @param string             $type    type
+     * @param string             $context context
+     * @param ComponentInterface $subject subject
+     *
+     * @return QueryBuilder
+     */
+    protected function getActionBaseQueryBuilder($type, $context, ComponentInterface $subject)
+    {
+        $qb = $this->objectManager
+            ->getRepository($this->metadata->getClass('action'))
+            ->createQueryBuilder('a')
+            ->innerJoin('a.timelines', 't');
+
+        return $this->getBaseQueryBuilder($qb, $type, $context, $subject);
+    }
+
+    /**
+     * @param QueryBuilder       $qb      qb
+     * @param string             $type    type
+     * @param string             $context context
+     * @param ComponentInterface $subject subject
+     *
+     * @return QueryBuilder
+     */
+    protected function getBaseQueryBuilder(QueryBuilder $qb, $type, $context, ComponentInterface $subject)
     {
         if (!$subject->getId()) {
             throw new \InvalidArgumentException('Component must provide an id.');
         }
 
-        return $this->objectManager
-            ->getRepository($this->metadata->getClass('timeline'))
-            ->createQueryBuilder('t')
+        return $qb
             ->where('t.type = :type')
             ->andWhere('t.context = :context')
             ->andWhere('t.subject = :subject')
