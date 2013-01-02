@@ -23,9 +23,7 @@
             <argument type="service" id="spy_timeline.driver.redis.client" />
             <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
-            <argument>%spy_timeline.class.action%</argument>
-            <argument>%spy_timeline.class.component%</argument>
-            <argument>%spy_timeline.class.action_component%</argument>
+            <argument type="service" id="spy_timeline.metadata" />
             <call method="setDeployer">
                 <argument type="service" id="spy_timeline.spread.deployer" />
             </call>

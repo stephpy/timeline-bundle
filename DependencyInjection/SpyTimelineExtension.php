@@ -30,6 +30,7 @@ class SpyTimelineExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('filter.xml');
+        $loader->load('metadata.xml');
         $loader->load('notification.xml');
         $loader->load('paginator.xml');
         $loader->load('result_builder.xml');
@@ -144,9 +145,11 @@ class SpyTimelineExtension extends Extension
             'timeline', 'action', 'component', 'action_component',
         );
 
+        $metadata = $container->getDefinition('spy_timeline.metadata');
+
         foreach ($parameters as $parameter) {
             if (isset($classes[$parameter])) {
-                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+                $metadata->addMethodCall('setClass', array($parameter, $classes[$parameter]));
             }
         }
 
@@ -174,9 +177,11 @@ class SpyTimelineExtension extends Extension
             'timeline', 'action', 'component', 'action_component',
         );
 
+        $metadata = $container->getDefinition('spy_timeline.metadata');
+
         foreach ($parameters as $parameter) {
             if (isset($classes[$parameter])) {
-                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+                $metadata->addMethodCall('setClass', array($parameter, $classes[$parameter]));
             }
         }
 
@@ -197,9 +202,11 @@ class SpyTimelineExtension extends Extension
             'action', 'component', 'action_component',
         );
 
+        $metadata = $container->getDefinition('spy_timeline.metadata');
+
         foreach ($parameters as $parameter) {
             if (isset($classes[$parameter])) {
-                $container->setParameter(sprintf('spy_timeline.class.%s', $parameter), $classes[$parameter]);
+                $metadata->addMethodCall('setClass', array($parameter, $classes[$parameter]));
             }
         }
 

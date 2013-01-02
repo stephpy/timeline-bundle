@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
+use Spy\Timeline\Metadata;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 
 /**
@@ -26,20 +27,20 @@ class AbstractTimelineManager
     protected $resultBuilder;
 
     /**
-     * @var string
+     * @var Metadata
      */
-    protected $timelineClass;
+    protected $metadata;
 
     /**
      * @param ObjectManager          $objectManager objectManager
      * @param ResultBuilderInterface $resultBuilder resultBuilder
-     * @param string                 $timelineClass timelineClass
+     * @param Metadata               $metadata      metadata
      */
-    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
+    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, Metadata $metadata)
     {
         $this->objectManager = $objectManager;
         $this->resultBuilder = $resultBuilder;
-        $this->timelineClass = $timelineClass;
+        $this->metadata      = $metadata;
     }
 
     /**
@@ -47,7 +48,8 @@ class AbstractTimelineManager
      */
     public function createAndPersist(ActionInterface $action, ComponentInterface $subject, $context = 'GLOBAL', $type = TimelineInterface::TYPE_TIMELINE)
     {
-        $timeline = new $this->timelineClass();
+        $timelineClass = $this->metadata->getClass('timeline');
+        $timeline = new $timelineClass();
 
         $timeline->setType($type);
         $timeline->setAction($action);

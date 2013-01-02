@@ -135,7 +135,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         }
 
         return $this->objectManager
-            ->getRepository($this->timelineClass)
+            ->getRepository($this->metadata->getClass('timeline'))
             ->createQueryBuilder('Timeline')
             ->field('type')->equals($type)
             ->field('context')->equals($context)

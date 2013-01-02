@@ -23,7 +23,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
         return $this->objectManager
-            ->createQueryBuilder($this->actionClass)
+            ->createQueryBuilder($this->metadata->getClass('action'))
             ->field('statusWanted')->equals(ActionInterface::STATUS_PUBLISHED)
             ->limit($limit)
             ->getQuery()
@@ -91,7 +91,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         }
 
         $component = $this->objectManager
-            ->createQueryBuilder($this->componentClass)
+            ->createQueryBuilder($this->metadata->getClass('component'))
             ->field('model')->equals($modelResolved)
             ->field('identifier')->equals($identifierResolved)
             ->getQuery()
@@ -112,7 +112,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     public function findComponentWithHash($hash)
     {
         return $this->objectManager
-            ->getRepository($this->componentClass)
+            ->getRepository($this->metadata->getClass('component'))
             ->createQueryBuilder('c')
             ->field('hash')->equals($hash)
             ->getQuery()
@@ -125,7 +125,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     public function findComponents(array $hashes)
     {
         return $this->objectManager
-            ->getRepository($this->componentClass)
+            ->getRepository($this->metadata->getClass('component'))
             ->createQueryBuilder('c')
             ->field('hash')->in($hashes)
             ->getQuery()
@@ -135,7 +135,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
     {
         return $this->objectManager
-            ->getRepository($this->actionClass)
+            ->getRepository($this->metadata->getClass('action'))
             ->createQueryBuilder('a')
             ->field('subject.id')->equals($subject->getId())
             ;

@@ -5,6 +5,7 @@ namespace Spy\TimelineBundle\Driver\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
+use Spy\Timeline\Metadata;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
 
 /**
@@ -25,34 +26,20 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $resultBuilder;
 
     /**
-     * @var string
+     * @var Metadata
      */
-    protected $actionClass;
+    protected $metadata;
 
     /**
-     * @var string
+     * @param ObjectManager          $objectManager objectManager
+     * @param ResultBuilderInterface $resultBuilder resultBuilder
+     * @param Metadata               $metadata      metadata
      */
-    protected $componentClass;
-
-    /**
-     * @var string
-     */
-    protected $actionComponentClass;
-
-    /**
-     * @param ObjectManager          $objectManager        objectManager
-     * @param ResultBuilderInterface $resultBuilder        resultBuilder
-     * @param string                 $actionClass          actionClass
-     * @param string                 $componentClass       componentClass
-     * @param string                 $actionComponentClass actionComponentClass
-     */
-    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $actionClass, $componentClass, $actionComponentClass)
+    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, Metadata $metadata)
     {
         $this->objectManager        = $objectManager;
         $this->resultBuilder        = $resultBuilder;
-        $this->actionClass          = $actionClass;
-        $this->componentClass       = $componentClass;
-        $this->actionComponentClass = $actionComponentClass;
+        $this->metadata             = $metadata;
     }
 
     /**
@@ -81,7 +68,8 @@ abstract class AbstractActionManager extends BaseActionManager
             throw new \Exception(sprintf('To create a component, you have to give a model (%s) and an identifier (%s)', $model, $identifier));
         }
 
-        $component = new $this->componentClass();
+        $componentClass = $this->metadata->getClass('component');
+        $component = new $componentClass();
         $component->setModel($model);
         $component->setData($data);
         $component->setIdentifier($identifier);

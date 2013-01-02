@@ -10,6 +10,7 @@ use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\CriteriaInterface;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 use Doctrine\Common\Persistence\ObjectManager;
+use Spy\Timeline\Metadata;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
@@ -33,23 +34,23 @@ class QueryBuilder extends BaseQueryBuilder
     protected $resultBuilder;
 
     /**
-     * @var string
+     * @var Metadata
      */
-    protected $actionClass;
+    protected $metadata;
 
     /**
      * @param QueryBuilderFactory    $factory       factory
      * @param ObjectManager          $objectManager objectManager
      * @param ResultBuilderInterface $resultBuilder resultBuilder
-     * @param string                 $actionClass   actionClass
+     * @param Metadata               $metadata      metadata
      */
-    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $actionClass)
+    public function __construct(QueryBuilderFactory $factory, ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, Metadata $metadata)
     {
         parent::__construct($factory);
 
         $this->objectManager = $objectManager;
         $this->resultBuilder = $resultBuilder;
-        $this->actionClass   = $actionClass;
+        $this->metadata      = $metadata;
     }
 
     /**
@@ -60,7 +61,7 @@ class QueryBuilder extends BaseQueryBuilder
     public function createQueryBuilder()
     {
         $qb = $this->objectManager
-            ->getRepository($this->actionClass)
+            ->getRepository($this->metadata->getClass('action'))
             ->createQueryBuilder('action')
             ->select('action');
 

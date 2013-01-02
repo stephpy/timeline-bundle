@@ -25,7 +25,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
         return $this->objectManager
-            ->getRepository($this->actionClass)
+            ->getRepository($this->metadata->getClass('action'))
             ->createQueryBuilder('a')
             ->where('a.statusWanted = :status')
             ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
@@ -148,7 +148,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
     {
         return $this->objectManager
-            ->getRepository($this->actionClass)
+            ->getRepository($this->metadata->getClass('action'))
             ->createQueryBuilder('a')
             ->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :subject AND ac2.type = :type)')
             ->leftJoin('a.actionComponents', 'ac')
@@ -159,6 +159,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
     protected function getComponentRepository()
     {
-        return $this->objectManager->getRepository($this->componentClass);
+        return $this->objectManager->getRepository($this->metadata->getClass('component'));
     }
 }
