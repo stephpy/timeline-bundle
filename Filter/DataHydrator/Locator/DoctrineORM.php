@@ -36,6 +36,10 @@ class DoctrineORM implements LocatorInterface
             return false;
         }
 
+        if (strpos($model, '\\') === 0) {
+            $model = substr($model, 1);
+        }
+
         try {
             $objectManager = $this->registry->getManagerForClass($model);
 
