@@ -32,7 +32,7 @@ Components of the timeline action are rendered, similarly to
 via the twig function `timeline_component_render()`
 
 ```jinja
-{% timeline_component_render(timeline, 'subject') %}
+{{ timeline_component_render(timeline, 'subject') }}
 ```
 
 These fragments are defined as twig blocks within [SpyTimelineBundle:Action:components.html.twig](https://github.com/stephpy/TimelineBundle/blob/master/Resources/views/Action/components.html.twig).
@@ -40,7 +40,7 @@ These fragments are defined as twig blocks within [SpyTimelineBundle:Action:comp
 Rendering the subject component will generate html using the `__toString()` method of the subject model.
 
 ```jinja
-{% timeline_component_render(timeline, 'subject') %}
+{{ timeline_component_render(timeline, 'subject') }}
 ```
 Renders:
 ```jinja
@@ -145,10 +145,10 @@ for pros and cons for where you define your themes.
 {% block timeline_action %}
     {{ timeline_component_render(timeline, 'subject') }} {{ timeline_component_render(timeline, 'verb') }}
 
-    {{ timeline_component_render(timeline, 'direct_complement') }}
+    {{ timeline_component_render(timeline, 'directComplement') }}
 
     {% if timeline.indirectComplement|default(false) or timeline.indirectComplementText|default(false) %}
-        {{ preposition|default('with') }} {{ timeline_component_render(timeline,'indirect_complement') }}
+        {{ preposition|default('with') }} {{ timeline_component_render(timeline,'indirectComplement') }}
     {% endif %}
 {% endblock timeline_action %}
 ```
