@@ -18,12 +18,12 @@ use Acme\YourBundle\Entity\TimelineAction
 
 //.....
 
-public functio myAction()
+public function myAction()
 {
     //......
     $actionManager = $this->get('spy_timeline.action_manager');
     $subject       = $actionManager->findOrCreateComponent('\User', 'chucknorris');
-    $action        = $actionManager->create($subject, 'control', array('directComplement' => 'the world));
+    $action        = $actionManager->create($subject, 'control', array('directComplement' => 'the world'));
     $actionManager->updateAction($action);
 }
 ```
