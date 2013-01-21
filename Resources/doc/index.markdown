@@ -113,7 +113,7 @@ spy_timeline:
         redis:
             client:           ~ # snc_redis.default
             pipeline:         true
-            prefix:           vlr_timeline
+            prefix:           spy_timeline
             classes:
                 action:           'Spy\Timeline\Model\Action'
                 component:        'Spy\Timeline\Model\Component'
