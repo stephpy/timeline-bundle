@@ -1,7 +1,7 @@
 ODM Driver
 ==========
 
-You'll have to define entities on a bundle, you can add it to anyone bundle, in this example will use `Yo\UrBundle`.
+You'll have to define documents on a bundle, you can add it to anyone bundle, in this example will use `Yo\UrBundle`.
 
 # 1) Define configuration
 
@@ -18,14 +18,14 @@ spy_timeline:
                 action_component: Yo\UrBundle\Document\ActionComponent
 ```
 
-Then, create entities: on `Yo\UrlBundle`
+Then, create documents: on `Yo\UrlBundle`
 
-# 2) Create Timeline entity
+# 2) Create Timeline document
 
 ```php
 <?php
 
-namespace Yo\UrBundle\Entity;
+namespace Yo\UrBundle\Document;
 
 use Spy\TimelineBundle\Document\Timeline as BaseTimeline;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -62,12 +62,12 @@ class Timeline extends BaseTimeline
 }
 ```
 
-# 3) Create Action entity
+# 3) Create Action document
 
 ```php
 <?php
 
-namespace Yo\UrBundle\Entity;
+namespace Yo\UrBundle\Document;
 
 use Spy\TimelineBundle\Document\Action as BaseAction;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -94,12 +94,12 @@ class Action extends BaseAction
 }
 ```
 
-# 4) Create Component entity
+# 4) Create Component document
 
 ```php
 <?php
 
-namespace Yo\UrBundle\Entity;
+namespace Yo\UrBundle\Document;
 
 use Spy\TimelineBundle\Document\Component as BaseComponent;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -116,12 +116,12 @@ class Component extends BaseComponent
 }
 ```
 
-# 5) Create ActionComponent entity
+# 5) Create ActionComponent document
 
 ```php
 <?php
 
-namespace Yo\UrBundle\Entity;
+namespace Yo\UrBundle\Document;
 
 use Spy\TimelineBundle\Document\ActionComponent as BaseActionComponent;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
