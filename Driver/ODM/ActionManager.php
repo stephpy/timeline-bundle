@@ -57,6 +57,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             'max_per_page' => 10,
             'status'       => ActionInterface::STATUS_PUBLISHED,
             'filter'       => true,
+            'paginate'     => true,
         ));
 
         $options = $resolver->resolve($options);
@@ -66,13 +67,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->field('statusCurrent')->equals($options['status'])
             ;
 
-        $pager   = $this->pager->paginate($qb, $options['page'], $options['max_per_page']);
-
-        if ($options['filter']) {
-            return $this->pager->filter($pager);
-        }
-
-        return $pager;
+        return $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
     }
 
     /**
