@@ -1,5 +1,8 @@
 # Basic example
 
+A demo application (orm driver) is available [here](https://github.com/stephpy/timeline-app).
+You can read this basic example and look at application to make it works.
+
 This example explain how to have a simple Timeline with `GLOBAL` context.
 
 ##Context:
@@ -18,12 +21,12 @@ use Acme\YourBundle\Entity\TimelineAction
 
 //.....
 
-public functio myAction()
+public function myAction()
 {
     //......
     $actionManager = $this->get('spy_timeline.action_manager');
     $subject       = $actionManager->findOrCreateComponent('\User', 'chucknorris');
-    $action        = $actionManager->create($subject, 'control', array('directComplement' => 'the world));
+    $action        = $actionManager->create($subject, 'control', array('directComplement' => 'the world'));
     $actionManager->updateAction($action);
 }
 ```
