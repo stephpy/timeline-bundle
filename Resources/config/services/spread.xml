@@ -18,10 +18,6 @@
             <call method="setDelivery">
                 <argument>%spy_timeline.spread.deployer.delivery%</argument>
             </call>
-            <call method="setNotificationManager">
-                <argument type="service" id="spy_timeline.notification_manager" />
-            </call>
-
         </service>
 
         <service id="spy_timeline.spread.entry_collection" class="%spy_timeline.spread.entry_collection.class%">

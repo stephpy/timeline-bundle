@@ -107,20 +107,20 @@ class SpyTimelineExtension extends Extension
             $definition->addMethodCall('setPager', array($container->getDefinition($paginator)));
         }
 
-        // notifiers
-        $notifiers  = $config['notifiers'];
-        $definition = $container->getDefinition('spy_timeline.notification_manager');
-
-        foreach ($notifiers as $notifier) {
-            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
-        }
-
         // spreads
         $container->setAlias('spy_timeline.spread.deployer', $config['spread']['deployer']);
         $container->setParameter('spy_timeline.spread.deployer.delivery', $config['spread']['delivery']);
         $container->setParameter('spy_timeline.spread.on_subject', $config['spread']['on_subject']);
         $container->setParameter('spy_timeline.spread.on_global_context', $config['spread']['on_global_context']);
         $container->setParameter('spy_timeline.spread.deployer.batch_size', $config['spread']['batch_size']);
+
+        // notifiers
+        $notifiers  = $config['notifiers'];
+        $definition = $container->getDefinition($config['spread']['deployer']);
+
+        foreach ($notifiers as $notifier) {
+            $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
+        }
 
         //twig
         $render = $config['render'];
