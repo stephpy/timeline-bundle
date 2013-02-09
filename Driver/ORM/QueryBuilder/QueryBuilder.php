@@ -155,7 +155,7 @@ class QueryBuilder extends BaseQueryBuilder
                     $qb->leftJoin('action.timelines', $timelineKey, Expr\Join::WITH, $criteria->getDql());
 
                     break;
-                case 'action_component':
+                case 'actionComponent':
 
                     $actionComponentKey = sprintf('actionComponent%s', $aliasNumber);
                     $qb->leftJoin('action.actionComponents', $actionComponentKey, Expr\Join::WITH, $criteria->getDql());
