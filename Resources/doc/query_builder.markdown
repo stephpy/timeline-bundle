@@ -135,7 +135,5 @@ $qb->field('createdAt')->gte($value); // greather than equals
 $qb = $this->get('spy_timeline.query_builder');
 $qb->setCriterias('....');
 
-$results = $qb->execute(Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder::APPLY_FILTER); // apply filters
-$results = $qb->execute(Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder::NOT_APPLY_FILTER); // not apply filters
-// return a pager of Actions.
+$results = $qb->execute(array('paginate' => true, 'filter' => true));
 ```

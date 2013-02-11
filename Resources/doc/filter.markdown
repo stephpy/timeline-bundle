@@ -149,4 +149,4 @@ Define this class as service and use tag `spy_timeline.filter`.
 <service id="my_service" class="MyClass">
     <tag name="spy_timeline.filter" />
 </service>
-```xml
+```
