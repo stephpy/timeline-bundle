@@ -159,20 +159,6 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         return $results;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function getQueryBuilderForComponent(ComponentInterface $component){
-        
-        return $this->objectManager
-		   	 ->getRepository($this->actionClass)
-		     ->createQueryBuilder('a')
-		     ->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :component)')
-		     ->leftJoin('a.actionComponents', 'ac')
-		     ->setParameter('component', $component)
-		     ->getQuery()->getSingleResult()
-     	;
-    }
 
     /**
      * @param string             $type
