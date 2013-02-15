@@ -64,5 +64,5 @@ Add it to services
 To see which spreads are defined:
 
 ```
-php app:console spy_timeline:spreads
+php app/console spy_timeline:spreads
 ```
