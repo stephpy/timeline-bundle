@@ -174,6 +174,33 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('component', $component)
         ;
     }
+    
+    /**
+     * @param Array     $component Componentinterface
+     *
+     * @return QueryBuilder
+     */
+    public function getQueryBuilderForComponents($components){
+        $qb = $this->objectManager
+             ->getRepository($this->actionClass)
+             ->createQueryBuilder('a');    
+        
+        $c = 1;
+        foreach($components as $type => $component){
+            if (null === $type) {
+                $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.')');
+            } else {
+                $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.' and ac'.$c.'.type = :type)')
+                 ->setParameter('type', $type);
+            }
+            $qb->setParameter('component'.$c, $component);
+            $c++;
+        }
+        
+        return $qb->leftJoin('a.actionComponents', 'ac')
+        ;
+             
+    }
 
     protected function getComponentRepository()
     {
