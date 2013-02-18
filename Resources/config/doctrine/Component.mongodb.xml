@@ -8,7 +8,7 @@
 
         <field name="model" fieldName="model" type="string" />
 
-        <field name="identifier" fieldName="identifier" type="hash" />
+        <field name="identifier" fieldName="identifier" type="string" />
 
         <field name="hash" fieldName="hash" type="string" />
 
