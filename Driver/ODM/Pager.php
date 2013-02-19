@@ -47,9 +47,9 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable
                 ->limit($limit);
         }
 
-        $this->items     = $target->getQuery()->execute();
+        $this->items     = $target->getQuery()->execute()->toArray();
         $this->page      = $page;
-        $this->nbResults = $clone->count();
+        $this->nbResults = $clone->getQuery()->count();
         $this->lastPage  = intval(ceil($this->nbResults / $limit));
 
         return $this;
