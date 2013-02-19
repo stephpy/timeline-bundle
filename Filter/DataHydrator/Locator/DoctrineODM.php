@@ -60,7 +60,7 @@ class DoctrineODM implements LocatorInterface
 
         $oids = array();
         foreach ($components as $component) {
-            $oids[] = current($component->getIdentifier());
+            $oids[] = $component->getIdentifier();
         }
 
         $qb    = $objectManager->getRepository($model)
