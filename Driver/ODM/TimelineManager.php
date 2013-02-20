@@ -8,6 +8,7 @@ use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
 /**
  * TimelineManager
