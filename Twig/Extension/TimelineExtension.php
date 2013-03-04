@@ -107,7 +107,7 @@ class TimelineExtension extends \Twig_Extension
         } elseif ($entity instanceof TimelineInterface) {
             return $entity->getAction();
         } else {
-            throw new \InvalidArgumentException('Method "%s" accepts only a ActionInterface or a TimelineInterface', $method);
+            throw new \InvalidArgumentException(sprintf('Method "%s" accepts only a ActionInterface or a TimelineInterface', $method));
         }
     }
 
