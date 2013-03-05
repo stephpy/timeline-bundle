@@ -3,6 +3,8 @@
 namespace Spy\TimelineBundle\Driver\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
@@ -40,6 +42,11 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $actionComponentClass;
 
     /**
+     * @var array
+     */
+    protected $registries;
+
+    /**
      * @param ObjectManager          $objectManager        objectManager
      * @param ResultBuilderInterface $resultBuilder        resultBuilder
      * @param string                 $actionClass          actionClass
@@ -53,6 +60,7 @@ abstract class AbstractActionManager extends BaseActionManager
         $this->actionClass          = $actionClass;
         $this->componentClass       = $componentClass;
         $this->actionComponentClass = $actionComponentClass;
+        $this->registries           = array();
     }
 
     /**
@@ -104,6 +112,14 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function addRegistry(ManagerRegistry $registry)
+    {
+        $this->registries[] = $registry;
+    }
+
+    /**
      * resolveModelAndIdentifier
      *
      * @param mixed $model      model
@@ -122,7 +138,7 @@ abstract class AbstractActionManager extends BaseActionManager
         if (is_object($model)) {
             $data       = $model;
             $modelClass = get_class($model);
-            $metadata   = $this->objectManager->getClassMetadata($modelClass);
+            $metadata   = $this->getClassMetadata($modelClass);
 
             // if object is linked to doctrine
             if (null !== $metadata) {
@@ -171,4 +187,14 @@ abstract class AbstractActionManager extends BaseActionManager
         return array($model, $identifier, $data);
     }
 
+    protected function getClassMetadata($class)
+    {
+        foreach ($this->registries as $registry) {
+            if ($manager = $registry->getManagerForClass($class)) {
+                return $manager->getClassMetadata($class);
+            }
+        }
+
+        return null;
+    }
 }
