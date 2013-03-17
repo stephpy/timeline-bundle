@@ -190,8 +190,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             if (null === $type) {
                 $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.')');
             } else {
-                $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.' and ac'.$c.'.type = :type)')
-                 ->setParameter('type', $type);
+                $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.' and ac'.$c.'.type = :type'.$c.')')
+                 ->setParameter('type'.$c, $type);
             }
             $qb->setParameter('component'.$c, $component);
             $c++;
