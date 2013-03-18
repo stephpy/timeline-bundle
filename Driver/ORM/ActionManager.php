@@ -176,7 +176,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     }
     
     /**
-     * @param Array     $component Componentinterface
+     * @param array     $component Componentinterface
      *
      * @return QueryBuilder
      */
