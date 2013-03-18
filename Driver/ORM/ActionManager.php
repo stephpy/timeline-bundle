@@ -180,7 +180,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      *
      * @return QueryBuilder
      */
-    public function getQueryBuilderForComponents($components){
+    public function getQueryBuilderForComponents(array $components){
         $qb = $this->objectManager
              ->getRepository($this->actionClass)
              ->createQueryBuilder('a');    
