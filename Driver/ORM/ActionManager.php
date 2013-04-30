@@ -125,7 +125,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -171,10 +170,10 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         return $qb
             ->leftJoin('a.actionComponents', 'ac')
-            ->setParameter('component', $component)
+            ->setParameter('component', $component->getId())
         ;
     }
-    
+
     /**
      * @param array     $component Componentinterface
      *
@@ -184,8 +183,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     {
         $qb = $this->objectManager
              ->getRepository($this->actionClass)
-             ->createQueryBuilder('a');    
-        
+             ->createQueryBuilder('a');
+
         $c = 1;
         foreach($components as $type => $component) {
             if (null === $type) {
@@ -194,13 +193,13 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
                 $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.' and ac'.$c.'.type = :type'.$c.')')
                  ->setParameter('type'.$c, $type);
             }
-            $qb->setParameter('component'.$c, $component);
+            $qb->setParameter('component'.$c, $component->getId());
             $c++;
         }
-        
+
         return $qb->leftJoin('a.actionComponents', 'ac')
         ;
-             
+
     }
 
     protected function getComponentRepository()

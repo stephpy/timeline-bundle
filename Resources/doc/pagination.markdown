@@ -21,6 +21,12 @@ spy_timeline:
     paginator: spy_timeline.paginator.knp
 ```
 
+**If you want to use twig functions from knp.paginator.bundle, pass `timeline.iterator` in argument. Example:**
+
+```twig
+{{ knp_pagination_render(timeline.iterator) }}
+```
+
 ## 3) Using your own paginator
 
 Define a service, which implements `Spy\Timeline\ResultBuilder\Pager\PagerInterface`

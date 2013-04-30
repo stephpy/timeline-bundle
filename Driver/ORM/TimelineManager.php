@@ -181,7 +181,7 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->andWhere('t.subject = :subject')
             ->setParameter('type', $type)
             ->setParameter('context', $context)
-            ->setParameter('subject', $subject)
+            ->setParameter('subject', $subject->getId())
             ;
     }
 }
