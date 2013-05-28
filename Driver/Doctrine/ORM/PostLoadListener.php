@@ -1,13 +1,11 @@
 <?php
 
-namespace Spy\TimelineBundle\Driver\Doctrine;
+namespace Spy\TimelineBundle\Driver\Doctrine\ORM;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\EntityNotFoundException as ORMNotFoundException;
-use Doctrine\ORM\Mapping\MappingException as ORMMappingException;
-use Doctrine\ODM\MongoDB\DocumentNotFoundException as ODMNotFoundException;
-use Doctrine\ODM\MongoDB\Mapping\MappingException as ODMMappingException;
+use Doctrine\ORM\EntityNotFoundException;
 use Spy\Timeline\Model\ComponentInterface;
 
 /**
@@ -37,14 +35,10 @@ class PostLoadListener implements EventSubscriber
                     $entity->getIdentifier()
                 )
             );
-        } catch (ORMNotFoundException $e) {
+        } catch (EntityNotFoundException $e) {
             // if entity has been deleted ...
-        } catch (ODMNotFoundException $e) {
-            // for odm ...
-        } catch (ORMMappingException $e) {
+        } catch (MappingException $e) {
             // if entity is not a valid entity or mapped super class
-        } catch (ODMMappingException $e) {
-            // for odm ...
         }
     }
 
