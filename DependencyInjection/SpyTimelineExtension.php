@@ -155,7 +155,7 @@ class SpyTimelineExtension extends Extension
         $loader->load('driver/orm.xml');
 
         if ($config['post_load_listener']) {
-            $loader->load('driver/doctrine_listener.xml');
+            $loader->load('driver/doctrine/orm_listener.xml');
         }
 
         if ($classes['query_builder']) {
@@ -185,7 +185,7 @@ class SpyTimelineExtension extends Extension
         $loader->load('driver/odm.xml');
 
         if ($config['post_load_listener']) {
-            $loader->load('driver/doctrine_listener.xml');
+            $loader->load('driver/doctrine/odm_listener.xml');
         }
     }
 
