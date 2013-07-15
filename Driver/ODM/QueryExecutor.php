@@ -23,7 +23,7 @@ class QueryExecutor implements QueryExecutorInterface
             throw new \Exception('Not supported yet');
         }
 
-        $clone = clone $target;
+        $target = clone $target;
         if ($limit) {
             $skip = $limit * ($page - 1);
 

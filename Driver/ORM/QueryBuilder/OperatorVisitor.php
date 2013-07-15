@@ -28,7 +28,7 @@ class OperatorVisitor implements VisitorInterface
             throw new \Exception('OperatorVisitor accepts only Operator instance');
         }
 
-        $asserterFields = $dqlParts = array();
+        $dqlParts = array();
 
         foreach ($operator->getCriterias() as $criteria) {
             if ($criteria instanceof Operator) {

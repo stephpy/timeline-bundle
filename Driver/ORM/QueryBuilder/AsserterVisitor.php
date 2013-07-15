@@ -4,7 +4,6 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
-use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaField;
 
 /**
  * AsserterVisitor

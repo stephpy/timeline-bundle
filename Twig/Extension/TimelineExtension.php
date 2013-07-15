@@ -169,9 +169,9 @@ class TimelineExtension extends \Twig_Extension
     /**
      * Render an action component
      *
-     * @param  object  $action    action
-     * @param  string  $component Component to render (subject, verb, etc ...)
-     * @param  array   $variables Additional variables to pass to templates
+     * @param  object $action    action
+     * @param  string $component Component to render (subject, verb, etc ...)
+     * @param  array  $variables Additional variables to pass to templates
      * @return string
      */
     public function renderActionComponent($action, $component, array $variables = array())
@@ -215,8 +215,6 @@ class TimelineExtension extends \Twig_Extension
                 $types[] = $custom.'_default';
                 $types[] = $custom.'_'.$component;
             }
-
-
 
             $typeIndex = count($types) - 1;
             $this->varStack[$rendering] = array (

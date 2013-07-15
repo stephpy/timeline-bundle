@@ -217,7 +217,6 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-
     protected function addFilterSection($rootNode)
     {
         $rootNode

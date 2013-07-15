@@ -4,7 +4,6 @@ namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 
 use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * DoctrineODM

@@ -70,7 +70,6 @@ class SpyTimelineExtension extends Extension
             $paginator = sprintf('spy_timeline.pager.%s', $driver);
         }
 
-
         // filters
         $filters       = isset($config['filters']) ? $config['filters'] : array();
         $filterManager = $container->getDefinition('spy_timeline.filter.manager');

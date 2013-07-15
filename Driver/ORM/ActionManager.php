@@ -7,7 +7,6 @@ use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
 
 /**
@@ -175,7 +174,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     }
 
     /**
-     * @param array     $component Componentinterface
+     * @param array $component Componentinterface
      *
      * @return QueryBuilder
      */
@@ -186,7 +185,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
              ->createQueryBuilder('a');
 
         $c = 1;
-        foreach($components as $type => $component) {
+        foreach ($components as $type => $component) {
             if (null === $type) {
                 $qb->innerJoin('a.actionComponents', 'ac'.$c, Expr\Join::WITH, '(ac'.$c.'.action = a AND ac'.$c.'.component = :component'.$c.')');
             } else {

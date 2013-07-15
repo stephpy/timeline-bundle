@@ -58,7 +58,6 @@ class DoctrineORM implements LocatorInterface
         $metadata      = $objectManager->getClassMetadata($model);
 
         $fields     = $metadata->getIdentifier();
-        $many       = count($fields) > 1;
 
         $oids = array();
         foreach ($components as $component) {

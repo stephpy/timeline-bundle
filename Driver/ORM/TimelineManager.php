@@ -3,7 +3,6 @@
 namespace Spy\TimelineBundle\Driver\ORM;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\Common\Persistence\ObjectManager;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractTimelineManager;
 use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ComponentInterface;

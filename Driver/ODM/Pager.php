@@ -3,7 +3,6 @@
 namespace Spy\TimelineBundle\Driver\ODM;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Spy\Timeline\Filter\FilterManager;
 use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
 /**
@@ -110,39 +109,43 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
     {
         return count($this->items);
     }
-    
+
     /**
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->items[] = $value;
         } else {
             $this->items[$offset] = $value;
         }
     }
-    
+
     /**
-     * @param mixed $offset
+     * @param  mixed   $offset
      * @return boolean
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->items[$offset]);
     }
-        
+
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->items[$offset]);
     }
-        
+
     /**
-     * @param mixed $offset
+     * @param  mixed $offset
      * @return mixed
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->items[$offset]) ? $this->items[$offset] : null;
     }
 }

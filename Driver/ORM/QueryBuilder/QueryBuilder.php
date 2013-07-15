@@ -7,11 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
-use Spy\Timeline\Driver\QueryBuilder\Criteria\CriteriaInterface;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
-use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
 /**
