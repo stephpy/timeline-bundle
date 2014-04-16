@@ -25,6 +25,6 @@ class SpyTimelineBundle extends Bundle
         $container->addCompilerPass(new AddSpreadCompilerPass());
         $container->addCompilerPass(new AddFilterCompilerPass());
         $container->addCompilerPass(new AddRegistryCompilerPass());
-        $container->addCompilerPass(new AddDeliveryMethodCompilerPass);
+        $container->addCompilerPass(new AddDeliveryMethodCompilerPass());
     }
 }
