@@ -8,6 +8,7 @@ use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ActionManager
@@ -23,9 +24,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findActionsWithStatusWantedPublished($limit = 100)
     {
-        return $this->objectManager
-            ->getRepository($this->actionClass)
-            ->createQueryBuilder('a')
+        return $this->getQueryBuilderForAction()
             ->where('a.statusWanted = :status')
             ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
             ->setMaxResults($limit)
@@ -156,9 +155,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function getQueryBuilderForComponent(ComponentInterface $component, $type = null)
     {
-        $qb = $this->objectManager
-             ->getRepository($this->actionClass)
-             ->createQueryBuilder('a');
+        $qb = $this->getQueryBuilderForAction();
 
         if (null === $type) {
             $qb->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :component)');
@@ -180,9 +177,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function getQueryBuilderForComponents(array $components)
     {
-        $qb = $this->objectManager
-             ->getRepository($this->actionClass)
-             ->createQueryBuilder('a');
+        $qb = $this->getQueryBuilderForAction();
 
         $c = 1;
         foreach ($components as $type => $component) {
@@ -204,5 +199,17 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     protected function getComponentRepository()
     {
         return $this->objectManager->getRepository($this->componentClass);
+    }
+
+    /**
+     * Gets the query builder for an action.
+     *
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilderForAction()
+    {
+        return $this->objectManager
+            ->getRepository($this->actionClass)
+            ->createQueryBuilder('a');
     }
 }
