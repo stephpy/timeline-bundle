@@ -24,10 +24,16 @@ class AddFilterCompilerPass implements CompilerPassInterface
             $filterManager->addMethodCall('add', array($container->getDefinition($id)));
         }
 
-        $dataHydrator = $container->getDefinition('spy_timeline.filter.data_hydrator');
+        //add the locators to the data hydrator.
+        $locators = $container->getParameter('spy_timeline.filter.data_hydrator.locators');
+        //locators are not set...
+        if (empty($locators) || !is_array($locators)) {
+            return;
+        }
 
-        foreach ($container->findTaggedServiceIds('spy_timeline.filter.data_hydrator.locator') as $id => $tags) {
-            $dataHydrator->addMethodCall('addLocator', array($container->getDefinition($id)));
+        $dataHydrator = $container->getDefinition('spy_timeline.filter.data_hydrator');
+        foreach ($locators as $locator) {
+            $dataHydrator->addMethodCall('addLocator', array($container->getDefinition($locator)));
         }
     }
 }
