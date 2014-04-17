@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddRegistryCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
 
 /**
  * SpyTimelineBundle
@@ -24,6 +25,6 @@ class SpyTimelineBundle extends Bundle
         $container->addCompilerPass(new AddSpreadCompilerPass());
         $container->addCompilerPass(new AddFilterCompilerPass());
         $container->addCompilerPass(new AddRegistryCompilerPass());
+        $container->addCompilerPass(new AddDeliveryMethodCompilerPass());
     }
-
 }

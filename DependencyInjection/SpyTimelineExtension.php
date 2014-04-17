@@ -62,13 +62,6 @@ class SpyTimelineExtension extends Extension
         $container->setAlias('spy_timeline.timeline_manager', $timelineManager);
         $container->setAlias('spy_timeline.action_manager', $actionManager);
 
-        if ('immediate' === $config['spread']['delivery']) {
-            $container
-                ->getDefinition($actionManager)
-                ->addMethodCall('setDeployer', array(new Reference('spy_timeline.spread.deployer')))
-            ;
-        }
-
         // pager
 
         if (isset($config['paginator']) && !empty($config['paginator'])) {
