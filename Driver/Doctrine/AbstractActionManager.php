@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
+use Spy\Timeline\Model\ComponentInterface;
 
 /**
  * AbstractActionManager
@@ -42,7 +43,7 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $actionComponentClass;
 
     /**
-     * @var array
+     * @var ManagerRegistry[]
      */
     protected $registries;
 
@@ -81,26 +82,7 @@ abstract class AbstractActionManager extends BaseActionManager
     {
         list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
-        if (empty($model) || null === $identifier || '' === $identifier) {
-            if (is_array($identifier)) {
-                $identifier = implode(', ', $identifier);
-            }
-
-            throw new \Exception(sprintf('To create a component, you have to give a model (%s) and an identifier (%s)', $model, $identifier));
-        }
-
-        $component = new $this->componentClass();
-        $component->setModel($model);
-        $component->setData($data);
-        $component->setIdentifier($identifier);
-
-        $this->objectManager->persist($component);
-
-        if ($flush) {
-            $this->flushComponents();
-        }
-
-        return $component;
+        return $this->createComponentFromResolvedModelAndIdentifier($model, $identifier, $data, $flush);
     }
 
     /**
@@ -120,12 +102,14 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
-     * resolveModelAndIdentifier
+     * @param mixed $model
+     * @param mixed $identifier
      *
-     * @param mixed $model      model
-     * @param mixed $identifier identifier
+     * @return array array(model, identifier, data)
      *
-     * @return array(string, array|string)
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     protected function resolveModelAndIdentifier($model, $identifier)
     {
@@ -184,9 +168,16 @@ abstract class AbstractActionManager extends BaseActionManager
             throw new \InvalidArgumentException('Identifier has to be a scalar or an array');
         }
 
+        $this->guardResolvedModelAndIdentifier($model, $identifier);
+
         return array($model, $identifier, $data);
     }
 
+    /**
+     * @param string $class
+     *
+     * @return \Doctrine\Common\Persistence\Mapping\ClassMetadata|null
+     */
     protected function getClassMetadata($class)
     {
         foreach ($this->registries as $registry) {
@@ -196,5 +187,69 @@ abstract class AbstractActionManager extends BaseActionManager
         }
 
         return null;
+    }
+
+    /**
+     * Creates a component from a resolved model and identifier.
+     *
+     * This function assumes the model and identifier has been resolved.
+     *
+     * @param string       $model      The resolved model string
+     * @param string|array $identifier The resolved identifier string or array
+     * @param object|null  $data       If the model is an object we set the object as data else this is null
+     * @param boolean      $flush      Whether to flush or not, defaults to true
+     *
+     * @return ComponentInterface The created component
+     */
+    protected function createComponentFromResolvedModelAndIdentifier($model, $identifier, $data, $flush = true)
+    {
+        $component = $this->getComponentFromResolvedModelAndIdentifier($model, $identifier, $data);
+
+        $this->objectManager->persist($component);
+
+        if ($flush) {
+            $this->flushComponents();
+        }
+
+        return $component;
+    }
+
+    /**
+     * Creates the component from the resolved model and identifier.
+     *
+     * @param string       $model      The model string
+     * @param string|array $identifier The identifier string or array
+     * @param object|null  $data       The object when given or null
+     *
+     * @return ComponentInterface The populated component
+     */
+    private function getComponentFromResolvedModelAndIdentifier($model, $identifier, $data)
+    {
+        /** @var $component ComponentInterface */
+        $component = new $this->componentClass();
+        $component->setModel($model);
+        $component->setData($data);
+        $component->setIdentifier($identifier);
+
+        return $component;
+    }
+
+    /**
+     * Guards that there is a model and identifier after we should have resolved those.
+     *
+     * @param string       $model
+     * @param string|array $identifier
+     *
+     * @throws \Exception
+     */
+    private function guardResolvedModelAndIdentifier($model, $identifier)
+    {
+        if (empty($model) || null === $identifier || '' === $identifier) {
+            if (is_array($identifier)) {
+                $identifier = implode(', ', $identifier);
+            }
+
+            throw new \Exception(sprintf('To find a component, you have to give a model (%s) and an identifier (%s)', $model, $identifier));
+        }
     }
 }

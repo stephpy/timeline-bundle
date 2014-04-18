@@ -82,14 +82,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     {
         list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
 
-        if (empty($modelResolved) || null === $identifierResolved || '' === $identifierResolved) {
-            if (is_array($identifierResolved)) {
-                $identifierResolved = implode(', ', $identifierResolved);
-            }
-
-            throw new \Exception(sprintf('To find a component, you have to give a model (%s) and an identifier (%s)', $modelResolved, $identifierResolved));
-        }
-
         $component = $this->getComponentRepository()
             ->createQueryBuilder('c')
             ->where('c.model = :model')
@@ -106,7 +98,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return $component;
         }
 
-        return $this->createComponent($model, $identifier, $flush);
+        return $this->createComponentFromResolvedModelAndIdentifier($modelResolved, $identifierResolved, $data, $flush);
     }
 
     /**
