@@ -9,9 +9,10 @@ use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
 use Spy\Timeline\Model\ComponentInterface;
+use Spy\TimelineBundle\Driver\Doctrine\ValueObject\ResolvedComponentData;
 
 /**
- * AbstractActionManager
+ * The abstract action manager for doctrine.
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
@@ -80,9 +81,9 @@ abstract class AbstractActionManager extends BaseActionManager
      */
     public function createComponent($model, $identifier = null, $flush = true)
     {
-        list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
+        $resolvedComponentData = $this->resolveModelAndIdentifier($model, $identifier);
 
-        return $this->createComponentFromResolvedModelAndIdentifier($model, $identifier, $data, $flush);
+        return $this->createComponentFromResolvedComponentData($resolvedComponentData, $flush);
     }
 
     /**
@@ -102,10 +103,24 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
+     * Resolves the model and identifier.
+     *
+     * This function tries to resolve the model and identifier.
+     *
+     * When model is a string:
+     *  - it uses the given model string as model and the given identifier as identifier
+     *
+     * When model is an object:
+     *  - It checks with doctrine if there is class meta data for the given object class
+     *  - If there is class meta data it uses the meta data to retrieve the model and identifier values
+     *  - If there is no class meta data
+     *      - it uses the get_class function to retrieve the model string name
+     *      - it uses the getId method for the object to try and retrieve the identifier
+     *
      * @param mixed $model
      * @param mixed $identifier
      *
-     * @return array array(model, identifier, data)
+     * @return ResolvedComponentData
      *
      * @throws \LogicException
      * @throws \InvalidArgumentException
@@ -162,15 +177,7 @@ abstract class AbstractActionManager extends BaseActionManager
             }
         }
 
-        if (is_scalar($identifier)) {
-            $identifier = (string) $identifier;
-        } elseif (!is_array($identifier)) {
-            throw new \InvalidArgumentException('Identifier has to be a scalar or an array');
-        }
-
-        $this->guardResolvedModelAndIdentifier($model, $identifier);
-
-        return array($model, $identifier, $data);
+        return new ResolvedComponentData($model, $identifier, $data);
     }
 
     /**
@@ -190,20 +197,16 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
-     * Creates a component from a resolved model and identifier.
+     * Creates a component from a resolved model and identifier and optionally stores it to the storage engine.
      *
-     * This function assumes the model and identifier has been resolved.
+     * @param ResolvedComponentData $resolved The resolved component data
+     * @param boolean               $flush    Whether to flush or not, defaults to true
      *
-     * @param string       $model      The resolved model string
-     * @param string|array $identifier The resolved identifier string or array
-     * @param object|null  $data       If the model is an object we set the object as data else this is null
-     * @param boolean      $flush      Whether to flush or not, defaults to true
-     *
-     * @return ComponentInterface The created component
+     * @return ComponentInterface The newly created and populated component
      */
-    protected function createComponentFromResolvedModelAndIdentifier($model, $identifier, $data, $flush = true)
+    protected function createComponentFromResolvedComponentData(ResolvedComponentData $resolved, $flush = true)
     {
-        $component = $this->getComponentFromResolvedModelAndIdentifier($model, $identifier, $data);
+        $component = $this->getComponentFromResolvedComponentData($resolved);
 
         $this->objectManager->persist($component);
 
@@ -215,41 +218,20 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
-     * Creates the component from the resolved model and identifier.
+     * Creates a new component object from the resolved data.
      *
-     * @param string       $model      The model string
-     * @param string|array $identifier The identifier string or array
-     * @param object|null  $data       The object when given or null
+     * @param ResolvedComponentData $resolved The resolved component data
      *
-     * @return ComponentInterface The populated component
+     * @return ComponentInterface The newly created and populated component
      */
-    private function getComponentFromResolvedModelAndIdentifier($model, $identifier, $data)
+    private function getComponentFromResolvedComponentData(ResolvedComponentData $resolved)
     {
         /** @var $component ComponentInterface */
         $component = new $this->componentClass();
-        $component->setModel($model);
-        $component->setData($data);
-        $component->setIdentifier($identifier);
+        $component->setModel($resolved->getModel());
+        $component->setData($resolved->getData());
+        $component->setIdentifier($resolved->getIdentifier());
 
         return $component;
-    }
-
-    /**
-     * Guards that there is a model and identifier after we should have resolved those.
-     *
-     * @param string       $model
-     * @param string|array $identifier
-     *
-     * @throws \Exception
-     */
-    private function guardResolvedModelAndIdentifier($model, $identifier)
-    {
-        if (empty($model) || null === $identifier || '' === $identifier) {
-            if (is_array($identifier)) {
-                $identifier = implode(', ', $identifier);
-            }
-
-            throw new \Exception(sprintf('To find a component, you have to give a model (%s) and an identifier (%s)', $model, $identifier));
-        }
     }
 }

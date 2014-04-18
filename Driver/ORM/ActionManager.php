@@ -80,25 +80,26 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
-        list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
+
+        $resolvedComponentData = $this->resolveModelAndIdentifier($model, $identifier);
 
         $component = $this->getComponentRepository()
             ->createQueryBuilder('c')
             ->where('c.model = :model')
             ->andWhere('c.identifier = :identifier')
-            ->setParameter('model', $modelResolved)
-            ->setParameter('identifier', serialize($identifierResolved))
+            ->setParameter('model', $resolvedComponentData->getModel())
+            ->setParameter('identifier', serialize($resolvedComponentData->getIdentifier()))
             ->getQuery()
             ->getOneOrNullResult()
             ;
 
         if ($component) {
-            $component->setData($data);
+            $component->setData($resolvedComponentData->getData());
 
             return $component;
         }
 
-        return $this->createComponentFromResolvedModelAndIdentifier($modelResolved, $identifierResolved, $data, $flush);
+        return $this->createComponentFromResolvedComponentData($resolvedComponentData, $flush);
     }
 
     /**
