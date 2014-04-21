@@ -75,11 +75,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
-<<<<<<< HEAD
         $resolvedComponentData = $this->resolveModelAndIdentifier($model, $identifier);
-=======
-        list ($modelResolved, $identifierResolved, $data) = $this->resolveModelAndIdentifier($model, $identifier);
->>>>>>> 201164927cc2a56a70104b47e9ea702a090f5d67
 
         $component = $this->objectManager
             ->createQueryBuilder($this->componentClass)
@@ -94,11 +90,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return $component;
         }
 
-<<<<<<< HEAD
         return $this->createComponentFromResolvedComponentData($resolvedComponentData, $flush);
-=======
-        return $this->createComponentFromResolvedModelAndIdentifier($modelResolved, $identifierResolved, $data, $flush);
->>>>>>> 201164927cc2a56a70104b47e9ea702a090f5d67
     }
 
     /**
