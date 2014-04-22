@@ -9,7 +9,7 @@ use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
 use Spy\Timeline\Model\ComponentInterface;
-use Spy\TimelineBundle\Driver\Doctrine\ValueObject\ResolvedComponentData;
+use Spy\Timeline\Driver\Doctrine\ValueObject\ResolvedComponentData;
 
 /**
  * The abstract action manager for doctrine.
