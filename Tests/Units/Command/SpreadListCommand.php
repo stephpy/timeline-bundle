@@ -13,6 +13,8 @@ class SpreadListCommand extends Test
 {
     public function testExecute()
     {
+        define('STDIN',fopen("php://stdin","r"));
+
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
         $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
