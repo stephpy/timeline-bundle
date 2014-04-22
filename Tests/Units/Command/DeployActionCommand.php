@@ -11,6 +11,11 @@ use Symfony\Component\Console\Application;
 
 class DeployActionCommand extends Test
 {
+    public function beforeTestMethod($method)
+    {
+        define('STDIN',fopen("php://stdin","r"));
+    }
+
     public function testNoTimeline()
     {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');

@@ -11,10 +11,13 @@ use Symfony\Component\Console\Application;
 
 class SpreadListCommand extends Test
 {
-    public function testExecute()
+    public function beforeTestMethod($method)
     {
         define('STDIN',fopen("php://stdin","r"));
+    }
 
+    public function testExecute()
+    {
         $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
         $this->mockGenerator()->orphanize('__construct');
         $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
