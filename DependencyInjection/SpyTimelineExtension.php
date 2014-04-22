@@ -89,7 +89,7 @@ class SpyTimelineExtension extends Extension
             $service->addArgument($filter['filter_unresolved']);
             $service->addMethodCall('setPriority', array($filter['priority']));
 
-            $container->setParameter('spy_timeline.filter.data_hydrator.locators', $filter['locators']);
+            $container->setParameter('spy_timeline.filter.data_hydrator.locators_config', $filter['locators']);
 
             $filterManager->addMethodCall('add', array($service));
         }
