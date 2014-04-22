@@ -104,4 +104,11 @@ class ResolvedComponentData extends Test
             ->variable($action->getData())->isNull()
         ;
     }
+
+    public function testIdentifierCanBeZero()
+    {
+        $this->if($action = new TestedModel('user', '0'))
+            ->string($action->getIdentifier())->isEqualTo('0')
+            ;
+    }
 }

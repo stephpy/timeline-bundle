@@ -107,7 +107,7 @@ class ResolvedComponentData
     /**
      * Guard valid identifier.
      *
-     * The identifier can not be empty and has to be a scalar or array.
+     * The identifier can not be empty (but can be zero) and has to be a scalar or array.
      *
      * @param string|array $identifier
      *
@@ -115,7 +115,7 @@ class ResolvedComponentData
      */
     private function guardValidIdentifier($identifier)
     {
-        if (null === $identifier || '' === $identifier || empty($identifier) ) {
+        if (null === $identifier || '' === $identifier) {
             throw new \InvalidArgumentException('No resolved identifier given');
         }
 
