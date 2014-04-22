@@ -8,6 +8,7 @@ use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddRegistryCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 
 /**
  * SpyTimelineBundle
@@ -26,5 +27,6 @@ class SpyTimelineBundle extends Bundle
         $container->addCompilerPass(new AddFilterCompilerPass());
         $container->addCompilerPass(new AddRegistryCompilerPass());
         $container->addCompilerPass(new AddDeliveryMethodCompilerPass());
+        $container->addCompilerPass(new AddLocatorCompilerPass());
     }
 }

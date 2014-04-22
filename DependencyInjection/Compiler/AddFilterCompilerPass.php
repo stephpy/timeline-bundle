@@ -23,11 +23,5 @@ class AddFilterCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('spy_timeline.filter') as $id => $tags) {
             $filterManager->addMethodCall('add', array($container->getDefinition($id)));
         }
-
-        $dataHydrator = $container->getDefinition('spy_timeline.filter.data_hydrator');
-
-        foreach ($container->findTaggedServiceIds('spy_timeline.filter.data_hydrator.locator') as $id => $tags) {
-            $dataHydrator->addMethodCall('addLocator', array($container->getDefinition($id)));
-        }
     }
 }
