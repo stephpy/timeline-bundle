@@ -26,7 +26,6 @@ class SpyTimelineBundle extends Test
             ->then(
                 $this->mock($containerBuilder)->call('addCompilerPass')->withArguments(new AddLocatorCompilerPass())->exactly(1)
                 and($this->mock($containerBuilder)->call('addCompilerPass')->withArguments(new AddDeliveryMethodCompilerPass())->exactly(1))
-
             )
         ;
     }
