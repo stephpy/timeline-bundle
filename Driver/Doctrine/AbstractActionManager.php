@@ -8,9 +8,11 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
+use Spy\Timeline\Model\ComponentInterface;
+use Spy\TimelineBundle\Driver\Doctrine\ValueObject\ResolvedComponentData;
 
 /**
- * AbstractActionManager
+ * The abstract action manager for doctrine.
  *
  * @author Stephane PY <py.stephane1@gmail.com>
  */
@@ -42,7 +44,7 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $actionComponentClass;
 
     /**
-     * @var array
+     * @var ManagerRegistry[]
      */
     protected $registries;
 
@@ -79,28 +81,9 @@ abstract class AbstractActionManager extends BaseActionManager
      */
     public function createComponent($model, $identifier = null, $flush = true)
     {
-        list ($model, $identifier, $data) = $this->resolveModelAndIdentifier($model, $identifier);
+        $resolvedComponentData = $this->resolveModelAndIdentifier($model, $identifier);
 
-        if (empty($model) || null === $identifier || '' === $identifier) {
-            if (is_array($identifier)) {
-                $identifier = implode(', ', $identifier);
-            }
-
-            throw new \Exception(sprintf('To create a component, you have to give a model (%s) and an identifier (%s)', $model, $identifier));
-        }
-
-        $component = new $this->componentClass();
-        $component->setModel($model);
-        $component->setData($data);
-        $component->setIdentifier($identifier);
-
-        $this->objectManager->persist($component);
-
-        if ($flush) {
-            $this->flushComponents();
-        }
-
-        return $component;
+        return $this->createComponentFromResolvedComponentData($resolvedComponentData, $flush);
     }
 
     /**
@@ -120,12 +103,28 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
-     * resolveModelAndIdentifier
+     * Resolves the model and identifier.
      *
-     * @param mixed $model      model
-     * @param mixed $identifier identifier
+     * This function tries to resolve the model and identifier.
      *
-     * @return array(string, array|string)
+     * When model is a string:
+     *  - it uses the given model string as model and the given identifier as identifier
+     *
+     * When model is an object:
+     *  - It checks with doctrine if there is class meta data for the given object class
+     *  - If there is class meta data it uses the meta data to retrieve the model and identifier values
+     *  - If there is no class meta data
+     *      - it uses the get_class function to retrieve the model string name
+     *      - it uses the getId method for the object to try and retrieve the identifier
+     *
+     * @param mixed $model
+     * @param mixed $identifier
+     *
+     * @return ResolvedComponentData
+     *
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     protected function resolveModelAndIdentifier($model, $identifier)
     {
@@ -178,15 +177,14 @@ abstract class AbstractActionManager extends BaseActionManager
             }
         }
 
-        if (is_scalar($identifier)) {
-            $identifier = (string) $identifier;
-        } elseif (!is_array($identifier)) {
-            throw new \InvalidArgumentException('Identifier has to be a scalar or an array');
-        }
-
-        return array($model, $identifier, $data);
+        return new ResolvedComponentData($model, $identifier, $data);
     }
 
+    /**
+     * @param string $class
+     *
+     * @return \Doctrine\Common\Persistence\Mapping\ClassMetadata|null
+     */
     protected function getClassMetadata($class)
     {
         foreach ($this->registries as $registry) {
@@ -196,5 +194,44 @@ abstract class AbstractActionManager extends BaseActionManager
         }
 
         return null;
+    }
+
+    /**
+     * Creates a component from a resolved model and identifier and optionally stores it to the storage engine.
+     *
+     * @param ResolvedComponentData $resolved The resolved component data
+     * @param boolean               $flush    Whether to flush or not, defaults to true
+     *
+     * @return ComponentInterface The newly created and populated component
+     */
+    protected function createComponentFromResolvedComponentData(ResolvedComponentData $resolved, $flush = true)
+    {
+        $component = $this->getComponentFromResolvedComponentData($resolved);
+
+        $this->objectManager->persist($component);
+
+        if ($flush) {
+            $this->flushComponents();
+        }
+
+        return $component;
+    }
+
+    /**
+     * Creates a new component object from the resolved data.
+     *
+     * @param ResolvedComponentData $resolved The resolved component data
+     *
+     * @return ComponentInterface The newly created and populated component
+     */
+    private function getComponentFromResolvedComponentData(ResolvedComponentData $resolved)
+    {
+        /** @var $component ComponentInterface */
+        $component = new $this->componentClass();
+        $component->setModel($resolved->getModel());
+        $component->setData($resolved->getData());
+        $component->setIdentifier($resolved->getIdentifier());
+
+        return $component;
     }
 }
