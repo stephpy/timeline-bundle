@@ -29,24 +29,9 @@ abstract class AbstractActionManager extends BaseActionManager
     protected $resultBuilder;
 
     /**
-     * @var string
-     */
-    protected $actionClass;
-
-    /**
-     * @var string
-     */
-    protected $componentClass;
-
-    /**
-     * @var string
-     */
-    protected $actionComponentClass;
-
-    /**
      * @var ManagerRegistry[]
      */
-    protected $registries;
+    protected $registries = array();
 
     /**
      * @param ObjectManager          $objectManager        objectManager
@@ -59,10 +44,8 @@ abstract class AbstractActionManager extends BaseActionManager
     {
         $this->objectManager        = $objectManager;
         $this->resultBuilder        = $resultBuilder;
-        $this->actionClass          = $actionClass;
-        $this->componentClass       = $componentClass;
-        $this->actionComponentClass = $actionComponentClass;
-        $this->registries           = array();
+
+        parent::__construct($actionClass, $componentClass, $actionComponentClass);
     }
 
     /**
