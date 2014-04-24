@@ -92,6 +92,9 @@ class Configuration extends Test
                     'operator' => 'Spy\Timeline\Driver\QueryBuilder\Criteria\Operator',
                 ),
             ),
+            'resolve_component' => array(
+                'resolver' => 'spy_timeline.resolve_component.doctrine',
+            )
         );
     }
 }

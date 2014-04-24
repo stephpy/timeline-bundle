@@ -2,6 +2,7 @@
 
 namespace Spy\TimelineBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -50,6 +51,7 @@ class Configuration implements ConfigurationInterface
         $this->addFilterSection($rootNode);
         $this->addSpreadSection($rootNode);
         $this->addRenderSection($rootNode);
+        $this->addResolveComponentSection($rootNode);
 
         return $tb;
     }
@@ -291,6 +293,19 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->prototype('scalar')->end()
                         ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    protected function addResolveComponentSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('resolve_component')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                       ->scalarNode('resolver')->defaultValue('spy_timeline.resolve_component.doctrine')->end()
                     ->end()
                 ->end()
             ->end();
