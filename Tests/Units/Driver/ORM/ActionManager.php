@@ -76,7 +76,6 @@ class ActionManager extends Test
             })
             ->and($this->calling($entityRepository)->createQueryBuilder = function() use ($queryBuilder) {
                 return $queryBuilder;
-
             })
             //here we return the component as result of the query
             ->and($this->calling($query)->getOneOrNullResult = function() use ($component) { return $component;})
@@ -89,8 +88,6 @@ class ActionManager extends Test
                 return $queryBuilder;
             })
             ->and($this->calling($queryBuilder)->getQuery = function() use($query) { return $query;})
-
-
             ->and($actionClass = 'Spy\Timeline\Model\Action')
             ->and($componentClass = 'Spy\Timeline\Model\Component')
             ->and($actionComponentClass = 'Spy\Timeline\Model\ActionComponent')
