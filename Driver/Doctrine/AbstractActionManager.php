@@ -72,17 +72,6 @@ abstract class AbstractActionManager extends BaseActionManager
     }
 
     /**
-     * @param mixed $model
-     * @param mixed $identifier
-     *
-     * @return ResolvedComponentData
-     */
-    protected function resolveModelAndIdentifier($model, $identifier)
-    {
-        return $this->getComponentDataResolver()->resolveComponentData($model, $identifier);
-    }
-
-    /**
      * Creates a component from a resolved model and identifier and optionally stores it to the storage engine.
      *
      * @param ResolvedComponentData $resolved The resolved component data
@@ -99,24 +88,6 @@ abstract class AbstractActionManager extends BaseActionManager
         if ($flush) {
             $this->flushComponents();
         }
-
-        return $component;
-    }
-
-    /**
-     * Creates a new component object from the resolved data.
-     *
-     * @param ResolvedComponentData $resolved The resolved component data
-     *
-     * @return ComponentInterface The newly created and populated component
-     */
-    private function getComponentFromResolvedComponentData(ResolvedComponentData $resolved)
-    {
-        /** @var $component ComponentInterface */
-        $component = new $this->componentClass();
-        $component->setModel($resolved->getModel());
-        $component->setData($resolved->getData());
-        $component->setIdentifier($resolved->getIdentifier());
 
         return $component;
     }

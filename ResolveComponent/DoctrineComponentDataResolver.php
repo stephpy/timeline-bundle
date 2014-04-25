@@ -6,6 +6,7 @@ use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 use Spy\Timeline\Exception\ResolveComponentDataException;
 use Spy\Timeline\ResolveComponent\ComponentDataResolverInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
 /**
  * Class DoctrineComponentDataResolver
@@ -35,12 +36,10 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveComponentData($model, $identifier = '')
+    public function resolveComponentData(ResolveComponentModelIdentifier $resolve)
     {
-        if (!is_object($model) && (null === $identifier || '' === $identifier)) {
-            throw new ResolveComponentDataException('Model has to be an object or a scalar + an identifier in 2nd argument');
-        }
-
+        $model = $resolve->getModel();
+        $identifier = $resolve->getIdentifier();
         $data = null;
 
         if (is_object($model)) {

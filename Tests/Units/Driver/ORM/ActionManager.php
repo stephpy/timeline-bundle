@@ -7,6 +7,7 @@ require_once __DIR__ . "/../../../../vendor/autoload.php";
 use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\Driver\ORM\ActionManager as TestedModel;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
+use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
 /**
  * Test file for Spy\TimelineBundle\Driver\ORM\ActionManager
@@ -17,6 +18,10 @@ class ActionManager extends Test
 {
     public function testCreateComponent()
     {
+        $model = 'user';
+        $identifier = 0;
+        $resolve = new ResolveComponentModelIdentifier($model, $identifier);
+
         $this
             ->if($this->mockClass('Spy\Timeline\ResultBuilder\ResultBuilderInterface', '\Mock'))
             ->and($this->mockClass('Spy\Timeline\ResolveComponent\ComponentDataResolverInterface', '\Mock'))
@@ -24,8 +29,8 @@ class ActionManager extends Test
             ->and($objectManager = new \mock\ObjectManager())
             ->and($resultBuilder = new \mock\ResultBuilderInterface())
             ->and($componentDataResolver = new \mock\ComponentDataResolverInterface())
-            ->and($this->calling($componentDataResolver)->resolveComponentData = function () {
-                return new ResolvedComponentData('user', '1');
+            ->and($this->calling($componentDataResolver)->resolveComponentData = function () use ($model, $identifier) {
+                return new ResolvedComponentData($model, $identifier);
             })
             ->and($actionClass = 'Spy\Timeline\Model\Action')
             ->and($componentClass = 'Spy\Timeline\Model\Component')
@@ -36,18 +41,19 @@ class ActionManager extends Test
                 }
              )->hasMessage('Component data resolver not set')
             ->and($actionManager->setComponentDataResolver($componentDataResolver))
-            ->when($result = $actionManager->createComponent('user', 1))
+            ->when($result = $actionManager->createComponent($model, $identifier))
             ->mock($objectManager)->call('persist')->withArguments($result)->exactly(1)
             ->mock($objectManager)->call('flush')->exactly(1)
-            ->mock($componentDataResolver)->call('resolveComponentData')->withArguments('user', 1)->exactly(1)
-            ->string($result->getIdentifier())->isEqualTo(1)
-            ->string($result->getModel())->isEqualto('user')
+            ->mock($componentDataResolver)->call('resolveComponentData')->withArguments($resolve)->exactly(1)
+            ->string($result->getIdentifier())->isEqualTo($identifier)
+            ->string($result->getModel())->isEqualto($model)
             ->variable($result->getData())->isNull()
             ;
     }
 
     public function testfindOrCreateComponentWithExistingComponent()
     {
+        $resolve = new ResolveComponentModelIdentifier('user', 1);
         $resolvedComponentData = new ResolvedComponentData('user', 1);
         $this
             ->if($this->mockClass('Spy\Timeline\ResultBuilder\ResultBuilderInterface', '\Mock'))
@@ -97,7 +103,7 @@ class ActionManager extends Test
                 return new ResolvedComponentData('user', '1');
             })
             ->when($result = $actionManager->findOrCreateComponent('user', 1))
-            ->mock($componentDataResolver)->call('resolveComponentData')->withArguments('user', 1)->exactly(1)
+            ->mock($componentDataResolver)->call('resolveComponentData')->withArguments($resolve)->exactly(1)
             ->mock($queryBuilder)->call('where')->withArguments('c.model = :model')->exactly(1)
             ->mock($queryBuilder)->call('andWhere')->withArguments('c.identifier = :identifier')->exactly(1)
             ->mock($queryBuilder)->call('setParameter')->withArguments('model', $resolvedComponentData->getModel())->exactly(1)

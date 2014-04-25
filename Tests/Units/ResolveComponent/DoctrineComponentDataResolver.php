@@ -7,6 +7,7 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver as TestedModel;
 use Spy\Timeline\ResolveComponent\TestHelper\User;
+use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
 /**
  * Test file for Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver
@@ -18,6 +19,7 @@ class DoctrineComponentDataResolver extends Test
     public function testObjectManagedByDoctrine()
     {
         $object = new User(5);
+        $resolve = new ResolveComponentModelIdentifier($object);
 
         $this->if($this->mockClass('\Doctrine\Common\Persistence\ManagerRegistry', '\Mock'))
             ->and($this->mockGenerator->orphanize('__construct'))
@@ -42,7 +44,7 @@ class DoctrineComponentDataResolver extends Test
             })
             ->and($resolver = new TestedModel())
             ->and($resolver->addRegistry($managerRegistry))
-            ->when($result = $resolver->resolveComponentData($object))
+            ->when($result = $resolver->resolveComponentData($resolve))
             ->then(
                 $this->mock($managerRegistry)->call('getManagerForClass')->withArguments('Spy\Timeline\ResolveComponent\TestHelper\User')->exactly(1)
                 ->and($this->mock($objectManager)->call('getClassMetadata')->withArguments('Spy\Timeline\ResolveComponent\TestHelper\User')->exactly(1))
