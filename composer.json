@@ -22,7 +22,8 @@
     "require-dev": {
         "atoum/atoum-bundle": "dev-master",
         "doctrine/orm": "2.*",
-        "symfony/console": "2.*"
+        "symfony/console": "2.*",
+        "symfony/twig-bundle": "2.*"
     },
     "suggest": {
         "symfony/console": "List spreads and deploy timelines via a command",
