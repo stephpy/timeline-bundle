@@ -223,6 +223,8 @@ class TimelineExtension extends \Twig_Extension
             );
         }
 
+        $twigGlobals = $this->twig->getGlobals();
+
         do {
             $types[$typeIndex] .= '_component';
 
@@ -230,9 +232,11 @@ class TimelineExtension extends \Twig_Extension
 
                 $this->varStack[$rendering]['typeIndex'] = $typeIndex;
 
+                $context = array_merge($twigGlobals, $this->varStack[$rendering]['variables']);
+
                 // we do not call renderBlock here to avoid too many nested level calls (XDebug limits the level to 100 by default)
                 ob_start();
-                $this->template->displayBlock($types[$typeIndex], $this->varStack[$rendering]['variables'], $blocks);
+                $this->template->displayBlock($types[$typeIndex], $context, $blocks);
                 $html = ob_get_clean();
 
                 unset($this->varStack[$rendering]);
