@@ -12,6 +12,15 @@
 
         <field name="createdAt" fieldName="createdAt" type="date" />
 
+        <indexes>
+            <index>
+                <key name="context" order="asc" />
+                <key name="subject" order="asc" />
+                <key name="type" order="asc" />
+                <key name="createdAt" order="asc" />
+            </index>
+        </indexes>
+
     </mapped-superclass>
 
 </doctrine-mongo-mapping>

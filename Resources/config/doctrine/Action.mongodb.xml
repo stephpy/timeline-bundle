@@ -18,6 +18,22 @@
 
         <field name="createdAt" fieldName="createdAt" type="date" />
 
+        <indexes>
+            <index>
+                <key name="subject" order="asc" />
+                <key name="statusCurrent" order="asc" />
+            </index>
+            <index>
+                <key name="subject" order="asc" />
+                <key name="statusWanted" order="asc" />
+            </index>
+            <index>
+                <key name="subject" order="asc" />
+                <key name="verb" order="asc" />
+                <key name="createdAt" order="asc" />
+            </index>
+        </indexes>
+
     </mapped-superclass>
 
 </doctrine-mongo-mapping>

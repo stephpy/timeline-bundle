@@ -12,6 +12,16 @@
 
         <field name="hash" fieldName="hash" type="string" />
 
+        <indexes>
+            <index>
+                <key name="model" order="asc" />
+                <key name="identifier" order="asc" />
+            </index>
+            <index unique="true">
+                <key name="hash" order="asc" />
+            </index>
+        </indexes>
+
     </mapped-superclass>
 
 </doctrine-mongo-mapping>
