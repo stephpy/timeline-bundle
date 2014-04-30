@@ -1,0 +1,15 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spy_timeline.resolve_component.doctrine.class">Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver</parameter>
+        <parameter key="spy_timeline.resolve_component.basic.class">Spy\Timeline\ResolveComponent\BasicComponentDataResolver</parameter>
+    </parameters>
+
+    <services>
+        <service id="spy_timeline.resolve_component.doctrine" class="%spy_timeline.resolve_component.doctrine.class%" />
+        <service id="spy_timeline.resolve_component.basic" class="%spy_timeline.resolve_component.basic.class%" />
+    </services>
+
+</container>

@@ -8,8 +8,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * AddRegistryCompilerPass
  *
- * @uses CompilerPassInterface
+ * @uses   CompilerPassInterface
+ *
  * @author Emmanuel Vella <vella.emmanuel@gmail.com>
+ * @author Michiel Boeckaert<boeckaert@gmail.com>
  */
 class AddRegistryCompilerPass implements CompilerPassInterface
 {
@@ -18,18 +20,16 @@ class AddRegistryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        foreach (array('orm', 'odm') as $driver) {
-            $id = sprintf('spy_timeline.action_manager.%s', $driver);
+        if (!$container->hasParameter('spy_timeline.resolve_component.doctrine_registries')) {
+            return;
+        }
 
+        $componentResolver = $container->findDefinition('spy_timeline.resolve_component.resolver');
+
+        foreach (array('doctrine', 'doctrine_mongodb') as $id) {
             if ($container->hasDefinition($id)) {
-                $actionManager = $container->getDefinition($id);
-
-                foreach (array('doctrine', 'doctrine_mongodb') as $id) {
-                    if ($container->hasDefinition($id)) {
-                        $registry = $container->getDefinition($id);
-                        $actionManager->addMethodCall('addRegistry', array($registry));
-                    }
-                }
+                $registry = $container->getDefinition($id);
+                $componentResolver->addMethodCall('addRegistry', array($registry));
             }
         }
     }
