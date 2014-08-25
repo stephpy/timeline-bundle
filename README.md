@@ -1,10 +1,7 @@
-SpyTimelineBundle 2.0
-=====================
+SpyTimelineBundle
+=================
 
 Integrate [timeline](https://github.com/stephpy/timeline) on Symfony2.
-
-[Milestone for release](https://github.com/stephpy/TimelineBundle/issues?milestone=1&page=1&state=open)
-==============================
 
 Supports 2.* Symfony Framework.
 
