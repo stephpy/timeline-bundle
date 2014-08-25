@@ -1,4 +1,4 @@
-bin
-composer.phar
-composer.lock
-vendor/*
+/bin
+/composer.phar
+/composer.lock
+/vendor

@@ -11,12 +11,6 @@ use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPas
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddComponentDataResolver;
 
-/**
- * SpyTimelineBundle
- *
- * @uses Bundle
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class SpyTimelineBundle extends Bundle
 {
     /**

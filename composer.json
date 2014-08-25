@@ -31,17 +31,15 @@
         "doctrine/orm": "Use doctrine ORM driver",
         "doctrine/mongodb-odm-bundle": "Use doctrine ODM driver"
     },
-    "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "Spy\\TimelineBundle": "" }
+        "psr-4": { "Spy\\TimelineBundle\\": "" }
     },
-    "target-dir": "Spy/TimelineBundle",
     "config": {
         "bin-dir": "bin"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.1.x-dev"
         }
     }
 }
