@@ -12,12 +12,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
-/**
- * QueryBuilder
- *
- * @uses BaseQueryBuilder
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class QueryBuilder extends BaseQueryBuilder
 {
     /**
@@ -106,6 +100,7 @@ class QueryBuilder extends BaseQueryBuilder
 
     /**
      * @param QueryBuilder $qb qb
+     * @throws \Exception
      */
     protected function filterSubjects($qb)
     {

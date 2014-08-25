@@ -9,13 +9,6 @@ use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
-/**
- * TimelineManager
- *
- * @uses AbstractTimelineManager
- * @uses TimelineManagerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {
     /**
@@ -181,6 +174,6 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->setParameter('type', $type)
             ->setParameter('context', $context)
             ->setParameter('subject', $subject->getId())
-            ;
+        ;
     }
 }

@@ -9,11 +9,6 @@ use Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver as TestedM
 use Spy\Timeline\ResolveComponent\TestHelper\User;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
-/**
- * Test file for Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- */
 class DoctrineComponentDataResolver extends Test
 {
     public function testObjectManagedByDoctrine()

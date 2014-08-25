@@ -4,11 +4,6 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
-/**
- * VisitorInterface
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 interface VisitorInterface
 {
     /**

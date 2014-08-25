@@ -10,9 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * This command will deploy each actions (see limit option) which
  * has PUBLISHED on status_wanted.
- *
- * @uses ContainerAwareCommand
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class DeployActionCommand extends ContainerAwareCommand
 {
@@ -28,8 +25,10 @@ class DeployActionCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface  $input  input variable
+     * @param InputInterface $input input variable
      * @param OutputInterface $output output variable
+     *
+     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

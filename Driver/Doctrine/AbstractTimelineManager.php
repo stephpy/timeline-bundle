@@ -8,11 +8,6 @@ use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 
-/**
- * AbstractTimelineManager
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class AbstractTimelineManager
 {
     /**

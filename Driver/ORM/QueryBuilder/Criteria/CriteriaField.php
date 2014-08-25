@@ -5,11 +5,6 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder;
 
-/**
- * CriteriaField
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class CriteriaField
 {
     /**

@@ -8,9 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * This command will show all services which are defined as spread.
- *
- * @uses ContainerAwareCommand
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class SpreadListCommand extends ContainerAwareCommand
 {

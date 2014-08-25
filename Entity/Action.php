@@ -5,12 +5,6 @@ namespace Spy\TimelineBundle\Entity;
 use Spy\Timeline\Model\Action as BaseAction;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * Action entity for Doctrine ORM.
- *
- * @uses BaseAction
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class Action extends BaseAction
 {
     /**

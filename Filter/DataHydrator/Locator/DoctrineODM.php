@@ -5,12 +5,6 @@ namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-/**
- * DoctrineODM
- *
- * @uses LocatorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class DoctrineODM implements LocatorInterface
 {
     /**

@@ -10,9 +10,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  *
  * This compiler pass makes it possible to define locators in the config and as tagged services.
  * See https://github.com/stephpy/TimelineBundle/issues/125
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class AddLocatorCompilerPass implements CompilerPassInterface
 {

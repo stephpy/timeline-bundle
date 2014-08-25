@@ -6,12 +6,6 @@ use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 
-/**
- * DoctrineORM
- *
- * @uses LocatorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class DoctrineORM implements LocatorInterface
 {
     /**

@@ -6,12 +6,6 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
- * Configuration
- *
- * @uses ConfigurationInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -46,7 +40,8 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
 
         $this->addFilterSection($rootNode);
         $this->addSpreadSection($rootNode);
@@ -190,7 +185,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     protected function addQueryBuilderSection($rootNode)
@@ -216,7 +212,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     protected function addFilterSection($rootNode)
@@ -247,7 +244,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     protected function addSpreadSection($rootNode)
@@ -265,7 +263,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('delivery')->defaultValue('immediate')->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     protected function addRenderSection($rootNode)
@@ -295,7 +294,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     protected function addResolveComponentSection(ArrayNodeDefinition $rootNode)
@@ -308,6 +308,7 @@ class Configuration implements ConfigurationInterface
                        ->scalarNode('resolver')->defaultValue('spy_timeline.resolve_component.doctrine')->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

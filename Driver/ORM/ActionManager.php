@@ -10,13 +10,6 @@ use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * ActionManager
- *
- * @uses AbstractActionManager
- * @uses ActionManagerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class ActionManager extends AbstractActionManager implements ActionManagerInterface
 {
     /**
@@ -184,9 +177,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             $c++;
         }
 
-        return $qb->leftJoin('a.actionComponents', 'ac')
-        ;
-
+        return $qb->leftJoin('a.actionComponents', 'ac');
     }
 
     protected function getComponentRepository()
@@ -203,6 +194,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
     {
         return $this->objectManager
             ->getRepository($this->actionClass)
-            ->createQueryBuilder('a');
+            ->createQueryBuilder('a')
+        ;
     }
 }

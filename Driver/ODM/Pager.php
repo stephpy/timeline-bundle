@@ -5,12 +5,6 @@ namespace Spy\TimelineBundle\Driver\ODM;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
-/**
- * Pager
- *
- * @uses PagerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**

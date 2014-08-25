@@ -8,11 +8,6 @@ use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass as TestedModel;
 use Spy\Timeline\Filter\DataHydrator;
 
-/**
- * Class AddLocatorCompilerPass
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- */
 class AddLocatorCompilerPass extends Test
 {
     public function testProcess()

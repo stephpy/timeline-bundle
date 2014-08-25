@@ -10,12 +10,6 @@ use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddComponentDataResolver;
 
-/**
- * Class SpyTimelineBundle
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- */
 class SpyTimelineBundle extends Test
 {
     public function testBuild()

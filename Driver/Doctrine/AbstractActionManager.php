@@ -9,11 +9,6 @@ use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 
-/**
- * The abstract action manager for doctrine.
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 abstract class AbstractActionManager extends BaseActionManager
 {
     /**

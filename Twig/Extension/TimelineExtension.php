@@ -8,8 +8,6 @@ use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
 use \Twig_TemplateInterface;
 
 /**
- * Twig extension
- *
  * "timeline_render" -> renders a timeline by getting the path of twig
  * templates from config. Then, calls PATH/VERB.html.twig
  *
