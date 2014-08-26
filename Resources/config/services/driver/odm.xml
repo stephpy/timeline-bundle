@@ -17,7 +17,6 @@
             <argument type="service" id="spy_timeline.result_builder" />
             <argument>%spy_timeline.class.timeline%</argument>
         </service>
-
         <service id="spy_timeline.action_manager.odm" class="%spy_timeline.action_manager.odm.class%">
             <argument type="service" id="spy_timeline.driver.object_manager" />
             <argument type="service" id="spy_timeline.result_builder" />
@@ -25,9 +24,7 @@
             <argument>%spy_timeline.class.component%</argument>
             <argument>%spy_timeline.class.action_component%</argument>
         </service>
-
         <service id="spy_timeline.pager.odm" class="%spy_timeline.pager.odm.class%" public="false" />
         <service id="spy_timeline.query_executor.odm" class="%spy_timeline.query_executor.odm.class%" public="false" />
     </services>
-
 </container>

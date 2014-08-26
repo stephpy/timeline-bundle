@@ -5,13 +5,9 @@
                   http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
     <mapped-superclass name="Spy\TimelineBundle\Document\Timeline">
-
         <field name="context" fieldName="context" type="string" />
-
         <field name="type" fieldName="type" type="string"  />
-
         <field name="createdAt" fieldName="createdAt" type="date" />
-
         <indexes>
             <index>
                 <key name="context" order="asc" />
@@ -20,7 +16,5 @@
                 <key name="createdAt" order="asc" />
             </index>
         </indexes>
-
     </mapped-superclass>
-
 </doctrine-mongo-mapping>

@@ -18,7 +18,6 @@
             <argument>%spy_timeline.driver.redis.prefix%</argument>
             <argument>%spy_timeline.driver.redis.pipeline%</argument>
         </service>
-
         <service id="spy_timeline.action_manager.redis" class="%spy_timeline.action_manager.redis.class%">
             <argument type="service" id="spy_timeline.driver.redis.client" />
             <argument type="service" id="spy_timeline.result_builder" />
@@ -27,22 +26,18 @@
             <argument>%spy_timeline.class.component%</argument>
             <argument>%spy_timeline.class.action_component%</argument>
         </service>
-
         <service id="spy_timeline.pager.redis" class="%spy_timeline.pager.redis.class%" public="false">
             <argument type="service" id="spy_timeline.driver.redis.client" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
         </service>
-
         <service id="spy_timeline.pager.redis.knp_subscriber" class="Spy\Timeline\Driver\Redis\Pager\KnpSubscriber">
             <tag name="knp_paginator.subscriber" />
             <argument type="service" id="spy_timeline.driver.redis.client" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
         </service>
-
         <service id="spy_timeline.query_executor.redis" class="%spy_timeline.query_executor.redis.class%" public="false">
             <argument type="service" id="spy_timeline.driver.redis.client" />
             <argument>%spy_timeline.driver.redis.prefix%</argument>
         </service>
     </services>
-
 </container>

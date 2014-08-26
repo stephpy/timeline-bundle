@@ -22,7 +22,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -39,7 +40,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $status)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
 
     /**
@@ -63,7 +65,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->leftJoin('ac.component', 'c')
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
-            ->setParameter('status', $options['status']);
+            ->setParameter('status', $options['status'])
+        ;
 
         return $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
     }
@@ -84,7 +87,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('identifier', serialize($resolvedComponentData->getIdentifier()))
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
 
         if ($component) {
             $component->setData($resolvedComponentData->getData());
@@ -106,7 +109,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('hash', $hash)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     /**
@@ -122,10 +125,11 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->createQueryBuilder('c');
 
         return $qb->where(
-            $qb->expr()->in('c.hash', $hashes)
-        )
-        ->getQuery()
-        ->getResult();
+                $qb->expr()->in('c.hash', $hashes)
+            )
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     protected function getQueryBuilderForSubject(ComponentInterface $subject)

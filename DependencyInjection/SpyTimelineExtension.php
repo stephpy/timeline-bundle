@@ -57,7 +57,6 @@ class SpyTimelineExtension extends Extension
         $container->setAlias('spy_timeline.action_manager', $actionManager);
 
         // pager
-
         if (isset($config['paginator']) && !empty($config['paginator'])) {
             $paginator = $config['paginator'];
         } else {
@@ -89,7 +88,6 @@ class SpyTimelineExtension extends Extension
         }
 
         // result builder
-
         $definition = $container->getDefinition('spy_timeline.result_builder');
         $definition->addArgument($container->getDefinition(sprintf('spy_timeline.query_executor.%s', $driver)));
         $definition->addArgument($filterManager);
@@ -126,11 +124,11 @@ class SpyTimelineExtension extends Extension
         $container->setParameter('spy_timeline.query_builder.asserter.class', $queryBuilder['classes']['asserter']);
         $container->setParameter('spy_timeline.query_builder.operator.class', $queryBuilder['classes']['operator']);
 
-        //resolve_component
+        // resolve_component
         $resolveComponent = $config['resolve_component'];
         $container->setAlias('spy_timeline.resolve_component.resolver', $resolveComponent['resolver']);
 
-        //sets a parameter which we use in the addRegistryCompilerPass (there should be a cleaner way)
+        // sets a parameter which we use in the addRegistryCompilerPass (there should be a cleaner way)
         if ($resolveComponent['resolver'] === 'spy_timeline.resolve_component.doctrine') {
             $container->setParameter('spy_timeline.resolve_component.doctrine_registries', true);
         }

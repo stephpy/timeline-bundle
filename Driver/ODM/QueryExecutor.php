@@ -22,10 +22,10 @@ class QueryExecutor implements QueryExecutorInterface
 
             $target
                 ->skip($skip)
-                ->limit($limit);
+                ->limit($limit)
+            ;
         }
 
-        return $target->getQuery()
-            ->execute();
+        return $target->getQuery()->execute();
     }
 }

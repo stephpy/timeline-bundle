@@ -14,21 +14,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeployActionCommand extends ContainerAwareCommand
 {
     /**
-     * configure command
+     * {@inheritdoc}
      */
     protected function configure()
     {
         $this
             ->setName('spy_timeline:deploy')
             ->setDescription('Deploy on spreads for waiting action')
-            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'How many actions will be deployed', 200);
+            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'How many actions will be deployed', 200)
+        ;
     }
 
     /**
-     * @param InputInterface $input input variable
-     * @param OutputInterface $output output variable
-     *
-     * @return int|null|void
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

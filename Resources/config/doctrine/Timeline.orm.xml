@@ -5,13 +5,8 @@
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <mapped-superclass name="Spy\TimelineBundle\Entity\Timeline" table="spy_timeline">
-
         <field name="context" column="context" type="string" />
-
         <field name="type" column="type" type="string"  />
-
         <field name="createdAt" column="created_at" type="datetime" />
-
     </mapped-superclass>
-
 </doctrine-mapping>
