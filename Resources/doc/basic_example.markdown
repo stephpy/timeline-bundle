@@ -102,7 +102,8 @@ public function myAction()
 
     $timeline = $timelineManager->getTimeline($subject);
 
-    $countEntries = $timelineManager->countEntries($subject);
+    $countEntries = $timelineManager->countEntries($subject); 
+    //this method does not exist, need a update?
 
     return array('coll' => $timeline);
 }
