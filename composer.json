@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "atoum/atoum-bundle": "dev-master",
+        "atoum/atoum": "dev-master",
         "doctrine/orm": "2.*",
         "symfony/console": "2.*",
         "symfony/twig-bundle": "2.*"
