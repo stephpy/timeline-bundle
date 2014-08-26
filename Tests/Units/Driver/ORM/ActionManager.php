@@ -9,11 +9,6 @@ use Spy\TimelineBundle\Driver\ORM\ActionManager as TestedModel;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
-/**
- * Test file for Spy\TimelineBundle\Driver\ORM\ActionManager
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- */
 class ActionManager extends Test
 {
     public function testCreateComponent()

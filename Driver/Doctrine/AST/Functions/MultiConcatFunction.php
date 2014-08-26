@@ -7,11 +7,6 @@ use Doctrine\ORM\Query\Lexer;
 
 /**
  * "MULTI_CONCAT" "(" StringPrimary "," StringPrimary "," ......")"
- *
- * MultiConcatFunction
- *
- * @uses FunctionNode
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class MultiConcatFunction extends FunctionNode
 {

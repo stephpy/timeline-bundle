@@ -5,15 +5,8 @@ namespace Spy\TimelineBundle\Driver\ODM;
 use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 use Doctrine\ODM\MongoDB\Query\Builder;
 
-/**
- * QueryExecutor
- *
- * @uses QueryExecutorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class QueryExecutor implements QueryExecutorInterface
 {
-
     /**
      * {@inheritdoc}
      */

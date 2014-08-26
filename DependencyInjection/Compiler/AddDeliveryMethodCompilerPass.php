@@ -5,11 +5,6 @@ namespace Spy\TimelineBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-/**
- * Class DeliveryMethodCompilerPass
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class AddDeliveryMethodCompilerPass implements CompilerPassInterface
 {
     /**
@@ -17,7 +12,7 @@ class AddDeliveryMethodCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        //we only do a call if the delivery method is immediate.
+        // we only do a call if the delivery method is immediate.
         if ($container->getParameter('spy_timeline.spread.deployer.delivery') !== "immediate") {
             return;
         }

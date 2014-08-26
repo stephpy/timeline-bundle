@@ -5,12 +5,6 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
-/**
- * AsserterVisitor
- *
- * @uses VisitorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class AsserterVisitor implements VisitorInterface
 {
     /**

@@ -9,13 +9,6 @@ use Spy\Timeline\Model\TimelineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
 
-/**
- * TimelineManager
- *
- * @uses AbstractTimelineManager
- * @uses TimelineManagerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {
     /**
@@ -72,7 +65,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
 
         return (int) $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->getQuery()
-            ->count();
+            ->count()
+        ;
     }
 
     /**
@@ -92,7 +86,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->field('action.id')->equals($actionId)
             ->remove()
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
     }
 
     /**
@@ -111,7 +106,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->remove()
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
     }
 
     /**
@@ -141,6 +137,6 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->field('type')->equals($type)
             ->field('context')->equals($context)
             ->field('subject.id')->equals($subject->getId())
-            ;
+        ;
     }
 }

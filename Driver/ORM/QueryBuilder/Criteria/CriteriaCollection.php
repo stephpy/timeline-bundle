@@ -4,11 +4,6 @@ namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria;
 
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 
-/**
- * CriteriaCollection
- *
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class CriteriaCollection implements \IteratorAggregate
 {
     /**
@@ -41,7 +36,7 @@ class CriteriaCollection implements \IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {

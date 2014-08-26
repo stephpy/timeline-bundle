@@ -8,13 +8,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityNotFoundException;
 use Spy\Timeline\Model\ComponentInterface;
 
-/**
- * PostLoadListener
- *
- * @uses EventSubscriber
- * @author Francisco Facioni <fran6co@gmail.com>
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class PostLoadListener implements EventSubscriber
 {
     /**

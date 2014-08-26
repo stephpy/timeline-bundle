@@ -5,14 +5,6 @@ namespace Spy\TimelineBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-/**
- * AddRegistryCompilerPass
- *
- * @uses   CompilerPassInterface
- *
- * @author Emmanuel Vella <vella.emmanuel@gmail.com>
- * @author Michiel Boeckaert<boeckaert@gmail.com>
- */
 class AddRegistryCompilerPass implements CompilerPassInterface
 {
     /**

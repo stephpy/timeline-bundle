@@ -27,5 +27,4 @@ class TimelineActionThemeNode extends \Twig_Node
 
         $compiler->raw("));\n");
     }
-
 }

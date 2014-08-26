@@ -8,13 +8,6 @@ use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * ActionManager
- *
- * @uses AbstractActionManager
- * @uses ActionManagerInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class ActionManager extends AbstractActionManager implements ActionManagerInterface
 {
     /**
@@ -27,7 +20,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->field('statusWanted')->equals(ActionInterface::STATUS_PUBLISHED)
             ->limit($limit)
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
     }
 
     /**
@@ -43,7 +37,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->field('statusCurrent')->equals($status)
             ->eagerCursor(true)
             ->getQuery()
-            ->count();
+            ->count()
+        ;
     }
 
     /**
@@ -82,7 +77,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->field('model')->equals($resolvedComponentData->getModel())
             ->field('identifier')->equals($resolvedComponentData->getIdentifier())
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()
+        ;
 
         if ($component) {
             $component->setData($resolvedComponentData->getData());
@@ -103,7 +99,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->createQueryBuilder('c')
             ->field('hash')->equals($hash)
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()
+        ;
     }
 
     /**
@@ -116,7 +113,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->createQueryBuilder('c')
             ->field('hash')->in($hashes)
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
     }
 
     protected function getQueryBuilderForSubject(ComponentInterface $subject)
@@ -125,6 +123,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->getRepository($this->actionClass)
             ->createQueryBuilder('a')
             ->field('subject.id')->equals($subject->getId())
-            ;
+        ;
     }
 }

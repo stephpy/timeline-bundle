@@ -9,9 +9,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
 /**
- * Class DoctrineComponentDataResolver
- *
- *
  * When model is a string:
  * - it uses the given model string as model and the given identifier as identifier
  *
@@ -21,10 +18,6 @@ use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
  * - If there is no class meta data
  * - it uses the get_class function to retrieve the model string name
  * - it uses the getId method for the object to try and retrieve the identifier
- *
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class DoctrineComponentDataResolver implements ComponentDataResolverInterface
 {

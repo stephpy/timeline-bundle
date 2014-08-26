@@ -7,11 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Adds the component data resolver to the action manager.
- *
- * @uses CompilerPassInterface
- *
- * @author Michiel Boeckaert <boeckaert@gmail.com>
- * @author Stephane PY <py.stephane1@gmail.com>
  */
 class AddComponentDataResolver implements CompilerPassInterface
 {

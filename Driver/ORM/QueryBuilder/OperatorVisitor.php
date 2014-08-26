@@ -6,12 +6,6 @@ use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
-/**
- * OperatorVisitor
- *
- * @uses VisitorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class OperatorVisitor implements VisitorInterface
 {
     /**

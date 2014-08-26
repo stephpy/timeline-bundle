@@ -6,12 +6,6 @@ use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-/**
- * QueryExecutor
- *
- * @uses QueryExecutorInterface
- * @author Stephane PY <py.stephane1@gmail.com>
- */
 class QueryExecutor implements QueryExecutorInterface
 {
     /**
@@ -19,6 +13,7 @@ class QueryExecutor implements QueryExecutorInterface
      * @param int   $page       page
      * @param int   $maxPerPage maxPerPage
      *
+     * @throws \Exception
      * @return \Traversable
      */
     public function fetch($query, $page = 1, $maxPerPage = 10)

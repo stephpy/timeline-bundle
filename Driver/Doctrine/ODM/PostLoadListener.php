@@ -8,12 +8,6 @@ use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use Spy\Timeline\Model\ComponentInterface;
 
-/**
- * PostLoadListener
- *
- * @uses EventSubscriber
- * @author Emmanuel Vella <vella.emmanuel@@gmail.com>
- */
 class PostLoadListener implements EventSubscriber
 {
     /**
