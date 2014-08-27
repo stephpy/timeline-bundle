@@ -122,6 +122,6 @@ In your template .twig:
 {% endfor %}
 ```
 
-Look at [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
+Look at [renderer](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
 
 If you have any questions, feel free to create an issue or contact us.

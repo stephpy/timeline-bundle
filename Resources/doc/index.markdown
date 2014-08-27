@@ -3,14 +3,14 @@ SpyTimelineBundle
 
 See for more informations:
 
-- [installation](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/install.markdown)
-- [query_builder](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/query_builder.markdown)
-- [filter](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/filter.markdown)
-- [notification](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/notification.markdown)
-- [pagination](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/pagination.markdown)
-- [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown)
-- [spread](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/spread.markdown)
-- [basic_example](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/basic_example.markdown)
+- [installation](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/install.markdown)
+- [query_builder](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/query_builder.markdown)
+- [filter](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/filter.markdown)
+- [notification](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/notification.markdown)
+- [pagination](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/pagination.markdown)
+- [renderer](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/renderer.markdown)
+- [spread](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/spread.markdown)
+- [basic_example](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/basic_example.markdown)
 
 # How it works ?
 

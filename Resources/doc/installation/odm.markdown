@@ -150,4 +150,4 @@ class ActionComponent extends BaseActionComponent
 
 That's all
 
-[index](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/index.markdown)
+[index](https://github.com/stephpy/timeline-bundle/blob/master/Resources/doc/index.markdown)

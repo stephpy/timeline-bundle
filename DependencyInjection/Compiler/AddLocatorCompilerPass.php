@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * Adds a method call AddLocator to the hydrator service for the registered locator services.
  *
  * This compiler pass makes it possible to define locators in the config and as tagged services.
- * See https://github.com/stephpy/TimelineBundle/issues/125
+ * See https://github.com/stephpy/timeline-bundle/issues/125
  */
 class AddLocatorCompilerPass implements CompilerPassInterface
 {

@@ -53,7 +53,7 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
                     $getMethod = sprintf('get%s', ucfirst($field));
                     $value = (string) $model->{$getMethod}();
 
-                    //Do not use it: https://github.com/stephpy/TimelineBundle/issues/59
+                    //Do not use it: https://github.com/stephpy/timeline-bundle/issues/59
                     //$value = (string) $metadata->reflFields[$field]->getValue($model);
 
                     if (empty($value)) {
