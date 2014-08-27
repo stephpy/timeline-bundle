@@ -124,8 +124,8 @@ $qb->field('createdAt')->like('%'.$value);
 $qb->field('createdAt')->notLike($value.'%');
 $qb->field('createdAt')->lt($value); // lower than
 $qb->field('createdAt')->lte($value); // lower than equals
-$qb->field('createdAt')->gt($value); // greather than
-$qb->field('createdAt')->gte($value); // greather than equals
+$qb->field('createdAt')->gt($value); // greater than
+$qb->field('createdAt')->gte($value); // greater than equals
 ```
 
 ## Fetch results
