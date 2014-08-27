@@ -102,7 +102,11 @@ public function myAction()
 
     $timeline = $timelineManager->getTimeline($subject);
 
-    $countEntries = $timelineManager->countEntries($subject);
+    // count entries before filtering process.
+    $count = $timelineManager->countKeys($subject);
+
+    // count entries after filtering process.
+    $count = count($timeline);
 
     return array('coll' => $timeline);
 }
