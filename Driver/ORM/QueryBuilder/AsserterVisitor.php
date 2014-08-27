@@ -21,8 +21,7 @@ class AsserterVisitor implements VisitorInterface
             throw new \Exception('AsserterVisitor accepts only Asserter instance');
         }
 
-        $this->dql = $criteriaCollection->addFromAsserter($asserter)
-            ->getDql();
+        $this->dql = $criteriaCollection->addFromAsserter($asserter)->getDql();
     }
 
     /**

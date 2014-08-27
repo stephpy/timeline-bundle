@@ -11,5 +11,4 @@
         <service id="spy_timeline.resolve_component.doctrine" class="%spy_timeline.resolve_component.doctrine.class%" />
         <service id="spy_timeline.resolve_component.basic" class="%spy_timeline.resolve_component.basic.class%" />
     </services>
-
 </container>

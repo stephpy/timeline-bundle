@@ -5,11 +5,7 @@
                   http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
     <mapped-superclass name="Spy\TimelineBundle\Document\ActionComponent">
-
         <field name="type" fieldName="type" type="string" />
-
         <field name="text" fieldName="text" type="string" />
-
     </mapped-superclass>
-
 </doctrine-mongo-mapping>

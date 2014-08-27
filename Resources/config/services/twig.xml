@@ -16,5 +16,4 @@
             <argument>%spy_timeline.twig.resources%</argument>
         </service>
     </services>
-
 </container>

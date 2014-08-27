@@ -54,7 +54,8 @@ class QueryBuilder extends BaseQueryBuilder
         $qb = $this->objectManager
             ->getRepository($this->actionClass)
             ->createQueryBuilder('action')
-            ->select('action');
+            ->select('action')
+        ;
 
         if ($this->getSubjects()) {
             $this->filterSubjects($qb);
@@ -118,7 +119,7 @@ class QueryBuilder extends BaseQueryBuilder
             ->innerJoin('action.timelines', 'timeline')
             ->andWhere('timeline.subject IN (:subjectIds)')
             ->setParameter('subjectIds', $ids)
-            ;
+        ;
     }
 
     /**

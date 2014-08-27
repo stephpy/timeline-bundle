@@ -2,6 +2,7 @@
 
 namespace Spy\TimelineBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Spy\Timeline\Model\Action as BaseAction;
 use Spy\Timeline\Model\ComponentInterface;
 
@@ -10,13 +11,13 @@ class Action extends BaseAction
     protected $subject;
 
     /**
-     * actionComponents has to be a doctrine common collection.
+     * actionComponents property has to be a doctrine common collection.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->actionComponents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actionComponents = new ArrayCollection();
     }
 
     /**
