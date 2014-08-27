@@ -40,8 +40,12 @@ class AddLocatorCompilerPass implements CompilerPassInterface
     private function getLocatorDefinitionsFromParameter(ContainerBuilder $container)
     {
         $data = array();
+        $locatorServiceIdArray = array();
+
         //get the config array from the parameter.
-        $locatorServiceIdArray = $container->getParameter('spy_timeline.filter.data_hydrator.locators_config');
+        if (!$container->hasParameter('spy_timeline.filter.data_hydrator.locators_config')) {
+            $locatorServiceIdArray = $container->getParameter('spy_timeline.filter.data_hydrator.locators_config');
+        }
 
         if ($this->validConfigLocators($locatorServiceIdArray)) {
             foreach ($locatorServiceIdArray as $serviceId) {
