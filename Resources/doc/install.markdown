@@ -7,7 +7,7 @@ Add this to your composer.json
 Please, prefer a tagged version from [here](https://packagist.org/packages/stephpy/TimelineBundle)
 
 ```
-"stephpy/TimelineBundle": "dev-master"
+"stephpy/timeline-bundle": "dev-master"
 ```
 
 Then
