@@ -39,7 +39,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->innerJoin('t.action', 'a')
             ->leftJoin('a.actionComponents', 'ac')
             ->leftJoin('ac.component', 'c')
-            ->orderBy('t.createdAt', 'DESC');
+            ->orderBy('t.createdAt', 'DESC')
+        ;
 
         $results = $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
 
@@ -75,7 +76,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         return (int) $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
             ->select('COUNT(t)')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
 
     /**
@@ -95,7 +97,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->andWhere('t.action = :action')
             ->setParameter('action', $actionId)
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()
+        ;
 
         $this->objectManager->remove($timeline);
         // $manager->flush() handled by flush() method

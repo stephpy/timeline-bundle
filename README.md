@@ -16,6 +16,6 @@ There is also a notification system, you can easily know how many unread notific
 Launch tests:
 
 ```
-composer install
+composer install -n
 bin/atoum -d Tests/Units
 ```

@@ -1,15 +1,11 @@
 {
     "name": "stephpy/timeline-bundle",
-    "replace": {"stephpy/TimelineBundle": "self.version"},
     "description": "Symfony2 bundle to make timeline",
     "keywords": ["timeline", "notification", "symfony", "bundle"],
     "type": "symfony-bundle",
     "homepage": "https://github.com/stephpy/TimelineBundle",
     "license": "MIT",
     "authors": [{
-        "name": "Stéphane PY",
-        "email": "py.stephane1@gmail.com"
-    },{
         "name": "Community contributors",
         "homepage": "https://github.com/stephpy/TimelineBundle/contributors"
     }],

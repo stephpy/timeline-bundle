@@ -1,6 +1,6 @@
 # Filters
 
-Filters will apply modificaiton to collection of actions.
+Filters will apply modification to collection of actions.
 
 This bundle is provided with 2 filters, **DuplicateKey** and **DataHydrator**
 
@@ -11,7 +11,7 @@ Imagine this use case:
     \Entity\User | 1 | friend | \Entity\User | 2
     \Entity\User | 2 | friend | \Entity\User | 1
 
-You may not want to show on your page these two identicals actions. By this way, you have **duplicateKey** field.
+You may not want to show on your page these two identical actions. By this way, you have **duplicateKey** field.
 
 When you'll create these two TimelineActions, define a same DuplicateKey .
 

@@ -1,13 +1,13 @@
 # Basic example
 
 A demo application (orm driver) is available [here](https://github.com/stephpy/timeline-app).
-You can read this basic example and look at application to make it works.
+You can read this basic example and look at the application to make it work.
 
-This example explain how to have a simple Timeline with `GLOBAL` context.
+This example explains how to have a simple Timeline with `GLOBAL` context.
 
 ##Context:
 
-`Chuck norris` just control `the world`. All world resident have to be informed about that !!!!!!!!!
+`Chuck norris` just controls `the world`. All world residents have to be informed about that!
 
 
 ## First step
@@ -38,7 +38,7 @@ But at this moment there is no spread for this action, the timeline action will 
 Define your Spread.
 
 Define the service `Acme\MyBundle\Resource\config\services.xml`:
-Look at [documentation](http://symfony.com/doc/current/book/service_container.html) to know how to do.
+Look at [documentation](http://symfony.com/doc/current/book/service_container.html) to know how to do it.
 
 ```xml
 <service id="my_spread" class="Acme\MyBundle\Spread\MySpread">
@@ -65,9 +65,9 @@ class MySpread implements SpreadInterface
         // here you define what actions you want to support, you have to return a boolean.
         if ($action->getSubject()->getName() == "ChuckNorris") {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function process(ActionInterface $action, EntryCollection $coll)
@@ -88,7 +88,7 @@ class MySpread implements SpreadInterface
 
 ## Third step
 
-It's ok, now you can get timeline actions for each users
+It's ok, now you can get timeline actions for each user
 
 In your controller:
 
@@ -115,10 +115,9 @@ In your template .twig:
     {{ timeline_render(action) }}
     {# i18n ? #}
     {{ i18n_timeline_render(timeline, 'en') }}
-
 {% endfor %}
 ```
 
 Look at [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
 
-If you have any question, feel free to create an issue or contact us.
+If you have any questions, feel free to create an issue or contact us.

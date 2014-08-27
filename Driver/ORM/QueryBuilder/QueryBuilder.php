@@ -162,7 +162,7 @@ class QueryBuilder extends BaseQueryBuilder
                     $qb
                         ->leftJoin('action.actionComponents', $actionComponentKey)
                         ->leftJoin(sprintf('%s.component', $actionComponentKey), $componentKey, Expr\Join::WITH, $criteria->getDql())
-                        ;
+                    ;
 
                     break;
             }

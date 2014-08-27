@@ -60,7 +60,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $qb = $this->getQueryBuilderForSubject($subject)
             ->sort('createdAt', 'desc')
             ->field('statusCurrent')->equals($options['status'])
-            ;
+        ;
 
         return $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
     }
