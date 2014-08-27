@@ -56,7 +56,7 @@ Add it to services
 
 
 ```xml
-<service id="my_service" class="MyClass">
+<service id="my_service" class="Acme\TimelineBundle\Spread">
     <tag name="spy_timeline.spread"/>
 </service>
 ```
