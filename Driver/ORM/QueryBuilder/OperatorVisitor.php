@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
-use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
-use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
+use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
+use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
 
 class OperatorVisitor implements VisitorInterface
 {

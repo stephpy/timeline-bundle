@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 
-use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 
 class DoctrineODM implements LocatorInterface
 {

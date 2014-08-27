@@ -2,12 +2,12 @@
 
 namespace Spy\TimelineBundle\Tests\Units\ResolveComponent;
 
-require_once __DIR__ . "/../../../vendor/autoload.php";
+require_once __DIR__."/../../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver as TestedModel;
 use Spy\Timeline\ResolveComponent\TestHelper\User;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class DoctrineComponentDataResolver extends Test
 {
@@ -24,16 +24,16 @@ class DoctrineComponentDataResolver extends Test
             ->and($classMetadata = new \Mock\ClassMetadata())
             ->and($managerRegistry = new \Mock\ManagerRegistry())
             ->and($objectManager = new \Mock\ObjectManager())
-            ->and($this->calling($managerRegistry)->getManagerForClass = function() use ($objectManager) {
+            ->and($this->calling($managerRegistry)->getManagerForClass = function () use ($objectManager) {
                 return $objectManager;
             })
-            ->and($this->calling($objectManager)->getClassMetadata = function() use ($classMetadata) {
+            ->and($this->calling($objectManager)->getClassMetadata = function () use ($classMetadata) {
                 return $classMetadata;
             })
-            ->and($this->calling($classMetadata)->getIdentifier = function() { return array('id');
+            ->and($this->calling($classMetadata)->getIdentifier = function () { return array('id');
 
             })
-            ->and($this->calling($classMetadata)->getName= function () {
+            ->and($this->calling($classMetadata)->getName = function () {
                 return 'Spy\Timeline\ResolveComponent\TestHelper\User';
 
             })
@@ -72,7 +72,6 @@ class DoctrineComponentDataResolver extends Test
     {
         $object = new \stdClass();
         $resolve = new ResolveComponentModelIdentifier($object);
-
 
         $this->if($this->mockClass('\Doctrine\Common\Persistence\ManagerRegistry', '\Mock'))
             ->and($managerRegistry = new \Mock\ManagerRegistry())

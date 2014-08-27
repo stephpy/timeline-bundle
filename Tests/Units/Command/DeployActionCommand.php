@@ -4,10 +4,10 @@ namespace Spy\TimelineBundle\Tests\Units\Command;
 
 require_once __DIR__."/../../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\Command\DeployActionCommand as TestedCommand;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class DeployActionCommand extends Test
 {
@@ -29,7 +29,7 @@ class DeployActionCommand extends Test
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array();
 
         $container = new \Mock\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
+        $container->getMockController()->get = function ($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;
             } elseif ($v == 'spy_timeline.spread.deployer') {
@@ -72,7 +72,7 @@ class DeployActionCommand extends Test
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array($action);
 
         $container = new \Mock\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
+        $container->getMockController()->get = function ($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;
             } elseif ($v == 'spy_timeline.spread.deployer') {

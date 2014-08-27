@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
-use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 
 class QueryExecutor implements QueryExecutorInterface
 {

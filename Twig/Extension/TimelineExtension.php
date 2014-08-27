@@ -2,9 +2,9 @@
 
 namespace Spy\TimelineBundle\Twig\Extension;
 
-use Spy\Timeline\Model\TimelineInterface;
-use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
+use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\TimelineInterface;
 use \Twig_TemplateInterface;
 
 /**

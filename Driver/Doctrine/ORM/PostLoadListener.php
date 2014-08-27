@@ -4,8 +4,8 @@ namespace Spy\TimelineBundle\Driver\Doctrine\ORM;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Mapping\MappingException;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Spy\Timeline\Model\ComponentInterface;
 
 class PostLoadListener implements EventSubscriber

@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Driver\ODM;
 
-use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Spy\Timeline\ResultBuilder\QueryExecutor\QueryExecutorInterface;
 
 class QueryExecutor implements QueryExecutorInterface
 {

@@ -4,8 +4,8 @@ namespace Spy\TimelineBundle\Driver\Doctrine\ODM;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Mapping\MappingException;
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ODM\MongoDB\DocumentNotFoundException;
+use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Spy\Timeline\Model\ComponentInterface;
 
 class PostLoadListener implements EventSubscriber

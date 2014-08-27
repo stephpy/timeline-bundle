@@ -6,8 +6,8 @@ use Spy\TimelineBundle\Driver\Doctrine\AbstractTimelineManager;
 use Spy\Timeline\Driver\TimelineManagerInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Spy\Timeline\ResultBuilder\Pager\PagerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimelineManager extends AbstractTimelineManager implements TimelineManagerInterface
 {

@@ -4,9 +4,9 @@ namespace Spy\TimelineBundle\Tests\Units\DependencyInjection;
 
 require_once __DIR__."/../../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\DependencyInjection\Configuration as ConfigurationTested;
 use Symfony\Component\Config\Definition\Processor;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class Configuration extends Test
 {

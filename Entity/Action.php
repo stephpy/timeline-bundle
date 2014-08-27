@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Entity;
 
-use Spy\Timeline\Model\Action as BaseAction;
 use Doctrine\Common\Collections\ArrayCollection;
+use Spy\Timeline\Model\Action as BaseAction;
 
 class Action extends BaseAction
 {

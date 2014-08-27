@@ -2,13 +2,13 @@
 
 namespace Spy\TimelineBundle\Tests\Units;
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once __DIR__."/../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
-use Spy\TimelineBundle\SpyTimelineBundle as TestedModel;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddComponentDataResolver;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
+use Spy\TimelineBundle\SpyTimelineBundle as TestedModel;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class SpyTimelineBundle extends Test
 {

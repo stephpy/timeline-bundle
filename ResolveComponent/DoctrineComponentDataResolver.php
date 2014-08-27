@@ -2,11 +2,11 @@
 
 namespace Spy\TimelineBundle\ResolveComponent;
 
-use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\Exception\ResolveComponentDataException;
 use Spy\Timeline\ResolveComponent\ComponentDataResolverInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
+use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 
 /**
  * When model is a string:
@@ -51,7 +51,7 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
                 $identifier = array();
                 foreach ($fields as $field) {
                     $getMethod = sprintf('get%s', ucfirst($field));
-                    $value = (string)$model->{$getMethod}();
+                    $value = (string) $model->{$getMethod}();
 
                     //Do not use it: https://github.com/stephpy/TimelineBundle/issues/59
                     //$value = (string) $metadata->reflFields[$field]->getValue($model);

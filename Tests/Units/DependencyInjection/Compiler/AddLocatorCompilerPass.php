@@ -2,11 +2,10 @@
 
 namespace Spy\TimelineBundle\Tests\Units\DependencyInjection\Compiler;
 
-require_once __DIR__ . "/../../../../vendor/autoload.php";
+require_once __DIR__."/../../../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass as TestedModel;
-use Spy\Timeline\Filter\DataHydrator;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class AddLocatorCompilerPass extends Test
 {
@@ -24,17 +23,16 @@ class AddLocatorCompilerPass extends Test
             ->and($containerBuilder = new \Mock\ContainerBuilder())
             ->and($definition = new \Mock\Definition())
             //it asks for the locators parameter
-            ->and($this->calling($containerBuilder)->getParameter = function($argument) use ($configLocators) {
-                switch($argument)
-                {
+            ->and($this->calling($containerBuilder)->getParameter = function ($argument) use ($configLocators) {
+                switch ($argument) {
                     case "spy_timeline.filter.data_hydrator.locators_config":
                         return $configLocators;
                 }
             })
-            ->and($this->calling($containerBuilder)->getDefinition = function() use ($definition) {
+            ->and($this->calling($containerBuilder)->getDefinition = function () use ($definition) {
                 return $definition;
             })
-            ->and($this->calling($containerBuilder)->findTaggedServiceIds = function() use ($taggedServicesResult) {
+            ->and($this->calling($containerBuilder)->findTaggedServiceIds = function () use ($taggedServicesResult) {
                 return $taggedServicesResult;
             })
             ->and($compiler = new TestedModel())

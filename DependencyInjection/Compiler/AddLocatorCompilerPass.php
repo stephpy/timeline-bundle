@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Adds a method call AddLocator to the hydrator service for the registered locator services.

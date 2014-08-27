@@ -2,13 +2,13 @@
 
 namespace Spy\TimelineBundle\Driver\ORM;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
+use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
+use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
-use Spy\Timeline\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
-use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActionManager extends AbstractActionManager implements ActionManagerInterface
 {

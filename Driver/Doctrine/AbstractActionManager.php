@@ -3,11 +3,11 @@
 namespace Spy\TimelineBundle\Driver\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Spy\Timeline\Model\ActionInterface;
-use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;
+use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
+use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 
 abstract class AbstractActionManager extends BaseActionManager
 {
@@ -20,7 +20,6 @@ abstract class AbstractActionManager extends BaseActionManager
      * @var ResultBuilderInterface
      */
     protected $resultBuilder;
-
 
     /**
      * @param ObjectManager          $objectManager        objectManager

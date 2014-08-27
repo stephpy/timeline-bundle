@@ -43,7 +43,7 @@ class AbstractTimelineManager
     public function createAndPersist(ActionInterface $action, ComponentInterface $subject, $context = 'GLOBAL', $type = TimelineInterface::TYPE_TIMELINE)
     {
         /** @var TimelineInterface $timeline */
-        $timeline = new $this->timelineClass;
+        $timeline = new $this->timelineClass();
 
         $timeline
             ->setType($type)

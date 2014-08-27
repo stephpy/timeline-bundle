@@ -18,7 +18,7 @@ class MultiConcatFunction extends FunctionNode
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
         $platform = $sqlWalker->getConnection()->getDatabasePlatform();
-        $strings = array_map(function($v) use ($sqlWalker) {
+        $strings = array_map(function ($v) use ($sqlWalker) {
             return $sqlWalker->walkStringPrimary($v);
         }, $this->strings);
 

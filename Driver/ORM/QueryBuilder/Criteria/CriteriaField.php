@@ -2,8 +2,8 @@
 
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria;
 
-use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder;
+use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 
 class CriteriaField
 {

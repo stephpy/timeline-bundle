@@ -2,10 +2,10 @@
 
 namespace Spy\TimelineBundle\Driver\ODM;
 
+use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
+use Spy\Timeline\Driver\ActionManagerInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
-use Spy\Timeline\Driver\ActionManagerInterface;
-use Spy\TimelineBundle\Driver\Doctrine\AbstractActionManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActionManager extends AbstractActionManager implements ActionManagerInterface

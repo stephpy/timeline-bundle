@@ -2,15 +2,15 @@
 
 namespace Spy\TimelineBundle\Driver\ORM\QueryBuilder;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Expr;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
-use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
+use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
-use Doctrine\Common\Persistence\ObjectManager;
+use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
+use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
-use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class QueryBuilder extends BaseQueryBuilder
 {
@@ -100,7 +100,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @param QueryBuilder $qb qb
+     * @param  QueryBuilder $qb qb
      * @throws \Exception
      */
     protected function filterSubjects($qb)

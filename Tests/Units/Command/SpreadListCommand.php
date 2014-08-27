@@ -4,10 +4,10 @@ namespace Spy\TimelineBundle\Tests\Units\Command;
 
 require_once __DIR__."/../../../vendor/autoload.php";
 
-use atoum\AtoumBundle\Test\Units\Test;
 use Spy\TimelineBundle\Command\SpreadListCommand as TestedCommand;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
+use atoum\AtoumBundle\Test\Units\Test;
 
 class SpreadListCommand extends Test
 {
@@ -26,7 +26,7 @@ class SpreadListCommand extends Test
         $deployer->getMockController()->getSpreads = array();
 
         $container = new \Mock\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($deployer) {
+        $container->getMockController()->get = function ($v) use ($deployer) {
             if ($v == 'spy_timeline.spread.deployer') {
                 return $deployer;
             }

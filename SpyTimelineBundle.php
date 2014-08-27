@@ -2,14 +2,14 @@
 
 namespace Spy\TimelineBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddRegistryCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
-use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddComponentDataResolver;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddFilterCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddRegistryCompilerPass;
+use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SpyTimelineBundle extends Bundle
 {
