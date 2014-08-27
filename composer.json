@@ -7,9 +7,6 @@
     "homepage": "https://github.com/stephpy/TimelineBundle",
     "license": "MIT",
     "authors": [{
-        "name": "Stéphane PY",
-        "email": "py.stephane1@gmail.com"
-    },{
         "name": "Community contributors",
         "homepage": "https://github.com/stephpy/TimelineBundle/contributors"
     }],

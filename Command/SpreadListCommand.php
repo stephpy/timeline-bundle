@@ -12,24 +12,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SpreadListCommand extends ContainerAwareCommand
 {
     /**
-     * configure command
+     * {@inheritdoc}
      */
     protected function configure()
     {
         $this
             ->setName('spy_timeline:spreads')
-            ->setDescription('Show list of spreads');
+            ->setDescription('Show list of spreads')
+        ;
     }
 
     /**
-     * @param InputInterface  $input  input variable
-     * @param OutputInterface $output output variable
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $spreads = $this->getContainer()
             ->get('spy_timeline.spread.deployer')
-            ->getSpreads();
+            ->getSpreads()
+        ;
 
         $output->writeln(sprintf('<info>There is %s timeline spread(s) defined</info>', count($spreads)));
 
