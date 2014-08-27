@@ -24,6 +24,13 @@ class AddLocatorCompilerPass extends Test
             ->and($containerBuilder = new \Mock\ContainerBuilder())
             ->and($definition = new \Mock\Definition())
             //it asks for the locators parameter
+            ->and($this->calling($containerBuilder)->hasParameter = function($argument) {
+                switch($argument)
+                {
+                    case "spy_timeline.filter.data_hydrator.locators_config":
+                        return true;
+                }
+            })
             ->and($this->calling($containerBuilder)->getParameter = function($argument) use ($configLocators) {
                 switch($argument)
                 {
