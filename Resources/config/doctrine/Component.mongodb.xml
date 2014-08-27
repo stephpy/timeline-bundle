@@ -5,13 +5,9 @@
                   http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
     <mapped-superclass name="Spy\TimelineBundle\Document\Component">
-
         <field name="model" fieldName="model" type="string" />
-
         <field name="identifier" fieldName="identifier" type="string" />
-
         <field name="hash" fieldName="hash" type="string" />
-
         <indexes>
             <index>
                 <key name="model" order="asc" />
@@ -21,7 +17,5 @@
                 <key name="hash" order="asc" />
             </index>
         </indexes>
-
     </mapped-superclass>
-
 </doctrine-mongo-mapping>

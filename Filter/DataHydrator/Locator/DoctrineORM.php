@@ -64,11 +64,13 @@ class DoctrineORM implements LocatorInterface
 
         $field = current($fields);
         $qb    = $objectManager->getRepository($model)
-            ->createQueryBuilder('r');
+            ->createQueryBuilder('r')
+        ;
 
         $results = $qb->where($qb->expr()->in(sprintf('r.%s', $field), $oids))
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         foreach ($results as $result) {
             $hash = $this->buildHashFromResult($metadata, $model, $result, $fields);
@@ -107,7 +109,8 @@ class DoctrineORM implements LocatorInterface
             // use string function
             ->where($qb->expr()->in(sprintf("MULTI_CONCAT(%s)", $concat), $oids))
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         foreach ($results as $result) {
             $hash = $this->buildHashFromResult($metadata, $model, $result, $fields);

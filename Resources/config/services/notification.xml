@@ -10,7 +10,5 @@
 		<service id="spy_timeline.unread_notifications" class="%spy_timeline.unread_notifications.class%">
             <argument type="service" id="spy_timeline.timeline_manager" />
         </service>
-
     </services>
-
 </container>

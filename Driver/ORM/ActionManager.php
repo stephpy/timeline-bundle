@@ -22,7 +22,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('status', ActionInterface::STATUS_PUBLISHED)
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -39,7 +40,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->andWhere('a.statusCurrent = :status')
             ->setParameter('status', $status)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
 
     /**
@@ -63,7 +65,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->leftJoin('ac.component', 'c')
             ->orderBy('a.createdAt', 'DESC')
             ->andWhere('a.statusCurrent = :status')
-            ->setParameter('status', $options['status']);
+            ->setParameter('status', $options['status'])
+        ;
 
         return $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
     }
@@ -73,7 +76,6 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
      */
     public function findOrCreateComponent($model, $identifier = null, $flush = true)
     {
-
         $resolvedComponentData = $this->resolveModelAndIdentifier($model, $identifier);
 
         $component = $this->getComponentRepository()
@@ -84,7 +86,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('identifier', serialize($resolvedComponentData->getIdentifier()))
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
 
         if ($component) {
             $component->setData($resolvedComponentData->getData());
@@ -106,7 +108,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->setParameter('hash', $hash)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     /**
@@ -118,8 +120,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             return array();
         }
 
-        $qb = $this->getComponentRepository()
-            ->createQueryBuilder('c');
+        $qb = $this->getComponentRepository()->createQueryBuilder('c');
 
         return $qb->where(
             $qb->expr()->in('c.hash', $hashes)
@@ -147,7 +148,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             $qb->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :component)');
         } else {
             $qb->innerJoin('a.actionComponents', 'ac2', Expr\Join::WITH, '(ac2.action = a AND ac2.component = :component and ac2.type = :type)')
-                ->setParameter('type', $type);
+                ->setParameter('type', $type)
+            ;
         }
 
         return $qb

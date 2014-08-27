@@ -42,7 +42,8 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
 
             $target
                 ->setFirstResult($offset)
-                ->setMaxResults($limit);
+                ->setMaxResults($limit)
+            ;
         }
 
         $paginator       = new Paginator($target, true);

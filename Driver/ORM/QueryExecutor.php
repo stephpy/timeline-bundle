@@ -27,7 +27,8 @@ class QueryExecutor implements QueryExecutorInterface
 
             $query
                 ->setFirstResult($offset)
-                ->setMaxResults($maxPerPage);
+                ->setMaxResults($maxPerPage)
+            ;
         }
 
         // use pager even if it's a query executor, to fix number of results returned issue.

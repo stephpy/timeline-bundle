@@ -7,17 +7,11 @@
     <mapped-superclass name="Spy\TimelineBundle\Document\Action">
 
         <field name="verb" fieldName="verb" type="string" />
-
         <field name="statusCurrent" fieldName="statusCurrent" type="string" />
-
         <field name="statusWanted" fieldName="statusWanted" type="string" />
-
         <field name="duplicateKey" fieldName="duplicateKey" type="string" />
-
         <field name="duplicatePriority" fieldName="duplicatePriority" type="int" />
-
         <field name="createdAt" fieldName="createdAt" type="date" />
-
         <indexes>
             <index>
                 <key name="subject" order="asc" />
@@ -33,7 +27,5 @@
                 <key name="createdAt" order="asc" />
             </index>
         </indexes>
-
     </mapped-superclass>
-
 </doctrine-mongo-mapping>

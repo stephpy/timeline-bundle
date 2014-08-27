@@ -14,20 +14,15 @@
 
     <services>
         <service id="spy_timeline.filter.manager" class="%spy_timeline.filter.manager.class%" />
-
         <!-- core filters -->
         <service id="spy_timeline.filter.duplicate_key" class="%spy_timeline.filter.duplicate_key.class%" />
-
         <service id="spy_timeline.filter.data_hydrator" class="%spy_timeline.filter.data_hydrator.class%" />
-
         <!--- locators -->
         <service id="spy_timeline.filter.data_hydrator.locator.doctrine_orm" class="%spy_timeline.filter.data_hydrator.locator.doctrine_orm.class%">
             <argument type="service" id="doctrine" on-invalid="null"/>
         </service>
-
         <service id="spy_timeline.filter.data_hydrator.locator.doctrine_odm" class="%spy_timeline.filter.data_hydrator.locator.doctrine_odm.class%">
             <argument type="service" id="doctrine_mongodb" on-invalid="null" />
         </service>
     </services>
-
 </container>
