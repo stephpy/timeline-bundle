@@ -3,11 +3,11 @@
     "description": "Symfony2 bundle to make timeline",
     "keywords": ["timeline", "notification", "symfony", "bundle"],
     "type": "symfony-bundle",
-    "homepage": "https://github.com/stephpy/TimelineBundle",
+    "homepage": "https://github.com/stephpy/timeline-bundle",
     "license": "MIT",
     "authors": [{
         "name": "Community contributors",
-        "homepage": "https://github.com/stephpy/TimelineBundle/contributors"
+        "homepage": "https://github.com/stephpy/timeline-bundle/contributors"
     }],
     "require": {
         "php": ">=5.3.2",
