@@ -30,7 +30,8 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
         $options = $resolver->resolve($options);
 
         $qb = $this->getBaseQueryBuilder($options['type'], $options['context'], $subject)
-            ->sort('createdAt desc, id desc')
+            ->sort('createdAt', 'desc')
+            ->sort('id', 'desc')
         ;
 
         $results = $this->resultBuilder->fetchResults($qb, $options['page'], $options['max_per_page'], $options['filter'], $options['paginate']);
