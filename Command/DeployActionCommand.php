@@ -50,6 +50,9 @@ class DeployActionCommand extends ContainerAwareCommand
                 $output->writeln(sprintf('<comment>Deploy action %s</comment>', $action->getId()));
             } catch (\Exception $e) {
                 $message = sprintf('[TIMELINE] Error during deploy action %s', $action->getId());
+                if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+                    $message .= sprintf('%s: %s', $message, $e->getMessage());
+                }
 
                 $container->get('logger')->crit($message);
                 $output->writeln(sprintf('<error>%s</error>', $message));
