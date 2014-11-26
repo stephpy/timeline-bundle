@@ -63,7 +63,7 @@ class MySpread implements SpreadInterface
     public function supports(ActionInterface $action)
     {
         // here you define what actions you want to support, you have to return a boolean.
-        if ($action->getSubject()->getName() == "ChuckNorris") {
+        if ($action->getSubject()->getIdentifier() == "chucknorris") {
             return true;
         }
 
