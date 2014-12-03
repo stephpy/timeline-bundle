@@ -361,10 +361,11 @@ class TimelineExtension extends \Twig_Extension
     /**
      * @param object      $action What Action to render
      * @param string|null $locale Locale of the template
+     * @param array       $variables Additional variables to pass to templates
      *
      * @return string
      */
-    public function renderLocalizedTimeline($action, $locale = null)
+    public function renderLocalizedTimeline($action, $locale = null, array $variables = array())
     {
         $action = $this->resolveAction($action, __METHOD__);
 
@@ -374,9 +375,9 @@ class TimelineExtension extends \Twig_Extension
 
         $template = $this->getDefaultLocalizedTemplate($action, $locale);
 
-        $parameters = array(
+        $parameters = array_merge($variables, array(
             'timeline' => $action,
-        );
+        ));
 
         try {
             return $this->twig->render($template, $parameters);

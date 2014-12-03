@@ -16,11 +16,11 @@ render:
 # This will try to call "AcmeBundle:Timeline:**verb**.html.twig
 # If exception, it return the fallback defined on config
 
-{{ timeline_render(entry, "your template") }}
+{{ timeline_render(entry, "your template", { 'some_var': some_value }) }}
 # This will try to call "your template"
 # If exception, it return the fallback defined on config
 
-{{ i18n_timeline_render(entry, "en") }}
+{{ i18n_timeline_render(entry, "en", { 'some_var': some_value }) }}
 # This will try to call "AcmeBundle:Timeline:**verb**.en.html.twig
 # If exception, it return the i18n fallback defined on config and then on global fallback
 ```
