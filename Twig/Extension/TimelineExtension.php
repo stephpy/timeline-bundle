@@ -112,10 +112,11 @@ class TimelineExtension extends \Twig_Extension
     /**
      * @param object      $action   What Action to render
      * @param string|null $template Force template path
+     * @param array       $variables Additional variables to pass to templates
      *
      * @return string
      */
-    public function renderTimeline($action, $template = null)
+    public function renderTimeline($action, $template = null, array $variables = array())
     {
         $action = $this->resolveAction($action, __METHOD__);
 
@@ -123,9 +124,9 @@ class TimelineExtension extends \Twig_Extension
             $template = $this->getDefaultTemplate($action);
         }
 
-        $parameters = array(
+        $parameters = array_merge($variables, array(
             'timeline' => $action,
-        );
+        ));
 
         try {
             return $this->twig->render($template, $parameters);
