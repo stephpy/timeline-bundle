@@ -5,7 +5,7 @@ namespace Spy\TimelineBundle\Twig\Extension;
 use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
-use \Twig_TemplateInterface;
+use Twig_TemplateInterface;
 
 /**
  * "timeline_render" -> renders a timeline by getting the path of twig
@@ -101,7 +101,7 @@ class TimelineExtension extends \Twig_Extension
     protected function resolveAction($entity, $method)
     {
         if ($entity instanceof ActionInterface) {
-            return $entity ;
+            return $entity;
         } elseif ($entity instanceof TimelineInterface) {
             return $entity->getAction();
         } else {
@@ -110,8 +110,8 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * @param object      $action   What Action to render
-     * @param string|null $template Force template path
+     * @param object      $action    What Action to render
+     * @param string|null $template  Force template path
      * @param array       $variables Additional variables to pass to templates
      *
      * @return string
@@ -201,7 +201,6 @@ class TimelineExtension extends \Twig_Extension
             $types = $this->varStack[$rendering]['types'];
             $this->varStack[$rendering]['variables'] = array_replace_recursive($componentVariables, $variables);
         } else {
-
             $types = array();
             // fallback to __toString of component.
             if ($component != 'action') {
@@ -216,7 +215,7 @@ class TimelineExtension extends \Twig_Extension
             }
 
             $typeIndex = count($types) - 1;
-            $this->varStack[$rendering] = array (
+            $this->varStack[$rendering] = array(
                 'variables' => array_replace_recursive($componentVariables, $variables),
                 'types'     => $types,
             );
@@ -228,7 +227,6 @@ class TimelineExtension extends \Twig_Extension
             $types[$typeIndex] .= '_component';
 
             if (isset($blocks[$types[$typeIndex]])) {
-
                 $this->varStack[$rendering]['typeIndex'] = $typeIndex;
 
                 $context = array_merge($twigGlobals, $this->varStack[$rendering]['variables']);
@@ -264,7 +262,6 @@ class TimelineExtension extends \Twig_Extension
         $action = $this->resolveAction($action, __METHOD__);
 
         if (!$this->blocks->contains($action)) {
-
             $templates = $this->resources;
 
             if ($this->themes->contains($action)) {
@@ -301,7 +298,7 @@ class TimelineExtension extends \Twig_Extension
 
         return vsprintf('%s:%s.html.twig', array(
                     $this->config['path'],
-                    strtolower($action->getVerb())
+                    strtolower($action->getVerb()),
                 ));
     }
 
@@ -354,13 +351,13 @@ class TimelineExtension extends \Twig_Extension
                     $this->config['path'],
                     $context,
                     strtolower($action->getVerb()),
-                    $format
+                    $format,
                 ));
     }
 
     /**
-     * @param object      $action What Action to render
-     * @param string|null $locale Locale of the template
+     * @param object      $action    What Action to render
+     * @param string|null $locale    Locale of the template
      * @param array       $variables Additional variables to pass to templates
      *
      * @return string
@@ -382,7 +379,6 @@ class TimelineExtension extends \Twig_Extension
         try {
             return $this->twig->render($template, $parameters);
         } catch (\Twig_Error_Loader $e) {
-
             if ($locale != $this->config['i18n_fallback'] && null !== $this->config['i18n_fallback']) {
                 $fallbackTemplate = $this->getDefaultLocalizedTemplate($action, $this->config['i18n_fallback']);
                 try {
@@ -415,7 +411,7 @@ class TimelineExtension extends \Twig_Extension
         return vsprintf('%s:%s.%s.html.twig', array(
             $this->config['path'],
             strtolower($action->getVerb()),
-            $locale
+            $locale,
         ));
     }
 

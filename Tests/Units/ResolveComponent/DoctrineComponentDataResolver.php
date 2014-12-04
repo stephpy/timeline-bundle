@@ -19,16 +19,16 @@ class DoctrineComponentDataResolver extends atoum\test
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
             ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
-            ->and($this->calling($managerRegistry)->getManagerForClass = function() use ($objectManager) {
+            ->and($this->calling($managerRegistry)->getManagerForClass = function () use ($objectManager) {
                 return $objectManager;
             })
-            ->and($this->calling($objectManager)->getClassMetadata = function() use ($classMetadata) {
+            ->and($this->calling($objectManager)->getClassMetadata = function () use ($classMetadata) {
                 return $classMetadata;
             })
-            ->and($this->calling($classMetadata)->getIdentifier = function() { return array('id');
+            ->and($this->calling($classMetadata)->getIdentifier = function () { return array('id');
 
             })
-            ->and($this->calling($classMetadata)->getName= function () {
+            ->and($this->calling($classMetadata)->getName = function () {
                 return 'Spy\Timeline\ResolveComponent\TestHelper\User';
 
             })
@@ -66,7 +66,6 @@ class DoctrineComponentDataResolver extends atoum\test
     {
         $object = new \stdClass();
         $resolve = new ResolveComponentModelIdentifier($object);
-
 
         $this->if($managerRegistry = new \mock\Doctrine\Common\Persistence\ManagerRegistry())
             ->and($resolver = new TestedModel())

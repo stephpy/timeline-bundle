@@ -55,7 +55,7 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode
             ->validate()
-                ->ifTrue(function($v) {
+                ->ifTrue(function ($v) {
                     if (!isset($v['drivers']) || count($v['drivers']) == 0) {
                         return !isset($v['timeline_manager']) || !isset($v['action_manager']);
                     }
@@ -65,7 +65,7 @@ class Configuration implements ConfigurationInterface
                 ->thenInvalid("Please define a driver or timeline_manager, action_manager")
             ->end()
             ->validate()
-                ->ifTrue(function($v) {
+                ->ifTrue(function ($v) {
                     return isset($v['drivers']) && isset($v['drivers']['redis']) && $v['spread']['delivery'] != 'immediate';
                 })
                 ->thenInvalid("Redis driver accepts only spread delivery immediate.")
@@ -73,7 +73,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('drivers')
                     ->validate()
-                        ->ifTrue(function($v) {
+                        ->ifTrue(function ($v) {
                             return count($v) > 1;
                         })
                         ->thenInvalid('Please define only one driver.')
@@ -285,8 +285,8 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('resources')
                             ->defaultValue(array('SpyTimelineBundle:Action:components.html.twig'))
                             ->validate()
-                                ->ifTrue(function($v) { return !in_array('SpyTimelineBundle:Action:components.html.twig', $v); })
-                                ->then(function($v){
+                                ->ifTrue(function ($v) { return !in_array('SpyTimelineBundle:Action:components.html.twig', $v); })
+                                ->then(function ($v) {
                                     return array_merge(array('SpyTimelineBundle:Action:components.html.twig'), $v);
                                 })
                             ->end()

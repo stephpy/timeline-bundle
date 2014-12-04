@@ -4,7 +4,6 @@ namespace Spy\TimelineBundle\Tests\Units\DependencyInjection\Compiler;
 
 use mageekguy\atoum;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass as TestedModel;
-use Spy\Timeline\Filter\DataHydrator;
 
 class AddLocatorCompilerPass extends atoum\test
 {
@@ -21,24 +20,22 @@ class AddLocatorCompilerPass extends atoum\test
             ->and($this->mockGenerator->shuntParentClassCalls())
             ->and($definition = new \mock\Symfony\Component\DependencyInjection\Definition())
             //it asks for the locators parameter
-            ->and($this->calling($containerBuilder)->hasParameter = function($argument) {
-                switch($argument)
-                {
+            ->and($this->calling($containerBuilder)->hasParameter = function ($argument) {
+                switch ($argument) {
                     case "spy_timeline.filter.data_hydrator.locators_config":
                         return true;
                 }
             })
-            ->and($this->calling($containerBuilder)->getParameter = function($argument) use ($configLocators) {
-                switch($argument)
-                {
+            ->and($this->calling($containerBuilder)->getParameter = function ($argument) use ($configLocators) {
+                switch ($argument) {
                     case "spy_timeline.filter.data_hydrator.locators_config":
                         return $configLocators;
                 }
             })
-            ->and($this->calling($containerBuilder)->getDefinition = function() use ($definition) {
+            ->and($this->calling($containerBuilder)->getDefinition = function () use ($definition) {
                 return $definition;
             })
-            ->and($this->calling($containerBuilder)->findTaggedServiceIds = function() use ($taggedServicesResult) {
+            ->and($this->calling($containerBuilder)->findTaggedServiceIds = function () use ($taggedServicesResult) {
                 return $taggedServicesResult;
             })
             ->and($compiler = new TestedModel())

@@ -66,7 +66,7 @@ class QueryBuilder extends BaseQueryBuilder
         }
 
         if (null != $this->sort) {
-            list ($field, $order) = $this->sort;
+            list($field, $order) = $this->sort;
         } else {
             $field = 'createdAt';
             $order = 'DESC';
@@ -100,7 +100,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @param QueryBuilder $qb qb
+     * @param  QueryBuilder $qb qb
      * @throws \Exception
      */
     protected function filterSubjects($qb)

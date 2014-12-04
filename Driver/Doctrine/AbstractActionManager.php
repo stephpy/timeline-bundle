@@ -21,7 +21,6 @@ abstract class AbstractActionManager extends BaseActionManager
      */
     protected $resultBuilder;
 
-
     /**
      * @param ObjectManager          $objectManager        objectManager
      * @param ResultBuilderInterface $resultBuilder        resultBuilder

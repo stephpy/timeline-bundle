@@ -2,16 +2,16 @@
 
 namespace Spy\TimelineBundle\Tests\Units\Command;
 
-use mageekguy\atoum;
 use Spy\TimelineBundle\Command\DeployActionCommand as TestedCommand;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
+use mageekguy\atoum;
 
 class DeployActionCommand extends atoum\test
 {
     public function beforeTestMethod($method)
     {
-        define('STDIN',fopen("php://stdin","r"));
+        define('STDIN', fopen("php://stdin", "r"));
     }
 
     public function testNoTimeline()
@@ -23,7 +23,7 @@ class DeployActionCommand extends atoum\test
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array();
 
         $container = new \mock\Symfony\Component\DependencyInjection\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
+        $container->getMockController()->get = function ($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;
             } elseif ($v == 'spy_timeline.spread.deployer') {
@@ -61,7 +61,7 @@ class DeployActionCommand extends atoum\test
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array($action);
 
         $container = new \mock\Symfony\Component\DependencyInjection\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
+        $container->getMockController()->get = function ($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;
             } elseif ($v == 'spy_timeline.spread.deployer') {

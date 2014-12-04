@@ -92,13 +92,13 @@ class DoctrineORM implements LocatorInterface
      */
     public function locateComposite(ObjectManager $objectManager, $metadata, $model, array $components, array $oids, array $fields)
     {
-        $dqlFields = array_map(function($v) {
+        $dqlFields = array_map(function ($v) {
             return sprintf('r.%s', $v);
         }, $fields);
 
         $concat = implode(",'#',", $dqlFields);
 
-        $oids = array_map(function($v) {
+        $oids = array_map(function ($v) {
             return implode('#', $v); },
         $oids);
 

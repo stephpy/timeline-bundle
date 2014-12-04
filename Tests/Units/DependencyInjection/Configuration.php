@@ -38,13 +38,12 @@ class Configuration extends atoum\test
                     'odm' => array(
                         'object_manager' => 'foo',
                     ),
-                )
+                ),
             )));
         })
             ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
             ->hasMessage('Invalid configuration for path "spy_timeline.drivers": Please define only one driver.')
             ;
-
     }
 
     public function processConfiguration($config)
@@ -80,7 +79,7 @@ class Configuration extends atoum\test
                 'path' => 'SpyTimelineBundle:Timeline',
                 'fallback' => 'SpyTimelineBundle:Timeline:default.html.twig',
                 'resources' => array(
-                    'SpyTimelineBundle:Action:components.html.twig'
+                    'SpyTimelineBundle:Action:components.html.twig',
                 ),
             ),
             'query_builder' => array(
@@ -92,7 +91,7 @@ class Configuration extends atoum\test
             ),
             'resolve_component' => array(
                 'resolver' => 'spy_timeline.resolve_component.doctrine',
-            )
+            ),
         );
     }
 }

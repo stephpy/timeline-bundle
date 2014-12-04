@@ -60,23 +60,23 @@ class ActionManager extends atoum\test
             ->and($this->calling($componentDataResolver)->resolveComponentData = function () use ($resolvedComponentData) {
                 return $resolvedComponentData;
             })
-            ->and($this->calling($objectManager)->getRepository = function() use($entityRepository) {
+            ->and($this->calling($objectManager)->getRepository = function () use ($entityRepository) {
                 return $entityRepository;
             })
-            ->and($this->calling($entityRepository)->createQueryBuilder = function() use ($queryBuilder) {
+            ->and($this->calling($entityRepository)->createQueryBuilder = function () use ($queryBuilder) {
                 return $queryBuilder;
             })
             //here we return the component as result of the query
-            ->and($this->calling($query)->getOneOrNullResult = function() use ($component) { return $component;})
+            ->and($this->calling($query)->getOneOrNullResult = function () use ($component) { return $component;})
             //grouping those did not work the method was __call
-            ->and($this->calling($queryBuilder)->where = function() use($queryBuilder) { return $queryBuilder;})
+            ->and($this->calling($queryBuilder)->where = function () use ($queryBuilder) { return $queryBuilder;})
             ->and($this->calling($queryBuilder)->andWhere = function () use ($queryBuilder) {
                 return $queryBuilder;
             })
             ->and($this->calling($queryBuilder)->setParameter = function () use ($queryBuilder) {
                 return $queryBuilder;
             })
-            ->and($this->calling($queryBuilder)->getQuery = function() use($query) { return $query;})
+            ->and($this->calling($queryBuilder)->getQuery = function () use ($query) { return $query;})
             ->and($actionClass = 'Spy\Timeline\Model\Action')
             ->and($componentClass = 'Spy\Timeline\Model\Component')
             ->and($actionComponentClass = 'Spy\Timeline\Model\ActionComponent')

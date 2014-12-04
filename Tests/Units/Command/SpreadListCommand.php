@@ -11,7 +11,7 @@ class SpreadListCommand extends  atoum\test
 {
     public function beforeTestMethod($method)
     {
-        define('STDIN',fopen("php://stdin","r"));
+        define('STDIN', fopen("php://stdin", "r"));
     }
 
     public function testExecute()
@@ -21,7 +21,7 @@ class SpreadListCommand extends  atoum\test
         $deployer->getMockController()->getSpreads = array();
 
         $container = new \mock\Symfony\Component\DependencyInjection\ContainerInterface();
-        $container->getMockController()->get = function($v) use ($deployer) {
+        $container->getMockController()->get = function ($v) use ($deployer) {
             if ($v == 'spy_timeline.spread.deployer') {
                 return $deployer;
             }

@@ -47,5 +47,4 @@ class TimelineActionThemeTokenParser extends \Twig_TokenParser
     {
         return 'timeline_action_theme';
     }
-
 }
