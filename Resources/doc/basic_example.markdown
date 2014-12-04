@@ -122,6 +122,14 @@ In your template .twig:
 {% endfor %}
 ```
 
+If you need, custom vars can also be passed to template as 3rd argument:
+
+```twig
+{% for action in coll %}
+    {{ timeline_render(action, null, { 'some_var': some_value }) }}
+    {{ i18n_timeline_render(timeline, 'en', { 'some_var': some_value }) }}
+{% endfor
+
 Look at [renderer](https://github.com/stephpy/TimelineBundle/blob/master/Resources/doc/renderer.markdown) to see how to define a path to store verbs.
 
 If you have any questions, feel free to create an issue or contact us.
