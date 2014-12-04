@@ -2,13 +2,11 @@
 
 namespace Spy\TimelineBundle\Tests\Units\DependencyInjection;
 
-require_once __DIR__."/../../../vendor/autoload.php";
-
-use atoum\AtoumBundle\Test\Units\Test;
+use mageekguy\atoum;
 use Spy\TimelineBundle\DependencyInjection\Configuration as ConfigurationTested;
 use Symfony\Component\Config\Definition\Processor;
 
-class Configuration extends Test
+class Configuration extends atoum\test
 {
     public function testNoConfiguration()
     {

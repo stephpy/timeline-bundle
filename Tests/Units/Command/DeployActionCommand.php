@@ -2,14 +2,12 @@
 
 namespace Spy\TimelineBundle\Tests\Units\Command;
 
-require_once __DIR__."/../../../vendor/autoload.php";
-
-use atoum\AtoumBundle\Test\Units\Test;
+use mageekguy\atoum;
 use Spy\TimelineBundle\Command\DeployActionCommand as TestedCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
 
-class DeployActionCommand extends Test
+class DeployActionCommand extends atoum\test
 {
     public function beforeTestMethod($method)
     {
@@ -18,17 +16,13 @@ class DeployActionCommand extends Test
 
     public function testNoTimeline()
     {
-        $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
-        $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
+        $actionManager = new \mock\Spy\Timeline\Driver\ActionManagerInterface();
         $this->mockGenerator()->orphanize('__construct');
-        $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
-
-        $actionManager = new \Mock\ActionManagerInterface();
-        $deployer      = new \Mock\Deployer();
+        $deployer      = new \mock\Spy\Timeline\Spread\Deployer();
 
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array();
 
-        $container = new \Mock\ContainerInterface();
+        $container = new \mock\Symfony\Component\DependencyInjection\ContainerInterface();
         $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;
@@ -58,20 +52,15 @@ class DeployActionCommand extends Test
 
     public function testOneTimeline()
     {
-        $this->mockClass('Symfony\Component\DependencyInjection\ContainerInterface', '\Mock');
-        $this->mockClass('Spy\Timeline\Driver\ActionManagerInterface', '\Mock');
-        $this->mockClass('Spy\Timeline\Model\ActionInterface', '\Mock');
+        $actionManager = new \mock\Spy\Timeline\Driver\ActionManagerInterface();
         $this->mockGenerator()->orphanize('__construct');
-        $this->mockClass('Spy\Timeline\Spread\Deployer', '\Mock');
-
-        $action        = new \Mock\ActionInterface();
-        $actionManager = new \Mock\ActionManagerInterface();
-        $deployer      = new \Mock\Deployer();
+        $deployer      = new \mock\Spy\Timeline\Spread\Deployer();
+        $action        = new \mock\Spy\Timeline\Model\ActionInterface();
 
         $action->getMockController()->getId = 1;
         $actionManager->getMockController()->findActionsWithStatusWantedPublished = array($action);
 
-        $container = new \Mock\ContainerInterface();
+        $container = new \mock\Symfony\Component\DependencyInjection\ContainerInterface();
         $container->getMockController()->get = function($v) use ($actionManager, $deployer) {
             if ($v == 'spy_timeline.action_manager') {
                 return $actionManager;

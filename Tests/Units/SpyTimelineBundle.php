@@ -2,20 +2,17 @@
 
 namespace Spy\TimelineBundle\Tests\Units;
 
-require_once __DIR__ . "/../../vendor/autoload.php";
-
-use atoum\AtoumBundle\Test\Units\Test;
+use mageekguy\atoum;
 use Spy\TimelineBundle\SpyTimelineBundle as TestedModel;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddComponentDataResolver;
 
-class SpyTimelineBundle extends Test
+class SpyTimelineBundle extends atoum\test
 {
     public function testBuild()
     {
-        $this->if($this->mockClass('\Symfony\Component\DependencyInjection\ContainerBuilder', '\Mock'))
-            ->and($containerBuilder = new \Mock\ContainerBuilder())
+        $this->if($containerBuilder = new \mock\Symfony\Component\DependencyInjection\ContainerBuilder())
             ->and($bundle = new TestedModel())
             ->when($bundle->build($containerBuilder))
             ->then(

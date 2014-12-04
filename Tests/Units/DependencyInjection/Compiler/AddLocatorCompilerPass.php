@@ -2,13 +2,11 @@
 
 namespace Spy\TimelineBundle\Tests\Units\DependencyInjection\Compiler;
 
-require_once __DIR__ . "/../../../../vendor/autoload.php";
-
-use atoum\AtoumBundle\Test\Units\Test;
+use mageekguy\atoum;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass as TestedModel;
 use Spy\Timeline\Filter\DataHydrator;
 
-class AddLocatorCompilerPass extends Test
+class AddLocatorCompilerPass extends atoum\test
 {
     public function testProcess()
     {
@@ -17,12 +15,11 @@ class AddLocatorCompilerPass extends Test
         $taggedServicesResult = array('baz.service' => array(), 'foo.service' => array());
 
         //setup mocks
-        $this->if($this->mockClass('\Symfony\Component\DependencyInjection\ContainerBuilder', '\Mock'))
+        $this
+            ->given($containerBuilder = new \mock\Symfony\Component\DependencyInjection\ContainerBuilder())
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
-            ->and($this->mockClass('\Symfony\Component\DependencyInjection\Definition'))
-            ->and($containerBuilder = new \Mock\ContainerBuilder())
-            ->and($definition = new \Mock\Definition())
+            ->and($definition = new \mock\Symfony\Component\DependencyInjection\Definition())
             //it asks for the locators parameter
             ->and($this->calling($containerBuilder)->hasParameter = function($argument) {
                 switch($argument)

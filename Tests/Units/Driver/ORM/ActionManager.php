@@ -2,14 +2,12 @@
 
 namespace Spy\TimelineBundle\Tests\Units\Driver\ORM;
 
-require_once __DIR__ . "/../../../../vendor/autoload.php";
-
-use atoum\AtoumBundle\Test\Units\Test;
+use mageekguy\atoum;
 use Spy\TimelineBundle\Driver\ORM\ActionManager as TestedModel;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
-class ActionManager extends Test
+class ActionManager extends atoum\test
 {
     public function testCreateComponent()
     {
@@ -18,12 +16,9 @@ class ActionManager extends Test
         $resolve = new ResolveComponentModelIdentifier($model, $identifier);
 
         $this
-            ->if($this->mockClass('Spy\Timeline\ResultBuilder\ResultBuilderInterface', '\Mock'))
-            ->and($this->mockClass('Spy\Timeline\ResolveComponent\ComponentDataResolverInterface', '\Mock'))
-            ->and($this->mockClass('Doctrine\Common\Persistence\ObjectManager', '\Mock'))
-            ->and($objectManager = new \mock\ObjectManager())
-            ->and($resultBuilder = new \mock\ResultBuilderInterface())
-            ->and($componentDataResolver = new \mock\ComponentDataResolverInterface())
+            ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
+            ->and($resultBuilder = new \mock\Spy\Timeline\ResultBuilder\ResultBuilderInterface())
+            ->and($componentDataResolver = new \mock\Spy\Timeline\ResolveComponent\ComponentDataResolverInterface())
             ->and($this->calling($componentDataResolver)->resolveComponentData = function () use ($model, $identifier) {
                 return new ResolvedComponentData($model, $identifier);
             })
@@ -51,24 +46,17 @@ class ActionManager extends Test
         $resolve = new ResolveComponentModelIdentifier('user', 1);
         $resolvedComponentData = new ResolvedComponentData('user', 1);
         $this
-            ->if($this->mockClass('Spy\Timeline\ResultBuilder\ResultBuilderInterface', '\Mock'))
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
-            ->and($this->mockClass('Doctrine\ORM\EntityRepository', '\Mock'))
-            ->and($this->mockClass('Doctrine\Orm\QueryBuilder', '\Mock'))
-            ->and($this->mockClass('Spy\Timeline\ResolveComponent\ComponentDataResolverInterface', '\Mock'))
-            ->and($this->mockClass('Doctrine\Common\Persistence\ObjectManager', '\Mock'))
+            ->and($entityRepository = new \mock\Doctrine\ORM\EntityRepository())
+            ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
+            ->and($resultBuilder = new \mock\Spy\Timeline\ResultBuilder\ResultBuilderInterface())
+            ->and($componentDataResolver = new \mock\Spy\Timeline\ResolveComponent\ComponentDataResolverInterface())
+            ->and($queryBuilder = new \mock\Doctrine\Orm\QueryBuilder())
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
-            ->and($this->mockClass('Doctrine\ORM\AbstractQuery', '\Mock'))
-            ->and($this->mockClass('Spy\Timeline\Model\Component'))
-            ->and($entityRepository = new \mock\EntityRepository())
-            ->and($objectManager = new \mock\ObjectManager())
-            ->and($resultBuilder = new \mock\ResultBuilderInterface())
-            ->and($componentDataResolver = new \mock\ComponentDataResolverInterface())
-            ->and($queryBuilder = new \mock\QueryBuilder())
-            ->and($query = new \mock\AbstractQuery())
-            ->and($component = new \mock\Component())
+            ->and($query = new \mock\Doctrine\ORM\AbstractQuery())
+            ->and($component = new \mock\Spy\Timeline\Model\Component())
             ->and($this->calling($componentDataResolver)->resolveComponentData = function () use ($resolvedComponentData) {
                 return $resolvedComponentData;
             })
