@@ -58,7 +58,9 @@ class DoctrineODM implements LocatorInterface
 
         $qb    = $objectManager->getRepository($model)
             ->createQueryBuilder('r');
-
+            
+        $field = current($field); 
+        
         $results = $qb->field($field)->in($oids)
             ->getQuery()
             ->execute();
