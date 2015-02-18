@@ -2,6 +2,7 @@
 
 namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 
+use Doctrine\ORM\QueryBuilder;
 use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -62,12 +63,15 @@ class DoctrineORM implements LocatorInterface
             return $this->locateComposite($objectManager, $metadata, $model, $components, $oids, $fields);
         }
 
+        $alias = 'r';
         $field = current($fields);
         $qb    = $objectManager->getRepository($model)
-            ->createQueryBuilder('r')
+            ->createQueryBuilder($alias)
         ;
 
-        $results = $qb->where($qb->expr()->in(sprintf('r.%s', $field), $oids))
+        $this->onPreLocate($qb, $alias, $model, $oids);
+
+        $results = $qb->where($qb->expr()->in(sprintf('%s.%s', $alias, $field), $oids))
             ->getQuery()
             ->getResult()
         ;
@@ -81,6 +85,17 @@ class DoctrineORM implements LocatorInterface
     }
 
     /**
+     * Modify the locating query
+     *
+     * @param QueryBuilder $qb
+     * @param $alias
+     * @param $model
+     * @param array $oids
+     */
+    protected function onPreLocate(QueryBuilder $qb, $alias, $model, array $oids)
+    { }
+
+    /**
      * @param ObjectManager $objectManager objectManager
      * @param object        $metadata      metadata
      * @param string        $model         model
@@ -92,20 +107,23 @@ class DoctrineORM implements LocatorInterface
      */
     public function locateComposite(ObjectManager $objectManager, $metadata, $model, array $components, array $oids, array $fields)
     {
-        $dqlFields = array_map(function ($v) {
-            return sprintf('r.%s', $v);
+        $alias = 'r';
+        $dqlFields = array_map(function($alias, $v) {
+            return sprintf('%s.%s', $alias, $v);
         }, $fields);
 
         $concat = implode(",'#',", $dqlFields);
 
-        $oids = array_map(function ($v) {
+        $oids = array_map(function($v) {
             return implode('#', $v); },
         $oids);
 
-        $qb = $objectManager->createQueryBuilder('r');
+        $qb = $objectManager->createQueryBuilder($alias);
 
-        $results = $qb->select('r')
-            ->from($model, 'r')
+        $this->onPreLocateComposite($qb, $alias, $model, $oids);
+
+        $results = $qb->select($alias)
+            ->from($model, $alias)
             // use string function
             ->where($qb->expr()->in(sprintf("MULTI_CONCAT(%s)", $concat), $oids))
             ->getQuery()
@@ -120,6 +138,18 @@ class DoctrineORM implements LocatorInterface
             }
         }
     }
+
+    /**
+     * Modify the doctrine query on locating composites
+     *
+     * @param QueryBuilder $qb
+     * @param $alias
+     * @param $model
+     * @param array $oids
+     */
+    protected function onPreLocateComposite(QueryBuilder $qb, $alias, $model, array $oids)
+    { }
+
 
     protected function buildHashFromResult($metadata, $model, $result, array $fields)
     {
