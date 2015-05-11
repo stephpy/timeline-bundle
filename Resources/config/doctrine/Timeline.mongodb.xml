@@ -12,6 +12,7 @@
             <index>
                 <key name="context" order="asc" />
                 <key name="subject" order="asc" />
+                <key name="action" order="asc" />
                 <key name="type" order="asc" />
                 <key name="createdAt" order="asc" />
             </index>
