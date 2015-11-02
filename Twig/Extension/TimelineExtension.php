@@ -74,10 +74,10 @@ class TimelineExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'timeline' => new \Twig_Function_Method($this, 'renderContextualTimeline', array('is_safe' => array('html'))),
-            'timeline_render' => new \Twig_Function_Method($this, 'renderTimeline', array('is_safe' => array('html'))),
-            'timeline_component_render' => new \Twig_Function_Method($this, 'renderActionComponent', array('is_safe' => array('html'))),
-            'i18n_timeline_render' => new \Twig_Function_Method($this, 'renderLocalizedTimeline', array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('timeline' ,array($this, 'renderContextualTimeline'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('timeline_render', array($this, 'renderTimeline'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('timeline_component_render' ,array($this, 'renderActionComponent'), array('is_safe' => array('html'))),
+             new \Twig_SimpleFunction('i18n_timeline_render', array($this, 'renderLocalizedTimeline'), array('is_safe' => array('html'))),
         );
     }
 
