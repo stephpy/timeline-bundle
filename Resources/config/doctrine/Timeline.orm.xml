@@ -8,5 +8,10 @@
         <field name="context" column="context" type="string" />
         <field name="type" column="type" type="string"  />
         <field name="createdAt" column="created_at" type="datetime" />
+
+        <indexes>
+            <index name="context_idx" columns="context"/>
+            <index name="type_idx" columns="type"/>
+        </indexes>
     </mapped-superclass>
 </doctrine-mapping>
