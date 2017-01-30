@@ -97,11 +97,13 @@ class TimelineManager extends AbstractTimelineManager implements TimelineManager
             ->andWhere('t.action = :action')
             ->setParameter('action', $actionId)
             ->getQuery()
-            ->getSingleResult()
+            ->getOneOrNullResult()
         ;
 
-        $this->objectManager->remove($timeline);
-        // $manager->flush() handled by flush() method
+        if ($timeline) {
+            $this->objectManager->remove($timeline);
+            // $manager->flush() handled by flush() method
+        }
     }
 
     /**
