@@ -77,7 +77,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->field('model')->equals($resolvedComponentData->getModel())
             ->field('identifier')->equals($resolvedComponentData->getIdentifier())
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleResult()
         ;
 
         if ($component) {
@@ -99,7 +99,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
             ->createQueryBuilder('c')
             ->field('hash')->equals($hash)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getSingleResult()
         ;
     }
 
