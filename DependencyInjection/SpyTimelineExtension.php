@@ -89,11 +89,11 @@ class SpyTimelineExtension extends Extension
 
         // result builder
         $definition = $container->getDefinition('spy_timeline.result_builder');
-        $definition->addArgument($container->getDefinition(sprintf('spy_timeline.query_executor.%s', $driver)));
+        $definition->addArgument(new Reference(sprintf('spy_timeline.query_executor.%s', $driver)));
         $definition->addArgument($filterManager);
 
         if ($paginator) {
-            $definition->addMethodCall('setPager', array($container->getDefinition($paginator)));
+            $definition->addMethodCall('setPager', array(new Reference($paginator)));
         }
 
         // spreads
@@ -105,7 +105,7 @@ class SpyTimelineExtension extends Extension
 
         // notifiers
         $notifiers  = $config['notifiers'];
-        $definition = $container->getDefinition($config['spread']['deployer']);
+        $definition = new Reference($config['spread']['deployer']);
 
         foreach ($notifiers as $notifier) {
             $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
