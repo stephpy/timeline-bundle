@@ -105,7 +105,7 @@ class SpyTimelineExtension extends Extension
 
         // notifiers
         $notifiers  = $config['notifiers'];
-        $definition = new Reference($config['spread']['deployer']);
+        $definition = $container->getDefinition($config['spread']['deployer']);
 
         foreach ($notifiers as $notifier) {
             $definition->addMethodCall('addNotifier', array(new Reference($notifier)));
