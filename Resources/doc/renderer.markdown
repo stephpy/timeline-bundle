@@ -53,6 +53,18 @@ Like Symfony's Forms, you can customize the rendering of action components by im
 
 To customize your component output you need only override the correct template fragment.
 
+First of all, you need to specify your custom theme file in `app\config\config.yml`
+
+```yaml
+spy_timeline:
+  render:
+    resources:
+        - 'AcmeUserBundle:Timeline:components.html.twig'
+```
+Create the `components.html.twig` file in `Acme\TimelineBundle\Resources\views\Timeline\components.html.twig`
+
+Then proceed to the steps below.
+
 ### Component Blocks
 
 The default theme file, [SpyTimelineBundle:Action:components.html.twig](https://github.com/stephpy/timeline-bundle/blob/master/Resources/views/Action/components.html.twig), defines several
