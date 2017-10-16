@@ -19,7 +19,8 @@
         "atoum/atoum": "1.*",
         "doctrine/orm": "2.*",
         "symfony/console": "~2.0|~3.0",
-        "symfony/twig-bundle": "~2.0|~3.0"
+        "symfony/twig-bundle": "~2.0|~3.0",
+        "symfony/expression-language": "~2.0|~3.0"
     },
     "suggest": {
         "symfony/console": "List spreads and deploy timelines via a command",

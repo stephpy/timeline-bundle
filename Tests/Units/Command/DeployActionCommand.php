@@ -47,7 +47,7 @@ class DeployActionCommand extends atoum\test
             ->once();
 
         $this->string($commandTester->getDisplay())
-            ->isEqualTo('There is 0 action(s) to deploy'.chr(10).'Done'.chr(10));
+            ->isEqualTo('There is 0 action(s) to deploy'.PHP_EOL.'Done'.PHP_EOL);
     }
 
     public function testOneTimeline()
@@ -85,6 +85,6 @@ class DeployActionCommand extends atoum\test
             ->once();
 
         $this->string($commandTester->getDisplay())
-            ->isEqualTo('There is 1 action(s) to deploy'.chr(10).'Deploy action 1'.chr(10).'Done'.chr(10));
+            ->isEqualTo('There is 1 action(s) to deploy'.PHP_EOL.'Deploy action 1'.PHP_EOL.'Done'.PHP_EOL);
     }
 }

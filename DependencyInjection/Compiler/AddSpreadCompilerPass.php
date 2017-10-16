@@ -17,7 +17,7 @@ class AddSpreadCompilerPass implements CompilerPassInterface
         $spreadByPriority = [];
 
         foreach ($container->findTaggedServiceIds('spy_timeline.spread') as $id => $options) {
-            $priority = array_key_exists('priority', $options[0]) ? $options[0]['priority'] : 0;
+            $priority = isset($attributes[0]['priority']) ?  $options[0]['priority'] : 0;
 
             $spreadByPriority[$priority][] = $container->getDefinition($id);
         }
