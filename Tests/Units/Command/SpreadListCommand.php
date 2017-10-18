@@ -39,7 +39,7 @@ class SpreadListCommand extends  atoum\test
         $commandTester->execute(array('command' => $command->getName()), array());
 
         $this->string($commandTester->getDisplay())
-            ->isEqualTo('There is 0 timeline spread(s) defined'.chr(10));
+            ->isEqualTo('There is 0 timeline spread(s) defined'.PHP_EOL);
 
         // one spread
         $spread = new \mock\Spy\TimelineBundle\Spread\SpreadInterface();
@@ -49,6 +49,6 @@ class SpreadListCommand extends  atoum\test
         $commandTester->execute(array('command' => $command->getName()), array());
 
         $this->string($commandTester->getDisplay())
-            ->isEqualTo('There is 1 timeline spread(s) defined'.chr(10).'- mock\Spy\TimelineBundle\Spread\SpreadInterface'.chr(10));
+            ->isEqualTo('There is 1 timeline spread(s) defined'.PHP_EOL.'- mock\Spy\TimelineBundle\Spread\SpreadInterface'.PHP_EOL);
     }
 }
