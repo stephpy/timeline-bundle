@@ -21,6 +21,10 @@ class AddSpreadCompilerPass implements CompilerPassInterface
 
             $spreadByPriority[$priority][] = $container->getDefinition($id);
         }
+        
+        if (empty($spreadByPriority)) {
+            return;
+        }
 
         krsort($spreadByPriority);
         $spreadByPriority = call_user_func_array('array_merge', $spreadByPriority);
