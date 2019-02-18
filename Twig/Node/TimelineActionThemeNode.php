@@ -16,7 +16,8 @@ class TimelineActionThemeNode extends \Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write('echo $this->env->getExtension(\'Spy\TimelineBundle\Twig\Extension\TimelineExtension\')->setTheme(')
+            ->write('use Spy\TimelineBundle\Twig\Extension\TimelineExtension;')
+            ->write('echo $this->env->getExtension(TimelineExtension::class)->setTheme(')
             ->subcompile($this->getNode('action'))
             ->raw(', array(')
         ;
