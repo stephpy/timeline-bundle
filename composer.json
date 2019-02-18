@@ -19,7 +19,7 @@
         "atoum/atoum": "1.*|3.*",
         "doctrine/orm": "^2.6",
         "symfony/console": "~2.0|~3.0|~4.0",
-        "symfony/twig-bundle": "~2.0|~3.0|~4.0",
+        "symfony/twig-bundle": "~2.8.13|~3.0|~4.0",
         "symfony/expression-language": "~2.0|~3.0|~4.0"
     },
     "suggest": {
