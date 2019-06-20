@@ -80,10 +80,8 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
 
         $component = $this->getComponentRepository()
             ->createQueryBuilder('c')
-            ->where('c.model = :model')
-            ->andWhere('c.identifier = :identifier')
-            ->setParameter('model', $resolvedComponentData->getModel())
-            ->setParameter('identifier', serialize($resolvedComponentData->getIdentifier()))
+            ->where('c.hash = :hash')
+            ->setParameter('hash', $resolvedComponentData->getHash())
             ->getQuery()
             ->getOneOrNullResult()
         ;
@@ -123,7 +121,7 @@ class ActionManager extends AbstractActionManager implements ActionManagerInterf
         $qb = $this->getComponentRepository()->createQueryBuilder('c');
 
         return $qb->where(
-                $qb->expr()->in('c.hash', $hashes)
+            $qb->expr()->in('c.hash', $hashes)
             )
             ->getQuery()
             ->getResult()

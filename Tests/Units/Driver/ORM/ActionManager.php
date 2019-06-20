@@ -26,9 +26,10 @@ class ActionManager extends atoum\test
             ->and($componentClass = 'Spy\Timeline\Model\Component')
             ->and($actionComponentClass = 'Spy\Timeline\Model\ActionComponent')
             ->and($actionManager = new TestedModel($objectManager, $resultBuilder, $actionClass, $componentClass, $actionComponentClass))
-                ->exception(function () use ($actionManager) {
-                    $actionManager->getComponentDataResolver();
-                }
+                ->exception(
+                    function () use ($actionManager) {
+                        $actionManager->getComponentDataResolver();
+                    }
              )->hasMessage('Component data resolver not set')
             ->and($actionManager->setComponentDataResolver($componentDataResolver))
             ->when($result = $actionManager->createComponent($model, $identifier))
@@ -67,16 +68,22 @@ class ActionManager extends atoum\test
                 return $queryBuilder;
             })
             //here we return the component as result of the query
-            ->and($this->calling($query)->getOneOrNullResult = function () use ($component) { return $component;})
+            ->and($this->calling($query)->getOneOrNullResult = function () use ($component) {
+                return $component;
+            })
             //grouping those did not work the method was __call
-            ->and($this->calling($queryBuilder)->where = function () use ($queryBuilder) { return $queryBuilder;})
+            ->and($this->calling($queryBuilder)->where = function () use ($queryBuilder) {
+                return $queryBuilder;
+            })
             ->and($this->calling($queryBuilder)->andWhere = function () use ($queryBuilder) {
                 return $queryBuilder;
             })
             ->and($this->calling($queryBuilder)->setParameter = function () use ($queryBuilder) {
                 return $queryBuilder;
             })
-            ->and($this->calling($queryBuilder)->getQuery = function () use ($query) { return $query;})
+            ->and($this->calling($queryBuilder)->getQuery = function () use ($query) {
+                return $query;
+            })
             ->and($actionClass = 'Spy\Timeline\Model\Action')
             ->and($componentClass = 'Spy\Timeline\Model\Component')
             ->and($actionComponentClass = 'Spy\Timeline\Model\ActionComponent')
@@ -87,10 +94,8 @@ class ActionManager extends atoum\test
             })
             ->when($result = $actionManager->findOrCreateComponent('user', 1))
             ->mock($componentDataResolver)->call('resolveComponentData')->withArguments($resolve)->exactly(1)
-            ->mock($queryBuilder)->call('where')->withArguments('c.model = :model')->exactly(1)
-            ->mock($queryBuilder)->call('andWhere')->withArguments('c.identifier = :identifier')->exactly(1)
-            ->mock($queryBuilder)->call('setParameter')->withArguments('model', $resolvedComponentData->getModel())->exactly(1)
-            ->mock($queryBuilder)->call('setParameter')->withArguments('identifier', serialize($resolvedComponentData->getIdentifier()))->exactly(1)
+            ->mock($queryBuilder)->call('where')->withArguments('c.hash = :hash')->exactly(1)
+            ->mock($queryBuilder)->call('setParameter')->withArguments('hash', $resolvedComponentData->getHAsh())->exactly(1)
             ->object($result)->isEqualTo($component)
         ;
     }
