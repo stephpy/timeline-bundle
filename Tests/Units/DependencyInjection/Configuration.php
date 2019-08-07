@@ -76,10 +76,10 @@ class Configuration extends atoum\test
                 'delivery' => 'immediate',
             ),
             'render' => array(
-                'path' => 'SpyTimelineBundle:Timeline',
-                'fallback' => 'SpyTimelineBundle:Timeline:default.html.twig',
+                'path' => '@SpyTimeline/Timeline',
+                'fallback' => '@SpyTimeline/Timeline/default.html.twig',
                 'resources' => array(
-                    'SpyTimelineBundle:Action:components.html.twig',
+                    '@SpyTimeline/Action/components.html.twig',
                 ),
             ),
             'query_builder' => array(
