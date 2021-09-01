@@ -9,9 +9,15 @@
         "name": "Community contributors",
         "homepage": "https://github.com/stephpy/timeline-bundle/contributors"
     }],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/HadrienWebriva/timeline"
+        }
+    ],
     "require": {
-        "php": "^7.1",
-        "stephpy/timeline": "^1.2",
+        "php": "^7.1 | ^8.0",
+        "stephpy/timeline": "dev-add-php8-support",
         "symfony/framework-bundle": "~2.0|~3.0|~4.0",
         "symfony/options-resolver": "~2.0|~3.0|~4.0"
     },
