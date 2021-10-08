@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Driver\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\Timeline\Driver\AbstractActionManager as BaseActionManager;

@@ -43,7 +43,7 @@ class Configuration extends atoum\test
         })
             ->isInstanceOf('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException')
             ->hasMessage('Invalid configuration for path "spy_timeline.drivers": Please define only one driver.')
-            ;
+        ;
     }
 
     public function processConfiguration($config)

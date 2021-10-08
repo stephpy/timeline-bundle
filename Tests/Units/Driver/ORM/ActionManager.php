@@ -2,6 +2,7 @@
 
 namespace Spy\TimelineBundle\Tests\Units\Driver\ORM;
 
+use Doctrine\Persistence\ObjectManager;
 use mageekguy\atoum;
 use Spy\TimelineBundle\Driver\ORM\ActionManager as TestedModel;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
@@ -15,8 +16,10 @@ class ActionManager extends atoum\test
         $identifier = 0;
         $resolve = new ResolveComponentModelIdentifier($model, $identifier);
 
+        $objectManager = $this->newMockInstance(ObjectManager::class);
+
         $this
-            ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
+            ->and($objectManager)
             ->and($resultBuilder = new \mock\Spy\Timeline\ResultBuilder\ResultBuilderInterface())
             ->and($componentDataResolver = new \mock\Spy\Timeline\ResolveComponent\ComponentDataResolverInterface())
             ->and($this->calling($componentDataResolver)->resolveComponentData = function () use ($model, $identifier) {
@@ -46,11 +49,14 @@ class ActionManager extends atoum\test
     {
         $resolve = new ResolveComponentModelIdentifier('user', 1);
         $resolvedComponentData = new ResolvedComponentData('user', 1);
+
+        $objectManager = $this->newMockInstance(ObjectManager::class);
+
         $this
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
             ->and($entityRepository = new \mock\Doctrine\ORM\EntityRepository())
-            ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
+            ->and($objectManager)
             ->and($resultBuilder = new \mock\Spy\Timeline\ResultBuilder\ResultBuilderInterface())
             ->and($componentDataResolver = new \mock\Spy\Timeline\ResolveComponent\ComponentDataResolverInterface())
             ->and($queryBuilder = new \mock\Doctrine\Orm\QueryBuilder())
