@@ -5,7 +5,7 @@ namespace Spy\TimelineBundle\Tests\Units\Command;
 use Spy\TimelineBundle\Command\DeployActionCommand as TestedCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use mageekguy\atoum;
+use atoum\atoum;
 
 class DeployActionCommand extends atoum\test
 {

@@ -15,8 +15,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $tb       = new TreeBuilder();
-        $rootNode = $tb->root('spy_timeline');
+        $tb       = new TreeBuilder("spy_timeline");
+        $rootNode = $tb->getRootNode();
 
         $this->addDriverSection($rootNode);
         $this->addQueryBuilderSection($rootNode);

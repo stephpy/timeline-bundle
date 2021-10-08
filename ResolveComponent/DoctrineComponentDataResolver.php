@@ -2,10 +2,11 @@
 
 namespace Spy\TimelineBundle\ResolveComponent;
 
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 use Spy\Timeline\Exception\ResolveComponentDataException;
 use Spy\Timeline\ResolveComponent\ComponentDataResolverInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
 
 /**
@@ -92,7 +93,7 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
     /**
      * @param string $class
      *
-     * @return \Doctrine\Common\Persistence\Mapping\ClassMetadata|null
+     * @return ClassMetadata|null
      */
     protected function getClassMetadata($class)
     {
@@ -102,6 +103,6 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
             }
         }
 
-        return;
+        return null;
     }
 }

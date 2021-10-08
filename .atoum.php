@@ -1,6 +1,6 @@
 <?php
 
-use \mageekguy\atoum;
+use \atoum\atoum;
 
 $script->bootstrapFile(__DIR__ . DIRECTORY_SEPARATOR . '.atoum.bootstrap.php');
 

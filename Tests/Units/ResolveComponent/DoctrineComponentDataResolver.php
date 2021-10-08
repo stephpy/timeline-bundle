@@ -2,7 +2,8 @@
 
 namespace Spy\TimelineBundle\Tests\Units\ResolveComponent;
 
-use mageekguy\atoum;
+use Doctrine\Persistence\ManagerRegistry;
+use atoum\atoum;
 use Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver as TestedModel;
 use Spy\Timeline\ResolveComponent\TestHelper\User;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
@@ -14,8 +15,10 @@ class DoctrineComponentDataResolver extends atoum\test
         $object = new User(5);
         $resolve = new ResolveComponentModelIdentifier($object);
 
+        $managerRegistry = $this->newMockInstance(ManagerRegistry::class);
+
         $this->if($classMetadata = new \mock\Doctrine\Common\Persistence\Mapping\ClassMetadata())
-            ->and($managerRegistry = new \mock\Doctrine\Common\Persistence\ManagerRegistry())
+            ->and($managerRegistry)
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
             ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
@@ -50,7 +53,9 @@ class DoctrineComponentDataResolver extends atoum\test
         $object = new User(5);
         $resolve = new ResolveComponentModelIdentifier($object);
 
-        $this->if($managerRegistry = new \mock\Doctrine\Common\Persistence\ManagerRegistry())
+        $managerRegistry = $this->newMockInstance(ManagerRegistry::class);
+
+        $this->if($managerRegistry)
             ->and($resolver = new TestedModel())
             ->and($resolver->addRegistry($managerRegistry))
             ->when($result = $resolver->resolveComponentData($resolve))
@@ -67,7 +72,9 @@ class DoctrineComponentDataResolver extends atoum\test
         $object = new \stdClass();
         $resolve = new ResolveComponentModelIdentifier($object);
 
-        $this->if($managerRegistry = new \mock\Doctrine\Common\Persistence\ManagerRegistry())
+        $managerRegistry = $this->newMockInstance(ManagerRegistry::class);
+
+        $this->if($managerRegistry)
             ->and($resolver = new TestedModel())
             ->and($resolver->addRegistry($managerRegistry))
             ->exception(function () use ($resolver, $resolve) {
@@ -84,7 +91,9 @@ class DoctrineComponentDataResolver extends atoum\test
         $identifier = array('foo' => 'bar');
         $resolve = new ResolveComponentModelIdentifier($model, $identifier);
 
-        $this->if($managerRegistry = new \mock\Doctrine\Common\Persistence\ManagerRegistry())
+        $managerRegistry = $this->newMockInstance(ManagerRegistry::class);
+
+        $this->if($managerRegistry)
             ->and($resolver = new TestedModel())
             ->and($resolver->addRegistry($managerRegistry))
             ->when($result = $resolver->resolveComponentData($resolve))
