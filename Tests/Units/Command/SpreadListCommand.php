@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Tests\Units\Command;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\Command\SpreadListCommand as TestedCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;

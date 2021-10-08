@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Tests\Units\ResolveComponent;
 
 use Doctrine\Persistence\ManagerRegistry;
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\ResolveComponent\DoctrineComponentDataResolver as TestedModel;
 use Spy\Timeline\ResolveComponent\TestHelper\User;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;

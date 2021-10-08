@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Tests\Units\DependencyInjection\Compiler;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddSpreadCompilerPass as TestedModel;
 
 class AddSpreadCompilerPass extends atoum\test

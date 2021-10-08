@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Tests\Units;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\SpyTimelineBundle as TestedModel;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddLocatorCompilerPass;
 use Spy\TimelineBundle\DependencyInjection\Compiler\AddDeliveryMethodCompilerPass;

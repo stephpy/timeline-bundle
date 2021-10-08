@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Tests\Units\DependencyInjection;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\DependencyInjection\Configuration as ConfigurationTested;
 use Symfony\Component\Config\Definition\Processor;
 

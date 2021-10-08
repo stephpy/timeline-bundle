@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Tests\Units\Driver\ORM;
 
 use Doctrine\Persistence\ObjectManager;
-use mageekguy\atoum;
+use atoum\atoum;
 use Spy\TimelineBundle\Driver\ORM\ActionManager as TestedModel;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
