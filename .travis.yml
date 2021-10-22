@@ -8,7 +8,7 @@ php:
 install: composer install -n
 
 script:
-    - bin/atoum
+    - bin/atoum -ncc
 
 notifications:
     email:

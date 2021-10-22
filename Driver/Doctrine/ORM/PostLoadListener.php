@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Driver\Doctrine\ORM;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityNotFoundException;
 use Spy\Timeline\Model\ComponentInterface;

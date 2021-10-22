@@ -17,11 +17,11 @@ class DoctrineComponentDataResolver extends atoum\test
 
         $managerRegistry = $this->newMockInstance(ManagerRegistry::class);
 
-        $this->if($classMetadata = new \mock\Doctrine\Common\Persistence\Mapping\ClassMetadata())
+        $this->if($classMetadata = new \mock\Doctrine\Persistence\Mapping\ClassMetadata())
             ->and($managerRegistry)
             ->and($this->mockGenerator->orphanize('__construct'))
             ->and($this->mockGenerator->shuntParentClassCalls())
-            ->and($objectManager = new \mock\Doctrine\Common\Persistence\ObjectManager())
+            ->and($objectManager = new \mock\Doctrine\Persistence\ObjectManager())
             ->and($this->calling($managerRegistry)->getManagerForClass = function () use ($objectManager) {
                 return $objectManager;
             })

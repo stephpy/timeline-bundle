@@ -8,7 +8,7 @@ use Spy\Timeline\Driver\QueryBuilder\QueryBuilder as BaseQueryBuilder;
 use Spy\Timeline\Driver\QueryBuilder\QueryBuilderFactory;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Asserter;
 use Spy\Timeline\Driver\QueryBuilder\Criteria\Operator;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 use Spy\TimelineBundle\Driver\ORM\QueryBuilder\Criteria\CriteriaCollection;
 
