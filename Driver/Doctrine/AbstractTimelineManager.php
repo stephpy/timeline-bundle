@@ -2,7 +2,7 @@
 
 namespace Spy\TimelineBundle\Driver\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Spy\Timeline\Model\ActionInterface;
 use Spy\Timeline\Model\ComponentInterface;
 use Spy\Timeline\Model\TimelineInterface;
@@ -11,7 +11,7 @@ use Spy\Timeline\ResultBuilder\ResultBuilderInterface;
 class AbstractTimelineManager
 {
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
     protected $objectManager;
 
@@ -26,11 +26,11 @@ class AbstractTimelineManager
     protected $timelineClass;
 
     /**
-     * @param ObjectManager          $objectManager objectManager
+     * @param EntityManager          $objectManager objectManager
      * @param ResultBuilderInterface $resultBuilder resultBuilder
      * @param string                 $timelineClass timelineClass
      */
-    public function __construct(ObjectManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
+    public function __construct(EntityManager $objectManager, ResultBuilderInterface $resultBuilder, $timelineClass)
     {
         $this->objectManager = $objectManager;
         $this->resultBuilder = $resultBuilder;

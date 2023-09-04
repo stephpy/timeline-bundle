@@ -3,7 +3,7 @@
 namespace Spy\TimelineBundle\Filter\DataHydrator\Locator;
 
 use Spy\Timeline\Filter\DataHydrator\Locator\LocatorInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class DoctrineODM implements LocatorInterface
 {
@@ -13,7 +13,7 @@ class DoctrineODM implements LocatorInterface
     protected $registry;
 
     /**
-     * @param ManagerRegistry $registry registry
+     * @param ManagerRegistry|null $registry registry
      */
     public function __construct(ManagerRegistry $registry = null)
     {
