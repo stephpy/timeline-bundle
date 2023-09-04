@@ -18,15 +18,15 @@
     "require": {
         "php": "^7.2 | ^8.0",
         "stephpy/timeline": "dev-master",
-        "symfony/framework-bundle": "~3.0|~4.0",
-        "symfony/options-resolver": "~3.0|~4.0"
+        "symfony/framework-bundle": "~5.0",
+        "symfony/options-resolver": "~5.0"
     },
     "require-dev": {
         "atoum/atoum": "~4.0",
         "doctrine/orm": "^2.6",
-        "symfony/console": "~3.0|~4.0",
-        "symfony/twig-bundle": "~3.0|~4.0",
-        "symfony/expression-language": "~3.0|~4.0",
+        "symfony/console": "~5.0",
+        "symfony/twig-bundle": "~5.0",
+        "symfony/expression-language": "~5.0",
         "doctrine/persistence": "~2.1"
     },
     "suggest": {

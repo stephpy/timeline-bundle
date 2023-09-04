@@ -2,17 +2,23 @@
 
 namespace Spy\TimelineBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Exception;
+use InvalidArgumentException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This command will deploy each actions (see limit option) which
  * has PUBLISHED on status_wanted.
  */
-class DeployActionCommand extends ContainerAwareCommand
+class DeployActionCommand extends Command implements ContainerAwareInterface
 {
+    private $container;
+
     /**
      * {@inheritdoc}
      */
@@ -28,37 +34,48 @@ class DeployActionCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output):int
     {
         $limit = (int) $input->getOption('limit');
 
         if ($limit < 1) {
-            throw new \InvalidArgumentException('Limit defined should be biggest than 0 ...');
+            throw new InvalidArgumentException('Limit defined should be biggest than 0 ...');
         }
 
-        $container     = $this->getContainer();
-        $actionManager = $container->get('spy_timeline.action_manager');
+        $actionManager = $this->container->get('spy_timeline.action_manager');
         $results       = $actionManager->findActionsWithStatusWantedPublished($limit);
 
         $output->writeln(sprintf('<info>There is %s action(s) to deploy</info>', count($results)));
 
-        $deployer = $container->get('spy_timeline.spread.deployer');
+        $deployer = $this->container->get('spy_timeline.spread.deployer');
 
         foreach ($results as $action) {
             try {
                 $deployer->deploy($action, $actionManager);
                 $output->writeln(sprintf('<comment>Deploy action %s</comment>', $action->getId()));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = sprintf('[TIMELINE] Error during deploy action %s', $action->getId());
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $message .= sprintf('%s: %s', $message, $e->getMessage());
                 }
 
-                $container->get('logger')->crit($message);
+                $this->container->get('logger')->crit($message);
                 $output->writeln(sprintf('<error>%s</error>', $message));
             }
         }
 
         $output->writeln('<info>Done</info>');
+
+        return 0;
+    }
+
+    /**
+     * @param ContainerInterface|null $container
+     *
+     * @return void
+     */
+    public function setContainer(?ContainerInterface $container): void
+    {
+        $this->container = $container;
     }
 }

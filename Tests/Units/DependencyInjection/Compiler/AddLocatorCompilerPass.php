@@ -38,6 +38,9 @@ class AddLocatorCompilerPass extends atoum\test
             ->and($this->calling($containerBuilder)->findTaggedServiceIds = function () use ($taggedServicesResult) {
                 return $taggedServicesResult;
             })
+            ->and($this->calling($definition)->addMethodCall = function () use ($definition) {
+                return $definition;
+            })
             ->and($compiler = new TestedModel())
             ->when($compiler->process($containerBuilder))
             ->then(
