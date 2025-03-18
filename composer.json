@@ -11,7 +11,7 @@
     }],
     "require": {
         "php": "^7.1|^8.0",
-        "stephpy/timeline": "^1.2",
+        "stephpy/timeline": "dev-symfony5",
         "symfony/framework-bundle": "^5.0|^6.0",
         "symfony/options-resolver": "^5.0|^6.0"
     },
