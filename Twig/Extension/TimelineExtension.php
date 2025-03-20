@@ -2,14 +2,14 @@
 
 namespace Spy\TimelineBundle\Twig\Extension;
 
-use Spy\Timeline\Model\TimelineInterface;
 use Spy\Timeline\Model\ActionInterface;
+use Spy\Timeline\Model\TimelineInterface;
 use Spy\TimelineBundle\Twig\TokenParser\TimelineActionThemeTokenParser;
 use Twig_TemplateInterface;
 
 /**
  * "timeline_render" -> renders a timeline by getting the path of twig
- * templates from config. Then, calls PATH/VERB.html.twig
+ * templates from config. Then, calls PATH/VERB.html.twig.
  *
  * "i18n_timeline_render" -> renders timeline using locale.
  * PATH/VERB.LOCALE.html.twig if file exists
@@ -30,7 +30,7 @@ class TimelineExtension extends \Twig_Extension
     private $config;
 
     /**
-     * @var Twig_TemplateInterface
+     * @var \Twig_TemplateInterface
      */
     protected $template;
 
@@ -60,36 +60,30 @@ class TimelineExtension extends \Twig_Extension
      */
     public function __construct(\Twig_Environment $twig, array $config, array $resources)
     {
-        $this->twig      = $twig;
-        $this->config    = $config;
+        $this->twig = $twig;
+        $this->config = $config;
         $this->resources = $resources;
-        $this->blocks    = new \SplObjectStorage();
-        $this->themes    = new \SplObjectStorage();
-        $this->varStack  = array();
+        $this->blocks = new \SplObjectStorage();
+        $this->themes = new \SplObjectStorage();
+        $this->varStack = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('timeline' ,array($this, 'renderContextualTimeline'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('timeline_render', array($this, 'renderTimeline'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('timeline_component_render' ,array($this, 'renderActionComponent'), array('is_safe' => array('html'))),
-             new \Twig_SimpleFunction('i18n_timeline_render', array($this, 'renderLocalizedTimeline'), array('is_safe' => array('html'))),
-        );
+        return [
+            new \Twig_SimpleFunction('timeline', [$this, 'renderContextualTimeline'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('timeline_render', [$this, 'renderTimeline'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('timeline_component_render', [$this, 'renderActionComponent'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('i18n_timeline_render', [$this, 'renderLocalizedTimeline'], ['is_safe' => ['html']]),
+        ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getTokenParsers()
     {
-        return array(
+        return [
             // {% timeline_action_theme timeline "Acme::components.html.twig" %}
             new TimelineActionThemeTokenParser(),
-        );
+        ];
     }
 
     /**
@@ -104,9 +98,8 @@ class TimelineExtension extends \Twig_Extension
             return $entity;
         } elseif ($entity instanceof TimelineInterface) {
             return $entity->getAction();
-        } else {
-            throw new \InvalidArgumentException(sprintf('Method "%s" accepts only a ActionInterface or a TimelineInterface', $method));
         }
+        throw new \InvalidArgumentException(\sprintf('Method "%s" accepts only a ActionInterface or a TimelineInterface', $method));
     }
 
     /**
@@ -116,7 +109,7 @@ class TimelineExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderTimeline($action, $template = null, array $variables = array())
+    public function renderTimeline($action, $template = null, array $variables = [])
     {
         $action = $this->resolveAction($action, __METHOD__);
 
@@ -124,9 +117,9 @@ class TimelineExtension extends \Twig_Extension
             $template = $this->getDefaultTemplate($action);
         }
 
-        $parameters = array_merge($variables, array(
+        $parameters = array_merge($variables, [
             'timeline' => $action,
-        ));
+        ]);
 
         try {
             return $this->twig->render($template, $parameters);
@@ -140,7 +133,8 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * Return an array of variables from a timeline component
+     * Return an array of variables from a timeline component.
+     *
      * @param object $action
      * @param string $component
      *
@@ -148,15 +142,15 @@ class TimelineExtension extends \Twig_Extension
      */
     public function getComponentVariables($action, $component)
     {
-        $values      = array();
-        $action      = $this->resolveAction($action, __METHOD__);
-        $component   = $action->getComponent($component);
-        $isComponent = is_object($component);
+        $values = [];
+        $action = $this->resolveAction($action, __METHOD__);
+        $component = $action->getComponent($component);
+        $isComponent = \is_object($component);
 
         $values['value'] = $isComponent ? $component->getData() : $component;
         $values['model'] = $isComponent ? $component->getModel() : null;
-        $values['id']    = $isComponent ? $component->getIdentifier() : null;
-        $values['text']  = $isComponent ? null : $component;
+        $values['id'] = $isComponent ? $component->getIdentifier() : null;
+        $values['text'] = $isComponent ? null : $component;
 
         if (!empty($values['model'])) {
             $values['normalized_model'] = strtolower(str_replace('\\', '_', $values['model']));
@@ -166,14 +160,15 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * Render an action component
+     * Render an action component.
      *
-     * @param  object $action    action
-     * @param  string $component Component to render (subject, verb, etc ...)
-     * @param  array  $variables Additional variables to pass to templates
+     * @param object $action    action
+     * @param string $component Component to render (subject, verb, etc ...)
+     * @param array  $variables Additional variables to pass to templates
+     *
      * @return string
      */
-    public function renderActionComponent($action, $component, array $variables = array())
+    public function renderActionComponent($action, $component, array $variables = [])
     {
         $action = $this->resolveAction($action, __METHOD__);
 
@@ -185,7 +180,7 @@ class TimelineExtension extends \Twig_Extension
         }
 
         $componentVariables = $this->getComponentVariables($action, $component);
-        $componentVariables['type']   = $component;
+        $componentVariables['type'] = $component;
         $componentVariables['action'] = $action;
 
         $custom = false;
@@ -201,9 +196,9 @@ class TimelineExtension extends \Twig_Extension
             $types = $this->varStack[$rendering]['types'];
             $this->varStack[$rendering]['variables'] = array_replace_recursive($componentVariables, $variables);
         } else {
-            $types = array();
+            $types = [];
             // fallback to __toString of component.
-            if ($component != 'action') {
+            if ('action' != $component) {
                 $types[] = 'action';
             }
 
@@ -214,11 +209,11 @@ class TimelineExtension extends \Twig_Extension
                 $types[] = $custom.'_'.$component;
             }
 
-            $typeIndex = count($types) - 1;
-            $this->varStack[$rendering] = array(
+            $typeIndex = \count($types) - 1;
+            $this->varStack[$rendering] = [
                 'variables' => array_replace_recursive($componentVariables, $variables),
-                'types'     => $types,
-            );
+                'types' => $types,
+            ];
         }
 
         $twigGlobals = $this->twig->getGlobals();
@@ -242,10 +237,7 @@ class TimelineExtension extends \Twig_Extension
             }
         } while (--$typeIndex >= 0);
 
-        throw new \Exception(sprintf(
-            'Unable to render the action component as none of the following blocks exist: "%s".',
-            implode('", "', array_reverse($types))
-        ));
+        throw new \Exception(\sprintf('Unable to render the action component as none of the following blocks exist: "%s".', implode('", "', array_reverse($types))));
     }
 
     /**
@@ -268,15 +260,15 @@ class TimelineExtension extends \Twig_Extension
                 $templates = array_merge($templates, $this->themes[$action]);
             }
 
-            $blocks = array();
+            $blocks = [];
             foreach ($templates as $template) {
                 if (!$template instanceof \Twig_Template) {
                     $template = $this->twig->loadTemplate($template);
                 }
-                $templateBlocks = array();
+                $templateBlocks = [];
                 do {
                     $templateBlocks = array_merge($template->getBlocks(), $templateBlocks);
-                } while (false !== $template = $template->getParent(array()));
+                } while (false !== $template = $template->getParent([]));
                 $blocks = array_merge($blocks, $templateBlocks);
             }
             $this->blocks->attach($action, $blocks);
@@ -296,10 +288,10 @@ class TimelineExtension extends \Twig_Extension
     {
         $action = $this->resolveAction($action, __METHOD__);
 
-        return vsprintf('%s:%s.html.twig', array(
-                    $this->config['path'],
-                    strtolower($action->getVerb()),
-                ));
+        return vsprintf('%s/%s.html.twig', [
+            $this->config['path'],
+            strtolower($action->getVerb()),
+        ]);
     }
 
     /**
@@ -319,9 +311,9 @@ class TimelineExtension extends \Twig_Extension
             $template = $this->getContextualTemplate($action, $context, $format);
         }
 
-        $parameters = array(
+        $parameters = [
             'timeline' => $action,
-        );
+        ];
 
         try {
             return $this->twig->render($template, $parameters);
@@ -347,12 +339,12 @@ class TimelineExtension extends \Twig_Extension
     {
         $action = $this->resolveAction($action, __METHOD__);
 
-        return vsprintf('%s:%s/%s.%s.twig', array(
-                    $this->config['path'],
-                    $context,
-                    strtolower($action->getVerb()),
-                    $format,
-                ));
+        return vsprintf('%s:%s/%s.%s.twig', [
+            $this->config['path'],
+            $context,
+            strtolower($action->getVerb()),
+            $format,
+        ]);
     }
 
     /**
@@ -362,19 +354,19 @@ class TimelineExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderLocalizedTimeline($action, $locale = null, array $variables = array())
+    public function renderLocalizedTimeline($action, $locale = null, array $variables = [])
     {
         $action = $this->resolveAction($action, __METHOD__);
 
-        if ($locale === null) {
+        if (null === $locale) {
             $locale = $this->config['i18n_fallback'];
         }
 
         $template = $this->getDefaultLocalizedTemplate($action, $locale);
 
-        $parameters = array_merge($variables, array(
+        $parameters = array_merge($variables, [
             'timeline' => $action,
-        ));
+        ]);
 
         try {
             return $this->twig->render($template, $parameters);
@@ -384,7 +376,7 @@ class TimelineExtension extends \Twig_Extension
                 try {
                     return $this->twig->render($fallbackTemplate, $parameters);
                 } catch (\Twig_Error_Loader $e) {
-                    //Let's look at the default template
+                    // Let's look at the default template
                 }
             }
 
@@ -408,11 +400,11 @@ class TimelineExtension extends \Twig_Extension
     {
         $action = $this->resolveAction($action, __METHOD__);
 
-        return vsprintf('%s:%s.%s.html.twig', array(
+        return vsprintf('%s/%s.%s.html.twig', [
             $this->config['path'],
             strtolower($action->getVerb()),
             $locale,
-        ));
+        ]);
     }
 
     /**
@@ -426,10 +418,9 @@ class TimelineExtension extends \Twig_Extension
     }
 
     /**
-     * Store themes for a given Action
+     * Store themes for a given Action.
      *
      * @param object $action
-     * @param array  $resources
      */
     public function setTheme($action, array $resources)
     {

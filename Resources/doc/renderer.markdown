@@ -5,15 +5,15 @@ Using twig
 ```yaml
 # Define
 render:
-    path:     'AcmeBundle:Timeline'
-    fallback: 'AcmeBundle:Timeline:default.html.twig'
+    path:     'AcmeBundle/Timeline'
+    fallback: 'AcmeBundle/Timeline/default.html.twig'
     i18n: #Do you want to use i18n when rendering ? if not, remove this not.
         fallback: en
 ```
 
 ```jinja
 {{ timeline_render(entry) }}
-# This will try to call "AcmeBundle:Timeline:**verb**.html.twig
+# This will try to call "AcmeBundle/Timeline/**verb**.html.twig
 # If exception, it return the fallback defined on config
 
 {{ timeline_render(entry, "your template", { 'some_var': some_value }) }}
@@ -21,7 +21,7 @@ render:
 # If exception, it return the fallback defined on config
 
 {{ i18n_timeline_render(entry, "en", { 'some_var': some_value }) }}
-# This will try to call "AcmeBundle:Timeline:**verb**.en.html.twig
+# This will try to call "AcmeBundle/Timeline/**verb**.en.html.twig
 # If exception, it return the i18n fallback defined on config and then on global fallback
 ```
 
@@ -125,14 +125,14 @@ for pros and cons for where you define your themes.
 
 #### Method 1: Inside the same Template as the TimelineAction
 ```jinja
-{# AcmeUserBundle:Timeline:added.html.twig #}
+{# AcmeUserBundle/Timeline/added.html.twig #}
 
-{% use "AcmeUserBundle:Timeline:added_content.html.twig" %}
+{% use "AcmeUserBundle/Timeline/added_content.html.twig" %}
 
 {{ block('timeline_action') }}
 ```
 ```jinja
-{# AcmeUserBundle:Timeline:added_content.html.twig #}
+{# AcmeUserBundle/Timeline/added_content.html.twig #}
 
 {% timeline_action_theme timeline _self %}
 
@@ -173,7 +173,7 @@ This method allows you to reuse the custom blocks in different template files.
 As before you can reference this theme resource using the `timeline_action_theme` tag:
 
 ```jinja
-{% timeline_action_theme timeline 'AcmeUserBundle:Timeline:components.html.twig' %}
+{% timeline_action_theme timeline 'AcmeUserBundle/Timeline/components.html.twig' %}
 {# … #}
 {{ timeline_component_render(timeline, 'subject') }}
 {# … #}
@@ -186,5 +186,5 @@ To configure an application-wide theme, specify your custom theme file in `confi
 spy_timeline:
   render:
     resources:
-        - 'AcmeUserBundle:Timeline:components.html.twig'
+        - 'AcmeUserBundle/Timeline/components.html.twig'
 ```

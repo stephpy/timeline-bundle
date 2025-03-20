@@ -2,11 +2,12 @@
 
 namespace Spy\TimelineBundle\ResolveComponent;
 
-use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\Exception\ResolveComponentDataException;
 use Spy\Timeline\ResolveComponent\ComponentDataResolverInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Spy\Timeline\ResolveComponent\ValueObject\ResolveComponentModelIdentifier;
+use Spy\Timeline\ResolveComponent\ValueObject\ResolvedComponentData;
 
 /**
  * When model is a string:
@@ -26,38 +27,35 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
      */
     protected $registries;
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveComponentData(ResolveComponentModelIdentifier $resolve)
     {
         $model = $resolve->getModel();
         $identifier = $resolve->getIdentifier();
         $data = null;
 
-        if (is_object($model)) {
+        if (\is_object($model)) {
             $data = $model;
-            $modelClass = get_class($model);
+            $modelClass = $model::class;
             $metadata = $this->getClassMetadata($modelClass);
 
             // if object is linked to doctrine
             if (null !== $metadata) {
                 $fields = $metadata->getIdentifier();
-                if (!is_array($fields)) {
-                    $fields = array($fields);
+                if (!\is_array($fields)) {
+                    $fields = [$fields];
                 }
-                $many = count($fields) > 1;
+                $many = \count($fields) > 1;
 
-                $identifier = array();
+                $identifier = [];
                 foreach ($fields as $field) {
-                    $getMethod = sprintf('get%s', ucfirst($field));
+                    $getMethod = \sprintf('get%s', ucfirst($field));
                     $value = (string) $model->{$getMethod}();
 
-                    //Do not use it: https://github.com/stephpy/TimelineBundle/issues/59
-                    //$value = (string) $metadata->reflFields[$field]->getValue($model);
+                    // Do not use it: https://github.com/stephpy/TimelineBundle/issues/59
+                    // $value = (string) $metadata->reflFields[$field]->getValue($model);
 
                     if (empty($value)) {
-                        throw new ResolveComponentDataException(sprintf('Field "%s" of model "%s" return an empty result, model has to be persisted.', $field, $modelClass));
+                        throw new ResolveComponentDataException(\sprintf('Field "%s" of model "%s" return an empty result, model has to be persisted.', $field, $modelClass));
                     }
 
                     $identifier[$field] = $value;
@@ -84,7 +82,7 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
     /**
      * @param ManagerRegistry $manager
      */
-    public function addRegistry(ManagerRegistry $manager)
+    public function addRegistry(Registry $manager)
     {
         $this->registries[] = $manager;
     }
@@ -101,7 +99,5 @@ class DoctrineComponentDataResolver implements ComponentDataResolverInterface
                 return $manager->getClassMetadata($class);
             }
         }
-
-        return;
     }
 }
