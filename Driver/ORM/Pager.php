@@ -11,26 +11,23 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
     /**
      * @var array
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
-     * @var integer
+     * @var int
      */
     protected $lastPage;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $page;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $nbResults;
 
-    /**
-     * {@inheritdoc}
-     */
     public function paginate($target, $page = 1, $limit = 10)
     {
         if (!$target instanceof DoctrineQueryBuilder) {
@@ -46,42 +43,33 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
             ;
         }
 
-        $paginator       = new Paginator($target, true);
-        $this->page      = $page;
-        $this->items     = (array) $paginator->getIterator();
-        $this->nbResults = count($paginator);
-        $this->lastPage  = intval(ceil($this->nbResults / $limit));
+        $paginator = new Paginator($target, true);
+        $this->page = $page;
+        $this->items = (array) $paginator->getIterator();
+        $this->nbResults = \count($paginator);
+        $this->lastPage = (int) ceil($this->nbResults / $limit);
 
-        return $this;
+        // Clone is not the best design here but we should not have any state
+        // on this pager or at least it should not be injected on services with state.
+
+        return clone $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastPage()
     {
         return $this->lastPage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPage()
     {
         return $this->page;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function haveToPaginate()
     {
         return $this->getLastPage() > 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNbResults()
     {
         return $this->nbResults;
@@ -104,20 +92,16 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function count()
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) {
+        if (null === $offset) {
             $this->items[] = $value;
         } else {
             $this->items[$offset] = $value;
@@ -125,26 +109,18 @@ class Pager implements PagerInterface, \IteratorAggregate, \Countable, \ArrayAcc
     }
 
     /**
-     * @param  mixed   $offset
-     * @return boolean
+     * @return bool
      */
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
-    /**
-     * @param mixed $offset
-     */
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
     }
 
-    /**
-     * @param  mixed $offset
-     * @return mixed
-     */
     public function offsetGet($offset)
     {
         return isset($this->items[$offset]) ? $this->items[$offset] : null;
