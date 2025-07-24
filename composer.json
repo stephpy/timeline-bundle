@@ -11,7 +11,7 @@
     }],
     "require": {
         "php": "^7.1|^8.0",
-        "stephpy/timeline": "dev-symfony5",
+        "stephpy/timeline": "^2.0",
         "symfony/framework-bundle": "^5.0|^6.0",
         "symfony/options-resolver": "^5.0|^6.0"
     },
@@ -39,7 +39,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.2.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     }
 }
