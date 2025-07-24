@@ -4,6 +4,7 @@ namespace Spy\TimelineBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 class AddSpreadCompilerPass implements CompilerPassInterface
 {
@@ -17,11 +18,10 @@ class AddSpreadCompilerPass implements CompilerPassInterface
         $spreadByPriority = [];
 
         foreach ($container->findTaggedServiceIds('spy_timeline.spread') as $id => $options) {
-            $priority = isset($attributes[0]['priority']) ?  $options[0]['priority'] : 0;
-
-            $spreadByPriority[$priority][] = $container->getDefinition($id);
+            $priority = isset($attributes[0]['priority']) ? $options[0]['priority'] : 0;
+            $spreadByPriority[$priority][] = new Reference($id);
         }
-        
+
         if (empty($spreadByPriority)) {
             return;
         }

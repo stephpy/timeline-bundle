@@ -15,8 +15,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $tb       = new TreeBuilder();
-        $rootNode = $tb->root('spy_timeline');
+        $tb = new TreeBuilder('spy_timeline');
+        $rootNode = $tb->getRootNode();
 
         $this->addDriverSection($rootNode);
         $this->addQueryBuilderSection($rootNode);
@@ -56,25 +56,25 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->validate()
                 ->ifTrue(function ($v) {
-                    if (!isset($v['drivers']) || count($v['drivers']) == 0) {
+                    if (!isset($v['drivers']) || 0 == \count($v['drivers'])) {
                         return !isset($v['timeline_manager']) || !isset($v['action_manager']);
                     }
 
                     return false;
                 })
-                ->thenInvalid("Please define a driver or timeline_manager, action_manager")
+                ->thenInvalid('Please define a driver or timeline_manager, action_manager')
             ->end()
             ->validate()
                 ->ifTrue(function ($v) {
-                    return isset($v['drivers']) && isset($v['drivers']['redis']) && $v['spread']['delivery'] != 'immediate';
+                    return isset($v['drivers']) && isset($v['drivers']['redis']) && 'immediate' != $v['spread']['delivery'];
                 })
-                ->thenInvalid("Redis driver accepts only spread delivery immediate.")
+                ->thenInvalid('Redis driver accepts only spread delivery immediate.')
             ->end()
             ->children()
                 ->arrayNode('drivers')
                     ->validate()
                         ->ifTrue(function ($v) {
-                            return count($v) > 1;
+                            return \count($v) > 1;
                         })
                         ->thenInvalid('Please define only one driver.')
                     ->end()
@@ -234,9 +234,9 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('service')->defaultValue('spy_timeline.filter.data_hydrator')->end()
                                 ->booleanNode('filter_unresolved')->defaultTrue()->end()
                                 ->arrayNode('locators')
-                                    ->example(array(
+                                    ->example([
                                         'spy_timeline.filter.data_hydrator.locator.doctrine',
-                                    ))
+                                    ])
                                     ->prototype('scalar')
                                     ->end()
                                 ->end()
@@ -283,11 +283,11 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->arrayNode('resources')
-                            ->defaultValue(array('@SpyTimeline/Action/components.html.twig'))
+                            ->defaultValue(['@SpyTimeline/Action/components.html.twig'])
                             ->validate()
-                                ->ifTrue(function ($v) { return !in_array('@SpyTimeline/Action/components.html.twig', $v); })
+                                ->ifTrue(function ($v) { return !\in_array('@SpyTimeline/Action/components.html.twig', $v); })
                                 ->then(function ($v) {
-                                    return array_merge(array('@SpyTimeline/Action/components.html.twig'), $v);
+                                    return array_merge(['@SpyTimeline/Action/components.html.twig'], $v);
                                 })
                             ->end()
                             ->prototype('scalar')->end()
